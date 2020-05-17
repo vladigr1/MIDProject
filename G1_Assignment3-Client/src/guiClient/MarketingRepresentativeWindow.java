@@ -60,6 +60,7 @@ public class MarketingRepresentativeWindow extends UserWindow {
 		this.controller = MarketingRepresentativeController.getInstance();
 	}
 
+	@Override
 	public void setUsername(String username) {
 		this.username = username;
 		this.lblHelloUser.setText("Hello, " + username);

@@ -78,32 +78,37 @@ public class LoginWindow implements IFXML {
 
 	private void successLogin(String role) {
 		this.lblError.setVisible(false);
-		UserWindow newWindow; // make labels and stuff in userwindow
+
+		String newWindowPath = "";
+		String newWindowTitle = "";
 
 		if (role.equals("MarketingRepresentative")) {
-			try {
-				FXMLLoader loader = new FXMLLoader();
-				loader.setLocation(getClass().getResource("/marketing/MarketingRepresentativeWindow.fxml"));
-				Scene newScene = new Scene(loader.load());
-				Stage newStage = new Stage();
+			newWindowPath = "/marketing/MarketingRepresentativeWindow.fxml";
+			newWindowTitle = "MyFuel Marketing Representative";
+		}
 
-				MarketingRepresentativeWindow marketingRepresentativeWindow = loader.getController();
-				marketingRepresentativeWindow.setUsername(tfLoginUserName.getText());
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource(newWindowPath));
+			Scene newScene = new Scene(loader.load());
+			Stage newStage = new Stage();
 
-				newStage.setResizable(false);
-				newStage.setScene(newScene);
-				newStage.setTitle("MyFuel Marketing Representative");
-				newStage.show();
-				newStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-					public void handle(WindowEvent we) {
-						if (!marketingRepresentativeWindow.signOutClicked(marketingRepresentativeWindow.getWindow()))
-							we.consume();
-					}
-				});
-				this.btnSignIn.getScene().getWindow().hide();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			UserWindow newWindow = loader.getController();
+			newWindow.setUsername(this.tfLoginUserName.getText());
+
+			newStage.setResizable(false);
+			newStage.setScene(newScene);
+			newStage.setTitle(newWindowTitle);
+			newStage.show();
+			newStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+				public void handle(WindowEvent we) {
+					if (!newWindow.signOutClicked(newWindow.getWindow()))
+						we.consume();
+				}
+			});
+			this.btnSignIn.getScene().getWindow().hide();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

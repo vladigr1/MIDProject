@@ -24,8 +24,10 @@ public abstract class UserWindow implements IFXML {
 	protected String username;
 	protected UserController controller;
 
+	public abstract void setUsername(String username);
+
 	public abstract Window getWindow();
-	
+
 	public boolean signOutClicked(Window window) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Sign Out");
