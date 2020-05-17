@@ -1,25 +1,17 @@
 package guiClient;
 
 import java.io.IOException;
-import java.util.Optional;
 
-import client.UserController;
-
-//import java.util.Set;
+import client.MarketingRepresentativeController;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-//import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-//import javafx.scene.control.PasswordField;
-//import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Window;
 
 public class MarketingRepresentativeWindow extends UserWindow {
 
@@ -62,23 +54,33 @@ public class MarketingRepresentativeWindow extends UserWindow {
 	@FXML
 	private Label lblHelloUser;
 
-	private String username;
-	private UserController userController;
-
 	@FXML
 	void initialize() throws IOException {
 		this.visableNow = addCustomer_pane;
-		this.userController = UserController.getInstance();
+		this.controller = MarketingRepresentativeController.getInstance();
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+		this.lblHelloUser.setText("Hello, " + username);
 	}
 
 	@Override
-	public void callAfterMessage(String lastMsg) {
-		if (lastMsg.startsWith("sign out"))
-			this.handleSignOut(lastMsg, this.btnSignOut.getScene().getWindow());
+	public void callAfterMessage(Object lastMsg) {
+		if (lastMsg instanceof String) {
+			String message = lastMsg.toString();
+			if (message.startsWith("sign out"))
+				this.handleSignOut(message, this.btnSignOut.getScene().getWindow());
+		}
+	}
+
+	@Override
+	public Window getWindow() {
+		return this.btnSignOut.getScene().getWindow();
 	}
 
 	public void btnSignOutClicked(ActionEvent event) throws Exception {
-		this.signOutClicked();
+		this.signOutClicked(this.getWindow());
 	}
 
 	public void Add_Customer(ActionEvent event) throws Exception {
@@ -115,29 +117,6 @@ public class MarketingRepresentativeWindow extends UserWindow {
 
 	public void btnSignOutExited() {
 		btnSignOut.setStyle("-fx-background-color:  #1e262c");
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-		lblHelloUser.setText("Hello, " + username);
-	}
-
-	public boolean signOutClicked() {
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Sign Out");
-		alert.setHeaderText("Would you like to sign out?");
-		ButtonType buttonTypeOne = new ButtonType("Yes");
-		ButtonType buttonTypeTwo = new ButtonType("No");
-		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == buttonTypeOne) {
-			this.userController.setCurrentWindow(this);
-			this.userController.handleMessageFromClientUI("signout " + username);
-			return true;
-		}
-		if (result.get() == buttonTypeTwo)
-			alert.hide();
-		return false;
 	}
 
 }

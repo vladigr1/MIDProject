@@ -1,10 +1,14 @@
 package guiClient;
 
+import java.util.Optional;
+
+import client.UserController;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
@@ -16,6 +20,29 @@ import javafx.stage.WindowEvent;
  */
 
 public abstract class UserWindow implements IFXML {
+
+	protected String username;
+	protected UserController controller;
+
+	public abstract Window getWindow();
+	
+	public boolean signOutClicked(Window window) {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Sign Out");
+		alert.setHeaderText("Would you like to sign out?");
+		ButtonType buttonTypeOne = new ButtonType("Yes");
+		ButtonType buttonTypeTwo = new ButtonType("No");
+		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == buttonTypeOne) {
+			controller.setCurrentWindow(this);
+			controller.handleMessageFromClientUI("signout " + username);
+			return true;
+		}
+		if (result.get() == buttonTypeTwo)
+			alert.hide();
+		return false;
+	}
 
 	public void handleSignOut(String lastMsg, Window window) {
 		System.out.println(lastMsg);
@@ -51,13 +78,6 @@ public abstract class UserWindow implements IFXML {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public void openErrorAlert(String title, String msg) {
-		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle(title);
-		alert.setHeaderText(msg);
 	}
 
 }

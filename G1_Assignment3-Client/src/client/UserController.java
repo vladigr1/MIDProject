@@ -4,40 +4,20 @@ import java.io.IOException;
 import java.net.ConnectException;
 
 import entities.User;
-import guiClient.IFXML;
 
-public class UserController extends ClientController {
-
-	private static boolean awaitResponse = false;
-	private static UserController instance;
-
-	private IFXML currentWindow;
+/**
+ * all logic controllers extend this
+ * 
+ * @version Final
+ * @author Elroy, Lior
+ */
+public abstract class UserController extends ClientController {
 
 	/**
-	 * @author Lior - don't change
-	 *
+	 * class constructor
 	 */
-
-	public static UserController getInstance(String host, int port) {
-		if (instance == null) {
-			instance = new UserController(host, port);
-		}
-		return instance;
-	}
-
-	private UserController(String host, int port) {
-		super(host, port);
-	}
-
-	public void setCurrentWindow(IFXML currentWindow) {
-		this.currentWindow = currentWindow;
-	}
-
-	@Override
-	public void handleMessageFromServer(Object obj) {
-		awaitResponse = false;
-		this.lastMsg = obj.toString();
-		System.out.println("message from server : " + this.lastMsg);
+	public UserController() {
+		super();
 	}
 
 	@Override
@@ -47,32 +27,27 @@ public class UserController extends ClientController {
 			this.openConnection();
 			awaitResponse = true;
 
+			if (!message.startsWith("signout"))
+				return;
+
 			String[] splitMsg = message.split(" ");
+
+			/* construct a new user */
+			/* determine what the server will do with it */
 			User user = new User();
+			user.setUsername(splitMsg[1]);
+			user.setFunction("sign out");
 
-			if (splitMsg[0].equals("login")) {
-				user.setUsername(splitMsg[1]);
-				user.setPassword(splitMsg[2]);
-
-				if (splitMsg[3].equals("Employee"))
-					user.setFunction("login employee");
-				if (splitMsg[3].equals("Customer"))
-					user.setFunction("login customer");
-			}
-
-			if (splitMsg[0].equals("signout")) {
-				user.setUsername(splitMsg[1]);
-				user.setFunction("sign out");
-			}
-
-			System.out.println("sending user to server : " + user);
+			/* announce and send the user to the server */
+			System.out.println("sending to server : " + user);
 			this.sendToServer(user);
 
+			/* wait for ack or data from the server */
 			while (awaitResponse) {
 				try {
 					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+				} catch (InterruptedException ie) {
+					ie.printStackTrace();
 				}
 			}
 
@@ -81,13 +56,9 @@ public class UserController extends ClientController {
 		} catch (ConnectException ce) {
 			this.currentWindow.openErrorAlert("Server Error", "Error - No connection to server");
 			ce.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
 		}
-	}
-
-	public static UserController getInstance() {
-		return instance;
 	}
 
 }

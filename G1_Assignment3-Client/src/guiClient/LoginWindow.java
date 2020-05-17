@@ -1,18 +1,14 @@
 package guiClient;
 
 import java.io.IOException;
-import java.util.Optional;
 
-import client.UserController;
+import client.LoginController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
@@ -45,25 +41,29 @@ public class LoginWindow implements IFXML {
 	@FXML
 	private RadioButton rbCustomer;
 
-	private UserController userController;
+	private LoginController loginController;
 
 	@FXML
 	void initialize() throws IOException {
-		this.userController = UserController.getInstance("localhost", 5555);
+		this.loginController = LoginController.getInstance();
+		this.loginController.setCurrentWindow(this);
 	}
 
 	@Override
-	public void callAfterMessage(String lastMsg) {
-		if (lastMsg.startsWith("login succeeded")) {
-			String[] splitMsg = lastMsg.split(" ");
-			this.successLogin(splitMsg[2]);
+	public void callAfterMessage(Object lastMsg) {
+		if (lastMsg instanceof String) {
+			String message = lastMsg.toString();
+			if (message.startsWith("login succeeded")) {
+				String[] splitMsg = message.split(" ");
+				this.successLogin(splitMsg[2]);
+			}
+
+			if (message.startsWith("login failed"))
+				this.failedLogin();
+
+			if (message.startsWith("login already connected"))
+				this.alreadyConnectedLogin();
 		}
-
-		if (lastMsg.startsWith("login failed"))
-			this.failedLogin();
-
-		if (lastMsg.startsWith("login already connected"))
-			this.alreadyConnectedLogin();
 	}
 
 	public void signIn(ActionEvent event) throws Exception {
@@ -78,6 +78,7 @@ public class LoginWindow implements IFXML {
 
 	private void successLogin(String role) {
 		this.lblError.setVisible(false);
+		UserWindow newWindow; // make labels and stuff in userwindow
 
 		if (role.equals("MarketingRepresentative")) {
 			try {
@@ -95,7 +96,7 @@ public class LoginWindow implements IFXML {
 				newStage.show();
 				newStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 					public void handle(WindowEvent we) {
-						if (!marketingRepresentativeWindow.signOutClicked()) // return false if clicked no
+						if (!marketingRepresentativeWindow.signOutClicked(marketingRepresentativeWindow.getWindow()))
 							we.consume();
 					}
 				});
@@ -126,8 +127,9 @@ public class LoginWindow implements IFXML {
 			else
 				userType = this.rbCustomer.getText();
 
-			this.userController.setCurrentWindow(this);
-			this.userController.handleMessageFromClientUI(("login" + " " + username + " " + password + " " + userType));
+			this.loginController.setCurrentWindow(this);
+			this.loginController
+					.handleMessageFromClientUI(("login" + " " + username + " " + password + " " + userType));
 		}
 	}
 
@@ -182,19 +184,6 @@ public class LoginWindow implements IFXML {
 		default:
 			break;
 		}
-	}
-
-	@Override
-	public void openErrorAlert(String title, String msg) {
-		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle(title);
-		alert.setHeaderText(msg);
-		alert.show();
-		ButtonType buttonTypeOne = new ButtonType("OK");
-		alert.getButtonTypes().setAll(buttonTypeOne);
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == buttonTypeOne)
-			alert.hide();
 	}
 
 }
