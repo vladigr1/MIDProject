@@ -8,9 +8,12 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 /**
+ * server's exe starts here
+ * <p>
+ * loads server window
  * 
- * @author Lior - don't change
- *
+ * @author Elroy, Lior
+ * @category Final
  */
 public class MainServer extends Application {
 

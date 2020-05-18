@@ -67,7 +67,7 @@ public class LoginController extends ClientController {
 				}
 			}
 
-			this.currentWindow.callAfterMessage(this.lastMsg);
+			this.currentWindow.callAfterMessage(this.lastMsgFromServer);
 
 		} catch (ConnectException ce) {
 			this.currentWindow.openErrorAlert("Server Error", "Error - No connection to server");

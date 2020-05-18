@@ -2,6 +2,10 @@ package entities;
 
 import enums.Affiliation;
 
+/**
+ * @version Final
+ * @author Lior
+ */
 @SuppressWarnings("serial")
 public class Employee extends User {
 
@@ -13,6 +17,11 @@ public class Employee extends User {
 		super();
 	}
 
+	/**
+	 * @param employeeID
+	 * @param role
+	 * @param affiliation
+	 */
 	public Employee(String employeeID, String role, Affiliation affiliation) {
 		super();
 		this.employeeID = employeeID;
@@ -20,26 +29,44 @@ public class Employee extends User {
 		this.affiliation = affiliation;
 	}
 
+	/**
+	 * @return employeeID
+	 */
 	public String getEmployeeID() {
 		return employeeID;
 	}
 
+	/**
+	 * @param employeeID
+	 */
 	public void setEmployeeID(String employeeID) {
 		this.employeeID = employeeID;
 	}
 
+	/**
+	 * @return role
+	 */
 	public String getRole() {
 		return role;
 	}
 
+	/**
+	 * @param role
+	 */
 	public void setRole(String role) {
 		this.role = role;
 	}
 
+	/**
+	 * @return affiliation
+	 */
 	public Affiliation getAffiliation() {
 		return affiliation;
 	}
 
+	/**
+	 * @param affiliation
+	 */
 	public void setAffiliation(Affiliation affiliation) {
 		this.affiliation = affiliation;
 	}

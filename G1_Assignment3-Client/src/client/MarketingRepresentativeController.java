@@ -3,7 +3,7 @@ package client;
 /**
  * @note this needs to extend something else
  * @see class diagram
- * @version not even basic
+ * @version Basic
  * @author Lior
  */
 public class MarketingRepresentativeController extends UserController {

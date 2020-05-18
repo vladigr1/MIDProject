@@ -15,7 +15,7 @@ public abstract class ClientController extends AbstractClient {
 
 	protected static boolean awaitResponse = false;
 	protected IFXML currentWindow;
-	protected Object lastMsg;
+	protected Object lastMsgFromServer;
 
 	/**
 	 * super class constructor
@@ -42,7 +42,7 @@ public abstract class ClientController extends AbstractClient {
 	 * updates <code>awaitResponse</code> so
 	 * <code>handleMessageFromClientUI()</code> will continue
 	 * <p>
-	 * updates <code>lastMsg</code> so <code>callAfterMessage()</code> will use it
+	 * updates <code>lastMsgFromServer</code> so <code>callAfterMessage()</code> will use it
 	 * 
 	 * @param object
 	 */
@@ -50,7 +50,7 @@ public abstract class ClientController extends AbstractClient {
 	public void handleMessageFromServer(Object object) {
 		System.out.println("message from server : " + object.toString());
 		awaitResponse = false;
-		this.lastMsg = object;
+		this.lastMsgFromServer = object;
 	}
 
 	/**

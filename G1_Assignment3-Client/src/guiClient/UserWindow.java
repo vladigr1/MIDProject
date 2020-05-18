@@ -14,20 +14,37 @@ import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 
 /**
+ * boundary for sign out requests
+ * <p>
+ * all boundaries except login extend this
  * 
- * @author Lior - don't change
- *
+ * @version Final
+ * @author Elroy, Lior
  */
-
 public abstract class UserWindow implements IFXML {
 
 	protected String username;
 	protected UserController controller;
 
+	/**
+	 * updates <Code>username</Code> to that of the one connnected
+	 * 
+	 * @param username
+	 */
 	public abstract void setUsername(String username);
 
+	/**
+	 * @param username
+	 * @return the window of the boundary
+	 */
 	public abstract Window getWindow();
 
+	/**
+	 * if signout request confirmed, send username to the appropriate controller
+	 * 
+	 * @param window
+	 * @return true if signout request confirmed
+	 */
 	public boolean signOutClicked(Window window) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Sign Out");
@@ -46,21 +63,28 @@ public abstract class UserWindow implements IFXML {
 		return false;
 	}
 
-	public void handleSignOut(String lastMsg, Window window) {
-		System.out.println(lastMsg);
+	/**
+	 * @param lastMsgFromServer
+	 * @param window
+	 */
+	public void handleSignOutFromServer(String lastMsgFromServer, Window window) {
+		System.out.println(lastMsgFromServer);
 
-		if (lastMsg.startsWith("sign out succeeded")) {
-			this.signOut(window);
+		if (lastMsgFromServer.startsWith("sign out succeeded")) {
+			this.signOutToLogin(window);
 		}
 
-		if (lastMsg.startsWith("sign out failed")) {
+		if (lastMsgFromServer.startsWith("sign out failed")) {
 			Alert a = new Alert(Alert.AlertType.ERROR);
 			a.setContentText("ERROR - sign out failed");
 			a.show();
 		}
 	}
 
-	public void signOut(Window window) {
+	/**
+	 * @param window
+	 */
+	public void signOutToLogin(Window window) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/login/LoginWindow.fxml"));

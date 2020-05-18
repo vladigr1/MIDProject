@@ -5,6 +5,13 @@ import guiServer.ServerWindow;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
+/**
+ * controller for server
+ * 
+ * @version 1 Method To Final
+ * @see handleMessageFromClient()
+ * @author Elroy, Lior
+ */
 public class ServerController extends AbstractServer {
 
 	final public static int DEFAULT_PORT = 5555;
@@ -14,6 +21,22 @@ public class ServerController extends AbstractServer {
 	private ServerWindow serverWindow;
 	private DatabaseController databaseController;
 
+	/**
+	 * singleton class constructor
+	 */
+	private ServerController(String host, String schema, int port, String username, String password, Object lock,
+			ServerWindow serverWindow) {
+		super(port);
+		this.lock = lock;
+		this.serverWindow = serverWindow;
+		this.databaseController = DatabaseController.getInstance(serverWindow, host, schema, username, password);
+	}
+
+	/**
+	 * requests an instance of database controller with predetermined info
+	 * 
+	 * @return instance of this class
+	 */
 	public static ServerController getInstance(String host, String schema, int port, String username, String password,
 			Object lock, ServerWindow serverWindow) {
 		if (instance == null) {
@@ -22,27 +45,20 @@ public class ServerController extends AbstractServer {
 		return instance;
 	}
 
-	private ServerController(String host, String schema, int port, String username, String password, Object lock,
-			ServerWindow serverWindow) {
-		super(port);
-		this.lock = lock;
-		this.serverWindow = serverWindow;
-		this.databaseController = DatabaseController.getInstance(serverWindow, host, schema, username, password);
-	}
-	
 	/**
+	 * reroutes request from client to the appropriate controller
 	 * 
-	 * @author Lior - add handling for other client controller / server***controller
+	 * @param object
+	 * @param client
 	 */
-
-	public void handleMessageFromClient(Object obj, ConnectionToClient client) {
+	public void handleMessageFromClient(Object object, ConnectionToClient client) {
 		System.out.println(client + ": sent request to server");
-		if (obj instanceof User) {
-			User user = (User) obj;
+		if (object instanceof User) {
+			User user = (User) object;
 			System.out.println(client + ": login with user : " + user);
 			String function = user.getFunction();
 			if (function.startsWith("login") || function.startsWith("sign out"))
-				ServerUserController.getInstance(serverWindow, databaseController).handleMessageFromClient(user,
+				ServerUserController.getInstance(serverWindow, databaseController, lock).handleMessageFromClient(user,
 						client);
 		}
 	}

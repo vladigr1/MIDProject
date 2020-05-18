@@ -13,6 +13,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Window;
 
+/**
+ * boundary for marketing representative window
+ * 
+ * @version Basic
+ * @author Elroy, Lior
+ */
 public class MarketingRepresentativeWindow extends UserWindow {
 
 	@FXML
@@ -67,21 +73,17 @@ public class MarketingRepresentativeWindow extends UserWindow {
 	}
 
 	@Override
-	public void callAfterMessage(Object lastMsg) {
-		if (lastMsg instanceof String) {
-			String message = lastMsg.toString();
-			if (message.startsWith("sign out"))
-				this.handleSignOut(message, this.btnSignOut.getScene().getWindow());
-		}
-	}
-
-	@Override
 	public Window getWindow() {
 		return this.btnSignOut.getScene().getWindow();
 	}
 
-	public void btnSignOutClicked(ActionEvent event) throws Exception {
-		this.signOutClicked(this.getWindow());
+	@Override
+	public void callAfterMessage(Object lastMsgFromServer) {
+		if (lastMsgFromServer instanceof String) {
+			String message = lastMsgFromServer.toString();
+			if (message.startsWith("sign out"))
+				this.handleSignOutFromServer(message, this.btnSignOut.getScene().getWindow());
+		}
 	}
 
 	public void Add_Customer(ActionEvent event) throws Exception {
@@ -110,6 +112,10 @@ public class MarketingRepresentativeWindow extends UserWindow {
 		pricingModel_pane.setVisible(true);
 		visableNow = pricingModel_pane;
 		topbar_window_label.setText("Pricing Model");
+	}
+
+	public void btnSignOutClicked(ActionEvent event) throws Exception {
+		this.signOutClicked(this.getWindow());
 	}
 
 	public void btnSignOutHover() {

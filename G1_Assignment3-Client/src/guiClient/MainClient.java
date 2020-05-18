@@ -8,9 +8,12 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 /**
+ * client's exe starts here
+ * <p>
+ * loads login window
  * 
- * @author Lior - don't change
- *
+ * @author Elroy, Lior
+ * @category Final
  */
 public class MainClient extends Application {
 

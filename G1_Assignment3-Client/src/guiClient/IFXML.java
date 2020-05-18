@@ -7,7 +7,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
 
 /**
- * all gui controllers implementt this
+ * all boundaries implement this
  * 
  * @author Elroy, Lior
  * @category Final
@@ -17,12 +17,13 @@ public interface IFXML {
 	/**
 	 * executes window methods according to input
 	 * 
-	 * @param lastMsg
+	 * @param lastMsgFromServer
 	 */
-	public void callAfterMessage(Object lastMsg);
+	public void callAfterMessage(Object lastMsgFromServer);
 
 	/**
 	 * opens error popup window
+	 * all windows use this
 	 * 
 	 * @param title
 	 * @param msg

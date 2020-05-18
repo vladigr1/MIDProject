@@ -14,11 +14,11 @@ import javafx.scene.image.ImageView;
 import server.ServerController;
 
 /**
+ * boundary for server window
  * 
- * @author Lior - don't change
- *
+ * @version Final
+ * @author Elroy, Lior
  */
-
 public class ServerWindow {
 
 	@FXML
@@ -52,9 +52,14 @@ public class ServerWindow {
 	private TextArea taConsole;
 
 	private boolean connectedFlag;
-	private Object lock = new Object();
+	private Object lock = new Object(); // lock on updateArea
 	private ServerController serverController;
 
+	/**
+	 * starts with <Code>connectedFlag</Code> false hence server not connected
+	 * 
+	 * @throws IOException
+	 */
 	@FXML
 	void initialize() throws IOException {
 		Image image = new Image(getClass().getResource("serverIcon.png").toExternalForm());
@@ -68,6 +73,22 @@ public class ServerWindow {
 		this.connectedFlag = false;
 	}
 
+	public boolean getConnected() {
+		return this.connectedFlag;
+	}
+
+	/**
+	 * print <Code>msg</Code> to server console
+	 * 
+	 * @param msg
+	 */
+	public void updateArea(String msg) {
+		this.taConsole.appendText(msg + "\n");
+	}
+
+	/**
+	 * user clicked on connect button
+	 */
 	public void connectedBtnClicked() {
 		boolean flag = true;
 		this.lblStatus.setVisible(true);
@@ -103,20 +124,24 @@ public class ServerWindow {
 		}
 
 		if (flag == false) {
-			Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setContentText("Missing Information");
-			alert.show();
+			synchronized (this.lock) {
+				this.updateArea("Missing Required Fields");
+				this.lock.notifyAll();
+			}
+			return;
 		}
 
+		/* if no info missing, continue connection request */
 		if (flag == true) {
 			this.serverController = ServerController.getInstance(host, schema, Integer.parseInt(port), username,
 					password, this.lock, this);
 
-			// if server already listening
 			if (this.serverController.isListening()) {
-				Alert alert = new Alert(Alert.AlertType.ERROR);
-				alert.setContentText("Server Already Listening");
-				alert.show();
+				synchronized (this.lock) {
+					this.updateArea("Server Already Connected");
+					this.lock.notifyAll();
+				}
+				return;
 			}
 
 			synchronized (this.lock) {
@@ -163,6 +188,9 @@ public class ServerWindow {
 		}
 	}
 
+	/**
+	 * user clicked on disconnect button
+	 */
 	public void disConnectedBtnClicked() throws IOException {
 		Image image = new Image(getClass().getResource("disconnected.png").toExternalForm());
 		this.imgStatus.setImage(image);
@@ -181,6 +209,17 @@ public class ServerWindow {
 		this.serverController.close();
 	}
 
+	public void disconnectServer() {
+		this.connectedFlag = false;
+		this.serverController.stopListening();
+		synchronized (this.lock) {
+			try {
+				this.lock.wait();
+			} catch (InterruptedException e) {
+			}
+		}
+	}
+
 	public void connectedBtnHover() {
 		this.btnConnect.setStyle("-fx-background-color: #ADFF2F");
 	}
@@ -195,25 +234,6 @@ public class ServerWindow {
 
 	public void disConnectedBtnExit() {
 		this.btnDisconnect.setStyle("-fx-background-color: #F08080");
-	}
-
-	public boolean getConnected() {
-		return this.connectedFlag;
-	}
-
-	public void updateArea(String msg) {
-		this.taConsole.appendText(msg + "\n");
-	}
-
-	public void disconnectServer() {
-		this.connectedFlag = false;
-		this.serverController.stopListening();
-		synchronized (this.lock) {
-			try {
-				this.lock.wait();
-			} catch (InterruptedException e) {
-			}
-		}
 	}
 
 }

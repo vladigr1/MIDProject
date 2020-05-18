@@ -1,5 +1,9 @@
 package entities;
 
+/**
+ * @version Final
+ * @author Lior
+ */
 @SuppressWarnings("serial")
 public class Customer extends User {
 
@@ -10,24 +14,40 @@ public class Customer extends User {
 		super();
 	}
 
+	/**
+	 * @param customerID
+	 * @param creditCard
+	 */
 	public Customer(String customerID, String creditCard) {
 		super();
 		this.customerID = customerID;
 		this.creditCard = creditCard;
 	}
 
+	/**
+	 * @return customerID
+	 */
 	public String getCustomerID() {
 		return customerID;
 	}
 
+	/**
+	 * @param customerID
+	 */
 	public void setCustomerID(String customerID) {
 		this.customerID = customerID;
 	}
 
+	/**
+	 * @return creditCard
+	 */
 	public String getCreditCard() {
 		return creditCard;
 	}
 
+	/**
+	 * @param creditCard
+	 */
 	public void setCreditCard(String creditCard) {
 		this.creditCard = creditCard;
 	}

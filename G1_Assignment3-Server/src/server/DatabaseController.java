@@ -7,29 +7,21 @@ import java.sql.SQLException;
 import guiServer.ServerWindow;
 
 /**
+ * controller for database
  * 
- * @author Lior - add functions routing to other database***controllers
- *
+ * @version N Methods To Final
+ * @author Elroy, Lior
  */
-
 public class DatabaseController {
 
 	private static DatabaseController instance;
-
 	private Connection connection;
 
-	public static DatabaseController getInstance() {
-		return instance;
-	}
-
-	public static DatabaseController getInstance(ServerWindow serverWindow, String host, String schema,
-			String dbUsername, String dbPassword) {
-		if (instance == null) {
-			instance = new DatabaseController(serverWindow, host, schema, dbUsername, dbPassword);
-		}
-		return instance;
-	}
-
+	/**
+	 * singleton class constructor initialize connection to the database
+	 * <p>
+	 * happens once and before everything done on the server
+	 */
 	private DatabaseController(ServerWindow serverWindow, String host, String schema, String dbUsername,
 			String dbPassword) {
 		try {
@@ -48,6 +40,17 @@ public class DatabaseController {
 			serverWindow.updateArea("SQLState: " + e.getSQLState());
 			serverWindow.updateArea("VendorError: " + e.getErrorCode());
 		}
+	}
+
+	/**
+	 * @return instance of this class
+	 */
+	public static DatabaseController getInstance(ServerWindow serverWindow, String host, String schema,
+			String dbUsername, String dbPassword) {
+		if (instance == null) {
+			instance = new DatabaseController(serverWindow, host, schema, dbUsername, dbPassword);
+		}
+		return instance;
 	}
 
 	public String loginSequence(String username, String password, String type) {

@@ -6,29 +6,43 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
+ * controller for client login and signout on database
  * 
- * @author Lior - don't change
- *
+ * @version Final
+ * @author Elroy, Lior
  */
-
 public class DatabaseUserController {
 
 	private static DatabaseUserController instance;
 
 	private Connection connection;
 
-	public static DatabaseUserController getInstance(Connection conn) {
-		if (instance == null) {
-			instance = new DatabaseUserController(conn);
-		}
-		return instance;
-	}
-
+	/**
+	 * singleton class constructor
+	 */
 	private DatabaseUserController(Connection connection) {
 		super();
 		this.connection = connection;
 	}
 
+	/**
+	 * @return instance of this class
+	 */
+	public static DatabaseUserController getInstance(Connection connection) {
+		if (instance == null) {
+			instance = new DatabaseUserController(connection);
+		}
+		return instance;
+	}
+
+	/**
+	 * executes queries to handle login request from the client
+	 * 
+	 * @param username
+	 * @param password
+	 * @param type
+	 * @return result of request from the database as string
+	 */
 	public String loginSequence(String username, String password, String type) {
 		PreparedStatement pStmt = null;
 		String role = "";
@@ -96,6 +110,12 @@ public class DatabaseUserController {
 		}
 	}
 
+	/**
+	 * executes queries to handle signout request from the client
+	 * 
+	 * @param username
+	 * @return result of request from the database as string
+	 */
 	public String signOutSequence(String username) {
 		try {
 			// update connected to false for user

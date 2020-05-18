@@ -2,12 +2,12 @@ package entities;
 
 import java.io.Serializable;
 
+/**
+ * @version Final
+ * @author Lior
+ */
 @SuppressWarnings("serial")
 public class User implements Serializable {
-
-	/**
-	 * @author add javadocs
-	 */
 
 	private String function; // what the server will do to this
 
@@ -23,7 +23,6 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param username
 	 * @param password
 	 * @param connected
@@ -42,7 +41,6 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return function
 	 */
 	public String getFunction() {
@@ -50,7 +48,6 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param function
 	 */
 	public void setFunction(String function) {
@@ -58,7 +55,6 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return username
 	 */
 	public String getUsername() {
@@ -66,7 +62,6 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param username
 	 */
 	public void setUsername(String username) {
@@ -74,7 +69,6 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return password
 	 */
 	public String getPassword() {
@@ -82,7 +76,6 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param password
 	 */
 	public void setPassword(String password) {
@@ -90,7 +83,6 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return connected
 	 */
 	public boolean isConnected() {
@@ -98,7 +90,6 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param connected
 	 */
 	public void setConnected(boolean connected) {
@@ -106,7 +97,6 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return firstName
 	 */
 	public String getFirstName() {
@@ -114,7 +104,6 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param firstName
 	 */
 	public void setFirstName(String firstName) {
@@ -122,7 +111,6 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return surname
 	 */
 	public String getSurname() {
@@ -130,7 +118,6 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param surname
 	 */
 	public void setSurname(String surname) {
@@ -138,7 +125,6 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return email
 	 */
 	public String getEmail() {
@@ -146,7 +132,6 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param email
 	 */
 	public void setEmail(String email) {
