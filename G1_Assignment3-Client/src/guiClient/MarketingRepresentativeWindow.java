@@ -43,8 +43,12 @@ public class MarketingRepresentativeWindow extends UserWindow {
 		if (lastMsgFromServer instanceof String) {
 			String message = lastMsgFromServer.toString();
 			if (message.startsWith("sign out"))
-				this.handleSignOutFromServer(message, this.btnSignOut.getScene().getWindow());
+				this.handleSignOutFromServer(message, this.getWindow());
 		}
+		
+		/**
+		 * 
+		 */
 	}
 
 	@FXML
