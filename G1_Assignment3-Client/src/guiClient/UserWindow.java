@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -132,6 +133,35 @@ public abstract class UserWindow implements IFXML {
 	@FXML
 	void btnSignOutExited(MouseEvent event) {
 		this.btnSignOut.setStyle("-fx-background-color:  #1e262c");
+	}
+	//liad
+	private double x = 0;
+	private double y = 0;
+	
+	@FXML
+	public void CloseAppBar(ActionEvent event) throws Exception {
+		Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+		stage.close();
+	}
+	@FXML
+	public void MinimizeAppBar(ActionEvent event) throws Exception {
+		Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+		stage.setIconified(true);
+		
+	}
+	
+
+	@FXML
+	public void handleClickAction(MouseEvent event) throws Exception {
+		Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+		x = stage.getX() - event.getScreenX();
+	    y = stage.getY() - event.getScreenY();
+	}
+	@FXML
+	public void handleMovmentAction(MouseEvent event) throws Exception {
+		Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+		stage.setX(event.getScreenX() + x);
+	    stage.setY(event.getScreenY() + y);
 	}
 
 }
