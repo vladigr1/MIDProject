@@ -14,7 +14,7 @@ import javafx.stage.Window;
 
 public class CustomerWindow extends UserWindow {
 
-	@FXML	private ToggleButton sidebar_btn11;
+	@FXML	protected ToggleButton sidebar_btn11;
 	@FXML	private ToggleButton sidebar_btn1;
 	@FXML	private ToggleButton sidebar_btn3;
 	@FXML	private AnchorPane mainwindow_pane;

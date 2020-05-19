@@ -24,13 +24,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="main_pane" minHeight="700.0" minWidth="1024.0" prefHeight="650.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="marketing.Marketing_Controller">
+<BorderPane fx:id="main_pane" minHeight="700.0" minWidth="1024.0" prefHeight="650.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guiClient.MarketingRepresentativeWindow">
    <left>
       <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="602.0" minWidth="260.0" prefHeight="602.0" prefWidth="260.0" spacing="5.0" style="-fx-background-color: #1e262c;" BorderPane.alignment="CENTER">
          <children>
             <Pane prefHeight="52.0" prefWidth="260.0">
                <children>
-                  <Label fx:id="sidebar_HelloUser_lb" layoutX="14.0" layoutY="4.0" prefHeight="35.0" prefWidth="122.0" text="Hello, Julia" textFill="WHITE">
+                  <Label fx:id="lblHelloUser" layoutX="14.0" layoutY="4.0" prefHeight="35.0" prefWidth="233.0" text="Hello, Julia" textFill="WHITE">
                      <font>
                         <Font name="Leelawadee UI" size="24.0" />
                      </font>
@@ -49,7 +49,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <ToggleButton fx:id="sidebar_btn11" alignment="CENTER_LEFT" layoutX="10.0" layoutY="75.0" mnemonicParsing="false" onAction="#Add_Customer" prefHeight="188.0" prefWidth="347.0" styleClass="side-bar-toggle-button" stylesheets="@pics/style.css" text="Home" textFill="WHITE">
+                  <ToggleButton fx:id="sidebar_btn11" alignment="CENTER_LEFT" layoutX="10.0" layoutY="75.0" mnemonicParsing="false" onAction="#Add_Customer" prefHeight="188.0" prefWidth="347.0" styleClass="side-bar-toggle-button" stylesheets="@../pics/style.css" text="Home" textFill="WHITE">
                      <font>
                         <Font name="Calibri" size="20.0" />
                      </font>
@@ -58,7 +58,7 @@
                            <children>
                               <ImageView fitHeight="25.0" fitWidth="25.0">
                                  <image>
-                                    <Image url="@pics/home.png" />
+                                    <Image url="@../pics/home.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -68,7 +68,7 @@
                         <ToggleGroup fx:id="one" />
                      </toggleGroup>
                   </ToggleButton>
-                  <ToggleButton fx:id="sidebar_btn1" alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#Add_Customer" prefHeight="188.0" prefWidth="347.0" styleClass="side-bar-toggle-button" stylesheets="@pics/style.css" text="Add Customer" textFill="WHITE" toggleGroup="$one" GridPane.rowIndex="1">
+                  <ToggleButton fx:id="sidebar_btn1" alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#Add_Customer" prefHeight="188.0" prefWidth="347.0" styleClass="side-bar-toggle-button" stylesheets="@../pics/style.css" text="Add Customer" textFill="WHITE" toggleGroup="$one" GridPane.rowIndex="1">
                      <font>
                         <Font name="Calibri" size="20.0" />
                      </font>
@@ -77,14 +77,14 @@
                            <children>
                               <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="-3.0" layoutY="-1.0">
                                  <image>
-                                    <Image url="@pics/addcustomer.png" />
+                                    <Image url="@../pics/addcustomer.png" />
                                  </image>
                               </ImageView>
                            </children>
                         </Pane>
                      </graphic>
                   </ToggleButton>
-                  <ToggleButton fx:id="sidebar_btn2" alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#Add_Car" prefHeight="188.0" prefWidth="347.0" styleClass="side-bar-toggle-button" stylesheets="@pics/style.css" text="Add Car" textFill="WHITE" toggleGroup="$one" GridPane.rowIndex="2">
+                  <ToggleButton fx:id="sidebar_btn2" alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#Add_Car" prefHeight="188.0" prefWidth="347.0" styleClass="side-bar-toggle-button" stylesheets="@../pics/style.css" text="Add Car" textFill="WHITE" toggleGroup="$one" GridPane.rowIndex="2">
                      <font>
                         <Font name="Leelawadee UI" size="18.0" />
                      </font>
@@ -93,7 +93,7 @@
                            <children>
                               <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="-1.0" layoutY="5.0">
                                  <image>
-                                    <Image url="@pics/addcar.png" />
+                                    <Image url="@../pics/addcar.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -103,7 +103,7 @@
                         <Insets />
                      </GridPane.margin>
                   </ToggleButton>
-                  <ToggleButton fx:id="sidebar_btn3" alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#Purchase_Prog" prefHeight="188.0" prefWidth="347.0" styleClass="side-bar-toggle-button" stylesheets="@pics/style.css" text="Set Purchasing Program" textFill="WHITE" toggleGroup="$one" GridPane.rowIndex="3">
+                  <ToggleButton fx:id="sidebar_btn3" alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#Purchase_Prog" prefHeight="188.0" prefWidth="347.0" styleClass="side-bar-toggle-button" stylesheets="@../pics/style.css" text="Set Purchasing Program" textFill="WHITE" toggleGroup="$one" GridPane.rowIndex="3">
                      <font>
                         <Font name="Leelawadee UI" size="18.0" />
                      </font>
@@ -112,14 +112,14 @@
                            <children>
                               <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="-2.0">
                                  <image>
-                                    <Image url="@pics/setpurchasingprogram.png" />
+                                    <Image url="@../pics/setpurchasingprogram.png" />
                                  </image>
                               </ImageView>
                            </children>
                         </Pane>
                      </graphic>
                   </ToggleButton>
-                  <ToggleButton fx:id="sidebar_btn4" alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#Pricing_Model" prefHeight="188.0" prefWidth="347.0" styleClass="side-bar-toggle-button" stylesheets="@pics/style.css" text="Set Pricing Model" textFill="WHITE" toggleGroup="$one" GridPane.rowIndex="4">
+                  <ToggleButton fx:id="sidebar_btn4" alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#Pricing_Model" prefHeight="188.0" prefWidth="347.0" styleClass="side-bar-toggle-button" stylesheets="@../pics/style.css" text="Set Pricing Model" textFill="WHITE" toggleGroup="$one" GridPane.rowIndex="4">
                      <font>
                         <Font name="Leelawadee UI" size="18.0" />
                      </font>
@@ -128,7 +128,7 @@
                            <children>
                               <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="-1.0" layoutY="-2.0">
                                  <image>
-                                    <Image url="@pics/setpricingmodel.png" />
+                                    <Image url="@../pics/setpricingmodel.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -146,7 +146,7 @@
                      <children>
                         <ImageView fitHeight="158.0" fitWidth="143.0" layoutX="-74.0" layoutY="-63.0">
                            <image>
-                              <Image url="@pics/logo.png" />
+                              <Image url="@../pics/logo.png" />
                            </image>
                         </ImageView>
                         <Label layoutX="-66.0" layoutY="80.0" prefWidth="124.0" text="MyFuel" textFill="WHITE">
@@ -163,11 +163,11 @@
                   <Insets left="5.0" top="20.0" />
                </VBox.margin>
                <children>
-                  <Button fx:id="btnSignOut" mnemonicParsing="false" styleClass="disconnect-button" stylesheets="@pics/style.css" text="Sign Out" textFill="WHITE">
+                  <Button fx:id="btnSignOut" mnemonicParsing="false" onAction="#btnSignOutClicked" styleClass="disconnect-button" stylesheets="@../pics/style.css" text="Sign Out" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="26.0" fitWidth="26.0">
                            <image>
-                              <Image url="@pics/btnexit.png" />
+                              <Image url="@../pics/signout.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -183,7 +183,7 @@
    <top>
       <VBox BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane fx:id="titleBar" onMouseDragged="#handleMovmentAction" onMousePressed="#handleClickAction" prefHeight="25.0" prefWidth="1100.0" styleClass="linear-grad-to-top" stylesheets="@../pics/style.css">
+            <AnchorPane fx:id="titleBar" onMouseDragged="#dragTopBar" onMousePressed="#clickOnTopBar" prefHeight="25.0" prefWidth="1100.0" styleClass="linear-grad-to-top" stylesheets="@../pics/style.css">
                <children>
                   <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="3.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -195,7 +195,7 @@
                         <Font name="Calibri Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Button fx:id="btnExit" layoutX="1045.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleCloseAction" prefHeight="25.0" prefWidth="55.0" styleClass="exit-button" stylesheets="@../pics/style.css">
+                  <Button fx:id="btnExit" layoutX="1045.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#closeTopBar" prefHeight="25.0" prefWidth="55.0" styleClass="exit-button" stylesheets="@../pics/style.css">
                      <graphic>
                         <ImageView fitHeight="17.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -204,7 +204,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="btnMini" layoutX="994.0" mnemonicParsing="false" onAction="#handleMinimizeAction" prefHeight="25.0" prefWidth="50.0" styleClass="minimize-button" stylesheets="@../pics/style.css">
+                  <Button fx:id="btnMini" layoutX="994.0" mnemonicParsing="false" onAction="#minimizeTopBar" prefHeight="25.0" prefWidth="50.0" styleClass="minimize-button" stylesheets="@../pics/style.css">
                      <graphic>
                         <ImageView fitHeight="11.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -218,7 +218,7 @@
             <HBox alignment="CENTER_LEFT" minHeight="-Infinity" minWidth="1088.0" prefHeight="30.0" prefWidth="1092.0" style="-fx-background-color: #d8dce0;">
                <children>
                   <Pane prefWidth="260.0" style="-fx-background-color: #1e262c;" />
-                  <Label fx:id="topbar_window_label" alignment="TOP_LEFT" minHeight="-Infinity" prefHeight="25.0" prefWidth="259.0" text="Purchase Home Fuel">
+                  <Label fx:id="topbar_window_label" alignment="TOP_LEFT" minHeight="-Infinity" prefHeight="25.0" prefWidth="259.0" text="Add Customer">
                      <font>
                         <Font name="Arial" size="26.0" />
                      </font>
@@ -234,14 +234,14 @@
    <center>
       <AnchorPane fx:id="mainwindow_pane" minHeight="600.0" minWidth="830.0" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane fx:id="addCustomer_pane" layoutX="3.0" layoutY="12.0" prefHeight="600.0" prefWidth="830.0" visible="false">
+            <AnchorPane fx:id="addCustomer_pane" layoutX="3.0" layoutY="12.0" prefHeight="600.0" prefWidth="830.0">
                <children>
                   <Label layoutX="4.0" layoutY="-4.0" prefHeight="21.0" prefWidth="215.0" text="Customer Information">
                      <font>
                         <Font name="Arial Bold" size="18.0" />
                      </font>
                   </Label>
-                  <GridPane hgap="5.0" layoutX="-5.0" layoutY="17.0" prefHeight="422.0" prefWidth="790.0" styleClass="grid-pane" stylesheets="@pics/gridPaneStyle.css" vgap="5.0" AnchorPane.bottomAnchor="163.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="15.0">
+                  <GridPane hgap="5.0" layoutX="-5.0" layoutY="17.0" prefHeight="422.0" prefWidth="790.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css" vgap="5.0" AnchorPane.bottomAnchor="163.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="15.0">
                     <columnConstraints>
                       <ColumnConstraints />
                         <ColumnConstraints />
@@ -324,14 +324,14 @@
                         <ComboBox fx:id="addcust_CustType_CB" prefHeight="30.0" prefWidth="173.0" promptText="Type#1" visibleRowCount="5" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                         <VBox alignment="CENTER" prefHeight="87.0" prefWidth="784.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="11">
                            <children>
-                              <Button fx:id="addcust_Save_btn" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" styleClass="confirmation-button" stylesheets="@pics/style.css" text="Save Customer" textFill="WHITE" wrapText="true">
+                              <Button fx:id="addcust_Save_btn" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Save Customer" textFill="WHITE" wrapText="true">
                                  <font>
                                     <Font name="Calibri" size="19.0" />
                                  </font>
                                  <graphic>
                                     <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@pics/v.png" />
+                                          <Image url="@../pics/v.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -357,7 +357,7 @@
                         <Font name="Arial Bold" size="18.0" />
                      </font>
                   </Label>
-                  <GridPane layoutX="-5.0" prefHeight="557.0" prefWidth="825.0" styleClass="grid-pane" stylesheets="@pics/gridPaneStyle.css" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="20.0">
+                  <GridPane layoutX="-5.0" prefHeight="557.0" prefWidth="825.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="20.0">
                      <columnConstraints>
                         <ColumnConstraints />
                         <ColumnConstraints />
@@ -403,7 +403,7 @@
                         </TextField>
                         <VBox alignment="CENTER" prefHeight="108.0" prefWidth="964.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="8">
                            <children>
-                              <Button fx:id="addcar_SaveCar_btn" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" styleClass="confirmation-button" stylesheets="@pics/style.css" text="Save Car" textFill="WHITE" wrapText="true">
+                              <Button fx:id="addcar_SaveCar_btn" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Save Car" textFill="WHITE" wrapText="true">
                                  <font>
                                     <Font name="Calibri" size="20.0" />
                                  </font>
@@ -413,7 +413,7 @@
                                  <graphic>
                                     <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@pics/v.png" />
+                                          <Image url="@../pics/v.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -440,7 +440,7 @@
                                     <Insets />
                                  </GridPane.margin>
                               </TextField>
-                              <Button fx:id="addcar_CheckCust_btn" disable="true" mnemonicParsing="false" prefHeight="30.0" prefWidth="170.0" styleClass="task-button" stylesheets="@pics/style.css" text="Check Customer" GridPane.columnIndex="2">
+                              <Button fx:id="addcar_CheckCust_btn" disable="true" mnemonicParsing="false" prefHeight="30.0" prefWidth="170.0" styleClass="task-button" stylesheets="@../pics/style.css" text="Check Customer" GridPane.columnIndex="2">
                                  <GridPane.margin>
                                     <Insets left="35.0" />
                                  </GridPane.margin>
@@ -450,7 +450,7 @@
                                  <graphic>
                                     <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@pics/eye.png" />
+                                          <Image url="@../pics/eye.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -470,7 +470,7 @@
                   </GridPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="PurchProg_pane" layoutX="6.0" layoutY="4.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="636.0" prefWidth="827.0" styleClass="grid-pane" stylesheets="@pics/gridPaneStyle.css" visible="false">
+            <AnchorPane fx:id="PurchProg_pane" layoutX="6.0" layoutY="4.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="636.0" prefWidth="827.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css" visible="false">
                <children>
                   <AnchorPane layoutX="21.0" layoutY="59.0">
                      <children>
@@ -534,14 +534,14 @@
                               <ComboBox fx:id="purchProg_FuelComp3_CB" disable="true" prefWidth="150.0" promptText="#3" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                            </children>
                         </GridPane>
-                        <Button fx:id="purchProg_SavePurch_btn" layoutX="260.0" layoutY="510.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="264.0" styleClass="confirmation-button" stylesheets="@pics/style.css" text="Save Purchasing Program" textFill="WHITE">
+                        <Button fx:id="purchProg_SavePurch_btn" layoutX="260.0" layoutY="510.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="264.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Save Purchasing Program" textFill="WHITE">
                            <font>
                               <Font name="Calibri" size="20.0" />
                            </font>
                            <graphic>
                               <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@pics/v.png" />
+                                    <Image url="@../pics/v.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -597,7 +597,7 @@
                               <Insets />
                            </GridPane.margin>
                         </TextField>
-                        <Button fx:id="addcar_CheckCust_btn1" disable="true" mnemonicParsing="false" prefHeight="30.0" prefWidth="170.0" styleClass="task-button" stylesheets="@pics/style.css" text="Check Customer" GridPane.columnIndex="2">
+                        <Button fx:id="addcar_CheckCust_btn1" disable="true" mnemonicParsing="false" prefHeight="30.0" prefWidth="170.0" styleClass="task-button" stylesheets="@../pics/style.css" text="Check Customer" GridPane.columnIndex="2">
                            <GridPane.margin>
                               <Insets left="30.0" />
                            </GridPane.margin>
@@ -607,7 +607,7 @@
                            <graphic>
                               <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@pics/eye.png" />
+                                    <Image url="@../pics/eye.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -616,16 +616,16 @@
                   </GridPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="pricingModel_pane" layoutX="6.0" layoutY="11.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="534.0" prefWidth="830.0" styleClass="grid-pane" stylesheets="@pics/gridPaneStyle.css">
+            <AnchorPane fx:id="pricingModel_pane" layoutX="6.0" layoutY="11.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="534.0" prefWidth="830.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css" visible="false">
                <children>
-                  <Button fx:id="pricingModel_SaveModel_btn" layoutX="315.0" layoutY="471.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" styleClass="confirmation-button" stylesheets="@pics/style.css" text="Set Model" textFill="WHITE">
+                  <Button fx:id="pricingModel_SaveModel_btn" layoutX="315.0" layoutY="471.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Set Model" textFill="WHITE">
                      <font>
                         <Font name="Calibri" size="20.0" />
                      </font>
                      <graphic>
                         <ImageView fitHeight="25.0" fitWidth="25.0">
                            <image>
-                              <Image url="@pics/v.png" />
+                              <Image url="@../pics/v.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -650,7 +650,7 @@
                               <Insets />
                            </GridPane.margin>
                         </TextField>
-                        <Button fx:id="addcar_CheckCust_btn2" mnemonicParsing="false" prefHeight="25.0" prefWidth="174.0" styleClass="task-button" stylesheets="@pics/style.css" text="Check Customer" GridPane.columnIndex="2">
+                        <Button fx:id="addcar_CheckCust_btn2" mnemonicParsing="false" prefHeight="25.0" prefWidth="174.0" styleClass="task-button" stylesheets="@../pics/style.css" text="Check Customer" GridPane.columnIndex="2">
                            <GridPane.margin>
                               <Insets left="35.0" />
                            </GridPane.margin>
@@ -660,7 +660,7 @@
                            <graphic>
                               <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@pics/eye.png" />
+                                    <Image url="@../pics/eye.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -689,7 +689,7 @@
                               <Font size="11.0" />
                            </font>
                         </Text>
-                        <ToggleButton layoutX="39.0" layoutY="225.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="98.0" styleClass="task-toggle-button" stylesheets="@pics/style.css" text="Choose">
+                        <ToggleButton layoutX="39.0" layoutY="225.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="98.0" styleClass="task-toggle-button" stylesheets="@../pics/style.css" text="Choose">
                            <toggleGroup>
                               <ToggleGroup fx:id="three" />
                            </toggleGroup>
@@ -713,7 +713,7 @@
                               <Font size="11.0" />
                            </font>
                         </Text>
-                        <ToggleButton layoutX="41.0" layoutY="226.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="98.0" styleClass="task-toggle-button" stylesheets="@pics/style.css" text="Choose" toggleGroup="$three" />
+                        <ToggleButton layoutX="41.0" layoutY="226.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="98.0" styleClass="task-toggle-button" stylesheets="@../pics/style.css" text="Choose" toggleGroup="$three" />
                      </children>
                   </AnchorPane>
                   <AnchorPane layoutX="423.0" layoutY="130.0" prefHeight="270.0" prefWidth="179.0" style="-fx-background-color: #d8dce0;">
@@ -733,7 +733,7 @@
                               <Font size="11.0" />
                            </font>
                         </Text>
-                        <ToggleButton layoutX="42.0" layoutY="226.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="98.0" styleClass="task-toggle-button" stylesheets="@pics/style.css" text="Choose" toggleGroup="$three" />
+                        <ToggleButton layoutX="42.0" layoutY="226.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="98.0" styleClass="task-toggle-button" stylesheets="@../pics/style.css" text="Choose" toggleGroup="$three" />
                      </children>
                   </AnchorPane>
                   <AnchorPane layoutX="626.0" layoutY="130.0" prefHeight="270.0" prefWidth="179.0" style="-fx-background-color: #d8dce0;">
@@ -753,7 +753,7 @@
                               <Font size="11.0" />
                            </font>
                         </Text>
-                        <ToggleButton layoutX="41.0" layoutY="226.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="98.0" styleClass="task-toggle-button" stylesheets="@pics/style.css" text="Choose" toggleGroup="$three" />
+                        <ToggleButton layoutX="41.0" layoutY="226.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="98.0" styleClass="task-toggle-button" stylesheets="@../pics/style.css" text="Choose" toggleGroup="$three" />
                      </children>
                   </AnchorPane>
                </children>

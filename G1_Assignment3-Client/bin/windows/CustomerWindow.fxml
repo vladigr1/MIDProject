@@ -75,7 +75,7 @@
                            <children>
                               <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="-4.0">
                                  <image>
-                                    <Image url="@../pics/orderhomefuel.png" />
+                                    <Image url="@../pics/vieworders.png" />
                                  </image>
                               </ImageView>
                            </children>

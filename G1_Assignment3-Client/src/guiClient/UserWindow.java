@@ -10,10 +10,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
@@ -29,11 +29,11 @@ import javafx.stage.WindowEvent;
  */
 public abstract class UserWindow extends AFXML {
 
-	@FXML	protected ToggleGroup one;
 	@FXML	protected Label lblHelloUser;
 	@FXML	protected Label topbar_window_label;
 	@FXML	protected Button btnSignOut;
 
+	protected AnchorPane visableNow;
 	protected String username;
 	protected UserController controller;
 
@@ -132,5 +132,5 @@ public abstract class UserWindow extends AFXML {
 		if (!this.signOutClicked(this.getWindow()))
 			event.consume();
 	}
-	
+
 }
