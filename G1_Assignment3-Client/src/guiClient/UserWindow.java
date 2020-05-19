@@ -144,25 +144,25 @@ public abstract class UserWindow implements IFXML {
 	 * methods for functionality of the top bar close,minimize,drag window
 	 */
 	@FXML
-	public void CloseAppBar(ActionEvent event) throws Exception {
+	public void CloseTopBar(ActionEvent event) throws Exception {
 		Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
 		stage.close();
 	}
 	@FXML
-	public void MinimizeAppBar(ActionEvent event) throws Exception {
+	public void MinimizeTopBar(ActionEvent event) throws Exception {
 		Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
 		stage.setIconified(true);
 		
 	}
 	
 	@FXML
-	public void handleClickAction(MouseEvent event) throws Exception {
+	public void clickOnTopBar(MouseEvent event) throws Exception {
 		Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
 		x = stage.getX() - event.getScreenX();
 	    y = stage.getY() - event.getScreenY();
 	}
 	@FXML
-	public void handleMovmentAction(MouseEvent event) throws Exception {
+	public void dragTopBar(MouseEvent event) throws Exception {
 		Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
 		stage.setX(event.getScreenX() + x);
 	    stage.setY(event.getScreenY() + y);
