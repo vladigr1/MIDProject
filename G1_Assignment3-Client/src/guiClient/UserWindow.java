@@ -125,19 +125,24 @@ public abstract class UserWindow implements IFXML {
 		this.signOutClicked(this.getWindow());
 	}
 
-	@FXML
-	void btnSignOutHover(MouseEvent event) {
-		this.btnSignOut.setStyle("-fx-background-color:  #4c606e");
-	}
+//	@FXML
+//	void btnSignOutHover(MouseEvent event) {
+//		this.btnSignOut.setStyle("-fx-background-color:  #4c606e");
+//	}
+//
+//	@FXML
+//	void btnSignOutExited(MouseEvent event) {
+//		this.btnSignOut.setStyle("-fx-background-color:  #1e262c");
+//	}
 
-	@FXML
-	void btnSignOutExited(MouseEvent event) {
-		this.btnSignOut.setStyle("-fx-background-color:  #1e262c");
-	}
-	//liad
 	private double x = 0;
 	private double y = 0;
-	
+	/**
+	 * 
+	 * @param event
+	 * @throws Exception
+	 * methods for functionality of the top bar close,minimize,drag window
+	 */
 	@FXML
 	public void CloseAppBar(ActionEvent event) throws Exception {
 		Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
@@ -150,7 +155,6 @@ public abstract class UserWindow implements IFXML {
 		
 	}
 	
-
 	@FXML
 	public void handleClickAction(MouseEvent event) throws Exception {
 		Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
