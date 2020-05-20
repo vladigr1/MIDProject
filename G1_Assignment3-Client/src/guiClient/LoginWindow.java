@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -154,7 +155,7 @@ public class LoginWindow implements IFXML {
 		this.lblError.setText("wrong username or password");
 		this.lblError.setVisible(true);
 		this.tfLoginUserName.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
-		this.tfLoginPassword.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+		this.tfLoginPassword.setStyle("-fx-border-color: red ; -fx-border-width: 2px;");
 	}
 
 	/**
@@ -212,5 +213,32 @@ public class LoginWindow implements IFXML {
 			break;
 		}
 	}
+	
+	private double x = 0;
+	private double y = 0;
+	
+	public void CloseTopBar(ActionEvent event) throws Exception {
+	Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+	stage.close();
+}
+
+public void MinimizeTopBar(ActionEvent event) throws Exception {
+	Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+	stage.setIconified(true);
+	
+}
+
+
+public void clickOnTopBar(MouseEvent event) throws Exception {
+	Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+	x = stage.getX() - event.getScreenX();
+    y = stage.getY() - event.getScreenY();
+}
+
+public void dragTopBar(MouseEvent event) throws Exception {
+	Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+	stage.setX(event.getScreenX() + x);
+    stage.setY(event.getScreenY() + y);
+}
 
 }
