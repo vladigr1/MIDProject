@@ -24,7 +24,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane minHeight="700.0" prefHeight="650.0" styleClass="main-pane" stylesheets="@../pics/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guiClient.FuelStationManagerWindow">
+<BorderPane minHeight="700.0" prefHeight="650.0" styleClass="main-pane" stylesheets="@../pics/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guiClient.FuelStationManagerWindow">
    <left>
       <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="602.0" minWidth="260.0" prefHeight="602.0" prefWidth="260.0" spacing="5.0" style="-fx-background-color: #1e262c;" BorderPane.alignment="CENTER">
          <children>
@@ -231,7 +231,7 @@
    <center>
       <AnchorPane fx:id="mainwindow_pane" minHeight="600.0" minWidth="800.0" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane fx:id="homePane" layoutX="19.0" layoutY="10.0" prefHeight="620.0" prefWidth="800.0" styleClass="home" stylesheets="@../pics/gridPaneStyle.css" visible="false">
+            <AnchorPane fx:id="homePane" layoutX="19.0" layoutY="10.0" prefHeight="620.0" prefWidth="800.0" styleClass="home" stylesheets="@../pics/gridPaneStyle.css">
                <children>
                   <ImageView fitHeight="620.0" fitWidth="803.0" layoutY="3.0">
                      <image>
@@ -394,7 +394,7 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="AssessPane" layoutX="13.0" layoutY="13.0" prefHeight="543.0" prefWidth="639.0">
+            <AnchorPane fx:id="AssessPane" layoutX="13.0" layoutY="13.0" prefHeight="543.0" prefWidth="639.0" visible="false">
                <children>
                   <AnchorPane layoutX="1.0" layoutY="17.0" prefHeight="529.0" prefWidth="638.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css">
                      <children>
