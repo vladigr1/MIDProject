@@ -245,7 +245,7 @@
                            </font>
                         </Label>
                      </children></Pane>
-                  <Label fx:id="topbar_window_label" alignment="TOP_LEFT" minHeight="-Infinity" prefHeight="25.0" prefWidth="259.0" text="Add Customer">
+                  <Label fx:id="topbar_window_label" alignment="TOP_LEFT" minHeight="-Infinity" prefHeight="25.0" prefWidth="259.0" text="Home">
                      <font>
                         <Font name="Arial" size="26.0" />
                      </font>
@@ -261,9 +261,64 @@
    <center>
       <AnchorPane fx:id="mainwindow_pane" minHeight="600.0" minWidth="830.0" prefWidth="840.0" BorderPane.alignment="CENTER">
          <children>
+            <AnchorPane fx:id="homePane" layoutX="13.0" layoutY="10.0" prefHeight="687.0" prefWidth="816.0" styleClass="home" stylesheets="@../pics/gridPaneStyle.css">
+               <children>
+                  <ImageView fitHeight="686.0" fitWidth="803.0" layoutX="6.0" layoutY="3.0">
+                     <image>
+                        <Image url="@../pics/HomeBackground.png" />
+                     </image>
+                  </ImageView>
+                  <AnchorPane layoutX="8.0" layoutY="4.0" prefHeight="659.0" prefWidth="802.0">
+                     <children>
+                        <Label layoutX="311.0" layoutY="41.0" text="Welcome to MyFuel" underline="true">
+                           <font>
+                              <Font name="Calibri" size="30.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="351.0" layoutY="81.0" text="&lt;userName&gt;!" underline="true">
+                           <font>
+                              <Font name="Calibri" size="30.0" />
+                           </font>
+                        </Label>
+                        <TableView layoutX="108.0" layoutY="318.0" prefHeight="278.0" prefWidth="587.0">
+                           <columns>
+                              <TableColumn prefWidth="119.0" text="Date" />
+                              <TableColumn prefWidth="119.0" text="Time" />
+                              <TableColumn prefWidth="348.0" text="Action" />
+                           </columns>
+                        </TableView>
+                        <ComboBox layoutX="161.0" layoutY="274.0" prefHeight="30.0" prefWidth="150.0" promptText="[This Week]" visibleRowCount="12" />
+                        <Label layoutX="107.0" layoutY="279.0" text="Week:">
+                           <font>
+                              <Font name="Arial" size="16.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="127.0" fitWidth="150.0" layoutX="133.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../pics/iconfinder_avatar_1814089.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="33.0" layoutY="236.0" text="Your Weekly Activity:" textFill="#144465" underline="true">
+                           <font>
+                              <Font name="Arial" size="16.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="264.0" layoutY="608.0" mnemonicParsing="false" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Generate This Week's Analysis">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../pics/EditCars.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
             <AnchorPane fx:id="addCustomer_pane" layoutX="3.0" layoutY="12.0" prefHeight="600.0" prefWidth="830.0" visible="false">
                <children>
-                  <Label layoutX="4.0" layoutY="-4.0" prefHeight="21.0" prefWidth="215.0" text="Customer Information">
+                  <Label layoutX="4.0" layoutY="-4.0" prefHeight="21.0" prefWidth="215.0" text="Customer Information:">
                      <font>
                         <Font name="Arial Bold" size="18.0" />
                      </font>
@@ -298,27 +353,27 @@
                         <RowConstraints percentHeight="0.0" valignment="CENTER" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label text="Customer ID" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                        <Label text="Customer ID:" GridPane.columnIndex="2" GridPane.rowIndex="4">
                            <font>
                               <Font name="Arial" size="16.0" />
                            </font>
                         </Label>
-                        <Label text="Customer Type " GridPane.columnIndex="3" GridPane.rowIndex="4">
+                        <Label text="Customer Type: " GridPane.columnIndex="3" GridPane.rowIndex="4">
                            <font>
                               <Font name="Arial" size="16.0" />
                            </font>
                         </Label>
-                        <Label text="First Name" GridPane.columnIndex="2" GridPane.rowIndex="6">
+                        <Label text="First Name:" GridPane.columnIndex="2" GridPane.rowIndex="6">
                            <font>
                               <Font name="Arial" size="16.0" />
                            </font>
                         </Label>
-                        <Label text="Surname" GridPane.columnIndex="2" GridPane.rowIndex="8">
+                        <Label text="Surname:" GridPane.columnIndex="2" GridPane.rowIndex="8">
                            <font>
                               <Font name="Arial" size="16.0" />
                            </font>
                         </Label>
-                        <Label text="Email" GridPane.columnIndex="2" GridPane.rowIndex="10">
+                        <Label text="Email Address:" GridPane.columnIndex="2" GridPane.rowIndex="10">
                            <font>
                               <Font name="Arial" size="16.0" />
                            </font>
@@ -373,7 +428,7 @@
                               </Button>
                            </children>
                         </AnchorPane>
-                        <Label text="Please Fill the Following (new customer):" textFill="#144465" underline="true" GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                        <Label text="Please Fill in the Following (new customer):" textFill="#144465" underline="true" GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                            <font>
                               <Font name="Arial" size="16.0" />
                            </font>
@@ -445,21 +500,21 @@
                   </Button>
                   <AnchorPane layoutX="19.0" layoutY="85.0" prefHeight="301.0" prefWidth="488.0">
                      <children>
-                        <VBox prefHeight="266.0" prefWidth="205.0" spacing="5.0">
+                        <VBox prefHeight="271.0" prefWidth="205.0" spacing="5.0">
                            <children>
-                              <Label text="First Name">
+                              <Label text="First Name:">
                                  <font>
                                     <Font name="Arial" size="16.0" />
                                  </font>
                               </Label>
                               <TextField fx:id="addcust_Surname_TF11" prefHeight="30.0" />
-                              <Label text="Surname">
+                              <Label text="Surname:">
                                  <font>
                                     <Font name="Arial" size="16.0" />
                                  </font>
                               </Label>
                               <TextField fx:id="addcust_CustID_TF11" prefHeight="30.0" prefWidth="236.0" />
-                              <Label text="Email">
+                              <Label text="Email:">
                                  <font>
                                     <Font name="Arial" size="16.0" />
                                  </font>
@@ -475,7 +530,7 @@
                                     <Font size="15.0" />
                                  </font>
                               </TextField>
-                              <Label text="Customer Type ">
+                              <Label text="Customer Type:">
                                  <font>
                                     <Font name="Arial" size="16.0" />
                                  </font>
@@ -528,17 +583,17 @@
                               <RowConstraints maxHeight="204.0" minHeight="15.0" prefHeight="86.0" valignment="CENTER" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <Label text="Registration Plate" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                              <Label text="Registration Plate:" GridPane.columnIndex="2" GridPane.rowIndex="2">
                                  <font>
                                     <Font name="Arial" size="16.0" />
                                  </font>
                               </Label>
-                              <Label text="Owner Name" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                              <Label text="Owner Name:" GridPane.columnIndex="2" GridPane.rowIndex="4">
                                  <font>
                                     <Font name="Arial" size="16.0" />
                                  </font>
                               </Label>
-                              <Label text="Fuel Type" GridPane.columnIndex="2" GridPane.rowIndex="6">
+                              <Label text="Fuel Type:" GridPane.columnIndex="2" GridPane.rowIndex="6">
                                  <font>
                                     <Font name="Arial" size="16.0" />
                                  </font>
@@ -607,7 +662,7 @@
                                  </children>
                               </GridPane>
                               <ComboBox fx:id="addcar_FuelType_CB" prefHeight="30.0" prefWidth="173.0" promptText="Type #1" visibleRowCount="5" GridPane.columnIndex="2" GridPane.rowIndex="7" />
-                              <Label text="Please fill the following:" textFill="#144465" underline="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                              <Label text="Please Fill in the Following:" textFill="#144465" underline="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                  <font>
                                     <Font name="Arial" size="16.0" />
                                  </font>
@@ -966,7 +1021,7 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="updateCustomer_pane" layoutX="6.0" layoutY="12.0" prefHeight="678.0" prefWidth="681.0">
+            <AnchorPane fx:id="updateCustomer_pane" layoutX="6.0" layoutY="12.0" prefHeight="678.0" prefWidth="681.0" visible="false">
                <children>
                   <Label layoutX="4.0" layoutY="-4.0" prefHeight="21.0" prefWidth="215.0" text="Sale Pattern Information:">
                      <font>
@@ -1078,7 +1133,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Label layoutX="20.0" layoutY="12.0" text="Please Fill the Following:" textFill="#144465" underline="true">
+                        <Label layoutX="20.0" layoutY="12.0" text="Please Fill in the Following:" textFill="#144465" underline="true">
                            <font>
                               <Font name="Arial" size="16.0" />
                            </font>
