@@ -8,6 +8,7 @@ public class IncomeReport extends QuarterlyReport {
 	// primary keys
 	/* private int repQuarter; */
 	/* private String repYear; */
+	/* private int fuelStationID; */
 
 	// fields
 	private double totalIncome;

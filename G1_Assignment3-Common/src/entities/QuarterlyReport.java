@@ -9,8 +9,6 @@ public class QuarterlyReport implements Serializable {
 	// primary keys
 	private int repQuarter;
 	private String repYear;
-
-	// foreign keys
 	private int fuelStationID;
 
 	// fields
@@ -34,10 +32,6 @@ public class QuarterlyReport implements Serializable {
 
 	public int getFuelStationID() {
 		return fuelStationID;
-	}
-
-	public void setFuelStationID(int fuelStationID) {
-		this.fuelStationID = fuelStationID;
 	}
 
 	public Date getDateCreated() {

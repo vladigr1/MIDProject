@@ -17,7 +17,7 @@ import guiServer.ServerWindow;
 public class DatabaseController {
 
 	private static DatabaseController instance;
-	private Connection connection;
+	private Connection con;
 
 	/**
 	 * singleton class constructor initialize connection to the database
@@ -34,22 +34,23 @@ public class DatabaseController {
 		}
 
 		try {
-			this.connection = DriverManager.getConnection("jdbc:mysql://" + host + "/?serverTimezone=IST", dbUsername, dbPassword);
+			this.con = DriverManager.getConnection("jdbc:mysql://" + host + "/?serverTimezone=IST", dbUsername,
+					dbPassword);
 			serverWindow.updateArea("SQL connection succeeded");
 
-			Statement stmt = this.connection.createStatement();
+			Statement stmt = this.con.createStatement();
 			stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS " + schema
 					+ " DEFAULT CHARACTER SET utf8 \n DEFAULT COLLATE utf8_general_ci");
 			serverWindow.updateArea("Database connection succeeded");
 
-			this.connection = DriverManager.getConnection("jdbc:mysql://" + host + "/" + schema + "?serverTimezone=IST",
+			this.con = DriverManager.getConnection("jdbc:mysql://" + host + "/" + schema + "?serverTimezone=IST",
 					dbUsername, dbPassword);
-			
-			TableGenerator.GenerateTables(this.connection);
-//			new InsertDefaultTables(con);
+
+			serverWindow.updateArea(TableGenerator.GenerateTables(this.con));
+			serverWindow.updateArea(DefaultTableInserts.InsertDefaultTables(this.con));
 
 			PreparedStatement pStmt;
-			pStmt = this.connection.prepareStatement("UPDATE User SET connected = ?");
+			pStmt = this.con.prepareStatement("UPDATE User SET connected = ?");
 			pStmt.setString(1, "0");
 			pStmt.executeUpdate();
 
@@ -72,11 +73,11 @@ public class DatabaseController {
 	}
 
 	public String loginSequence(String username, String password, String type) {
-		return DatabaseUserController.getInstance(connection).loginSequence(username, password, type);
+		return DatabaseUserController.getInstance(con).loginSequence(username, password, type);
 	}
 
 	public String signOutSequence(String username) {
-		return DatabaseUserController.getInstance(connection).signOutSequence(username);
+		return DatabaseUserController.getInstance(con).signOutSequence(username);
 	}
 
 }

@@ -11,15 +11,13 @@ public class ProductInRequest implements Serializable {
 	private ProductName productName;
 
 	// fields
-	private double currentRate;
 	private double requestedRate;
 
-	public ProductInRequest(int productRatesUpdateRequestID, ProductName productName, double currentRate,
-			double requestedRate) {
+	public ProductInRequest(int productRatesUpdateRequestID, ProductName productName, double requestedRate) {
 		super();
 		this.productRatesUpdateRequestID = productRatesUpdateRequestID;
 		this.productName = productName;
-		this.currentRate = currentRate;
+
 		this.requestedRate = requestedRate;
 	}
 
@@ -29,14 +27,6 @@ public class ProductInRequest implements Serializable {
 
 	public ProductName getProductName() {
 		return productName;
-	}
-
-	public double getCurrentRate() {
-		return currentRate;
-	}
-
-	public void setCurrentRate(double currentRate) {
-		this.currentRate = currentRate;
 	}
 
 	public double getRequestedRate() {
@@ -50,7 +40,7 @@ public class ProductInRequest implements Serializable {
 	@Override
 	public String toString() {
 		return "ProductInRequest [productRatesUpdateRequestID=" + productRatesUpdateRequestID + ", productName="
-				+ productName + ", currentRate=" + currentRate + ", requestedRate=" + requestedRate + "]";
+				+ productName + ", requestedRate=" + requestedRate + "]";
 	}
 
 	@Override

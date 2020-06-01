@@ -39,7 +39,7 @@ public class ProductInSalesPattern implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ProductInSalePattern [salesPatternID=" + salesPatternID + ", productName=" + productName
+		return "ProductInSalesPattern [salesPatternID=" + salesPatternID + ", productName=" + productName
 				+ ", salesDiscount=" + salesDiscount + "]";
 	}
 

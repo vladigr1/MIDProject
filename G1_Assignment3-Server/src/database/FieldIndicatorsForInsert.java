@@ -58,11 +58,11 @@ public class FieldIndicatorsForInsert {
 	}
 
 	public static String[] IncomeReport() {
-		return new String[] { "FK_repQuarter", "FK_repYear", "totalIncome" };
+		return new String[] { "FK_repQuarter", "FK_repYear", "FK_fuelStationID", "totalIncome" };
 	}
 
-	public static String[] InventroyReport() {
-		return new String[] { "FK_repQuarter", "FK_repYear" };
+	public static String[] InventoryReport() {
+		return new String[] { "FK_repQuarter", "FK_repYear", "FK_fuelStationID" };
 	}
 
 	public static String[] Notification() {
@@ -74,7 +74,7 @@ public class FieldIndicatorsForInsert {
 	}
 
 	public static String[] OutcomeReport() {
-		return new String[] { "FK_repQuarter", "FK_repYear" };
+		return new String[] { "FK_repQuarter", "FK_repYear", "FK_fuelStationID" };
 	}
 
 	public static String[] PeriodicCustomersReport() {
@@ -102,7 +102,7 @@ public class FieldIndicatorsForInsert {
 				"incomePerProduct", "avgPrice" };
 	}
 
-	public static String[] ProductInInventroyReport() {
+	public static String[] ProductInInventoryReport() {
 		return new String[] { "FK_productInStationID", "FK_repQuarter_inventoryReport", "FK_repYear_inventoryReport",
 				"amountSold", "amountBegin", "amountEnd" };
 	}
@@ -113,7 +113,7 @@ public class FieldIndicatorsForInsert {
 	}
 
 	public static String[] ProductInRequest() {
-		return new String[] { "FK_updateRateRequestID", "FK_productName", "currentRate", "requestedRate" };
+		return new String[] { "FK_updateRateRequestID", "FK_productName", "requestedRate" };
 	}
 
 	public static String[] ProductInSalesPattern() {
@@ -125,11 +125,11 @@ public class FieldIndicatorsForInsert {
 	}
 
 	public static String[] ProductRatesUpdateRequest1() {
-		return new String[] { "assessed" };
+		return new String[] { "requestDate", "assessed" };
 	}
 
 	public static String[] ProductRatesUpdateRequest2() {
-		return new String[] { "assessed", "approved" };
+		return new String[] { "requestDate", "assessed", "approved" };
 	}
 
 	public static String[] PurchasingProgram1() {
