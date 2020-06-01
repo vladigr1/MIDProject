@@ -1,72 +1,64 @@
-package sql;
+package database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class GenerateTables { // creating the tables if they are not exists
+public class TableGenerator { // creating the tables if they are not exists
 
-	public GenerateTables(Connection con) {
-		// order by entities alphabetical
-		generateActivity(con);
-		generateCar(con);
-		generateCustomer(con);
-		generateCustomerBoughtFromCompany(con);
-		generateCustomerBoughtInSale(con);
+	public static void GenerateTables(Connection con) throws SQLException {
+		generateUser(con);
 		generateEmployee(con);
-		generateFastFuel(con);
+		generateCustomer(con);
+		generateSalesPattern(con);
+		generateFuelStationManager(con);
+		generateProduct(con);
+		generateProductInSalesPattern(con);
+		generateSale(con);
+		generateProductRatesUpdateRequest(con);
+		generateProductInRequest(con);
 		generateFuelCompany(con);
 		generateFuelStation(con);
-		generateFuelStationManager(con);
-		generateFuelStationOrder(con);
-		generateHomeFuelOrder(con);
-		generateIncomeReport(con);
-		generateInventroyReport(con);
-		generateNotification(con);
-		generateOrders(con);
-		generateOutcomeReport(con);
-		generatePeriodicCustomersReport(con);
-		generatePricingModel(con);
-		generatePricingModelType(con);
-		generateProduct(con);
-		generateProductInIncomeReport(con);
-		generateProductInInventroyReport(con);
-		generateProductInOutcomeReport(con);
-		generateProductInRequest(con);
-		generateProductInSalePattern(con);
 		generateProductInStation(con);
-		generateProductRatesUpdateRequest(con);
-		generatePurchasingProgram(con);
-		generatePurchasingProgramType(con);
 		generateQuarterlyReport(con);
-		generateRankingSheet(con);
-		generateSale(con);
+		generateIncomeReport(con);
+		generateProductInIncomeReport(con);
+		generateOutcomeReport(con);
+		generateProductInOutcomeReport(con);
+		generateInventroyReport(con);
+		generateProductInInventroyReport(con);
+		generateCustomerBoughtInSale(con);
 		generateSaleCommentsReport(con);
-		generateSalePattern(con);
+		generateCar(con);
+		generateRankingSheet(con);
+		generatePricingModelType(con);
+		generatePricingModel(con);
+		generateNotification(con);
 		generateShipmentMethod(con);
-		generateUser(con);
-		System.out.println("generating tables succeeded");
+		generateOrders(con);
+		generateFuelStationOrder(con);
+		generatePurchasingProgramType(con);
+		generateHomeFuelOrder(con);
+		generatePurchasingProgram(con);
+		generateCustomerBoughtFromCompany(con);
+		generatePeriodicCustomersReport(con);
+		generateActivity(con);
+		generateFastFuel(con);
+		System.out.println("Generating tables succeeded");
 	}
 
 	/******************* genral generate table function *******************/
 	
-	public static void generateTable(Connection con, String tableName, String values) {
+	private static void generateTable(Connection con, String tableName, String values) throws SQLException {
 		PreparedStatement pst;
-		String table = "CREATE TABLE if not exists " + tableName + values
-				+ "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ";
-		try {
-			pst = con.prepareStatement(table);
-			pst.execute();
-		} catch (SQLException ex) {/* handle any errors */
-			System.out.println("SQLException: " + ex.getMessage());
-			System.out.println("SQLState: " + ex.getSQLState());
-			System.out.println("VendorError: " + ex.getErrorCode());
-		}
+		String table = "CREATE TABLE IF NOT EXISTS " + tableName + values;
+		pst = con.prepareStatement(table);
+		pst.execute();
 	}
 	
 	/******************* generate actual tables *******************/
 	
-	public void generateActivity(Connection con) { 
+	private static void generateActivity(Connection con) throws SQLException { 
 		String tableName = "activity";
 		String values = "( "
 				+ " activityID int NOT NULL AUTO_INCREMENT ," 
@@ -81,7 +73,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);
 	}
 	
-	public void generateCar(Connection con) {
+	private static void generateCar(Connection con) throws SQLException {
 		String tableName = "car";
 		String values = "( "
 				+ " registrationPlate varchar(32) NOT NULL ,"
@@ -101,7 +93,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);
 	}
 	
-	public void generateCustomer(Connection con) {
+	private static void generateCustomer(Connection con) throws SQLException {
 		String tableName = "customer";
 		String values = "( "
 				+ " customerID varchar(32) NOT NULL ,"
@@ -117,7 +109,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);
 	}
 	
-	public void generateCustomerBoughtFromCompany(Connection con) {
+	private static void generateCustomerBoughtFromCompany(Connection con) throws SQLException {
 		String tableName = "customer_bought_from_company";
 		String values = "( " 
 				+ " FK_customerID varchar(32) NOT NULL ,"
@@ -137,7 +129,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);
 	}
 	
-	public void generateCustomerBoughtInSale(Connection con) {
+	private static void generateCustomerBoughtInSale(Connection con) throws SQLException {
 		String tableName = "customer_bought_in_sale";
 		String values =	"( "
 				+ " FK_saleID INT NOT NULL ,"
@@ -155,7 +147,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);	
 	}
 	
-	public void generateEmployee(Connection con) {
+	private static void generateEmployee(Connection con) throws SQLException {
 		String tableName = "employee";
 		String values = "( "
 				+ " employeeID int NOT NULL AUTO_INCREMENT ," 
@@ -170,7 +162,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);
 	}
 	
-	public void generateFastFuel(Connection con) {	
+	private static void generateFastFuel(Connection con) throws SQLException {	
 		String tableName = "fast_fuel";
 		String values =	"( "
 				+ " fastFuelID INT NOT NULL AUTO_INCREMENT ,"
@@ -191,7 +183,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);		
 	}
 	
-	public void generateFuelCompany(Connection con) {
+	private static void generateFuelCompany(Connection con) throws SQLException {
 		String tableName = "fuel_company";
 		String values = "( " 
 				+ " fuelCompanyName varchar(32) NOT NULL ,"
@@ -204,7 +196,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);
 	}
 	
-	public void generateFuelStation(Connection con) {
+	private static void generateFuelStation(Connection con) throws SQLException {
 		String tableName = "fuel_station";
 		String values = "( " 
 				+ " fuelStationID INT NOT NULL AUTO_INCREMENT ," 
@@ -224,7 +216,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);		
 	}
 	
-	public void generateFuelStationManager(Connection con) { 									    //to the fuel_station table and search there the FSmanagerID
+	private static void generateFuelStationManager(Connection con) throws SQLException {
 		String tableName = "fuel_station_manager";
 		String values = "( "
 				+ " FK_employeeID int NOT NULL ," 
@@ -237,7 +229,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);
 	}
 	
-	public void generateFuelStationOrder(Connection con) {
+	private static void generateFuelStationOrder(Connection con) throws SQLException {
 		String tableName = "fuel_station_order";
 		String values =	"( "
 				+ "FK_ordersID INT NOT NULL ,"
@@ -259,7 +251,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);	
 	}
 	
-	public void generateHomeFuelOrder(Connection con) {
+	private static void generateHomeFuelOrder(Connection con) throws SQLException {
 		String tableName = "home_fuel_order";
 		String values = "( "
 				+ " FK_ordersID int NOT NULL ,"
@@ -287,7 +279,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);
 	}
 	
-	public void generateIncomeReport(Connection con) {
+	private static void generateIncomeReport(Connection con) throws SQLException {
 		String tableName = "income_report";
 		String values =	"( "
 				+ " FK_repQuarter INT NOT NULL,"
@@ -301,7 +293,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);	
 	}
 	
-	public void generateInventroyReport(Connection con) {
+	private static void generateInventroyReport(Connection con) throws SQLException {
 		String tableName = "inventory_report";
 		String values =	"( "
 					+ " FK_repQuarter INT NOT NULL ,"	
@@ -314,7 +306,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);	
 	}
 	
-	public void generateNotification(Connection con) {
+	private static void generateNotification(Connection con) throws SQLException {
 		String tableName = "notification";
 		String values = "( "
 				+ " notificationID int NOT NULL AUTO_INCREMENT ," 
@@ -329,7 +321,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);
 	}
 	
-	public void generateOrders(Connection con) {
+	private static void generateOrders(Connection con) throws SQLException {
 		String tableName = "orders";
 		String values = "( "
 				+ " ordersID int NOT NULL AUTO_INCREMENT ," 
@@ -341,7 +333,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);
 	}
 	
-	public void generateOutcomeReport(Connection con) {
+	private static void generateOutcomeReport(Connection con) throws SQLException {
 		String tableName = "outcome_report";
 		String values =	"( "
 				+ " FK_repQuarter INT NOT NULL ,"
@@ -354,7 +346,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);		
 	}
 	
-	public void generatePeriodicCustomersReport(Connection con) {
+	private static void generatePeriodicCustomersReport(Connection con) throws SQLException {
 		String tableName = "periodic_customers_report";
 		String values = "( "
 				+ " dateFrom TIMESTAMP NOT NULL ,"
@@ -364,7 +356,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);
 	}
 	
-	public void generatePricingModel(Connection con) { 
+	private static void generatePricingModel(Connection con) throws SQLException { 
 		String tableName = "pricing_model";
 		String values =	"( "
 				+ " FK_customerID varchar(32) NOT NULL ,"
@@ -383,7 +375,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);	
 	}
 	
-	public void generatePricingModelType(Connection con) {
+	private static void generatePricingModelType(Connection con) throws SQLException {
 		String tableName = "pricing_model_type";
 		String values = "( "
 				+ " pricingModelName varchar(32) NOT NULL ,"
@@ -393,7 +385,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);
 	}
 	
-	public void generateProduct(Connection con) {	
+	private static void generateProduct(Connection con) throws SQLException {	
 		String tableName = "product";
 		String values =	"( "
 				+ " productName varchar(32) NOT NULL ,"
@@ -403,7 +395,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);	
 	}
 	
-	public void generateProductInIncomeReport(Connection con) {
+	private static void generateProductInIncomeReport(Connection con) throws SQLException {
 		String tableName = "product_in_income_report";
 		String values =	"( "
 				+ " FK_productInStationID INT NOT NULL ,"
@@ -423,7 +415,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);	
 	}
 	
-	public void generateProductInInventroyReport(Connection con) {
+	private static void generateProductInInventroyReport(Connection con) throws SQLException {
 		String tableName = "product_in_inventory_report";
 		String values =	"( "
 				+ " FK_productInStationID INT NOT NULL ,"
@@ -444,12 +436,12 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);	
 	}
 	
-	public void generateProductInOutcomeReport(Connection con) {
+	private static void generateProductInOutcomeReport(Connection con) throws SQLException {
 		String tableName = "product_in_outcome_report";
 		String values =	"( "
 				+ " FK_productInStationID INT NOT NULL ,"
-				+ " FK_repQuarter_OutcomeReport INT NOT NULL ,"
-				+ " FK_repYear_OutcomeReport varchar(32) NOT NULL ,"
+				+ " FK_repQuarter_outcomeReport INT NOT NULL ,"
+				+ " FK_repYear_outcomeReport varchar(32) NOT NULL ,"
 				+ " amountBoughtFromSupplier DOUBLE(32,2) NOT NULL ,"
 				+ " PRIMARY KEY (FK_productInStationID, FK_repQuarter_OutcomeReport,FK_repYear_OutcomeReport) ,"	
 				//fk1
@@ -457,13 +449,13 @@ public class GenerateTables { // creating the tables if they are not exists
 				+ " CONSTRAINT product_in_outcome_report_ibfk_1 FOREIGN KEY (FK_productInStationID) "
 				+ " REFERENCES product_in_station (productInStationID) ON DELETE CASCADE ON UPDATE CASCADE ,"
 				//fk2
-				+ " KEY product_in_outcome_report_ibfk_2 (FK_repQuarter_OutcomeReport,FK_repYear_OutcomeReport) ,"
-				+ " CONSTRAINT product_in_outcome_report_ibfk_2 FOREIGN KEY (FK_repQuarter_OutcomeReport,FK_repYear_OutcomeReport) "
+				+ " KEY product_in_outcome_report_ibfk_2 (FK_repQuarter_outcomeReport,FK_repYear_outcomeReport) ,"
+				+ " CONSTRAINT product_in_outcome_report_ibfk_2 FOREIGN KEY (FK_repQuarter_outcomeReport,FK_repYear_outcomeReport) "
 				+ " REFERENCES outcome_report (FK_repQuarter,FK_repYear) ON DELETE CASCADE ON UPDATE CASCADE )";
 		generateTable(con, tableName, values);	
 	}
 	
-	public void generateProductInRequest(Connection con) {	
+	private static void generateProductInRequest(Connection con) throws SQLException {	
 		String tableName = "product_in_request";
 		String values =	"( "
 				+ " FK_updateRateRequestID INT NOT NULL ,"
@@ -482,7 +474,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);		
 	}
 	
-	public void generateProductInSalePattern(Connection con) {	
+	private static void generateProductInSalesPattern(Connection con) throws SQLException {	
 		String tableName = "product_in_sale_pattern";
 		String values =	"( "
 				+ " FK_salesPatternID INT NOT NULL ,"
@@ -500,7 +492,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);	
 	}
 	
-	public void generateProductInStation(Connection con) {
+	private static void generateProductInStation(Connection con) throws SQLException {
 		String tableName = "product_in_station";
 		String values =	"( "
 				+ " productInStationID INT NOT NULL AUTO_INCREMENT ,"
@@ -520,7 +512,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);	
 	}
 	
-	public void generateProductRatesUpdateRequest(Connection con) {	
+	private static void generateProductRatesUpdateRequest(Connection con) throws SQLException {	
 		String tableName = "product_rates_update_request";
 		String values = "( "
 				+ " updateRateRequestID INT NOT NULL AUTO_INCREMENT ,"
@@ -530,7 +522,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);		
 	}
 	
-	public void generatePurchasingProgram(Connection con) {
+	private static void generatePurchasingProgram(Connection con) throws SQLException {
 		String tableName = "purchasing_program";
 		String values = "( "
 				+ " FK_customerID varchar(32) NOT NULL ,"
@@ -562,7 +554,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);
 	}
 	
-	public void generatePurchasingProgramType(Connection con) {
+	private static void generatePurchasingProgramType(Connection con) throws SQLException {
 		String tableName = "purchasing_program_type";
 		String values = "( "
 				+ " purchasingProgramName varchar(32) NOT NULL ,"
@@ -572,7 +564,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);
 	}
 	
-	public void generateQuarterlyReport(Connection con) {
+	private static void generateQuarterlyReport(Connection con) throws SQLException {
 		String tableName = "quarterly_report";
 		String values =	"( "
 				+ " repQuarter INT NOT NULL ,"
@@ -587,7 +579,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);	
 	}
 	
-	public void generateRankingSheet(Connection con) {
+	private static void generateRankingSheet(Connection con) throws SQLException {
 		String tableName = "ranking_sheet";
 		String values = "( "
 				+ " FK_customerID varchar(32) NOT NULL ,"
@@ -603,7 +595,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);
 	}
 	
-	public void generateSale(Connection con) {
+	private static void generateSale(Connection con) throws SQLException {
 		String tableName = "sale";
 		String values = "( "
 				+ " saleID INT NOT NULL AUTO_INCREMENT ," 
@@ -619,7 +611,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);
 	}
 	
-	public void generateSaleCommentsReport(Connection con) {
+	private static void generateSaleCommentsReport(Connection con) throws SQLException {
 		String tableName = "sale_comments_report";
 		String values =	"( "
 				+ " FK_saleID INT NOT NULL ,"
@@ -634,7 +626,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);	
 	}
 	
-	public void generateSalePattern(Connection con) {	
+	private static void generateSalesPattern(Connection con) throws SQLException {	
 		String tableName = "sales_pattern";
 		String values = "( "
 				+ " salesPatternID INT NOT NULL AUTO_INCREMENT ," 
@@ -643,7 +635,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);
 	}
 	
-	public void generateShipmentMethod(Connection con) {
+	private static void generateShipmentMethod(Connection con) throws SQLException {
 		String tableName = "shipment_method";
 		String values = "( "
 				+ " shipmentType varchar(32) NOT NULL ,"
@@ -654,7 +646,7 @@ public class GenerateTables { // creating the tables if they are not exists
 		generateTable(con, tableName, values);
 	}
 
-	public void generateUser(Connection con) {
+	private static void generateUser(Connection con) throws SQLException {
 		String tableName = "user";
 		String values = "( "
 				+ " username varchar(32) NOT NULL ,"

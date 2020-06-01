@@ -1,9 +1,10 @@
-package server;
+package database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import guiServer.ServerWindow;
 
@@ -33,9 +34,19 @@ public class DatabaseController {
 		}
 
 		try {
+			this.connection = DriverManager.getConnection("jdbc:mysql://" + host + "/?serverTimezone=IST", dbUsername, dbPassword);
+			serverWindow.updateArea("SQL connection succeeded");
+
+			Statement stmt = this.connection.createStatement();
+			stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS " + schema
+					+ " DEFAULT CHARACTER SET utf8 \n DEFAULT COLLATE utf8_general_ci");
+			serverWindow.updateArea("Database connection succeeded");
+
 			this.connection = DriverManager.getConnection("jdbc:mysql://" + host + "/" + schema + "?serverTimezone=IST",
 					dbUsername, dbPassword);
-			serverWindow.updateArea("SQL connection succeeded");
+			
+			TableGenerator.GenerateTables(this.connection);
+//			new InsertDefaultTables(con);
 
 			PreparedStatement pStmt;
 			pStmt = this.connection.prepareStatement("UPDATE User SET connected = ?");

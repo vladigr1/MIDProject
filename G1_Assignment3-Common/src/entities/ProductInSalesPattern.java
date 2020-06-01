@@ -5,7 +5,7 @@ import java.io.Serializable;
 import enums.ProductName;
 
 @SuppressWarnings("serial")
-public class ProductInSalePattern implements Serializable {
+public class ProductInSalesPattern implements Serializable {
 
 	// primary keys
 	private int salesPatternID;
@@ -14,7 +14,7 @@ public class ProductInSalePattern implements Serializable {
 	// fields
 	private double salesDiscount;
 
-	public ProductInSalePattern(int salesPatternID, ProductName productName, double salesDiscount) {
+	public ProductInSalesPattern(int salesPatternID, ProductName productName, double salesDiscount) {
 		super();
 		this.salesPatternID = salesPatternID;
 		this.productName = productName;
@@ -45,9 +45,9 @@ public class ProductInSalePattern implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof ProductInSalePattern))
+		if (!(obj instanceof ProductInSalesPattern))
 			return false;
-		ProductInSalePattern other = (ProductInSalePattern) obj;
+		ProductInSalesPattern other = (ProductInSalesPattern) obj;
 		return this.productName.equals(other.productName) && this.salesPatternID == other.salesPatternID;
 	}
 
