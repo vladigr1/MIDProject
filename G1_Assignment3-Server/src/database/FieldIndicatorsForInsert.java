@@ -28,7 +28,7 @@ public class FieldIndicatorsForInsert {
 	}
 
 	public static String[] FastFuel() {
-		return new String[] { "FK_customerID", "FK_productInStationID", "fastFuelTime", "amountBought", "finalPrice" };
+		return new String[] { "FK_registrationPlate", "FK_customerID", "FK_productInStationID", "fastFuelTime", "amountBought", "finalPrice" };
 	}
 
 	public static String[] FuelCompany() {

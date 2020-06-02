@@ -178,7 +178,7 @@ public class DefaultTableInserts {
 		// "FK_salesPatternID", "active", "startTime", "endTime"
 		Object[] values1 = { "1", false, new Date(119, 5, 7, 18, 30), new Date(119, 5, 7, 19, 00) };
 		TableInserts.insertSale(con, values1);
-		Object[] values2 = { "2", false, new Date(119, 5, 14, 12, 00), new Date(119, 5, 14, 13, 00) };
+		Object[] values2 = { "2", false, new Date(119, 5, 7, 12, 00), new Date(119, 5, 14, 13, 00) };
 		TableInserts.insertSale(con, values2);
 	}
 
@@ -188,9 +188,9 @@ public class DefaultTableInserts {
 		Object[] values1 = { new Date(119, 5, 16), false };
 		TableInserts.insertProductRatesUpdateRequest1(con, values1);
 		Object[] values2 = { new Date(119, 5, 13), true, false };
-		TableInserts.insertProductRatesUpdateRequest1(con, values2);
+		TableInserts.insertProductRatesUpdateRequest2(con, values2);
 		Object[] values3 = { new Date(119, 5, 5), true, true };
-		TableInserts.insertProductRatesUpdateRequest1(con, values3);
+		TableInserts.insertProductRatesUpdateRequest2(con, values3);
 	}
 
 	public static void insertDefaultProductInRequest(Connection con) throws SQLException {
@@ -265,34 +265,34 @@ public class DefaultTableInserts {
 
 	public static void insertDefaultIncomeReport(Connection con) throws SQLException {
 		// "FK_repQuarter", "FK_repYear", "FK_fuelStationID", "totalIncome"
-		Object[] values1 = { 2, "2019", "1", 25650 * 3 };
+		Object[] values1 = { 2, "2019", "1", 875 };
 		TableInserts.insertIncomeReport(con, values1);
-		Object[] values2 = { 2, "2019", "2", 256500 };
+		Object[] values2 = { 2, "2019", "2", 455 };
 		TableInserts.insertIncomeReport(con, values2);
-		Object[] values3 = { 2, "2019", "3", 256500 / 5 };
+		Object[] values3 = { 2, "2019", "3", 1113 };
 		TableInserts.insertIncomeReport(con, values3);
 	}
 
 	public static void insertDefaultProductInIncomeReport(Connection con) throws SQLException {
 		// "FK_productInStationID", "FK_repQuarter_IncomeReport",
 		// "FK_repYear_IncomeReport", "incomePerProduct", "avgPrice"
-		Object[] values1 = { "1", 2, "2019", 25650, 5 };
+		Object[] values1 = { "1", 2, "2019", 455 / 3, 3.5 };
 		TableInserts.insertProductInIncomeReport(con, values1);
-		Object[] values2 = { "2", 2, "2019", 25650, 6 };
+		Object[] values2 = { "2", 2, "2019", 455 / 3, 3 };
 		TableInserts.insertProductInIncomeReport(con, values2);
-		Object[] values3 = { "3", 2, "2019", 25650, 7.5 };
+		Object[] values3 = { "3", 2, "2019", 455 / 3, 6.5 };
 		TableInserts.insertProductInIncomeReport(con, values3);
-		Object[] values4 = { "4", 2, "2019", 256500 / 3, 5 };
+		Object[] values4 = { "4", 2, "2019", 875 / 3, 3.5 };
 		TableInserts.insertProductInIncomeReport(con, values4);
-		Object[] values5 = { "5", 2, "2019", 256500 / 3, 6 };
+		Object[] values5 = { "5", 2, "2019", 875 / 3, 3 };
 		TableInserts.insertProductInIncomeReport(con, values5);
-		Object[] values6 = { "6", 2, "2019", 256500 / 3, 7.5 };
+		Object[] values6 = { "6", 2, "2019", 875 / 3, 6.5 };
 		TableInserts.insertProductInIncomeReport(con, values6);
-		Object[] values7 = { "7", 2, "2019", 256500 / 5 / 3, 5 };
+		Object[] values7 = { "7", 2, "2019", 1113 / 3, 3.5 };
 		TableInserts.insertProductInIncomeReport(con, values7);
-		Object[] values8 = { "8", 2, "2019", 256500 / 5 / 3, 6 };
+		Object[] values8 = { "8", 2, "2019", 1113 / 3, 3 };
 		TableInserts.insertProductInIncomeReport(con, values8);
-		Object[] values9 = { "9", 2, "2019", 256500 / 5 / 3, 7.5 };
+		Object[] values9 = { "9", 2, "2019", 1113 / 3, 6.5 };
 		TableInserts.insertProductInIncomeReport(con, values9);
 	}
 
@@ -309,23 +309,23 @@ public class DefaultTableInserts {
 	public static void insertDefaultProductInOutcomeReport(Connection con) throws SQLException {
 		// "FK_productInStationID", "FK_repQuarter_outcomeReport",
 		// "FK_repYear_outcomeReport", "amountBoughtFromSupplier"
-		Object[] values1 = { "1", 2, "2019", 5130 };
+		Object[] values1 = { "1", 2, "2019", 455 / 3 / 3.5 };
 		TableInserts.insertProductInOutcomeReport(con, values1);
-		Object[] values2 = { "2", 2, "2019", 4275 };
+		Object[] values2 = { "2", 2, "2019", 455 / 3 / 3 };
 		TableInserts.insertProductInOutcomeReport(con, values2);
-		Object[] values3 = { "3", 2, "2019", 3420 };
+		Object[] values3 = { "3", 2, "2019", 455 / 3 / 6.5 };
 		TableInserts.insertProductInOutcomeReport(con, values3);
-		Object[] values4 = { "4", 2, "2019", 17100 };
+		Object[] values4 = { "4", 2, "2019", 875 / 3 / 3.5 };
 		TableInserts.insertProductInOutcomeReport(con, values4);
-		Object[] values5 = { "5", 2, "2019", 14250 };
+		Object[] values5 = { "5", 2, "2019", 875 / 3 / 3 };
 		TableInserts.insertProductInOutcomeReport(con, values5);
-		Object[] values6 = { "6", 2, "2019", 11400 };
+		Object[] values6 = { "6", 2, "2019", 875 / 3 / 6.5 };
 		TableInserts.insertProductInOutcomeReport(con, values6);
-		Object[] values7 = { "7", 2, "2019", 3420 };
+		Object[] values7 = { "7", 2, "2019", 1113 / 3 / 3.5 };
 		TableInserts.insertProductInOutcomeReport(con, values7);
-		Object[] values8 = { "8", 2, "2019", 2850 };
+		Object[] values8 = { "8", 2, "2019", 1113 / 3 / 3 };
 		TableInserts.insertProductInOutcomeReport(con, values8);
-		Object[] values9 = { "9", 2, "2019", 2280 };
+		Object[] values9 = { "9", 2, "2019", 1113 / 3 / 6.5 };
 		TableInserts.insertProductInOutcomeReport(con, values9);
 	}
 
@@ -342,23 +342,23 @@ public class DefaultTableInserts {
 	public static void insertDefaultProductInInventoryReport(Connection con) throws SQLException {
 		// "FK_productInStationID", "FK_repQuarter_inventoryReport",
 		// "FK_repYear_inventoryReport", "amountSold", "amountBegin", "amountEnd"
-		Object[] values1 = { "1", 2, "2019", 5130, 1340 * 3, 1340 * 3 };
+		Object[] values1 = { "1", 2, "2019", 455 / 3 / 3.5, 1340 * 3, 1340 * 3 };
 		TableInserts.insertProductInInventoryReport(con, values1);
-		Object[] values2 = { "2", 2, "2019", 4275, 895 * 3, 895 * 3 };
+		Object[] values2 = { "2", 2, "2019", 455 / 3 / 3, 895 * 3, 895 * 3 };
 		TableInserts.insertProductInInventoryReport(con, values2);
-		Object[] values3 = { "3", 2, "2019", 3420, 1500, 1500 };
+		Object[] values3 = { "3", 2, "2019", 455 / 3 / 6.5, 1500, 1500 };
 		TableInserts.insertProductInInventoryReport(con, values3);
-		Object[] values4 = { "4", 2, "2019", 17100, 13400, 13400 };
+		Object[] values4 = { "4", 2, "2019", 875 / 3 / 3.5, 13400, 13400 };
 		TableInserts.insertProductInInventoryReport(con, values4);
-		Object[] values5 = { "5", 2, "2019", 14250, 8950, 8950 };
+		Object[] values5 = { "5", 2, "2019", 875 / 3 / 3, 8950, 8950 };
 		TableInserts.insertProductInInventoryReport(con, values5);
-		Object[] values6 = { "6", 2, "2019", 11400, 5000, 5000 };
+		Object[] values6 = { "6", 2, "2019", 875 / 3 / 6.5, 5000, 5000 };
 		TableInserts.insertProductInInventoryReport(con, values6);
-		Object[] values7 = { "7", 2, "2019", 3420, 13400 / 5, 13400 / 5 };
+		Object[] values7 = { "7", 2, "2019", 1113 / 3 / 3.5, 13400 / 5, 13400 / 5 };
 		TableInserts.insertProductInInventoryReport(con, values7);
-		Object[] values8 = { "8", 2, "2019", 2850, 8950 / 5, 8950 / 5 };
+		Object[] values8 = { "8", 2, "2019", 1113 / 3 / 3, 8950 / 5, 8950 / 5 };
 		TableInserts.insertProductInInventoryReport(con, values8);
-		Object[] values9 = { "9", 2, "2019", 2280, 1000, 1000 };
+		Object[] values9 = { "9", 2, "2019", 1113 / 3 / 6.5, 1000, 1000 };
 		TableInserts.insertProductInInventoryReport(con, values9);
 	}
 
@@ -368,19 +368,15 @@ public class DefaultTableInserts {
 		TableInserts.insertCustomerBoughtInSale(con, values1);
 		Object[] values2 = { "1", "222222222", 130 };
 		TableInserts.insertCustomerBoughtInSale(con, values2);
-		Object[] values3 = { "2", "222222222", 65 };
+		Object[] values3 = { "2", "222222222", 188 };
 		TableInserts.insertCustomerBoughtInSale(con, values3);
-		Object[] values4 = { "2", "222222222", 89 };
-		TableInserts.insertCustomerBoughtInSale(con, values4);
-		Object[] values5 = { "2", "222222222", 34 };
-		TableInserts.insertCustomerBoughtInSale(con, values5);
 	}
 
 	public static void insertDefaultSaleCommentsReport(Connection con) throws SQLException {
 		// "FK_saleID", "numberOfCustomersBought", "sumOfPurchases", "dateCreated"
-		Object[] values1 = { "1", 2, 380, new Date(119, 5, 30) };
+		Object[] values1 = { "1", 2, 380, new Date(119, 5, 28) };
 		TableInserts.insertSaleCommentsReport(con, values1);
-		Object[] values2 = { "2", 1, 188, new Date(119, 5, 30) };
+		Object[] values2 = { "2", 1, 188, new Date(119, 5, 28) };
 		TableInserts.insertSaleCommentsReport(con, values2);
 	}
 
@@ -408,9 +404,9 @@ public class DefaultTableInserts {
 	public static void insertDefaultRankingSheet(Connection con) throws SQLException {
 		// "FK_customerID", "customerTypeRank", "fuelingHoursRank", "fuelTypesRank",
 		// "updatedForDate"
-		Object[] values1 = { "111111111", "8", "6", "5", new Date(119, 12, 30) };
+		Object[] values1 = { "111111111", "8", "6", "5", new Date(119, 12, 28) };
 		TableInserts.insertRankingSheet(con, values1);
-		Object[] values2 = { "222222222", "10", "10", "9", new Date(119, 12, 30) };
+		Object[] values2 = { "222222222", "10", "10", "9", new Date(119, 12, 28) };
 		TableInserts.insertRankingSheet(con, values2);
 	}
 
@@ -445,7 +441,7 @@ public class DefaultTableInserts {
 		Object[] values1 = { "222222222", PricingModelName.MonthlyProgramMultipleCars.toString(), 0.38 };
 		TableInserts.insertPricingModel1(con, values1);
 		Object[] values2 = { "111111111", PricingModelName.FullProgramSingleCar.toString(), 0.17, 100 };
-		TableInserts.insertPricingModel1(con, values2);
+		TableInserts.insertPricingModel2(con, values2);
 	}
 
 	public static void insertDefaultNotification(Connection con) throws SQLException {
@@ -454,7 +450,7 @@ public class DefaultTableInserts {
 		TableInserts.insertNotification(con, values1);
 		Object[] values2 = { "2", "a station order is ready to be assessed", true, new Date(119, 6, 4) };
 		TableInserts.insertNotification(con, values2);
-		Object[] values3 = { "3", "a station order is ready to be assessed", true, new Date(119, 6, 18) };
+		Object[] values3 = { "9", "a station order is ready to be assessed", true, new Date(119, 6, 18) };
 		TableInserts.insertNotification(con, values3);
 		Object[] values4 = { "1", "a station order is ready to be assessed", false, new Date(119, 5, 26) };
 		TableInserts.insertNotification(con, values4);
@@ -524,7 +520,7 @@ public class DefaultTableInserts {
 		TableInserts.insertFuelStationOrder3(con, values9);
 		Object[] values10 = { "12", "1", true, false, "supply already on route", false };
 		TableInserts.insertFuelStationOrder2(con, values10);
-		Object[] values11 = { "12", "2", false, false };
+		Object[] values11 = { "13", "2", false, false };
 		TableInserts.insertFuelStationOrder1(con, values11);
 	}
 
@@ -549,106 +545,79 @@ public class DefaultTableInserts {
 		TableInserts.insertHomeFuelOrder(con, values2);
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/********************************************************************************/
-
-	public static void insertDefaultFastFuel(Connection con) throws SQLException {
-
-		String customerID = "1212";
-		int productInStaion = 1;
-
-		Object[] values5 = { customerID, productInStaion, new Date(119, 3, 3), 30, 200.19 };
-		TableInserts.insertFastFuel(con, values5);
-
-	}
-
 	public static void insertDefaultPurchasingProgram(Connection con) throws SQLException {
-		String supplieruserName = "Supplier2UserName";
-		String customerUserName = "customer13UserName";
-		int fkemployeeID;
-		String fkcustomer = "1212";
-		String fkpurchasingProgramType = PurchasingProgramName.Premium.toString();
-		String fkfuel_Company_Name = "paz";
-
-		// customer
-		Object[] values1 = { customerUserName, "1234", false, "Elroye", "Cahana", "Mail@mai.com" };
-		TableInserts.insertUser(con, values1);
-
-		Object[] values2 = { fkcustomer, customerUserName, "1111-2222-3333-4444", CustomerType.Person.toString(),
-				false };
-		TableInserts.insertCustomer(con, values2);
-
-//		// PurchasingProgramType
-//		Object[] values3 = { fkpurchasingProgramType, "for not single car", 100.4 };
-//		TableInserts.insertPurchasingProgramType(con, values3);
-
-		// fuelCompany
-		Object[] values4 = { supplieruserName, "11", false, "Moshe", "Cahana", "Mail@mai.com" };
-		TableInserts.insertUser(con, values4);
-
-		Object[] values5 = { "role", Affiliation.Marketing.toString(), supplieruserName };
-		fkemployeeID = TableInserts.insertEmployee(con, values5);
-
-		Object[] values6 = { fkfuel_Company_Name, fkemployeeID };
-		TableInserts.insertFuelCompany(con, values6);
-
-		// purchasing program
-		Object[] values7 = { fkcustomer, fkpurchasingProgramType, fkfuel_Company_Name, fkfuel_Company_Name };
-		TableInserts.insertPurchasingProgram1(con, values7);
+		// 1 - "FK_customerID", "FK_purchasingProgramName", "FK_fuelCompanyName1"
+		// 3 - "FK_customerID", "FK_purchasingProgramName", "FK_fuelCompanyName1",
+		// "FK_fuelCompanyName2", "FK_fuelCompanyName3"
+		Object[] values1 = { "111111111", PurchasingProgramName.Standard.toString(), FuelCompanyName.Paz.toString() };
+		TableInserts.insertPurchasingProgram1(con, values1);
+		Object[] values2 = { "222222222", PurchasingProgramName.Premium.toString(), FuelCompanyName.Sonol.toString(),
+				FuelCompanyName.Paz.toString(), FuelCompanyName.Delek.toString() };
+		TableInserts.insertPurchasingProgram3(con, values2);
 	}
 
 	public static void insertCustomerBoughtFromCompany(Connection con) throws SQLException {
-		String supplieruserName = "Supplier3UserName";
-		String customerUserName = "customer6UserName";
-		int fkemployeeID;
-		String fkcustomer = "221212";
-		String fkfuel_Company_Name = "zap";
-
-		// customer
-		Object[] values1 = { customerUserName, "1234", false, "Elroye", "Cahana", "Mail@mai.com" };
-		TableInserts.insertUser(con, values1);
-
-		Object[] values2 = { fkcustomer, customerUserName, "1111-2222-3333-4444", CustomerType.Person.toString(),
-				false };
-		TableInserts.insertCustomer(con, values2);
-
-		// fuelCompany
-		Object[] values4 = { supplieruserName, "11", false, "Moshe", "Cahana", "Mail@mai.com" };
-		TableInserts.insertUser(con, values4);
-		Object[] values5 = { "role", Affiliation.Marketing.toString(), supplieruserName };
-		fkemployeeID = TableInserts.insertEmployee(con, values5);
-
-		Object[] values6 = { fkfuel_Company_Name, fkemployeeID };
-		TableInserts.insertFuelCompany(con, values6);
-
-		// CustomerBoughtFromCompany
-		Object[] values7 = { fkcustomer, fkfuel_Company_Name, 3.4, 34.0, new Date(119, 2, 5) };
-		TableInserts.insertCustomerBoughtFromCompany(con, values7);
+		// "FK_customerID", "FK_fuelCompanyName", "dateOfPurchase",
+		// "amountBoughtFromCompany", "amountPaidCompany"
+		Object[] values1 = { "111111111", FuelCompanyName.Paz.toString(), new Date(119, 5, 7), 3791.67, 875 };
+		TableInserts.insertCustomerBoughtFromCompany(con, values1);
+		Object[] values2 = { "222222222", FuelCompanyName.Sonol.toString(), new Date(119, 5, 7), 1971.67, 455 };
+		TableInserts.insertCustomerBoughtFromCompany(con, values2);
+		Object[] values3 = { "222222222", FuelCompanyName.Delek.toString(), new Date(119, 5, 7), 4823, 1113 };
+		TableInserts.insertCustomerBoughtFromCompany(con, values3);
 	}
 
 	public static void insertDefaultPeriodicCustomersReport(Connection con) throws SQLException {
-		Object[] values = { new Date(System.currentTimeMillis()), new Date(120, 11, 12),
-				new Date(System.currentTimeMillis()) };
-		TableInserts.insertPeriodicCustomersReport(con, values);
+		// "dateFrom", "dateTo", "dateCreated"
+		Object[] values1 = { new Date(119, 5, 1), new Date(119, 5, 28), new Date(119, 5, 28) };
+		TableInserts.insertPeriodicCustomersReport(con, values1);
 	}
 
 	public static void insertDefaultActivity(Connection con) throws SQLException {
-		int employeeID = 1;
-		String action = "add customer with ID = 1212";
-		Object[] values = { employeeID, action, new Date(120, 10, 22) };
-		TableInserts.insertActivity(con, values);
+		// "FK_employeeID", "time", "action"
+		Object[] values1 = { "4", new Date(119, 4, 28), "added person customer with ID = 111111111" };
+		TableInserts.insertActivity(con, values1);
+		Object[] values2 = { "4", new Date(119, 4, 28), "added company customer with ID = 222222222" };
+		TableInserts.insertActivity(con, values2);
+		Object[] values3 = { "4", new Date(119, 4, 28), "added car with registration plate = 9959599" };
+		TableInserts.insertActivity(con, values3);
+		Object[] values4 = { "4", new Date(119, 4, 28), "added car with registration plate = 9958599" };
+		TableInserts.insertActivity(con, values4);
+		Object[] values5 = { "4", new Date(119, 4, 28), "added car with registration plate = 9957599" };
+		TableInserts.insertActivity(con, values5);
+		Object[] values6 = { "4", new Date(119, 4, 28), "added car with registration plate = 9956599" };
+		TableInserts.insertActivity(con, values6);
+		Object[] values7 = { "4", new Date(119, 4, 28), "added car with registration plate = 9955599" };
+		TableInserts.insertActivity(con, values7);
+		Object[] values8 = { "4", new Date(119, 4, 28), "added car with registration plate = 9954599" };
+		TableInserts.insertActivity(con, values8);
+		Object[] values9 = { "4", new Date(119, 4, 28), "added car with registration plate = 9953599" };
+		TableInserts.insertActivity(con, values9);
+		Object[] values10 = { "4", new Date(119, 4, 28), "added car with registration plate = 9951599" };
+		TableInserts.insertActivity(con, values10);
+	}
+
+	public static void insertDefaultFastFuel(Connection con) throws SQLException {
+		// "FK_registrationPlate", "FK_customerID", "FK_productInStationID",
+		// "fastFuelTime", "amountBought", "finalPrice"
+		Object[] values1 = { "9959599", "111111111", "4", new Date(119, 5, 7, 12, 30), 455 / 3 / 3.5, 455 / 3 }; // Paz
+		TableInserts.insertFastFuel(con, values1);
+		Object[] values2 = { "9957599", "222222222", "5", new Date(119, 5, 7, 12, 30), 455 / 3 / 3, 455 / 3 }; // Paz
+		TableInserts.insertFastFuel(con, values2);
+		Object[] values3 = { "9951599", "222222222", "6", new Date(119, 5, 7, 12, 30), 455 / 3 / 6.5, 455 / 3 }; // Paz
+		TableInserts.insertFastFuel(con, values3);
+		Object[] values4 = { "9958599", "222222222", "1", new Date(119, 5, 7, 12, 30), 875 / 3 / 3.5, 875 / 3 }; // Sonol
+		TableInserts.insertFastFuel(con, values4);
+		Object[] values5 = { "9955599", "222222222", "2", new Date(119, 5, 7, 12, 30), 875 / 3 / 3, 875 / 3 }; // Sonol
+		TableInserts.insertFastFuel(con, values5);
+		Object[] values6 = { "9953599", "222222222", "3", new Date(119, 5, 7, 12, 30), 875 / 3 / 6.5, 875 / 3 }; // Sonol
+		TableInserts.insertFastFuel(con, values6);
+		Object[] values7 = { "9954599", "222222222", "7", new Date(119, 5, 7, 12, 30), 1113 / 3 / 3.5, 1113 / 3 }; // Delek
+		TableInserts.insertFastFuel(con, values7);
+		Object[] values8 = { "9957599", "222222222", "8", new Date(119, 5, 7, 12, 20), 1113 / 3 / 3, 1113 / 3 }; // Delek
+		TableInserts.insertFastFuel(con, values8);
+		Object[] values9 = { "9953599", "222222222", "9", new Date(119, 5, 7, 12, 20), 1113 / 3 / 6.5, 1113 / 3 }; // Delek
+		TableInserts.insertFastFuel(con, values9);
 	}
 
 }

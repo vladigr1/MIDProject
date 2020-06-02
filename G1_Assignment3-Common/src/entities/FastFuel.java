@@ -10,6 +10,7 @@ public class FastFuel implements Serializable {
 	private Integer fastFuelID;
 
 	// foreign keys
+	private String registrationPlate;
 	private String customerID;
 	private int productInStaionID;
 
@@ -18,9 +19,10 @@ public class FastFuel implements Serializable {
 	private double amountBought;
 	private double finalPrice;
 
-	public FastFuel(String customerID, int productInStaionID, Date fastFuelTime, double amountBought,
-			double finalPrice) {
+	public FastFuel(String registrationPlate, String customerID, int productInStaionID, Date fastFuelTime,
+			double amountBought, double finalPrice) {
 		super();
+		this.registrationPlate = registrationPlate;
 		this.customerID = customerID;
 		this.productInStaionID = productInStaionID;
 		this.fastFuelTime = fastFuelTime;
@@ -28,9 +30,10 @@ public class FastFuel implements Serializable {
 		this.finalPrice = finalPrice;
 	}
 
-	public FastFuel(int fastFuelID, String customerID, int productInStaionID, Date fastFuelTime, double amountBought,
-			double finalPrice) {
+	public FastFuel(String registrationPlate, int fastFuelID, String customerID, int productInStaionID,
+			Date fastFuelTime, double amountBought, double finalPrice) {
 		super();
+		this.registrationPlate = registrationPlate;
 		this.fastFuelID = fastFuelID;
 		this.customerID = customerID;
 		this.productInStaionID = productInStaionID;
@@ -41,6 +44,14 @@ public class FastFuel implements Serializable {
 
 	public int getFastFuelID() {
 		return fastFuelID;
+	}
+
+	public String getRegistrationPlate() {
+		return registrationPlate;
+	}
+
+	public void setRegistrationPlate(String registrationPlate) {
+		this.registrationPlate = registrationPlate;
 	}
 
 	public String getCustomerID() {
@@ -88,8 +99,9 @@ public class FastFuel implements Serializable {
 		String str = "FastFuel [";
 		if (fastFuelID != null)
 			str += "fastFuelID=" + fastFuelID + ", ";
-		str += "customerID=" + customerID + ", productInStaionID=" + productInStaionID + ", fastFuelTime="
-				+ fastFuelTime + ", amountBought=" + amountBought + ", finalPrice=" + finalPrice + "]";
+		str += "registrationPlate=" + registrationPlate + ", customerID=" + customerID + ", productInStaionID="
+				+ productInStaionID + ", fastFuelTime=" + fastFuelTime + ", amountBought=" + amountBought
+				+ ", finalPrice=" + finalPrice + "]";
 		return str;
 	}
 

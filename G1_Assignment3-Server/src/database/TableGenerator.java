@@ -65,7 +65,7 @@ public class TableGenerator { // creating the tables if they are not exists
 	private static void generateActivity(Connection con) throws SQLException {
 		String tableName = "activity";
 		String values = "( " + " activityID int NOT NULL AUTO_INCREMENT ," + " FK_employeeID INT NOT NULL ,"
-				+ " time TIMESTAMP NOT NULL ," + " action varchar(32) NOT NULL ," + " PRIMARY KEY (activityID) ,"
+				+ " time TIMESTAMP NOT NULL ," + " action varchar(100) NOT NULL ," + " PRIMARY KEY (activityID) ,"
 				// fk1
 				+ " KEY activity_ibfk_1 (FK_employeeID) ," + " CONSTRAINT activity_ibfk_1 FOREIGN KEY (FK_employeeID) "
 				+ " REFERENCES employee (employeeID) ON DELETE CASCADE ON UPDATE CASCADE )";
@@ -142,7 +142,8 @@ public class TableGenerator { // creating the tables if they are not exists
 
 	private static void generateFastFuel(Connection con) throws SQLException {
 		String tableName = "fast_fuel";
-		String values = "( " + " fastFuelID INT NOT NULL AUTO_INCREMENT ," + " FK_customerID varchar(32) NOT NULL ,"
+		String values = "( " + " fastFuelID INT NOT NULL AUTO_INCREMENT ,"
+				+ " FK_registrationPlate varchar(32) NOT NULL ," + " FK_customerID varchar(32) NOT NULL ,"
 				+ " FK_productInStationID INT NOT NULL ," + " fastFuelTime TIMESTAMP NOT NULL ,"
 				+ " amountBought DOUBLE(32,2) NOT NULL ," + " finalPrice DOUBLE(32,2) NOT NULL ,"
 				+ " PRIMARY KEY (fastFuelID) ,"
@@ -153,7 +154,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				// fk2
 				+ " KEY fast_fuel_ibfk_2 (FK_customerID) ,"
 				+ " CONSTRAINT fast_fuel_ibfk_2 FOREIGN KEY (FK_customerID) "
-				+ " REFERENCES customer (customerID) ON DELETE CASCADE ON UPDATE CASCADE )";
+				+ " REFERENCES customer (customerID) ON DELETE CASCADE ON UPDATE CASCADE ,"
+				// fk3
+				+ " KEY fast_fuel_ibfk_3 (FK_registrationPlate) ,"
+				+ " CONSTRAINT fast_fuel_ibfk_3 FOREIGN KEY (FK_registrationPlate) "
+				+ " REFERENCES car (registrationPlate) ON DELETE CASCADE ON UPDATE CASCADE )";
 		generateTable(con, tableName, values);
 	}
 
@@ -199,9 +204,8 @@ public class TableGenerator { // creating the tables if they are not exists
 	private static void generateFuelStationOrder(Connection con) throws SQLException {
 		String tableName = "fuel_station_order";
 		String values = "( " + "FK_ordersID INT NOT NULL ," + "FK_productInStationID INT NOT NULL ,"
-				+ "assessed varchar(1) NOT NULL ," + "approved varchar(1) ,"
-				+ "reasonDismissal varchar(64) ," + "supplied varchar(1) NOT NULL ,"
-				+ "timeSupplied TIMESTAMP ," + " PRIMARY KEY (fk_ordersID) ,"
+				+ "assessed varchar(1) NOT NULL ," + "approved varchar(1) ," + "reasonDismissal varchar(64) ,"
+				+ "supplied varchar(1) NOT NULL ," + "timeSupplied TIMESTAMP ," + " PRIMARY KEY (fk_ordersID) ,"
 				// fk1
 				+ " KEY fuel_station_order_ibfk_1 (FK_productInStationID) ,"
 				+ " CONSTRAINT fuel_station_order_ibfk_1 FOREIGN KEY (FK_productInStationID) "
@@ -265,7 +269,7 @@ public class TableGenerator { // creating the tables if they are not exists
 		String tableName = "notification";
 		// employeeID = fuel station manager
 		String values = "( " + " notificationID int NOT NULL AUTO_INCREMENT ," + " FK_employeeID int NOT NULL ,"
-				+ " message varchar(32) NOT NULL ," + " dismissed varchar(1) NOT NULL ,"
+				+ " message varchar(100) NOT NULL ," + " dismissed varchar(1) NOT NULL ,"
 				+ " dateCreated TIMESTAMP NOT NULL ," + " PRIMARY KEY (notificationID) ,"
 				// fk1
 				+ " KEY notification_ibfk_1 (FK_employeeID) ,"
@@ -285,7 +289,7 @@ public class TableGenerator { // creating the tables if they are not exists
 	private static void generateOutcomeReport(Connection con) throws SQLException {
 		String tableName = "outcome_report";
 		String values = "( " + " FK_repQuarter INT NOT NULL ," + " FK_repYear varchar(32) NOT NULL ,"
-				+ " FK_fuelStationID INT NOT NULL , " + " PRIMARY KEY (FK_repQuarter,FK_repYear) ,"
+				+ " FK_fuelStationID INT NOT NULL , " + " PRIMARY KEY (FK_repQuarter,FK_repYear,FK_fuelStationID) ,"
 				// fk1
 				+ " KEY outcome_report_ibfk_1 (FK_repQuarter,FK_repYear,FK_fuelStationID) ,"
 				+ " CONSTRAINT outcome_report_ibfk_1 FOREIGN KEY (FK_repQuarter,FK_repYear,FK_fuelStationID) "
@@ -536,7 +540,7 @@ public class TableGenerator { // creating the tables if they are not exists
 	private static void generateUser(Connection con) throws SQLException {
 		String tableName = "user";
 		String values = "( " + " username varchar(32) NOT NULL ," + " password varchar(32) NOT NULL ,"
-				+ " connected varchar(1) NOT NULL ," + " email varchar(32) NOT NULL ,"
+				+ " connected varchar(1) NOT NULL ," + " email varchar(64) NOT NULL ,"
 				+ " firstName varchar(32) NOT NULL ," + " surname varchar(32) NOT NULL ," + " PRIMARY KEY (username) )";
 		generateTable(con, tableName, values);
 	}

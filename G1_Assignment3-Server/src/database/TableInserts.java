@@ -22,7 +22,7 @@ public class TableInserts {
 			}
 
 			if (values.length != fields.length)
-				throw new SQLException("ERROR: there are more values than coloms in table " + tableName);
+				throw new SQLException("ERROR: more values than columns in table " + tableName);
 
 			StringBuilder sb = new StringBuilder();
 			sb.append("INSERT INTO " + tableName + " (");
