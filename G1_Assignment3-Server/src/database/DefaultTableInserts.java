@@ -16,6 +16,7 @@ import enums.ShipmentType;
 
 /**
  * fills the database with predetermined "true" information
+ * 
  * @author Elroy, Lior, Vlad
  */
 @SuppressWarnings("deprecation")
@@ -857,26 +858,64 @@ public class DefaultTableInserts {
 		if (checkTableEmpty(con, "activity") == false)
 			return;
 		// "FK_employeeID", "time", "action"
-		Object[] values1 = { "4", new Date(119, 4, 28), "added person customer with ID = 111111111" };
+		Object[] values1 = { "4", new Date(119, 4, 28, 9, 00), "added person customer with ID = 111111111" };
 		TableInserts.insertActivity(con, values1);
-		Object[] values2 = { "4", new Date(119, 4, 28), "added company customer with ID = 222222222" };
+		Object[] values2 = { "4", new Date(119, 4, 28, 9, 00), "added company customer with ID = 222222222" };
 		TableInserts.insertActivity(con, values2);
-		Object[] values3 = { "4", new Date(119, 4, 28), "added car with registration plate = 9959599" };
+		Object[] values3 = { "4", new Date(119, 4, 28, 9, 00), "added car with registration plate = 9959599" };
 		TableInserts.insertActivity(con, values3);
-		Object[] values4 = { "4", new Date(119, 4, 28), "added car with registration plate = 9958599" };
+		Object[] values4 = { "4", new Date(119, 4, 28, 9, 00), "added car with registration plate = 9958599" };
 		TableInserts.insertActivity(con, values4);
-		Object[] values5 = { "4", new Date(119, 4, 28), "added car with registration plate = 9957599" };
+		Object[] values5 = { "4", new Date(119, 4, 28, 9, 00), "added car with registration plate = 9957599" };
 		TableInserts.insertActivity(con, values5);
-		Object[] values6 = { "4", new Date(119, 4, 28), "added car with registration plate = 9956599" };
+		Object[] values6 = { "4", new Date(119, 4, 28, 9, 00), "added car with registration plate = 9956599" };
 		TableInserts.insertActivity(con, values6);
-		Object[] values7 = { "4", new Date(119, 4, 28), "added car with registration plate = 9955599" };
+		Object[] values7 = { "4", new Date(119, 4, 28, 9, 00), "added car with registration plate = 9955599" };
 		TableInserts.insertActivity(con, values7);
-		Object[] values8 = { "4", new Date(119, 4, 28), "added car with registration plate = 9954599" };
+		Object[] values8 = { "4", new Date(119, 4, 28, 9, 00), "added car with registration plate = 9954599" };
 		TableInserts.insertActivity(con, values8);
-		Object[] values9 = { "4", new Date(119, 4, 28), "added car with registration plate = 9953599" };
+		Object[] values9 = { "4", new Date(119, 4, 28, 9, 00), "added car with registration plate = 9953599" };
 		TableInserts.insertActivity(con, values9);
-		Object[] values10 = { "4", new Date(119, 4, 28), "added car with registration plate = 9951599" };
+		Object[] values10 = { "4", new Date(119, 4, 28, 9, 00), "added car with registration plate = 9951599" };
 		TableInserts.insertActivity(con, values10);
+		Object[] values11 = { "1", new Date(119, 7, 1, 9, 00), "generated quarterly report for 2019 quarter 2" };
+		TableInserts.insertActivity(con, values11);
+		Object[] values12 = { "2", new Date(119, 7, 1, 9, 00), "generated quarterly report for 2019 quarter 2" };
+		TableInserts.insertActivity(con, values12);
+		Object[] values13 = { "9", new Date(119, 7, 1, 9, 00), "generated quarterly report for 2019 quarter 2" };
+		TableInserts.insertActivity(con, values13);
+		Object[] values14 = { "3", new Date(119, 5, 7, 18, 30), "initiated sale with salespatternid 1" };
+		TableInserts.insertActivity(con, values14);
+		Object[] values15 = { "3", new Date(119, 5, 7, 12, 00), "initiated sale with salespatternid 1" };
+		TableInserts.insertActivity(con, values15);
+		Object[] values16 = { "5", new Date(119, 5, 14, 12, 00), "declined rates update request 2" };
+		TableInserts.insertActivity(con, values16);
+		Object[] values17 = { "5", new Date(119, 5, 5, 15, 00), "approved rates update request 3" };
+		TableInserts.insertActivity(con, values17);
+		Object[] values18 = { "1", new Date(119, 5, 1, 9, 00), "updated minimum storage threshold" };
+		TableInserts.insertActivity(con, values18);
+		Object[] values19 = { "2", new Date(119, 5, 1, 9, 00), "updated minimum storage threshold" };
+		TableInserts.insertActivity(con, values19);
+		Object[] values20 = { "9", new Date(119, 5, 1, 9, 00), "updated minimum storage threshold" };
+		TableInserts.insertActivity(con, values20);
+		Object[] values21 = { "6", new Date(119, 5, 27, 9, 00), "applied supplyment of fuelstationorder 1" };
+		TableInserts.insertActivity(con, values21);
+		Object[] values22 = { "6", new Date(119, 5, 27, 9, 00), "applied supplyment of fuelstationorder 2" };
+		TableInserts.insertActivity(con, values22);
+		Object[] values23 = { "6", new Date(119, 5, 27, 9, 00), "applied supplyment of fuelstationorder 3" };
+		TableInserts.insertActivity(con, values23);
+		Object[] values24 = { "7", new Date(119, 6, 6, 9, 00), "applied supplyment of fuelstationorder 4" };
+		TableInserts.insertActivity(con, values24);
+		Object[] values25 = { "7", new Date(119, 6, 6, 9, 00), "applied supplyment of fuelstationorder 5" };
+		TableInserts.insertActivity(con, values25);
+		Object[] values26 = { "7", new Date(119, 6, 6, 9, 00), "applied supplyment of fuelstationorder 6" };
+		TableInserts.insertActivity(con, values26);
+		Object[] values27 = { "8", new Date(119, 6, 20, 9, 00), "applied supplyment of fuelstationorder 7" };
+		TableInserts.insertActivity(con, values27);
+		Object[] values28 = { "8", new Date(119, 6, 20, 9, 00), "applied supplyment of fuelstationorder 8" };
+		TableInserts.insertActivity(con, values28);
+		Object[] values29 = { "8", new Date(119, 6, 20, 9, 00), "applied supplyment of fuelstationorder 9" };
+		TableInserts.insertActivity(con, values29);
 	}
 
 	/**

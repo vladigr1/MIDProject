@@ -22,7 +22,7 @@ public class TableInserts {
 	 * @param tableName
 	 * @param fields
 	 * @param values
-	 * @return
+	 * @return value of auto-inced member if there is one
 	 * @throws SQLException
 	 */
 	private static int insertRow(Connection con, String tableName, String[] fields, Object[] values)
