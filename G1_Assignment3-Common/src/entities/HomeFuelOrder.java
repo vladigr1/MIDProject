@@ -18,23 +18,26 @@ public class HomeFuelOrder extends Orders {
 
 	// fields
 	private Date dueTime;
+	private double finalPrice;
 
-	public HomeFuelOrder(Date orderTime, double amountBought, double finalPrice, String address, String customerID,
-			ProductName productName, ShipmentType shipmentMethod, Date dueTime) {
-		super(orderTime, amountBought, finalPrice, address);
+	public HomeFuelOrder(Date orderTime, double amountBought, String address, String customerID,
+			ProductName productName, ShipmentType shipmentMethod, Date dueTime, double finalPrice) {
+		super(orderTime, amountBought, address);
 		this.customerID = customerID;
 		this.productName = productName;
 		this.shipmentMethod = shipmentMethod;
 		this.dueTime = dueTime;
+		this.finalPrice = finalPrice;
 	}
 
-	public HomeFuelOrder(int ordersID, Date orderTime, double amountBought, double finalPrice, String address,
-			String customerID, ProductName productName, ShipmentType shipmentMethod, Date dueTime) {
-		super(ordersID, orderTime, amountBought, finalPrice, address);
+	public HomeFuelOrder(int ordersID, Date orderTime, double amountBought, String address, String customerID,
+			ProductName productName, ShipmentType shipmentMethod, Date dueTime, double finalPrice) {
+		super(ordersID, orderTime, amountBought, address);
 		this.customerID = customerID;
 		this.productName = productName;
 		this.shipmentMethod = shipmentMethod;
 		this.dueTime = dueTime;
+		this.finalPrice = finalPrice;
 	}
 
 	public String getCustomerID() {
@@ -69,10 +72,18 @@ public class HomeFuelOrder extends Orders {
 		this.dueTime = dueTime;
 	}
 
+	public double getFinalPrice() {
+		return finalPrice;
+	}
+
+	public void setFinalPrice(double finalPrice) {
+		this.finalPrice = finalPrice;
+	}
+
 	@Override
 	public String toString() {
 		return "HomeFuelOrder [" + super.toString() + ", customerID=" + customerID + ", productName=" + productName
-				+ ", shipmentMethod=" + shipmentMethod + ", dueTime=" + dueTime + "]";
+				+ ", shipmentMethod=" + shipmentMethod + ", dueTime=" + dueTime + ", finalPrice=" + finalPrice + "]";
 	}
 
 	@Override

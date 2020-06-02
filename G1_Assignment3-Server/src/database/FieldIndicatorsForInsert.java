@@ -44,17 +44,22 @@ public class FieldIndicatorsForInsert {
 	}
 
 	public static String[] FuelStationOrder1() {
+		return new String[] { "FK_ordersID", "FK_productInStationID", "assessed", "supplied" };
+	}
+
+	public static String[] FuelStationOrder2() {
 		return new String[] { "FK_ordersID", "FK_productInStationID", "assessed", "approved", "reasonDismissal",
 				"supplied" };
 	}
 
-	public static String[] FuelStationOrder2() {
+	public static String[] FuelStationOrder3() {
 		return new String[] { "FK_ordersID", "FK_productInStationID", "assessed", "approved", "reasonDismissal",
 				"supplied", "timeSupplied" };
 	}
 
 	public static String[] HomeFuelOrder() {
-		return new String[] { "FK_ordersID", "FK_customerID", "FK_product_Name", "FK_shipmentType", "duetime" };
+		return new String[] { "FK_ordersID", "FK_customerID", "FK_product_Name", "FK_shipmentType", "duetime",
+				"finalPrice" };
 	}
 
 	public static String[] IncomeReport() {
@@ -66,11 +71,11 @@ public class FieldIndicatorsForInsert {
 	}
 
 	public static String[] Notification() {
-		return new String[] { "FK_employeeID", "message", "dismissed" };
+		return new String[] { "FK_employeeID", "message", "dismissed", "dateCreated" };
 	}
 
 	public static String[] Orders() {
-		return new String[] { "orderTime", "amountBought", "finalPrice", "address" };
+		return new String[] { "orderTime", "amountBought", "address" };
 	}
 
 	public static String[] OutcomeReport() {

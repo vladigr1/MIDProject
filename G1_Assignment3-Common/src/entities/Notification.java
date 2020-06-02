@@ -1,6 +1,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 @SuppressWarnings("serial")
 public class Notification implements Serializable {
@@ -14,20 +15,23 @@ public class Notification implements Serializable {
 	// fields
 	private String message;
 	private boolean dismissed;
+	private Date dateCreated;
 
-	public Notification(int employeeID, String message, boolean dismissed) {
+	public Notification(int employeeID, String message, boolean dismissed, Date dateCreated) {
 		super();
 		this.employeeID = employeeID;
 		this.message = message;
 		this.dismissed = dismissed;
+		this.dateCreated = dateCreated;
 	}
 
-	public Notification(int notificationID, int employeeID, String message, boolean dismissed) {
+	public Notification(int notificationID, int employeeID, String message, boolean dismissed, Date dateCreated) {
 		super();
 		this.notificationID = notificationID;
 		this.employeeID = employeeID;
 		this.message = message;
 		this.dismissed = dismissed;
+		this.dateCreated = dateCreated;
 	}
 
 	public Integer getNotificationID() {
@@ -58,12 +62,21 @@ public class Notification implements Serializable {
 		this.dismissed = dismissed;
 	}
 
+	public Date getDateCreated() {
+		return dateCreated;
+	}
+
+	public void setDateCreated(Date dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+
 	@Override
 	public String toString() {
 		String str = "Notification [";
 		if (notificationID != null)
 			str += "notificationID=" + notificationID + ", ";
-		str += "employeeID=" + employeeID + ", message=" + message + ", dismissed=" + dismissed + "]";
+		str += "employeeID=" + employeeID + ", message=" + message + ", dismissed=" + dismissed + ", dateCreated="
+				+ dateCreated + "]";
 		return str;
 	}
 

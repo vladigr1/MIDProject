@@ -109,6 +109,10 @@ public class TableInserts {
 	public static int insertFuelStationOrder2(Connection con, Object[] values) throws SQLException {
 		return TableInserts.insertRow(con, "fuel_station_order", FieldIndicatorsForInsert.FuelStationOrder2(), values);
 	}
+	
+	public static int insertFuelStationOrder3(Connection con, Object[] values) throws SQLException {
+		return TableInserts.insertRow(con, "fuel_station_order", FieldIndicatorsForInsert.FuelStationOrder3(), values);
+	}
 
 	public static int insertHomeFuelOrder(Connection con, Object[] values) throws SQLException {
 		return TableInserts.insertRow(con, "home_fuel_order", FieldIndicatorsForInsert.HomeFuelOrder(), values);

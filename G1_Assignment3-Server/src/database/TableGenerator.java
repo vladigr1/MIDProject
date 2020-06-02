@@ -199,8 +199,8 @@ public class TableGenerator { // creating the tables if they are not exists
 	private static void generateFuelStationOrder(Connection con) throws SQLException {
 		String tableName = "fuel_station_order";
 		String values = "( " + "FK_ordersID INT NOT NULL ," + "FK_productInStationID INT NOT NULL ,"
-				+ "assessed varchar(1) NOT NULL ," + "approved varchar(1) NOT NULL ,"
-				+ "reasonDismissal varchar(64) NOT NULL ," + "supplied varchar(1) NOT NULL ,"
+				+ "assessed varchar(1) NOT NULL ," + "approved varchar(1) ,"
+				+ "reasonDismissal varchar(64) ," + "supplied varchar(1) NOT NULL ,"
 				+ "timeSupplied TIMESTAMP ," + " PRIMARY KEY (fk_ordersID) ,"
 				// fk1
 				+ " KEY fuel_station_order_ibfk_1 (FK_productInStationID) ,"
@@ -217,7 +217,8 @@ public class TableGenerator { // creating the tables if they are not exists
 		String tableName = "home_fuel_order";
 		String values = "( " + " FK_ordersID int NOT NULL ," + " FK_customerID varchar(32) NOT NULL ,"
 				+ " FK_product_Name varchar(32) NOT NULL ," + " FK_shipmentType varchar(32) NOT NULL ,"
-				+ " duetime TIMESTAMP NOT NULL ," + " PRIMARY KEY (FK_ordersID) ,"
+				+ " duetime TIMESTAMP NOT NULL ," + " finalPrice DOUBLE(32,2) NOT NULL ,"
+				+ " PRIMARY KEY (FK_ordersID) ,"
 				// fk1
 				+ " KEY home_fuel_order_ibfk_1 (FK_ordersID) ,"
 				+ " CONSTRAINT home_fuel_order_ibfk_1 FOREIGN KEY (FK_ordersID) "
@@ -262,9 +263,10 @@ public class TableGenerator { // creating the tables if they are not exists
 
 	private static void generateNotification(Connection con) throws SQLException {
 		String tableName = "notification";
+		// employeeID = fuel station manager
 		String values = "( " + " notificationID int NOT NULL AUTO_INCREMENT ," + " FK_employeeID int NOT NULL ,"
 				+ " message varchar(32) NOT NULL ," + " dismissed varchar(1) NOT NULL ,"
-				+ " PRIMARY KEY (notificationID) ,"
+				+ " dateCreated TIMESTAMP NOT NULL ," + " PRIMARY KEY (notificationID) ,"
 				// fk1
 				+ " KEY notification_ibfk_1 (FK_employeeID) ,"
 				+ " CONSTRAINT notification_ibfk_1 FOREIGN KEY (FK_employeeID) "
@@ -275,8 +277,8 @@ public class TableGenerator { // creating the tables if they are not exists
 	private static void generateOrders(Connection con) throws SQLException {
 		String tableName = "orders";
 		String values = "( " + " ordersID int NOT NULL AUTO_INCREMENT ," + " orderTime TIMESTAMP NOT NULL ,"
-				+ " amountBought DOUBLE(32,2) NOT NULL ," + " finalPrice DOUBLE(32,2) NOT NULL ,"
-				+ " address varchar(32) NOT NULL ," + " PRIMARY KEY (ordersID) )";
+				+ " amountBought DOUBLE(32,2) NOT NULL ," + " address varchar(32) NOT NULL ,"
+				+ " PRIMARY KEY (ordersID) )";
 		generateTable(con, tableName, values);
 	}
 

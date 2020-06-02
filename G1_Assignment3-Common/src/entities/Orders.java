@@ -12,23 +12,20 @@ public abstract class Orders implements Serializable {
 	// fields
 	private Date orderTime;
 	private double amountBought;
-	private double finalPrice;
 	private String address;
 
-	public Orders(Date orderTime, double amountBought, double finalPrice, String address) {
+	public Orders(Date orderTime, double amountBought, String address) {
 		super();
 		this.orderTime = orderTime;
 		this.amountBought = amountBought;
-		this.finalPrice = finalPrice;
 		this.address = address;
 	}
 
-	public Orders(int ordersID, Date orderTime, double amountBought, double finalPrice, String address) {
+	public Orders(int ordersID, Date orderTime, double amountBought, String address) {
 		super();
 		this.ordersID = ordersID;
 		this.orderTime = orderTime;
 		this.amountBought = amountBought;
-		this.finalPrice = finalPrice;
 		this.address = address;
 	}
 
@@ -52,14 +49,6 @@ public abstract class Orders implements Serializable {
 		this.amountBought = amountBought;
 	}
 
-	public double getFinalPrice() {
-		return finalPrice;
-	}
-
-	public void setFinalPrice(double finalPrice) {
-		this.finalPrice = finalPrice;
-	}
-
 	public String getAddress() {
 		return address;
 	}
@@ -73,8 +62,7 @@ public abstract class Orders implements Serializable {
 		String str = "Orders [";
 		if (ordersID != null)
 			str += "ordersID=" + ordersID + ", ";
-		str += "orderTime=" + orderTime + ", amountBought=" + amountBought + ", finalPrice=" + finalPrice + ", address="
-				+ address + "]";
+		str += "orderTime=" + orderTime + ", amountBought=" + amountBought + ", address=" + address + "]";
 		return str;
 	}
 

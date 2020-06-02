@@ -13,14 +13,30 @@ public class FuelStationOrder extends Orders {
 
 	// fields
 	private boolean assessed;
-	private boolean approved;
-	private String reasonDismissal;
+	private Boolean approved; // can be NULL
+	private String reasonDismissal; // can be NULL, = "NaN" for approved=true
 	private boolean supplied;
 	private Date timeSupplied; // can be NULL
 
-	public FuelStationOrder(Date orderTime, double amountBought, double finalPrice, String address,
-			int productInStaionID, boolean assessed, boolean approved, String reasonDismissal, boolean supplied) {
-		super(orderTime, amountBought, finalPrice, address);
+	public FuelStationOrder(Date orderTime, double amountBought, String address, int productInStaionID,
+			boolean assessed, boolean supplied) {
+		super(orderTime, amountBought, address);
+		this.productInStaionID = productInStaionID;
+		this.assessed = assessed;
+		this.supplied = supplied;
+	}
+
+	public FuelStationOrder(int ordersID, Date orderTime, double amountBought, String address, int productInStaionID,
+			boolean assessed, boolean supplied) {
+		super(ordersID, orderTime, amountBought, address);
+		this.productInStaionID = productInStaionID;
+		this.assessed = assessed;
+		this.supplied = supplied;
+	}
+
+	public FuelStationOrder(Date orderTime, double amountBought, String address, int productInStaionID,
+			boolean assessed, boolean approved, String reasonDismissal, boolean supplied) {
+		super(orderTime, amountBought, address);
 		this.productInStaionID = productInStaionID;
 		this.assessed = assessed;
 		this.approved = approved;
@@ -28,9 +44,9 @@ public class FuelStationOrder extends Orders {
 		this.supplied = supplied;
 	}
 
-	public FuelStationOrder(int ordersID, Date orderTime, double amountBought, double finalPrice, String address,
-			int productInStaionID, boolean assessed, boolean approved, String reasonDismissal, boolean supplied) {
-		super(ordersID, orderTime, amountBought, finalPrice, address);
+	public FuelStationOrder(int ordersID, Date orderTime, double amountBought, String address, int productInStaionID,
+			boolean assessed, boolean approved, String reasonDismissal, boolean supplied) {
+		super(ordersID, orderTime, amountBought, address);
 		this.productInStaionID = productInStaionID;
 		this.assessed = assessed;
 		this.approved = approved;
@@ -38,10 +54,9 @@ public class FuelStationOrder extends Orders {
 		this.supplied = supplied;
 	}
 
-	public FuelStationOrder(Date orderTime, double amountBought, double finalPrice, String address,
-			int productInStaionID, boolean assessed, boolean approved, String reasonDismissal, boolean supplied,
-			Date timeSupplied) {
-		super(orderTime, amountBought, finalPrice, address);
+	public FuelStationOrder(Date orderTime, double amountBought, String address, int productInStaionID,
+			boolean assessed, boolean approved, String reasonDismissal, boolean supplied, Date timeSupplied) {
+		super(orderTime, amountBought, address);
 		this.productInStaionID = productInStaionID;
 		this.assessed = assessed;
 		this.approved = approved;
@@ -50,10 +65,9 @@ public class FuelStationOrder extends Orders {
 		this.timeSupplied = timeSupplied;
 	}
 
-	public FuelStationOrder(int ordersID, Date orderTime, double amountBought, double finalPrice, String address,
-			int productInStaionID, boolean assessed, boolean approved, String reasonDismissal, boolean supplied,
-			Date timeSupplied) {
-		super(ordersID, orderTime, amountBought, finalPrice, address);
+	public FuelStationOrder(int ordersID, Date orderTime, double amountBought, String address, int productInStaionID,
+			boolean assessed, boolean approved, String reasonDismissal, boolean supplied, Date timeSupplied) {
+		super(ordersID, orderTime, amountBought, address);
 		this.productInStaionID = productInStaionID;
 		this.assessed = assessed;
 		this.approved = approved;
@@ -113,12 +127,13 @@ public class FuelStationOrder extends Orders {
 	@Override
 	public String toString() {
 		String str = "FuelStationOrder [" + super.toString() + ", productInStaionID=" + productInStaionID
-				+ ", assessed=" + assessed + ", approved=" + approved + ", reasonDismissal=" + reasonDismissal
-				+ ", supplied=" + supplied;
+				+ ", assessed=" + assessed;
+		if (approved != null)
+			str += ", approved=" + approved + ", reasonDismissal=" + reasonDismissal;
+		str += ", supplied=" + supplied;
 		if (timeSupplied != null)
 			str += ", timeSupplied=" + timeSupplied;
-		str += "]";
-		return str;
+		return str + "]";
 	}
 
 	@Override
