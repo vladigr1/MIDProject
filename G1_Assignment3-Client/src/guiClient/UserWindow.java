@@ -26,7 +26,7 @@ import javafx.stage.WindowEvent;
  * <p>
  * all boundaries except login extend this
  * 
- * @version Almost Final
+ * @version Final
  * @author Elroy, Lior
  */
 public abstract class UserWindow extends AFXML {
