@@ -63,7 +63,7 @@
       </AnchorPane>
       <AnchorPane>
          <children>
-            <AnchorPane fx:id="ServerPane" prefHeight="655.0" prefWidth="460.0">
+            <AnchorPane fx:id="ServerPane" prefHeight="655.0" prefWidth="460.0" visible="false">
                <children>
                   <Pane layoutY="5.0" prefHeight="40.0" prefWidth="452.0">
                      <children>
@@ -151,7 +151,7 @@
                   </Pane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="loginPane" prefHeight="655.0" prefWidth="460.0" visible="false">
+            <AnchorPane fx:id="loginPane" prefHeight="655.0" prefWidth="460.0">
                <children>
                   <Pane layoutY="5.0" prefHeight="40.0" prefWidth="460.0">
                      <children>

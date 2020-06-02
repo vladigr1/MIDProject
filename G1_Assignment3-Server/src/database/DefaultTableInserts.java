@@ -1,6 +1,8 @@
 package database;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 
@@ -60,7 +62,27 @@ public class DefaultTableInserts {
 		return "Filling tables succeeded";
 	}
 
-	public static void insertDefaultUser(Connection con) throws SQLException {
+	private static boolean checkTableEmpty(Connection con, String tableName) throws SQLException {
+		try {
+			PreparedStatement pStmt = con.prepareStatement("SELECT COUNT(*) FROM " + tableName);
+			ResultSet rs1 = pStmt.executeQuery();
+			rs1.next();
+			int count = rs1.getInt(1);
+			rs1.close();
+			if (count == 0)
+				return true;
+		} catch (SQLException e) {
+			System.out.println("SQLException: " + e.getMessage());
+			System.out.println("SQLState: " + e.getSQLState());
+			System.out.println("VendorError: " + e.getErrorCode());
+			throw new SQLException(e.getMessage());
+		}
+		return false;
+	}
+
+	private static void insertDefaultUser(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "user") == false)
+			return;
 		// "username", "password", "connected", "email", "firstName", "surname"
 		Object[] values1 = { "IsraelThePersonCustomer", "1234", false, "IsraelThePersonCustomer@gmail.com", "Israel",
 				"ThePersonCustomer" };
@@ -97,7 +119,9 @@ public class DefaultTableInserts {
 		TableInserts.insertUser(con, values11);
 	}
 
-	public static void insertDefaultEmployee(Connection con) throws SQLException {
+	private static void insertDefaultEmployee(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "employee") == false)
+			return;
 		// "FK_userName", "role", "affiliation"
 		Object[] values1 = { "IsraelTheSonolFuelStationManager", "FuelStationManager",
 				Affiliation.FuelStation.toString() };
@@ -123,7 +147,9 @@ public class DefaultTableInserts {
 		TableInserts.insertEmployee(con, values9);
 	}
 
-	public static void insertDefaultCustomer(Connection con) throws SQLException {
+	private static void insertDefaultCustomer(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "customer") == false)
+			return;
 		// "customerID", "FK_userName", "creditCard", "customerType", "deleted"
 		Object[] values1 = { "111111111", "IsraelThePersonCustomer", "1111-2222-3333-4444",
 				CustomerType.Person.toString(), false };
@@ -133,7 +159,9 @@ public class DefaultTableInserts {
 		TableInserts.insertCustomer(con, values2);
 	}
 
-	public static void insertDefaultSalesPattern(Connection con) throws SQLException {
+	private static void insertDefaultSalesPattern(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "sales_pattern") == false)
+			return;
 		// "durationInMinutes"
 		Object[] values1 = { 30 };
 		TableInserts.insertSalesPattern(con, values1);
@@ -142,7 +170,9 @@ public class DefaultTableInserts {
 		TableInserts.insertSalesPattern(con, values2);
 	}
 
-	public static void insertDefaultFuelStationManager(Connection con) throws SQLException {
+	private static void insertDefaultFuelStationManager(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "fuel_station_manager") == false)
+			return;
 		// "FK_employeeID", "phoneNo"
 		Object[] values1 = { "1", "0501111111" };
 		TableInserts.insertFuelStationManager(con, values1);
@@ -152,7 +182,9 @@ public class DefaultTableInserts {
 		TableInserts.insertFuelStationManager(con, values3);
 	}
 
-	public static void insertDefaultProduct(Connection con) throws SQLException {
+	private static void insertDefaultProduct(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "product") == false)
+			return;
 		// "productName", "maxPrice", "currentPrice"
 		Object[] values1 = { ProductName.Gasoline.toString(), 10, 5 };
 		TableInserts.insertProduct(con, values1);
@@ -164,7 +196,9 @@ public class DefaultTableInserts {
 		TableInserts.insertProduct(con, values4);
 	}
 
-	public static void insertDefaultProductInSalesPattern(Connection con) throws SQLException {
+	private static void insertDefaultProductInSalesPattern(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "product_in_sales_pattern") == false)
+			return;
 		// "FK_salesPatternID", "FK_productName", "salesDiscount"
 		Object[] values1 = { "1", ProductName.Diesel.toString(), 1.5 };
 		TableInserts.insertProductInSalesPattern(con, values1);
@@ -174,7 +208,9 @@ public class DefaultTableInserts {
 		TableInserts.insertProductInSalesPattern(con, values3);
 	}
 
-	public static void insertDefaultSale(Connection con) throws SQLException {
+	private static void insertDefaultSale(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "sale") == false)
+			return;
 		// "FK_salesPatternID", "active", "startTime", "endTime"
 		Object[] values1 = { "1", false, new Date(119, 5, 7, 18, 30), new Date(119, 5, 7, 19, 00) };
 		TableInserts.insertSale(con, values1);
@@ -182,7 +218,9 @@ public class DefaultTableInserts {
 		TableInserts.insertSale(con, values2);
 	}
 
-	public static void insertDefaultProductRatesUpdateRequest(Connection con) throws SQLException {
+	private static void insertDefaultProductRatesUpdateRequest(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "product_rates_update_request") == false)
+			return;
 		// 1 - "requestDate", "assessed"
 		// 2 - "requestDate", "assessed", "approved"
 		Object[] values1 = { new Date(119, 5, 16), false };
@@ -193,7 +231,9 @@ public class DefaultTableInserts {
 		TableInserts.insertProductRatesUpdateRequest2(con, values3);
 	}
 
-	public static void insertDefaultProductInRequest(Connection con) throws SQLException {
+	private static void insertDefaultProductInRequest(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "product_in_request") == false)
+			return;
 		// "FK_updateRateRequestID", "FK_productName", "requestedRate"
 		Object[] values1 = { "1", ProductName.Diesel.toString(), 7 };
 		TableInserts.insertProductInRequest(con, values1);
@@ -211,7 +251,9 @@ public class DefaultTableInserts {
 		TableInserts.insertProductInRequest(con, values7);
 	}
 
-	public static void insertDefaultFuelCompany(Connection con) throws SQLException {
+	private static void insertDefaultFuelCompany(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "fuel_company") == false)
+			return;
 		// "fuelCompanyName", "FK_employeeID" = supplier
 		Object[] values1 = { FuelCompanyName.Sonol.toString(), "6" };
 		TableInserts.insertFuelCompany(con, values1);
@@ -221,7 +263,9 @@ public class DefaultTableInserts {
 		TableInserts.insertFuelCompany(con, values3);
 	}
 
-	public static void insertDefaultFuelStation(Connection con) throws SQLException {
+	private static void insertDefaultFuelStation(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "fuel_station") == false)
+			return;
 		// "FK_fuelCompanyName", "FK_employeeID", "stationName", "address"
 		Object[] values1 = { "Sonol", "1", "Sonol Neighborhood", "Peretz St, Kiryat Ata" };
 		TableInserts.insertFuelStation(con, values1);
@@ -231,7 +275,9 @@ public class DefaultTableInserts {
 		TableInserts.insertFuelStation(con, values3);
 	}
 
-	public static void insertDefaultProductInStation(Connection con) throws SQLException {
+	private static void insertDefaultProductInStation(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "product_in_station") == false)
+			return;
 		// "FK_productName", "FK_fuelStationID", "capacity", "threshold"
 		Object[] values1 = { ProductName.Gasoline.toString(), "1", 1340 * 3, 750 * 3 };
 		TableInserts.insertProductInStation(con, values1);
@@ -253,7 +299,9 @@ public class DefaultTableInserts {
 		TableInserts.insertProductInStation(con, values9);
 	}
 
-	public static void insertDefaultQuarterlyReport(Connection con) throws SQLException {
+	private static void insertDefaultQuarterlyReport(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "quarterly_report") == false)
+			return;
 		// "repQuarter", "repYear", "FK_fuelStationID", "dateCreated"
 		Object[] values1 = { 2, "2019", "1", new Date(119, 7, 1) };
 		TableInserts.insertQuarterlyReport(con, values1);
@@ -263,7 +311,9 @@ public class DefaultTableInserts {
 		TableInserts.insertQuarterlyReport(con, values3);
 	}
 
-	public static void insertDefaultIncomeReport(Connection con) throws SQLException {
+	private static void insertDefaultIncomeReport(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "income_report") == false)
+			return;
 		// "FK_repQuarter", "FK_repYear", "FK_fuelStationID", "totalIncome"
 		Object[] values1 = { 2, "2019", "1", 875 };
 		TableInserts.insertIncomeReport(con, values1);
@@ -273,7 +323,9 @@ public class DefaultTableInserts {
 		TableInserts.insertIncomeReport(con, values3);
 	}
 
-	public static void insertDefaultProductInIncomeReport(Connection con) throws SQLException {
+	private static void insertDefaultProductInIncomeReport(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "product_in_income_report") == false)
+			return;
 		// "FK_productInStationID", "FK_repQuarter_IncomeReport",
 		// "FK_repYear_IncomeReport", "incomePerProduct", "avgPrice"
 		Object[] values1 = { "1", 2, "2019", 455 / 3, 3.5 };
@@ -296,7 +348,9 @@ public class DefaultTableInserts {
 		TableInserts.insertProductInIncomeReport(con, values9);
 	}
 
-	public static void insertDefaultOutcomeReport(Connection con) throws SQLException {
+	private static void insertDefaultOutcomeReport(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "outcome_report") == false)
+			return;
 		// "FK_repQuarter", "FK_repYear", "FK_fuelStationID"
 		Object[] values1 = { 2, "2019", "1" };
 		TableInserts.insertOutcomeReport(con, values1);
@@ -306,7 +360,9 @@ public class DefaultTableInserts {
 		TableInserts.insertOutcomeReport(con, values3);
 	}
 
-	public static void insertDefaultProductInOutcomeReport(Connection con) throws SQLException {
+	private static void insertDefaultProductInOutcomeReport(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "product_in_outcome_report") == false)
+			return;
 		// "FK_productInStationID", "FK_repQuarter_outcomeReport",
 		// "FK_repYear_outcomeReport", "amountBoughtFromSupplier"
 		Object[] values1 = { "1", 2, "2019", 455 / 3 / 3.5 };
@@ -329,7 +385,9 @@ public class DefaultTableInserts {
 		TableInserts.insertProductInOutcomeReport(con, values9);
 	}
 
-	public static void insertDefaultInventoryReport(Connection con) throws SQLException {
+	private static void insertDefaultInventoryReport(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "inventory_report") == false)
+			return;
 		// "FK_repQuarter", "FK_repYear", "FK_fuelStationID"
 		Object[] values1 = { 2, "2019", "1" };
 		TableInserts.insertInventoryReport(con, values1);
@@ -339,7 +397,9 @@ public class DefaultTableInserts {
 		TableInserts.insertInventoryReport(con, values3);
 	}
 
-	public static void insertDefaultProductInInventoryReport(Connection con) throws SQLException {
+	private static void insertDefaultProductInInventoryReport(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "product_in_inventory_report") == false)
+			return;
 		// "FK_productInStationID", "FK_repQuarter_inventoryReport",
 		// "FK_repYear_inventoryReport", "amountSold", "amountBegin", "amountEnd"
 		Object[] values1 = { "1", 2, "2019", 455 / 3 / 3.5, 1340 * 3, 1340 * 3 };
@@ -362,7 +422,9 @@ public class DefaultTableInserts {
 		TableInserts.insertProductInInventoryReport(con, values9);
 	}
 
-	public static void insertDefaultCustomerBoughtInSale(Connection con) throws SQLException {
+	private static void insertDefaultCustomerBoughtInSale(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "customer_bought_in_sale") == false)
+			return;
 		// "FK_saleID", "FK_customerID", "amountPaid"
 		Object[] values1 = { "1", "111111111", 250 };
 		TableInserts.insertCustomerBoughtInSale(con, values1);
@@ -372,7 +434,9 @@ public class DefaultTableInserts {
 		TableInserts.insertCustomerBoughtInSale(con, values3);
 	}
 
-	public static void insertDefaultSaleCommentsReport(Connection con) throws SQLException {
+	private static void insertDefaultSaleCommentsReport(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "sale_comments_report") == false)
+			return;
 		// "FK_saleID", "numberOfCustomersBought", "sumOfPurchases", "dateCreated"
 		Object[] values1 = { "1", 2, 380, new Date(119, 5, 28) };
 		TableInserts.insertSaleCommentsReport(con, values1);
@@ -380,7 +444,9 @@ public class DefaultTableInserts {
 		TableInserts.insertSaleCommentsReport(con, values2);
 	}
 
-	public static void insertDefaultCar(Connection con) throws SQLException {
+	private static void insertDefaultCar(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "car") == false)
+			return;
 		// "registrationPlate", "FK_customerID", "FK_productName", "ownerName",
 		// "deleted"
 		Object[] values1 = { "9959599", "111111111", ProductName.Gasoline.toString(), "Israel A", false };
@@ -401,7 +467,9 @@ public class DefaultTableInserts {
 		TableInserts.insertCar(con, values8);
 	}
 
-	public static void insertDefaultRankingSheet(Connection con) throws SQLException {
+	private static void insertDefaultRankingSheet(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "ranking_sheet") == false)
+			return;
 		// "FK_customerID", "customerTypeRank", "fuelingHoursRank", "fuelTypesRank",
 		// "updatedForDate"
 		Object[] values1 = { "111111111", "8", "6", "5", new Date(119, 12, 28) };
@@ -410,7 +478,9 @@ public class DefaultTableInserts {
 		TableInserts.insertRankingSheet(con, values2);
 	}
 
-	public static void insertDefaultPricingModelType(Connection con) throws SQLException {
+	private static void insertDefaultPricingModelType(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "pricing_model_type") == false)
+			return;
 		// "pricingModelName", "description", "defaultDiscount"
 		String pricingModelType1 = PricingModelName.PayInPlace.toString();
 		String description1 = "Max price (per liter)";
@@ -434,7 +504,9 @@ public class DefaultTableInserts {
 		TableInserts.insertPricingModelType(con, values4);
 	}
 
-	public static void insertDefaultPricingModel(Connection con) throws SQLException {
+	private static void insertDefaultPricingModel(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "pricing_model") == false)
+			return;
 		// 1 - "FK_customerID", "FK_pricingModelName", "currentDiscount"
 		// 2 - "FK_customerID", "FK_pricingModelName", "currentDiscount",
 		// "lastMonthUtillization"
@@ -444,7 +516,9 @@ public class DefaultTableInserts {
 		TableInserts.insertPricingModel2(con, values2);
 	}
 
-	public static void insertDefaultNotification(Connection con) throws SQLException {
+	private static void insertDefaultNotification(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "notification") == false)
+			return;
 		// "FK_employeeID", "message", "dismissed", "dateCreated"
 		Object[] values1 = { "1", "a station order is ready to be assessed", true, new Date(119, 5, 25) };
 		TableInserts.insertNotification(con, values1);
@@ -456,7 +530,9 @@ public class DefaultTableInserts {
 		TableInserts.insertNotification(con, values4);
 	}
 
-	public static void insertDefaultShipmentMethod(Connection con) throws SQLException {
+	private static void insertDefaultShipmentMethod(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "shipment_method") == false)
+			return;
 		// "shipmentType", "shipmentPrice", "shipmentMultiplier", "deliveryTime"
 		Object[] values1 = { ShipmentType.Regular.toString(), 5.5, 1, "5-10 Days" };
 		TableInserts.insertShipmentMethod(con, values1);
@@ -464,7 +540,9 @@ public class DefaultTableInserts {
 		TableInserts.insertShipmentMethod(con, values2);
 	}
 
-	public static void insertDefaultOrders(Connection con) throws SQLException {
+	private static void insertDefaultOrders(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "orders") == false)
+			return;
 		// "orderTime", "amountBought", "address"
 		Object[] values1 = { new Date(119, 5, 4, 12, 30), 600, "4th Hertzel St, Haifa" }; // Regular
 		TableInserts.insertOrders(con, values1);
@@ -494,7 +572,9 @@ public class DefaultTableInserts {
 		TableInserts.insertOrders(con, values13);
 	}
 
-	public static void insertDefaultFuelStationOrder(Connection con) throws SQLException {
+	private static void insertDefaultFuelStationOrder(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "fuel_station_order") == false)
+			return;
 		// 1 - "FK_ordersID", "FK_productInStationID", "assessed", "supplied"
 		// 2 - "FK_ordersID", "FK_productInStationID", "assessed", "approved",
 		// "reasonDismissal", "supplied"
@@ -524,7 +604,9 @@ public class DefaultTableInserts {
 		TableInserts.insertFuelStationOrder1(con, values11);
 	}
 
-	public static void insertDefaultPurchasingProgramType(Connection con) throws SQLException {
+	private static void insertDefaultPurchasingProgramType(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "purchasing_program_type") == false)
+			return;
 		// "purchasingProgramName", "description", "monthlyPrice"
 		Object[] values1 = { PurchasingProgramName.Standard.toString(),
 				"Fast fueling in fuel stations of only 1 fuel company", 10 };
@@ -534,7 +616,9 @@ public class DefaultTableInserts {
 		TableInserts.insertPurchasingProgramType(con, values2);
 	}
 
-	public static void insertDefaultHomeFuelOrder(Connection con) throws SQLException {
+	private static void insertDefaultHomeFuelOrder(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "home_fuel_order") == false)
+			return;
 		// "FK_ordersID", "FK_customerID", "FK_product_Name", "FK_shipmentType",
 		// "duetime", "finalPrice"
 		Object[] values1 = { "1", "111111111", ProductName.HomeFuel.toString(), ShipmentType.Regular.toString(),
@@ -545,7 +629,9 @@ public class DefaultTableInserts {
 		TableInserts.insertHomeFuelOrder(con, values2);
 	}
 
-	public static void insertDefaultPurchasingProgram(Connection con) throws SQLException {
+	private static void insertDefaultPurchasingProgram(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "purchasing_program") == false)
+			return;
 		// 1 - "FK_customerID", "FK_purchasingProgramName", "FK_fuelCompanyName1"
 		// 3 - "FK_customerID", "FK_purchasingProgramName", "FK_fuelCompanyName1",
 		// "FK_fuelCompanyName2", "FK_fuelCompanyName3"
@@ -556,7 +642,9 @@ public class DefaultTableInserts {
 		TableInserts.insertPurchasingProgram3(con, values2);
 	}
 
-	public static void insertCustomerBoughtFromCompany(Connection con) throws SQLException {
+	private static void insertCustomerBoughtFromCompany(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "customer_bought_from_company") == false)
+			return;
 		// "FK_customerID", "FK_fuelCompanyName", "dateOfPurchase",
 		// "amountBoughtFromCompany", "amountPaidCompany"
 		Object[] values1 = { "111111111", FuelCompanyName.Paz.toString(), new Date(119, 5, 7), 3791.67, 875 };
@@ -567,13 +655,17 @@ public class DefaultTableInserts {
 		TableInserts.insertCustomerBoughtFromCompany(con, values3);
 	}
 
-	public static void insertDefaultPeriodicCustomersReport(Connection con) throws SQLException {
+	private static void insertDefaultPeriodicCustomersReport(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "periodic_customers_report") == false)
+			return;
 		// "dateFrom", "dateTo", "dateCreated"
 		Object[] values1 = { new Date(119, 5, 1), new Date(119, 5, 28), new Date(119, 5, 28) };
 		TableInserts.insertPeriodicCustomersReport(con, values1);
 	}
 
-	public static void insertDefaultActivity(Connection con) throws SQLException {
+	private static void insertDefaultActivity(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "activity") == false)
+			return;
 		// "FK_employeeID", "time", "action"
 		Object[] values1 = { "4", new Date(119, 4, 28), "added person customer with ID = 111111111" };
 		TableInserts.insertActivity(con, values1);
@@ -597,7 +689,9 @@ public class DefaultTableInserts {
 		TableInserts.insertActivity(con, values10);
 	}
 
-	public static void insertDefaultFastFuel(Connection con) throws SQLException {
+	private static void insertDefaultFastFuel(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "fast_fuel") == false)
+			return;
 		// "FK_registrationPlate", "FK_customerID", "FK_productInStationID",
 		// "fastFuelTime", "amountBought", "finalPrice"
 		Object[] values1 = { "9959599", "111111111", "4", new Date(119, 5, 7, 12, 30), 455 / 3 / 3.5, 455 / 3 }; // Paz

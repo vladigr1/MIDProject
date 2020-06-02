@@ -24,7 +24,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane minHeight="700.0" prefHeight="650.0" styleClass="main-pane" stylesheets="@../pics/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guiClient.FuelStationManagerWindow">
+<BorderPane minHeight="700.0" prefHeight="650.0" styleClass="main-pane" stylesheets="@../pics/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guiClient.FuelStationManagerWindow">
    <left>
       <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="602.0" minWidth="260.0" prefHeight="602.0" prefWidth="260.0" spacing="5.0" style="-fx-background-color: #1e262c;" BorderPane.alignment="CENTER">
          <children>
@@ -257,7 +257,7 @@
                               <TableColumn prefWidth="348.0" text="Action" />
                            </columns>
                         </TableView>
-                        <ComboBox fx:id="cbHomeWeek" layoutX="161.0" layoutY="274.0" prefHeight="30.0" prefWidth="150.0" promptText="[This Week]" visibleRowCount="12" />
+                        <ComboBox fx:id="cobHomeWeek" layoutX="161.0" layoutY="274.0" prefHeight="30.0" prefWidth="150.0" promptText="[This Week]" visibleRowCount="12" />
                         <Label layoutX="107.0" layoutY="279.0" text="Week:">
                            <font>
                               <Font name="Arial" size="16.0" />
@@ -277,7 +277,7 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="ThresholdPane" layoutX="13.0" layoutY="14.0" prefHeight="549.0" prefWidth="755.0" visible="false">
+            <AnchorPane fx:id="thresholdPane" layoutX="13.0" layoutY="14.0" prefHeight="549.0" prefWidth="755.0" visible="false">
                <children>
                   <Label layoutX="2.0" layoutY="-1.0" text="Threshold Information:">
                      <font>
@@ -394,7 +394,7 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="AssessPane" layoutX="13.0" layoutY="13.0" prefHeight="543.0" prefWidth="639.0" visible="false">
+            <AnchorPane fx:id="assessPane" layoutX="13.0" layoutY="13.0" prefHeight="543.0" prefWidth="639.0" visible="false">
                <children>
                   <AnchorPane layoutX="1.0" layoutY="17.0" prefHeight="529.0" prefWidth="638.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css">
                      <children>
@@ -436,7 +436,7 @@
                                     <Insets bottom="5.0" />
                                  </padding>
                               </Label>
-                              <ComboBox fx:id="cbASOOrderId" prefHeight="30.0" prefWidth="150.0" promptText="Select ID" />
+                              <ComboBox fx:id="cobASOOrderId" prefHeight="30.0" prefWidth="150.0" promptText="Select ID" />
                            </children>
                         </VBox>
                         <VBox layoutX="13.0" layoutY="122.0" prefHeight="308.0" prefWidth="158.0">
@@ -445,7 +445,7 @@
                                  <font>
                                     <Font name="Arial" size="16.0" />
                                  </font></Label>
-                              <TextField prefHeight="30.0" prefWidth="103.0">
+                              <TextField fx:id="tfASOName" prefHeight="30.0" prefWidth="103.0">
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
@@ -454,7 +454,7 @@
                                  <font>
                                     <Font name="Arial" size="16.0" />
                                  </font></Label>
-                              <TextField prefHeight="30.0" prefWidth="103.0">
+                              <TextField fx:id="tfASOAmount" prefHeight="30.0" prefWidth="103.0">
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
@@ -463,7 +463,7 @@
                                  <font>
                                     <Font name="Arial" size="16.0" />
                                  </font></Label>
-                              <TextField prefHeight="30.0" prefWidth="103.0">
+                              <TextField fx:id="tfASOFinalPrice" prefHeight="30.0" prefWidth="103.0">
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
@@ -472,7 +472,7 @@
                                  <font>
                                     <Font name="Arial" size="16.0" />
                                  </font></Label>
-                              <TextField prefHeight="30.0" prefWidth="103.0">
+                              <TextField fx:id="tfASOTime" prefHeight="30.0" prefWidth="103.0">
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
@@ -481,7 +481,7 @@
                                  <font>
                                     <Font name="Arial" size="16.0" />
                                  </font></Label>
-                              <TextField prefHeight="30.0" prefWidth="103.0">
+                              <TextField fx:id="tfASOAddress" prefHeight="30.0" prefWidth="103.0">
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
@@ -507,7 +507,7 @@
                                     <Font name="Arial" size="16.0" />
                                  </font>
                               </Label>
-                              <TextField prefHeight="30.0" prefWidth="103.0">
+                              <TextField fx:id="tfASOThreshold" prefHeight="30.0" prefWidth="103.0">
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
@@ -517,7 +517,7 @@
                                     <Font name="Arial" size="16.0" />
                                  </font>
                               </Label>
-                              <TextField prefHeight="30.0" prefWidth="103.0" />
+                              <TextField fx:id="tfASOInStock" prefHeight="30.0" prefWidth="103.0" />
                            </children>
                            <padding>
                               <Insets left="5.0" right="5.0" top="5.0" />
@@ -537,25 +537,25 @@
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="187.0" layoutY="170.0" prefHeight="232.0" prefWidth="385.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css" visible="false">
+            <AnchorPane fx:id="declineOrderPane" layoutX="187.0" layoutY="170.0" prefHeight="232.0" prefWidth="385.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css" visible="false">
                <children>
                   <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="211.0" text="Decline Order" textFill="RED" underline="true">
                      <font>
                         <Font name="Calibri" size="20.0" />
                      </font>
                   </Label>
-                  <TextArea layoutX="14.0" layoutY="67.0" prefHeight="96.0" prefWidth="358.0" promptText="Write here" />
+                  <TextArea fx:id="taDOResons" layoutX="14.0" layoutY="67.0" prefHeight="96.0" prefWidth="358.0" promptText="Write here" />
                   <Label layoutX="20.0" layoutY="48.0" text="Reason for dismissal:">
                      <font>
                         <Font name="Calibri Light" size="16.0" />
                      </font>
                   </Label>
                   <Label layoutX="13.0" layoutY="48.0" text="*" />
-                  <Button layoutX="321.0" layoutY="182.0" mnemonicParsing="false" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Ok" />
-                  <Button layoutX="227.0" layoutY="182.0" mnemonicParsing="false" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Cancel" />
+                  <Button fx:id="btnDOOk" layoutX="321.0" layoutY="182.0" mnemonicParsing="false" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Ok" />
+                  <Button fx:id="btnDOCancel" layoutX="227.0" layoutY="182.0" mnemonicParsing="false" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Cancel" />
                </children>
             </AnchorPane>
-            <AnchorPane layoutY="13.0" prefHeight="315.0" prefWidth="358.0" visible="false">
+            <AnchorPane fx:id="quarterlyReportPane" layoutY="13.0" prefHeight="315.0" prefWidth="358.0" visible="false">
                <children>
                   <Label layoutX="8.0" layoutY="-3.0" text=" Quarter Reports:">
                      <font>
@@ -569,8 +569,8 @@
                               <Font name="Arial" size="16.0" />
                            </font>
                         </Label>
-                        <ComboBox layoutX="92.0" layoutY="67.0" prefHeight="30.0" prefWidth="150.0" />
-                        <ComboBox layoutX="92.0" layoutY="119.0" prefHeight="30.0" prefWidth="150.0" />
+                        <ComboBox fx:id="cobGQRYear" layoutX="92.0" layoutY="67.0" prefHeight="30.0" prefWidth="150.0" />
+                        <ComboBox fx:id="cobGQRQuarter" layoutX="92.0" layoutY="119.0" prefHeight="30.0" prefWidth="150.0" />
                         <Label layoutX="14.0" layoutY="72.0" text="Year:">
                            <font>
                               <Font name="Arial" size="16.0" />
@@ -581,7 +581,7 @@
                               <Font name="Arial" size="16.0" />
                            </font>
                         </Label>
-                        <Button layoutX="88.0" layoutY="192.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="140.0" styleClass="task-button" stylesheets="@../pics/style.css" text="View Report">
+                        <Button fx:id="btnGQRView" layoutX="88.0" layoutY="192.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="140.0" styleClass="task-button" stylesheets="@../pics/style.css" text="View Report">
                            <font>
                               <Font size="36.0" />
                            </font>
@@ -597,9 +597,9 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="57.0" layoutY="32.0" prefHeight="541.0" prefWidth="725.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css" visible="false">
+            <AnchorPane fx:id="quarterReportPane" layoutX="57.0" layoutY="32.0" prefHeight="541.0" prefWidth="725.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css" visible="false">
                <children>
-                  <Label layoutX="14.0" layoutY="13.0" text="Quarter reports" underline="true">
+                  <Label layoutX="14.0" layoutY="13.0" text="Quarter report" underline="true">
                      <font>
                         <Font name="Arial Bold Italic" size="20.0" />
                      </font>
@@ -619,27 +619,27 @@
                         <Font name="Arial" size="16.0" />
                      </font>
                   </Label>
-                  <Label layoutX="240.0" layoutY="18.0" text="00/00/0000">
+                  <Label fx:id="lblQRDateCreated" layoutX="240.0" layoutY="18.0" text="00/00/0000">
                      <font>
                         <Font name="Arial" size="16.0" />
                      </font>
                   </Label>
-                  <Label layoutX="61.0" layoutY="48.0" text="0000">
+                  <Label fx:id="lblQRYear" layoutX="61.0" layoutY="48.0" text="0000">
                      <font>
                         <Font name="Arial" size="16.0" />
                      </font>
                   </Label>
-                  <Label layoutX="267.0" layoutY="48.0" text="00">
+                  <Label fx:id="lblQRQuarter" layoutX="267.0" layoutY="48.0" text="00">
                      <font>
                         <Font name="Arial" size="16.0" />
                      </font>
                   </Label>
-                  <Button layoutX="668.0" layoutY="502.0" mnemonicParsing="false" text="Next" />
-                  <Button layoutX="14.0" layoutY="502.0" mnemonicParsing="false" text="Previous" />
-                  <AnchorPane layoutX="13.0" layoutY="84.0" prefHeight="407.0" prefWidth="701.0" style="-fx-border-color: black;">
+                  <Button fx:id="btnQRNext" layoutX="668.0" layoutY="502.0" mnemonicParsing="false" text="Next" />
+                  <Button fx:id="btnQRPrevious" disable="true" layoutX="14.0" layoutY="502.0" mnemonicParsing="false" text="Previous" />
+                  <AnchorPane fx:id="paneQRPart1" layoutX="13.0" layoutY="84.0" prefHeight="407.0" prefWidth="701.0" style="-fx-border-color: black;">
                      <children>
-                        <Label layoutX="14.0" layoutY="6.0" text="Label" />
-                        <TableView layoutX="25.0" layoutY="47.0" prefHeight="251.0" prefWidth="651.0">
+                        <Label fx:id="lblQRTitle1" layoutX="14.0" layoutY="6.0" text="Label" />
+                        <TableView fx:id="tvQRDetails1" layoutX="25.0" layoutY="47.0" prefHeight="251.0" prefWidth="651.0">
                           <columns>
                             <TableColumn prefWidth="75.0" text="C1" />
                             <TableColumn prefWidth="75.0" text="C2" />
@@ -649,10 +649,10 @@
                         </TableView>
                      </children>
                   </AnchorPane>
-                  <AnchorPane layoutX="13.0" layoutY="88.0" prefHeight="407.0" prefWidth="701.0" style="-fx-border-color: black;" visible="false">
+                  <AnchorPane fx:id="paneQRPart2" layoutX="13.0" layoutY="88.0" prefHeight="407.0" prefWidth="701.0" style="-fx-border-color: black;" visible="false">
                      <children>
-                        <Label layoutX="14.0" layoutY="6.0" text="Label" />
-                        <TableView layoutX="26.0" layoutY="38.0" prefHeight="251.0" prefWidth="651.0">
+                        <Label fx:id="lblQRTitle2" layoutX="14.0" layoutY="6.0" text="Label" />
+                        <TableView fx:id="tvQRDetails2" layoutX="26.0" layoutY="38.0" prefHeight="251.0" prefWidth="651.0">
                            <columns>
                               <TableColumn prefWidth="75.0" text="C1" />
                               <TableColumn prefWidth="75.0" text="C2" />
@@ -662,10 +662,10 @@
                         </TableView>
                      </children>
                   </AnchorPane>
-                  <AnchorPane layoutX="13.0" layoutY="84.0" prefHeight="407.0" prefWidth="701.0" style="-fx-border-color: black;" visible="false">
+                  <AnchorPane fx:id="paneQRPart3" layoutX="13.0" layoutY="84.0" prefHeight="407.0" prefWidth="701.0" style="-fx-border-color: black;" visible="false">
                      <children>
-                        <Label layoutX="14.0" layoutY="6.0" text="Label" />
-                        <TableView layoutX="25.0" layoutY="43.0" prefHeight="251.0" prefWidth="651.0">
+                        <Label fx:id="lblQRTitle3" layoutX="14.0" layoutY="6.0" text="Label" />
+                        <TableView fx:id="tvQRDetails3" layoutX="25.0" layoutY="43.0" prefHeight="251.0" prefWidth="651.0">
                            <columns>
                               <TableColumn prefWidth="75.0" text="C1" />
                               <TableColumn prefWidth="75.0" text="C2" />
@@ -675,7 +675,7 @@
                         </TableView>
                      </children>
                   </AnchorPane>
-                  <Button fx:id="btnExit1" layoutX="691.0" layoutY="7.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#closeTopBar" prefHeight="13.0" prefWidth="25.0" style="-fx-background-radius: 50; -fx-background-color: #cc0000;">
+                  <Button fx:id="btnQRClose" layoutX="691.0" layoutY="7.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#closeTopBar" prefHeight="13.0" prefWidth="25.0" style="-fx-background-radius: 50; -fx-background-color: #cc0000;">
                      <graphic>
                         <ImageView fitHeight="15.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -684,6 +684,11 @@
                         </ImageView>
                      </graphic>
                   </Button>
+                  <Label fx:id="lblQRPageNum" layoutX="351.0" layoutY="505.0" text="1/3">
+                     <font>
+                        <Font name="Arial" size="16.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
          </children>
