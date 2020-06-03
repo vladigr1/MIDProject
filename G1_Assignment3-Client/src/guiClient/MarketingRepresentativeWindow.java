@@ -144,6 +144,7 @@ public class MarketingRepresentativeWindow extends UserWindow {
 	void initialize() {
 		this.visableNow = homePane;
 		this.controller = MarketingRepresentativeController.getInstance();
+		this.controller.setCurrentWindow(this);
 	}
 
 	@Override
@@ -153,12 +154,7 @@ public class MarketingRepresentativeWindow extends UserWindow {
 
 	@Override
 	public void callAfterMessage(Object lastMsgFromServer) {
-		if (lastMsgFromServer instanceof String) {
-			String message = lastMsgFromServer.toString();
-			if (message.startsWith("sign out"))
-				this.handleSignOutFromServer(message, this.getWindow());
-		}
-
+		super.callAfterMessage(lastMsgFromServer);
 		/**
 		 * 
 		 */

@@ -65,7 +65,8 @@ public class LoginWindow extends AFXML {
 	private void myContinue() {
 		this.controller = LoginController.getInstance(tfLoginServerHost.getText(),
 				Integer.parseInt(tfLoginServerPort.getText()), this);
-
+		this.controller.setCurrentWindow(this);
+		
 		visableNow.setVisible(false);
 		loginPane.setVisible(true);
 		visableNow = loginPane;
@@ -98,7 +99,6 @@ public class LoginWindow extends AFXML {
 		else
 			userType = this.rbCustomer.getText();
 
-		this.controller.setCurrentWindow(this);
 		this.controller.handleMessageFromClientUI(("login" + " " + username + " " + password + " " + userType));
 	}
 
@@ -155,7 +155,7 @@ public class LoginWindow extends AFXML {
 			Stage newStage = new Stage();
 
 			UserWindow newWindow = loader.getController();
-			newWindow.setUsername(this.tfLoginUserName.getText());
+			newWindow.setUserComponents(this.tfLoginUserName.getText());
 
 			newStage.setResizable(false);
 			newStage.setScene(newScene);

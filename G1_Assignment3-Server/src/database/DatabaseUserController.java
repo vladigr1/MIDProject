@@ -1,9 +1,13 @@
 package database;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import entities.Activity;
+import entities.ActivityList;
 
 /**
  * controller for client login and signout on database
@@ -107,6 +111,56 @@ public class DatabaseUserController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return "login failed - please contact the developers";
+		}
+	}
+
+	/**
+	 * returns a list of all the activities of the employee in a predetermined year and month
+	 * 
+	 * @param username
+	 * @return activity list of username
+	 */
+	public ActivityList getActivitiesSequence(String username, String year, String month) {
+		try {
+			ActivityList activityList = new ActivityList();
+			Activity activity;
+			PreparedStatement pStmt = this.connection
+					.prepareStatement("SELECT employeeID FROM employee WHERE FK_userName = ?");
+			pStmt.setString(1, username);
+			ResultSet rs1 = pStmt.executeQuery();
+
+			// check if exists in database
+			if (!rs1.next())
+				throw new SQLException("no employeeID with that username: " + username);
+
+			String employeeID = rs1.getString(1);
+			rs1.close();
+
+			pStmt = this.connection.prepareStatement(
+					"SELECT time, action FROM activity WHERE FK_employeeID = ? AND year(time) = ? AND month(time) = ?");
+			pStmt.setString(1, employeeID);
+			pStmt.setString(2, year);
+			pStmt.setString(3, month);
+			ResultSet rs2 = pStmt.executeQuery();
+
+			// if there are no rows and table is empty
+			if (!rs2.next());
+
+			while (rs2.next()) {
+				Date time = rs2.getDate(1);
+				String action = rs2.getString(2);
+				activity = new Activity(time, action);
+				activityList.add(activity);
+			}
+			rs2.close();
+			return activityList;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return new ActivityList();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return new ActivityList();
 		}
 	}
 

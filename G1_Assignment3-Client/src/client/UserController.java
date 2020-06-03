@@ -24,19 +24,28 @@ public abstract class UserController extends ClientController {
 			this.openConnection();
 			awaitResponse = true;
 
-			if (!message.startsWith("signout"))
-				return;
-
 			String[] splitMsg = message.split(" ");
 
-			/* construct a new user */
-			/* determine what the server will do with it */
-			User user = new User(splitMsg[1]);
-			user.setFunction("sign out");
+			if (!splitMsg[0].equals("signout") && !splitMsg[0].equals("activity")) {
+				System.out.println("expected signout or activity but got: " + message);
+				return;
+			}
+			
+			if (splitMsg[0].equals("signout")) {
+				/* construct a new user */
+				/* determine what the server will do with it */
+				User user = new User(splitMsg[1]);
+				user.setFunction("sign out");
 
-			/* announce and send the user to the server */
-			System.out.println("sending to server : " + user);
-			this.sendToServer(user);
+				/* announce and send the user to the server */
+				System.out.println("sending to server : " + user);
+				this.sendToServer(user);
+			}
+
+			if (splitMsg[0].equals("activity")) {
+				System.out.println("sending to server : " + message);
+				this.sendToServer(message);
+			}
 
 			/* wait for ack or data from the server */
 			while (awaitResponse) {

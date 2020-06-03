@@ -247,7 +247,7 @@
                         </TableView>
                         <ImageView fitHeight="127.0" fitWidth="150.0" layoutX="133.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../pics/iconfinder_avatar_1814089.png" />
+                              <Image url="@../pics/avatar.png" />
                            </image>
                         </ImageView>
                         <Label layoutX="33.0" layoutY="236.0" text="Your Monthly Activity:" textFill="#144465" underline="true">
