@@ -24,9 +24,10 @@ import javafx.stage.StageStyle;
  * @author Elroy, Lior
  */
 public class LoginWindow extends AFXML {
-	
+
 	@FXML	private AnchorPane ServerPane;
-	@FXML	private TextField tfLoginServerIP;
+	@FXML	private TextField tfLoginServerHost;
+	@FXML	private TextField tfLoginServerPort;
 	@FXML	private Label lblError1;
 	@FXML	private Button btnContinue;
 
@@ -39,14 +40,25 @@ public class LoginWindow extends AFXML {
 	@FXML	private Label lblError;
 	@FXML	private Button btnSignIn;
 
-	private LoginController loginController;
-
 	@FXML
 	void initialize() {
-		this.loginController = LoginController.getInstance();
-		this.loginController.setCurrentWindow(this);
+		this.visableNow = ServerPane;
 	}
-
+	
+	private void myContinue() {
+		this.controller = LoginController.getInstance(tfLoginServerHost.getText(),
+				Integer.parseInt(tfLoginServerPort.getText()), this);
+		
+		visableNow.setVisible(false);
+		loginPane.setVisible(true);
+		visableNow = loginPane;
+	}
+	
+	@FXML
+	void btnContinuePressed(ActionEvent event) {
+		myContinue();
+	}
+	
 	/**
 	 * if login details valid, send <code>Role</Code> to <Code>successLogin()</Code>
 	 * so another window will open accordingly
@@ -59,14 +71,14 @@ public class LoginWindow extends AFXML {
 			String message = lastMsgFromServer.toString();
 			if (message.startsWith("login succeeded")) {
 				String[] splitMsg = message.split(" ");
-				this.successLogin(splitMsg[2]);
+				successLogin(splitMsg[2]);
 			}
 
 			if (message.startsWith("login failed"))
-				this.failedLogin();
+				failedLogin();
 
 			if (message.startsWith("login already connected"))
-				this.alreadyConnectedLogin();
+				alreadyConnectedLogin();
 		}
 	}
 
@@ -99,8 +111,8 @@ public class LoginWindow extends AFXML {
 		else
 			userType = this.rbCustomer.getText();
 
-		this.loginController.setCurrentWindow(this);
-		this.loginController.handleMessageFromClientUI(("login" + " " + username + " " + password + " " + userType));
+		this.controller.setCurrentWindow(this);
+		this.controller.handleMessageFromClientUI(("login" + " " + username + " " + password + " " + userType));
 	}
 
 	/**
@@ -165,8 +177,8 @@ public class LoginWindow extends AFXML {
 	}
 
 	@FXML
-	void signIn(ActionEvent event) {
-		this.mySignIn();
+	void btnSignInPressed(ActionEvent event) {
+		mySignIn();
 	}
 
 	@FXML
@@ -181,10 +193,24 @@ public class LoginWindow extends AFXML {
 	}
 
 	@FXML
+	void enterKeyContinue(KeyEvent event) {
+		switch (event.getCode()) {
+		case ENTER:
+			this.myContinue();
+			break;
+		default:
+			break;
+		}
+	}
+	
+	@FXML
 	void tabEmployeePressed(KeyEvent event) {
 		switch (event.getCode()) {
 		case TAB:
 			this.rbCustomer.setSelected(true);
+			break;
+		case ENTER:
+			this.mySignIn();
 			break;
 		default:
 			break;
@@ -196,6 +222,9 @@ public class LoginWindow extends AFXML {
 		switch (event.getCode()) {
 		case TAB:
 			this.rbEmployee.setSelected(true);
+			break;
+		case ENTER:
+			this.mySignIn();
 			break;
 		default:
 			break;

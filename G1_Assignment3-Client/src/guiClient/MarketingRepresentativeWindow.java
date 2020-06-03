@@ -36,7 +36,6 @@ public class MarketingRepresentativeWindow extends UserWindow {
 	@FXML	private ToggleButton sidebar_btn4;
 	@FXML	private ToggleButton sidebar_btn5;
 
-	@FXML	private ComboBox<?> cobHomeWeek;
 	@FXML	private Button btnHomeGenerateAnalysis;
 
 	@FXML	private AnchorPane addEditCustomerPane;
@@ -144,7 +143,6 @@ public class MarketingRepresentativeWindow extends UserWindow {
 	@FXML
 	void initialize() {
 		this.visableNow = homePane;
-//		sidebar_btn0.requestFocus();
 		this.controller = MarketingRepresentativeController.getInstance();
 	}
 

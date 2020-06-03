@@ -1,5 +1,7 @@
 package server;
 
+import java.io.IOException;
+
 import database.DatabaseController;
 import entities.User;
 import guiServer.ServerWindow;
@@ -54,6 +56,20 @@ public class ServerController extends AbstractServer {
 	 */
 	public void handleMessageFromClient(Object object, ConnectionToClient client) {
 		System.out.println(client + ": sent request to server");
+
+		try {
+			if (object instanceof String) {
+				String str = (String) object;
+				if (str.equals("ack request"))
+
+					client.sendToClient("ack");
+
+				return;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		if (object instanceof User) {
 			User user = (User) object;
 			System.out.println(client + ": login with user : " + user);

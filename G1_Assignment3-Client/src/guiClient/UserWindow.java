@@ -2,7 +2,6 @@ package guiClient;
 
 import java.util.Optional;
 
-import client.UserController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -10,12 +9,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
@@ -37,12 +37,12 @@ public abstract class UserWindow extends AFXML {
 	@FXML	protected Label topbar_window_label;
 	@FXML	protected AnchorPane homePane;
 	@FXML	protected Label lblHomeUserName;
+	@FXML	protected ComboBox<?> cobHomeYear;
+	@FXML	protected ComboBox<?> cobHomeMonth;
 	@FXML	protected TableView<?> tvHomeActivity;
 	@FXML	protected Button btnSignOut;
 
-	protected AnchorPane visableNow;
 	protected String username;
-	protected UserController controller;
 
 	public abstract Window getWindow();
 
@@ -54,6 +54,7 @@ public abstract class UserWindow extends AFXML {
 	public void setUsername(String username) {
 		this.username = username;
 		this.lblHelloUser.setText("Hello, " + username);
+		this.lblHomeUserName.setText(username + "!");
 	}
 
 	/**

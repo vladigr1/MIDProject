@@ -13,13 +13,13 @@ import entities.User;
  */
 public abstract class UserController extends ClientController {
 
-	/**
-	 * class constructor
-	 */
 	public UserController() {
 		super();
 	}
 
+	/**
+	 * handle signout process requested by client and route to server
+	 */
 	@Override
 	public void handleMessageFromClientUI(String message) {
 		try {
