@@ -41,9 +41,13 @@ public abstract class UserWindow extends AFXML {
 	@FXML	protected ComboBox<?> cobHomeMonth;
 	@FXML	protected TableView<?> tvHomeActivity;
 	@FXML	protected Button btnSignOut;
+	
+	protected String username; // the username of the current user of the window
 
-	protected String username;
-
+	/**
+	 * @param username
+	 * @return the window of the boundary
+	 */
 	public abstract Window getWindow();
 
 	/**
@@ -57,11 +61,29 @@ public abstract class UserWindow extends AFXML {
 		this.lblHomeUserName.setText(username + "!");
 	}
 
-	/**
-	 * @param username
-	 * @return the window of the boundary
-	 */
+	/*********************** button listeners ***********************/
 
+	@FXML
+	void btnSignOutClicked(ActionEvent event) {
+		this.signOutClicked(this.getWindow());
+	}
+
+	@FXML
+	public void closeTopBar(ActionEvent event) {
+		if (!this.signOutClicked(this.getWindow()))
+			event.consume();
+	}
+
+	@FXML
+	void Home(ActionEvent event) {
+		visableNow.setVisible(false);
+		homePane.setVisible(true);
+		visableNow = homePane;
+		topbar_window_label.setText("Home");
+	}
+
+	/*********************** button functions ***********************/
+	
 	/**
 	 * if signout request confirmed, send username to the appropriate controller
 	 * 
@@ -86,6 +108,8 @@ public abstract class UserWindow extends AFXML {
 		return false;
 	}
 
+	/*************** boundary "logic" - window changes ***************/
+	
 	/**
 	 * @param lastMsgFromServer
 	 * @param window
@@ -128,25 +152,6 @@ public abstract class UserWindow extends AFXML {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	@FXML
-	void btnSignOutClicked(ActionEvent event) {
-		this.signOutClicked(this.getWindow());
-	}
-
-	@FXML
-	public void closeTopBar(ActionEvent event) {
-		if (!this.signOutClicked(this.getWindow()))
-			event.consume();
-	}
-	
-	@FXML
-	void Home(ActionEvent event) {
-		visableNow.setVisible(false);
-		homePane.setVisible(true);
-		visableNow = homePane;
-		topbar_window_label.setText("Home");
 	}
 
 }

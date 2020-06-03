@@ -28,7 +28,6 @@ public class LoginWindow extends AFXML {
 	@FXML	private AnchorPane ServerPane;
 	@FXML	private TextField tfLoginServerHost;
 	@FXML	private TextField tfLoginServerPort;
-	@FXML	private Label lblError1;
 	@FXML	private Button btnContinue;
 
 	@FXML	private AnchorPane loginPane;
@@ -44,50 +43,38 @@ public class LoginWindow extends AFXML {
 	void initialize() {
 		this.visableNow = ServerPane;
 	}
-	
-	private void myContinue() {
-		this.controller = LoginController.getInstance(tfLoginServerHost.getText(),
-				Integer.parseInt(tfLoginServerPort.getText()), this);
-		
-		visableNow.setVisible(false);
-		loginPane.setVisible(true);
-		visableNow = loginPane;
-	}
-	
+
+	/*********************** button listeners ***********************/
+
 	@FXML
 	void btnContinuePressed(ActionEvent event) {
 		myContinue();
 	}
-	
+
+	@FXML
+	void btnSignInPressed(ActionEvent event) {
+		mySignIn();
+	}
+
+	/*********************** button functions ***********************/
+
 	/**
-	 * if login details valid, send <code>Role</Code> to <Code>successLogin()</Code>
-	 * so another window will open accordingly
-	 * 
-	 * @param lastMsgFromServer
+	 * executes when continue button is pressed, requests server connection from
+	 * controller
 	 */
-	@Override
-	public void callAfterMessage(Object lastMsgFromServer) {
-		if (lastMsgFromServer instanceof String) {
-			String message = lastMsgFromServer.toString();
-			if (message.startsWith("login succeeded")) {
-				String[] splitMsg = message.split(" ");
-				successLogin(splitMsg[2]);
-			}
+	private void myContinue() {
+		this.controller = LoginController.getInstance(tfLoginServerHost.getText(),
+				Integer.parseInt(tfLoginServerPort.getText()), this);
 
-			if (message.startsWith("login failed"))
-				failedLogin();
-
-			if (message.startsWith("login already connected"))
-				alreadyConnectedLogin();
-		}
+		visableNow.setVisible(false);
+		loginPane.setVisible(true);
+		visableNow = loginPane;
 	}
 
 	/**
-	 * handles sign in request by:
-	 * <p>
-	 * checking no information is missing and prompting for errors
-	 * <p>
-	 * sending all information to <Code>handleMessageFromClientUI</Code> as a string
+	 * handles sign in request by: checking no information is missing and prompting
+	 * for errors, sending all information to <Code>handleMessageFromClientUI</Code>
+	 * as a string
 	 */
 	private void mySignIn() {
 		String username = tfLoginUserName.getText();
@@ -115,12 +102,35 @@ public class LoginWindow extends AFXML {
 		this.controller.handleMessageFromClientUI(("login" + " " + username + " " + password + " " + userType));
 	}
 
+	/*************** boundary "logic" - window changes ***************/
+
 	/**
-	 * called when sign in is valid
-	 * <p>
-	 * determines path of fxml file and window title according to <Code>Role</Code>
-	 * <p>
-	 * loads new window accordingly and sends username to its boundary
+	 * if login details valid, send <code>Role</Code> to <Code>successLogin()</Code>
+	 * so another window will open accordingly
+	 * 
+	 * @param lastMsgFromServer
+	 */
+	@Override
+	public void callAfterMessage(Object lastMsgFromServer) {
+		if (lastMsgFromServer instanceof String) {
+			String message = lastMsgFromServer.toString();
+			if (message.startsWith("login succeeded")) {
+				String[] splitMsg = message.split(" ");
+				successLogin(splitMsg[2]);
+			}
+
+			if (message.startsWith("login failed"))
+				failedLogin();
+
+			if (message.startsWith("login already connected"))
+				alreadyConnectedLogin();
+		}
+	}
+
+	/**
+	 * called when sign in is valid, determines path of fxml file and window title
+	 * according to <Code>Role</Code>, loads new window accordingly and sends
+	 * username to its boundary
 	 * 
 	 * @param role
 	 */
@@ -176,10 +186,7 @@ public class LoginWindow extends AFXML {
 		this.lblError.setVisible(true);
 	}
 
-	@FXML
-	void btnSignInPressed(ActionEvent event) {
-		mySignIn();
-	}
+	/*********************** key listeners ***********************/
 
 	@FXML
 	void enterKeyPressed(KeyEvent event) {
@@ -202,7 +209,7 @@ public class LoginWindow extends AFXML {
 			break;
 		}
 	}
-	
+
 	@FXML
 	void tabEmployeePressed(KeyEvent event) {
 		switch (event.getCode()) {

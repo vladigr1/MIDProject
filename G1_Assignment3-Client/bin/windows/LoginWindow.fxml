@@ -126,7 +126,7 @@
                         </TextField>
                      </children>
                   </GridPane>
-                  <Label fx:id="lblError1" layoutX="35.0" layoutY="292.0" prefHeight="20.0" prefWidth="388.0" text="Label" textFill="RED" visible="false">
+                  <Label layoutX="35.0" layoutY="292.0" prefHeight="20.0" prefWidth="388.0" text="Label" textFill="RED" visible="false">
                      <font>
                         <Font name="Leelawadee UI" size="14.0" />
                      </font>

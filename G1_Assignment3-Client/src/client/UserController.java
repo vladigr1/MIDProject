@@ -17,9 +17,6 @@ public abstract class UserController extends ClientController {
 		super();
 	}
 
-	/**
-	 * handle signout process requested by client and route to server
-	 */
 	@Override
 	public void handleMessageFromClientUI(String message) {
 		try {
