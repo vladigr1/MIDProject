@@ -150,12 +150,12 @@ public class DatabaseUserController {
 				;
 
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			while (rs2.next()) {
+			do {
 				Date time = formatter.parse(rs2.getString(1));
 				String action = rs2.getString(2);
 				activity = new Activity(time, action);
 				activityList.add(activity);
-			}
+			} while (rs2.next());
 			rs2.close();
 			return activityList;
 
