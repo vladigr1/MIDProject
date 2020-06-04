@@ -56,7 +56,7 @@ public class ServerUserController {
 		try {
 			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 			Date date = new Date();
-			
+
 			if (object instanceof User) {
 				String result = "blank";
 				String type = "";
@@ -74,8 +74,8 @@ public class ServerUserController {
 
 				if (function.equals("sign out")) {
 					synchronized (this.lock) {
-						this.serverWindow
-								.updateArea(formatter.format(date) + " : " + client + " : request signout with username '" + user.getUsername() + "'");
+						this.serverWindow.updateArea(formatter.format(date) + " : " + client
+								+ " : request signout with username '" + user.getUsername() + "'");
 						this.lock.notifyAll();
 					}
 					result = this.databaseController.signOutSequence(user.getUsername());
@@ -94,9 +94,11 @@ public class ServerUserController {
 				String[] splitMsg = ((String) object).split(" ");
 				if (splitMsg[0].equals("activity")) {
 					if (splitMsg[1].equals("get")) {
-						ActivityList activityList = this.databaseController.getActivitiesSequence(splitMsg[2], splitMsg[3], splitMsg[4]);
+						ActivityList activityList = this.databaseController.getActivitiesSequence(splitMsg[2],
+								splitMsg[3], splitMsg[4]);
 						synchronized (this.lock) {
-							this.serverWindow.updateArea(formatter.format(date) + " : " + client + " : activity list fetched");
+							this.serverWindow
+									.updateArea(formatter.format(date) + " : " + client + " : activity list fetched");
 							this.lock.notifyAll();
 						}
 

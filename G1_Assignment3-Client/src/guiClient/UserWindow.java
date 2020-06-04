@@ -1,8 +1,8 @@
 package guiClient;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Optional;
 
 import entities.Activity;
@@ -76,20 +76,22 @@ public abstract class UserWindow extends AFXML {
 
 		this.cobHomeYear.getItems().removeAll((Collection<?>) this.cobHomeYear.getItems());
 		this.cobHomeYear.getItems().addAll(new Integer[] { 2019, 2020 });
-		this.cobHomeYear.setValue(new Date().getYear() + 1900);
+		this.cobHomeYear.setValue(new java.util.Date().getYear() + 1900);
 		this.cobHomeMonth.getItems().removeAll((Collection<?>) this.cobHomeMonth.getItems());
 		this.cobHomeMonth.getItems().addAll(new Integer[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 });
-		this.cobHomeMonth.setValue(new Date().getMonth() + 1);
+		this.cobHomeMonth.setValue(new java.util.Date().getMonth() + 1);
 
 		final TableColumn<Activity, Date> timeColumn = (TableColumn<Activity, Date>) new TableColumn("Date");
 		timeColumn.setCellValueFactory((Callback) new PropertyValueFactory("time"));
+		timeColumn.impl_setWidth(200);
 		this.tvHomeActivity.getColumns().add(timeColumn);
 		final TableColumn<Activity, String> actionColumn = (TableColumn<Activity, String>) new TableColumn("Action");
 		actionColumn.setCellValueFactory((Callback) new PropertyValueFactory("action"));
+		actionColumn.impl_setWidth(442);
 		this.tvHomeActivity.getColumns().add(actionColumn);
 
-		this.controller.handleMessageFromClientUI(
-				("activity get " + username + " " + (new Date().getYear() + 1900) + " " + (new Date().getMonth() + 1)));
+		this.controller.handleMessageFromClientUI(("activity get " + username + " "
+				+ (new java.util.Date().getYear() + 1900) + " " + (new java.util.Date().getMonth() + 1)));
 	}
 
 	/*********************** button listeners ***********************/

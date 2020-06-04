@@ -291,7 +291,7 @@
                               </Label>
                            </children>
                         </GridPane>
-                        <TableView fx:id="tvHomeActivity" layoutX="108.0" layoutY="318.0" prefHeight="278.0" prefWidth="637.0" />
+                        <TableView fx:id="tvHomeActivity" layoutX="108.0" layoutY="318.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="278.0" prefWidth="643.0" />
                         <ImageView fitHeight="127.0" fitWidth="150.0" layoutX="133.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../pics/avatar.png" />
@@ -335,7 +335,7 @@
                                     <Font name="Arial" size="16.0" />
                                  </font>
                               </Label>
-                              <Button fx:id="btnHomeUpdate" mnemonicParsing="false" onAction="#btnHomeUpdatePressed" styleClass="task-button" stylesheets="@../pics/style.css" text="Update Table" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <Button fx:id="btnHomeUpdate" mnemonicParsing="false" onAction="#btnHomeUpdatePressed" styleClass="task-button" stylesheets="@../pics/style.css" text="Update Table" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.valignment="CENTER" />
                            </children>
                         </GridPane>
                      </children>

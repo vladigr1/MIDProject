@@ -1,10 +1,11 @@
 package database;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import entities.Activity;
 import entities.ActivityList;
@@ -115,7 +116,8 @@ public class DatabaseUserController {
 	}
 
 	/**
-	 * returns a list of all the activities of the employee in a predetermined year and month
+	 * returns a list of all the activities of the employee in a predetermined year
+	 * and month
 	 * 
 	 * @param username
 	 * @return activity list of username
@@ -144,10 +146,12 @@ public class DatabaseUserController {
 			ResultSet rs2 = pStmt.executeQuery();
 
 			// if there are no rows and table is empty
-			if (!rs2.next());
+			if (!rs2.next())
+				;
 
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			while (rs2.next()) {
-				Date time = rs2.getDate(1);
+				Date time = formatter.parse(rs2.getString(1));
 				String action = rs2.getString(2);
 				activity = new Activity(time, action);
 				activityList.add(activity);

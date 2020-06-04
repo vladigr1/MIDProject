@@ -6,7 +6,7 @@ import java.net.ConnectException;
 import entities.User;
 
 /**
- * all logic controllers extend this
+ * all logic controllers except login extend this
  * 
  * @version Almost Final
  * @author Elroy, Lior
@@ -30,7 +30,7 @@ public abstract class UserController extends ClientController {
 				System.out.println("expected signout or activity but got: " + message);
 				return;
 			}
-			
+
 			if (splitMsg[0].equals("signout")) {
 				/* construct a new user */
 				/* determine what the server will do with it */

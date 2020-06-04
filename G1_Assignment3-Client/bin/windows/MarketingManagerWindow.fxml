@@ -277,7 +277,7 @@
                         </GridPane>
                         <TableView fx:id="tvHomeActivity" layoutX="106.0" layoutY="289.0" prefHeight="256.0" prefWidth="587.0">
                            <columns>
-                              <TableColumn prefWidth="119.0" text="Date" />
+                              <TableColumn prefWidth="120.0" text="Date" />
                               <TableColumn prefWidth="119.0" text="Time" />
                               <TableColumn prefWidth="348.0" text="Action" />
                            </columns>
