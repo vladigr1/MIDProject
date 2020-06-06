@@ -23,8 +23,6 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	@FXML	private ToggleButton sidebar_btn3;
 	@FXML	private ToggleButton sidebar_btn4;
 
-	@FXML	private ToggleGroup one1;
-	@FXML	private ToggleGroup one2;
 	@FXML	private AnchorPane initiateSalePane;
 	@FXML	private TableView<?> tvISSalesPattern;
 	@FXML	private Button btnISInitiate;

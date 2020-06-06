@@ -50,7 +50,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <ToggleButton fx:id="sidebar_btn0" alignment="CENTER_LEFT" layoutX="10.0" layoutY="75.0" mnemonicParsing="false" prefHeight="188.0" prefWidth="347.0" styleClass="side-bar-toggle-button" stylesheets="@../pics/style.css" text="Home" textFill="WHITE">
+                  <ToggleButton fx:id="sidebar_btn0" alignment="CENTER_LEFT" layoutX="10.0" layoutY="75.0" mnemonicParsing="false" prefHeight="188.0" prefWidth="347.0" selected="true" styleClass="side-bar-toggle-button" stylesheets="@../pics/style.css" text="Home" textFill="WHITE">
                      <font>
                         <Font name="Calibri" size="18.0" />
                      </font>
@@ -101,10 +101,7 @@
                         </Pane>
                      </graphic>
                   </ToggleButton>
-                  <ToggleButton fx:id="sidebar_btn3" alignment="CENTER_LEFT" mnemonicParsing="false" prefHeight="188.0" prefWidth="347.0" styleClass="side-bar-toggle-button" stylesheets="@../pics/style.css" text="Generate Marketing Report" textFill="WHITE" wrapText="true" GridPane.rowIndex="3">
-                     <toggleGroup>
-                        <ToggleGroup fx:id="one1" />
-                     </toggleGroup>
+                  <ToggleButton fx:id="sidebar_btn3" alignment="CENTER_LEFT" mnemonicParsing="false" prefHeight="188.0" prefWidth="347.0" styleClass="side-bar-toggle-button" stylesheets="@../pics/style.css" text="Generate Marketing Report" textFill="WHITE" toggleGroup="$one" wrapText="true" GridPane.rowIndex="3">
                      <font>
                         <Font name="Calibri" size="18.0" />
                      </font>
@@ -120,7 +117,7 @@
                         </Pane>
                      </graphic>
                   </ToggleButton>
-                  <ToggleButton fx:id="sidebar_btn2" alignment="CENTER_LEFT" mnemonicParsing="false" prefHeight="188.0" prefWidth="347.0" styleClass="side-bar-toggle-button" stylesheets="@../pics/style.css" text="Create Sales Pattern" textFill="WHITE" GridPane.rowIndex="2">
+                  <ToggleButton fx:id="sidebar_btn2" alignment="CENTER_LEFT" mnemonicParsing="false" prefHeight="188.0" prefWidth="347.0" styleClass="side-bar-toggle-button" stylesheets="@../pics/style.css" text="Create Sales Pattern" textFill="WHITE" toggleGroup="$one" GridPane.rowIndex="2">
                      <font>
                         <Font name="Calibri" size="18.0" />
                      </font>
@@ -135,9 +132,6 @@
                            </children>
                         </Pane>
                      </graphic>
-                     <toggleGroup>
-                        <ToggleGroup fx:id="one2" />
-                     </toggleGroup>
                   </ToggleButton>
                </children>
                <VBox.margin>
