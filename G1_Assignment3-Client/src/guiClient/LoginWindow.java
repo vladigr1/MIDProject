@@ -52,6 +52,7 @@ public class LoginWindow extends AFXML {
 	public void setVisibleNow(boolean flag) {
 		if (flag == true) {
 			this.controller = LoginController.getInstance();
+//			this.controller.setCurrentWindow(this);
 		}
 		this.visibleNow.setVisible(false);
 		this.loginPane.setVisible(true);
