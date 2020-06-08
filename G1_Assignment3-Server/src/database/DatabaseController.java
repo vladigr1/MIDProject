@@ -9,6 +9,7 @@ import java.sql.Statement;
 import entities.ActivityList;
 import entities.FastFuelList;
 import entities.HomeFuelOrder;
+import entities.PurchasingProgramType;
 import guiServer.ServerWindow;
 
 /**
@@ -144,6 +145,15 @@ public class DatabaseController {
 	 */
 	public String setNewHomeFuelSequence(HomeFuelOrder homeFuelOrder) {
 		return DatabaseCustomerController.getInstance(connection).setNewHomeFuelSequence(homeFuelOrder);
+	}
+
+	/**
+	 * 
+	 * @param username
+	 * @return purchasing program of customer with that username
+	 */
+	public PurchasingProgramType getPurchasingProgramSequence(String username) {
+		return DatabaseCustomerController.getInstance(connection).getPurchasingProgramSequence(username);
 	}
 
 }

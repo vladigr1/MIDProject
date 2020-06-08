@@ -9,6 +9,7 @@ import client.CustomerController;
 import entities.FastFuel;
 import entities.FastFuelList;
 import entities.HomeFuelOrder;
+import entities.PurchasingProgramType;
 import enums.ProductName;
 import enums.ShipmentType;
 import javafx.collections.FXCollections;
@@ -115,13 +116,13 @@ public class CustomerWindow extends UserWindow {
 		String address = this.tfOHFAddress.getText();
 		ShipmentType shipmentType;
 
-		if (amount.isEmpty() || address.isEmpty() ) {
+		if (amount.isEmpty() || address.isEmpty()) {
 			openErrorAlert("Error", "Missing Required Fields");
 			this.tfOHFAmount1.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			this.tfOHFAddress.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			return;
 		}
-		if(amount.matches(".*[A-z].*")) {
+		if (amount.matches(".*[A-z].*")) {
 			openErrorAlert("Error", "Amount Not Valid");
 			this.tfOHFAmount1.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			this.tfOHFAddress.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
@@ -167,12 +168,19 @@ public class CustomerWindow extends UserWindow {
 		if (lastMsgFromServer instanceof FastFuelList) {
 			FastFuelList fastFuelList = (FastFuelList) lastMsgFromServer;
 			handleGetFastFuelListFromServer(fastFuelList);
-		}
-		if (lastMsgFromServer instanceof Double) {
+
+		} else if (lastMsgFromServer instanceof PurchasingProgramType) {
+			PurchasingProgramType purchasingProgramType = (PurchasingProgramType) lastMsgFromServer;
+			this.lblHomeMember.setText(
+					purchasingProgramType.getPurchasingProgramName().toString() + " - " + purchasingProgramType.getMonthlyPrice() + "$ per month");
+			this.lblHomePayment.setText(((Double) (Double.parseDouble(this.tfHomeTotal.getText())
+					+ purchasingProgramType.getMonthlyPrice())).toString() + " $");
+
+		} else if (lastMsgFromServer instanceof Double) {
 			DecimalFormat df = new DecimalFormat("#.##");
 			this.tfOHFPrice1.setText(df.format((Double) lastMsgFromServer));
-		}
-		if (lastMsgFromServer instanceof Float) {
+
+		} else if (lastMsgFromServer instanceof Float) {
 			DecimalFormat df = new DecimalFormat("#.##");
 			this.tfOHFFinalPrice.setText(df.format((Float) lastMsgFromServer));
 			this.apOHFPurchaseInfo.setDisable(true);
@@ -184,13 +192,13 @@ public class CustomerWindow extends UserWindow {
 				this.tfOHFShipmentReview.setText(this.rbOHFShipment1.getText());
 			else
 				this.tfOHFShipmentReview.setText(this.rbOHFShipment1.getText());
-		}
-		if (lastMsgFromServer instanceof String) {
+
+		} else if (lastMsgFromServer instanceof String) {
 			if (((String) lastMsgFromServer).equals("set homefuelorder success")) {
 				openErrorAlert("Success", "Order Saved");
 				this.apOHFOrderDetails.setDisable(true);
-			}
-			if (((String) lastMsgFromServer).equals("set homefuelorder fail"))
+
+			} else if (((String) lastMsgFromServer).equals("set homefuelorder fail"))
 				openErrorAlert("Error", "Order Failed");
 		}
 	}
@@ -229,6 +237,8 @@ public class CustomerWindow extends UserWindow {
 
 		this.controller.handleMessageFromClientUI(("fastfuel get " + username + " "
 				+ (new java.util.Date().getYear() + 1900) + " " + (new java.util.Date().getMonth() + 1)));
+
+		this.controller.handleMessageFromClientUI("getcustomerpurchasingprogram " + username);
 	}
 
 	/**

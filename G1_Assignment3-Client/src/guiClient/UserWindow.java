@@ -53,6 +53,7 @@ public abstract class UserWindow extends AFXML {
 
 	/**
 	 * initialize all components shared by all users
+	 * 
 	 * @param username
 	 */
 	@SuppressWarnings({ "deprecation" })
@@ -120,16 +121,16 @@ public abstract class UserWindow extends AFXML {
 
 	@Override
 	public void callAfterMessage(Object lastMsgFromServer) {
-		if(lastMsgFromServer == null)
+		if (lastMsgFromServer == null) {
 			openErrorAlert("Error", "Something went Wrong");
-		
-		if (lastMsgFromServer instanceof String) {
+
+		} else if (lastMsgFromServer instanceof String) {
 			String message = (String) lastMsgFromServer;
 			if (message.startsWith("sign out"))
 				handleSignOutFromServer(message, this.getWindow());
 		}
 	}
-	
+
 	/**
 	 * @param lastMsgFromServer
 	 * @param window
@@ -139,9 +140,8 @@ public abstract class UserWindow extends AFXML {
 
 		if (lastMsgFromServer.startsWith("sign out succeeded")) {
 			this.signOutToLogin(window);
-		}
 
-		if (lastMsgFromServer.startsWith("sign out failed")) {
+		} else if (lastMsgFromServer.startsWith("sign out failed")) {
 			Alert a = new Alert(Alert.AlertType.ERROR);
 			a.setContentText("Error - sign out failed");
 			a.show();
@@ -160,7 +160,7 @@ public abstract class UserWindow extends AFXML {
 
 			LoginWindow loginWindow = (LoginWindow) loader.getController();
 			loginWindow.setVisibleNow(true);
-			
+
 			newStage.setResizable(false);
 			newStage.setScene(newScene);
 			newStage.setTitle("MyFuel Login");

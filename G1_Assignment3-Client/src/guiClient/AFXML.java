@@ -28,7 +28,7 @@ public abstract class AFXML {
 	protected ClientController controller;
 
 	/**
-	 * executes window methods according to input
+	 * changes the window after server returned an answer to client's request
 	 * 
 	 * @param lastMsgFromServer
 	 */
