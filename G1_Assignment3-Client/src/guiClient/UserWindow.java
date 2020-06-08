@@ -31,17 +31,27 @@ import javafx.stage.WindowEvent;
  */
 public abstract class UserWindow extends AFXML {
 
-	@FXML	protected BorderPane mainBorderPane;
-	@FXML	protected AnchorPane mainwindow_pane;
-	@FXML	protected Label lblHelloUser;
-	@FXML	protected Label topbar_window_label;
+	@FXML
+	protected BorderPane mainBorderPane;
+	@FXML
+	protected AnchorPane mainwindow_pane;
+	@FXML
+	protected Label lblHelloUser;
+	@FXML
+	protected Label topbar_window_label;
 
-	@FXML	protected AnchorPane homePane;
-	@FXML	protected Label lblHomeUserName;
-	@FXML	protected ComboBox<Integer> cobHomeYear;
-	@FXML	protected ComboBox<Integer> cobHomeMonth;
-	@FXML	protected Button btnHomeUpdate;
-	@FXML	protected Button btnSignOut;
+	@FXML
+	protected AnchorPane homePane;
+	@FXML
+	protected Label lblHomeUserName;
+	@FXML
+	protected ComboBox<Integer> cobHomeYear;
+	@FXML
+	protected ComboBox<Integer> cobHomeMonth;
+	@FXML
+	protected Button btnHomeUpdate;
+	@FXML
+	protected Button btnSignOut;
 
 	protected String username; // the username of the current user of the window
 
@@ -177,4 +187,13 @@ public abstract class UserWindow extends AFXML {
 		}
 	}
 
+	/**
+	 * send activity to log in db
+	 * 
+	 * @param action
+	 */
+	public void requestToLogActivity(String action) {
+		String message = "activity log " + username + " " + action;
+		this.controller.handleMessageFromClientUI(message);
+	}
 }

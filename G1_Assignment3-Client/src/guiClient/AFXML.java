@@ -20,9 +20,12 @@ import javafx.stage.Stage;
  */
 public abstract class AFXML {
 
-	@FXML	protected AnchorPane titleBar;
-	@FXML	protected Button btnMini;
-	@FXML	protected Button btnExit;
+	@FXML
+	protected AnchorPane titleBar;
+	@FXML
+	protected Button btnMini;
+	@FXML
+	protected Button btnExit;
 
 	protected AnchorPane visibleNow;
 	protected ClientController controller;

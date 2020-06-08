@@ -10,9 +10,11 @@ import java.util.Date;
 import entities.FastFuel;
 import entities.FastFuelList;
 import entities.HomeFuelOrder;
+import entities.HomeFuelOrderList;
 import entities.PurchasingProgramType;
 import enums.ProductName;
 import enums.PurchasingProgramName;
+import enums.ShipmentType;
 
 /**
  * controller for customer
@@ -245,6 +247,66 @@ public class DatabaseCustomerController {
 
 			return new PurchasingProgramType(PurchasingProgramName.valueOf(purchasingProgramName), "a", monthlyPrice);
 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
+
+	/**
+	 * 
+	 * @param string
+	 * @return home fuel orders of customer with that username
+	 */
+	public HomeFuelOrderList getHomeFuelOrdersSequence(String username) {
+		try {
+			HomeFuelOrderList homeFuelOrderList = new HomeFuelOrderList();
+			String customerID = getCustomerIDbyUsername(username);
+			if (customerID == null)
+				return null;
+
+			PreparedStatement pStmt = this.connection.prepareStatement(
+					"SELECT FK_ordersID, FK_product_Name, FK_shipmentType, duetime, finalPrice FROM home_fuel_order WHERE FK_customerID = ?");
+			pStmt.setString(1, customerID);
+			ResultSet rs2 = pStmt.executeQuery();
+
+			// if there are no rows and table is empty
+			if (!rs2.next())
+				return homeFuelOrderList;
+
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			do {
+				int ordersID = rs2.getInt(1);
+				String productNameStr = rs2.getString(2).replaceAll("\\s", "");
+				ProductName productName = ProductName.valueOf(productNameStr);
+				ShipmentType shipmentMethod = ShipmentType.valueOf(rs2.getString(3));
+				Date dueTime = formatter.parse(rs2.getString(4));
+				double finalPrice = rs2.getDouble(5);
+
+				PreparedStatement pStmt1 = this.connection
+						.prepareStatement("SELECT orderTime, amountBought, address FROM orders WHERE ordersID = ?");
+				pStmt1.setInt(1, ordersID);
+				ResultSet rs3 = pStmt1.executeQuery();
+				if (!rs3.next())
+					return null;
+
+				Date orderTime = formatter.parse(rs3.getString(1));
+				double amountBought = rs3.getDouble(2);
+				String address = rs3.getString(3);
+
+				HomeFuelOrder homeFuelOrder = new HomeFuelOrder(ordersID, orderTime, amountBought, address, customerID,
+						productName, shipmentMethod, dueTime, finalPrice);
+				homeFuelOrderList.add(homeFuelOrder);
+				rs3.close();
+
+			} while (rs2.next());
+			rs2.close();
+
+			return homeFuelOrderList;
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;

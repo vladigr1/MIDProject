@@ -5,6 +5,7 @@ import java.io.IOException;
 import database.DatabaseController;
 import entities.FastFuelList;
 import entities.HomeFuelOrder;
+import entities.HomeFuelOrderList;
 import entities.PurchasingProgramType;
 import entities.User;
 import ocsf.server.ConnectionToClient;
@@ -52,16 +53,18 @@ public class ServerCustomerController {
 					if (splitMsg[1].equals("get")) {
 						FastFuelList fastFuelList = this.databaseController.getFastFuelsSequence(splitMsg[2],
 								splitMsg[3], splitMsg[4]);
-
-						/* send message back to client */
 						client.sendToClient(fastFuelList);
 					}
-					
+
 				} else if (splitMsg[0].equals("homefuel")) {
 					if (splitMsg[1].equals("get")) {
 						if (splitMsg[2].equals("price")) {
 							Double homeFuelPrice = this.databaseController.getHomeFuelPriceSequence();
 							client.sendToClient(homeFuelPrice);
+						} else {
+							HomeFuelOrderList homeFuelOrderList = this.databaseController
+									.getHomeFuelOrdersSequence(splitMsg[2]);
+							client.sendToClient(homeFuelOrderList);
 						}
 					}
 				}
@@ -69,9 +72,10 @@ public class ServerCustomerController {
 			} else if (object instanceof HomeFuelOrder) {
 				String str = this.databaseController.setNewHomeFuelSequence((HomeFuelOrder) object);
 				client.sendToClient(str);
-				
+
 			} else if (object instanceof User) {
-				PurchasingProgramType purchasingProgramType= this.databaseController.getPurchasingProgramSequence(((User) object).getUsername());
+				PurchasingProgramType purchasingProgramType = this.databaseController
+						.getPurchasingProgramSequence(((User) object).getUsername());
 				client.sendToClient(purchasingProgramType);
 			}
 
