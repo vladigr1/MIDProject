@@ -106,7 +106,7 @@ public class ServerController extends AbstractServer {
 					ServerCustomerController.getInstance(databaseController).handleMessageFromClient(str, client);
 
 				} else if (str.startsWith("getcustomerdetails") || str.startsWith("deletecustomer")
-						|| str.startsWith("checkcustomer") || str.startsWith("getcustomercars")) {
+						|| str.startsWith("checkcustomer") || str.startsWith("getcustomercars") || str.startsWith("deletecar")) {
 					ServerMarketingRepresentativeController.getInstance(databaseController).handleMessageFromClient(str,
 							client);
 				}

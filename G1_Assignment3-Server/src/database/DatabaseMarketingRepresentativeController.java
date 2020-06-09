@@ -98,6 +98,15 @@ public class DatabaseMarketingRepresentativeController {
 			String username = rs1.getString(1);
 			rs1.close();
 
+			CarList carList = getCustomerCars(customerID);
+			if (carList == null) {
+				System.out.println("deleteCustomer carList == null true");
+				return false;
+			}
+			for (Car car : carList.getCars()) {
+				this.deleteCar(car.getRegistrationPlate());
+			}
+
 			pStmt = this.connection.prepareStatement("UPDATE customer SET deleted = 1 WHERE customerID = ?");
 			pStmt.setString(1, customerID);
 			pStmt.executeUpdate();
@@ -105,6 +114,7 @@ public class DatabaseMarketingRepresentativeController {
 			pStmt = this.connection.prepareStatement("DELETE FROM user WHERE username = ?");
 			pStmt.setString(1, username);
 			pStmt.executeUpdate();
+
 			return true;
 
 		} catch (SQLException e) {
@@ -311,7 +321,7 @@ public class DatabaseMarketingRepresentativeController {
 	 * @param car
 	 * @return string of success or fail
 	 */
-	private String updateCar(Car car) {
+	public String updateCar(Car car) {
 		try {
 			String regPlate = car.getRegistrationPlate();
 			int exists = checkCarExists(regPlate);
@@ -392,7 +402,7 @@ public class DatabaseMarketingRepresentativeController {
 				System.out.println("getCustomerCars nocars");
 				return carList;
 			}
-			
+
 			do {
 				String registrationPlate = rs2.getString(1);
 				String productName = rs2.getString(2).replaceAll("\\s", "");
@@ -413,6 +423,34 @@ public class DatabaseMarketingRepresentativeController {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return null;
+		}
+	}
+
+	/**
+	 * 
+	 * @param regPlate
+	 * @return string of success or fail
+	 */
+	public Boolean deleteCar(String regPlate) {
+		try {
+			int exists = checkCarExists(regPlate);
+			if (exists != 0) {
+				System.out.println("deleteCar exists!=0");
+				return false;
+			}
+
+			PreparedStatement pStmt = this.connection
+					.prepareStatement("UPDATE car SET deleted = 1 WHERE registrationPlate = ?");
+			pStmt.setString(1, regPlate);
+			pStmt.executeUpdate();
+			return true;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return false;
 		}
 	}
 

@@ -51,6 +51,8 @@ public class ServerMarketingRepresentativeController {
 				String str = null;
 				if (function.equals("save car")) {
 					str = this.databaseController.saveNewCarSequence(car);
+				} else if (function.equals("update car")) {
+					str = this.databaseController.updateCar(car);
 				}
 				client.sendToClient(str);
 
@@ -69,7 +71,14 @@ public class ServerMarketingRepresentativeController {
 
 			} else if (object instanceof String) {
 				String[] splitMsg = ((String) object).split(" ");
-				if (splitMsg[0].equals("getcustomerdetails")) {
+				if (splitMsg[0].equals("deletecar")) {
+					boolean bool = this.databaseController.deleteCar(splitMsg[1]);
+					if (bool == true)
+						client.sendToClient("Car Deleted");
+					else
+						client.sendToClient("Car Delete Failed");
+
+				} else if (splitMsg[0].equals("getcustomerdetails")) {
 					Object[] objArr = this.databaseController.getCustomerDetails(splitMsg[1]);
 					client.sendToClient(objArr);
 

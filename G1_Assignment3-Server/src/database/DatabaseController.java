@@ -239,4 +239,22 @@ public class DatabaseController {
 		return DatabaseMarketingRepresentativeController.getInstance(connection).getCustomerCars(customerID);
 	}
 
+	/**
+	 * 
+	 * @param regPlate
+	 * @return string of success or fail
+	 */
+	public Boolean deleteCar(String regPlate) {
+		return DatabaseMarketingRepresentativeController.getInstance(connection).deleteCar(regPlate);
+	}
+
+	/**
+	 * 
+	 * @param car
+	 * @return string of success or fail
+	 */
+	public String updateCar(Car car) {
+		return DatabaseMarketingRepresentativeController.getInstance(connection).updateCar(car);
+	}
+
 }

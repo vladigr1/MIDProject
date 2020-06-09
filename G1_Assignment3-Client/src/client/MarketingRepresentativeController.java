@@ -52,7 +52,13 @@ public class MarketingRepresentativeController extends MarketingDepWorkerControl
 				System.out.println("sending to server : " + car);
 				this.sendToServer(car);
 
-			} else if (splitMsg[0].equals("getcustomercars")) {
+			} else if (splitMsg[0].equals("updatecar")) {
+				Car car = new Car(splitMsg[2], splitMsg[1], ProductName.valueOf(splitMsg[4]), splitMsg[3]);
+				car.setFunction("update car");
+				System.out.println("sending to server : " + car);
+				this.sendToServer(car);
+
+			} else if (splitMsg[0].equals("getcustomercars") || splitMsg[0].equals("deletecar")) {
 				System.out.println("sending to server : " + message);
 				this.sendToServer(message);
 

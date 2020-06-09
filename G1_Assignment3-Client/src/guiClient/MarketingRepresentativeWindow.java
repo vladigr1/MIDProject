@@ -400,7 +400,6 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			openErrorAlert("Error", "Field Not Valid");
 			return;
 		}
-
 		this.controller
 				.handleMessageFromClientUI("savecar " + customerID + " " + regPlate + " " + owner + " " + fuelType);
 	}
@@ -430,8 +429,37 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			openErrorAlert("Error", "Field Not Valid");
 			return;
 		}
-
 		checkCustomerExists(customerID);
+	}
+
+	@FXML
+	void btnECADeletePressed(ActionEvent event) {
+		String regPlate = this.tfECARegistration.getText();
+		if (regPlate.isEmpty() || regPlate.matches(".*[A-z].*") || (regPlate.length() != 7 && regPlate.length() != 8)) {
+			openErrorAlert("Error", "Field Not Valid");
+			return;
+		}
+		this.controller.handleMessageFromClientUI("deletecar " + regPlate);
+	}
+
+	@FXML
+	void btnECAUpdatePressed(ActionEvent event) {
+		String customerID = this.tfECACustID.getText();
+		String regPlate = this.tfECARegistration.getText();
+		String owner = this.tfECAOwner.getText();
+		String fuelType = this.cobECAFuelType.getValue().replaceAll("\\s", "");
+
+		if (customerID.isEmpty() || regPlate.isEmpty() || owner.isEmpty() || fuelType.isEmpty()) {
+			openErrorAlert("Error", "Missing Required Fields");
+			return;
+		}
+		if (customerID.matches(".*[A-z].*") || owner.matches(".*[0-9].*") || regPlate.matches(".*[A-z].*")
+				|| (regPlate.length() != 7 && regPlate.length() != 8)) {
+			openErrorAlert("Error", "Field Not Valid");
+			return;
+		}
+		this.controller
+				.handleMessageFromClientUI("updatecar " + customerID + " " + regPlate + " " + owner + " " + fuelType);
 	}
 
 	/*********************************************************************************/
@@ -490,9 +518,22 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			} else if (str.equals("update customer fail")) {
 				openErrorAlert("Success", "Customer Update Failed");
 
+			} else if (str.equals("update car success")) {
+				openErrorAlert("Success", "Car Updated");
+				clearEditCarPane();
+
+			} else if (str.equals("update car fail")) {
+				openErrorAlert("Success", "Car Update Failed");
+
 			} else if (str.startsWith("Customer Delete")) {
 				openErrorAlert("Delete", str);
-				clearEditCustomerPane();
+				if (str.equals("Customer Deleted"))
+					clearEditCustomerPane();
+
+			} else if (str.startsWith("Car Delete")) {
+				openErrorAlert("Delete", str);
+				if (str.equals("Car Deleted"))
+					clearEditCarPane();
 
 			} else if (str.startsWith("Customer Check")) {
 				openErrorAlert("Check", str);
@@ -565,10 +606,16 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		ownerColumn.setCellValueFactory((Callback) new PropertyValueFactory("ownerName"));
 		ownerColumn.impl_setWidth(180);
 		this.tvECACar.getColumns().add(ownerColumn);
-		final TableColumn<Car, ProductName> productColumn = (TableColumn<Car, ProductName>) new TableColumn("Fuel Type");
+		final TableColumn<Car, ProductName> productColumn = (TableColumn<Car, ProductName>) new TableColumn(
+				"Fuel Type");
 		productColumn.setCellValueFactory((Callback) new PropertyValueFactory("productName"));
 		productColumn.impl_setWidth(160);
 		this.tvECACar.getColumns().add(productColumn);
+		tvECACar.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+			if (newSelection != null) {
+				tvECACarPressed();
+			}
+		});
 		this.step2.setVisible(false);
 		this.step3.setVisible(false);
 	}
@@ -622,6 +669,13 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 
 	private void checkCustomerExists(String customerID) {
 		this.controller.handleMessageFromClientUI("checkcustomer " + customerID);
+	}
+
+	private void tvECACarPressed() {
+		Car car = this.tvECACar.getSelectionModel().getSelectedItem();
+		this.tfECARegistration.setText(car.getRegistrationPlate());
+		this.tfECAOwner.setText(car.getOwnerName());
+		this.cobECAFuelType.setValue(car.getProductName().toString());
 	}
 
 }

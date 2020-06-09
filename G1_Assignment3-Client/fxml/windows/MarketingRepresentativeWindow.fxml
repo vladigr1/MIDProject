@@ -1144,7 +1144,7 @@
             <Button fx:id="btnECUClear" layoutX="463.0" layoutY="47.0" mnemonicParsing="false" onAction="#btnECUClearPressed" prefHeight="32.0" prefWidth="58.0" styleClass="task-button" stylesheets="@../pics/style.css" text="Clear" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="editCarPane" layoutX="403.0" layoutY="150.0" prefHeight="414.0" prefWidth="552.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css">
+      <AnchorPane fx:id="editCarPane" layoutX="403.0" layoutY="150.0" prefHeight="414.0" prefWidth="552.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css" visible="false">
          <children>
             <Label layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="295.0" text="Edit Customer Cars" underline="true">
                <font>
@@ -1157,8 +1157,8 @@
                   <TextField fx:id="tfECARegistration" editable="false" layoutY="214.0" prefHeight="30.0" promptText="Registration Plate" />
                   <TextField fx:id="tfECAOwner" layoutX="180.0" layoutY="214.0" prefHeight="30.0" promptText="Owner Name" />
                   <ComboBox fx:id="cobECAFuelType" layoutX="356.0" layoutY="214.0" prefHeight="30.0" prefWidth="150.0" promptText="Fuel Type" />
-                  <Button fx:id="btnECAUpdate" layoutX="285.0" layoutY="267.0" mnemonicParsing="false" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Update Car" />
-                  <Button fx:id="btnECADelete" layoutX="111.0" layoutY="267.0" mnemonicParsing="false" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Delete Car" />
+                  <Button fx:id="btnECAUpdate" layoutX="285.0" layoutY="267.0" mnemonicParsing="false" onAction="#btnECAUpdatePressed" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Update Car" />
+                  <Button fx:id="btnECADelete" layoutX="111.0" layoutY="267.0" mnemonicParsing="false" onAction="#btnECADeletePressed" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Delete Car" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="apECACustomer" layoutX="19.0" layoutY="47.0">
