@@ -6,9 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import entities.Car;
+import entities.CarList;
 import entities.Customer;
 import entities.User;
 import enums.CustomerType;
+import enums.ProductName;
 
 /**
  * controller for marketing representative
@@ -365,4 +367,53 @@ public class DatabaseMarketingRepresentativeController {
 			return null;
 		}
 	}
+
+	/**
+	 * 
+	 * @param customerID
+	 * @return list of cars of customer
+	 */
+	public CarList getCustomerCars(String customerID) {
+		try {
+			int exists = checkCustomerExists(customerID);
+			if (exists != 0) {
+				System.out.println("getCustomerCars exists!=0");
+				return null;
+			}
+
+			CarList carList = new CarList();
+
+			PreparedStatement pStmt = this.connection.prepareStatement(
+					"SELECT registrationPlate, FK_productName, ownerName FROM car WHERE FK_customerID = ? AND deleted = 0");
+			pStmt.setString(1, customerID);
+			ResultSet rs2 = pStmt.executeQuery();
+
+			if (!rs2.next()) {
+				System.out.println("getCustomerCars nocars");
+				return carList;
+			}
+			
+			do {
+				String registrationPlate = rs2.getString(1);
+				String productName = rs2.getString(2).replaceAll("\\s", "");
+				ProductName fuelType = ProductName.valueOf(productName);
+				String ownerName = rs2.getString(3);
+
+				Car car = new Car(registrationPlate, customerID, fuelType, ownerName);
+				carList.add(car);
+
+			} while (rs2.next());
+			rs2.close();
+
+			return carList;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
+
 }

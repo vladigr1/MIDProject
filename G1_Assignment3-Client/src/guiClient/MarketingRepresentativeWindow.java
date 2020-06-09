@@ -1,10 +1,16 @@
 package guiClient;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import client.MarketingRepresentativeController;
+import entities.Car;
+import entities.CarList;
 import entities.Customer;
 import entities.User;
+import enums.ProductName;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,17 +18,19 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Window;
+import javafx.util.Callback;
 
 /**
  * boundary for marketing representative window
@@ -125,7 +133,11 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	@FXML
 	private AnchorPane editCarPane;
 	@FXML
-	private TableView<?> tvECACarDetails;
+	private AnchorPane apECACar;
+	@FXML
+	private AnchorPane apECACustomer;
+	@FXML
+	private TableView<Car> tvECACar;
 	@FXML
 	private TextField tfECACustID;
 	@FXML
@@ -133,15 +145,13 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	@FXML
 	private TextField tfECAOwner;
 	@FXML
-	private ComboBox<?> cobECAFuelType;
+	private ComboBox<String> cobECAFuelType;
 	@FXML
 	private Button btnECAUpdate;
 	@FXML
 	private Button btnECADelete;
 	@FXML
-	private Button btnExit1;
-	@FXML
-	private ImageView btnECAClose;
+	private Button btnECAClose;
 	@FXML
 	private Button btnECAClear;
 	@FXML
@@ -311,8 +321,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 
 	@FXML
 	void btnECUClosePressed(ActionEvent event) {
-		mainBorderPane.setDisable(false);
-		editCustomerPane.setVisible(false);
+		this.mainBorderPane.setDisable(false);
+		this.editCustomerPane.setVisible(false);
 		clearEditCustomerPane();
 	}
 
@@ -396,6 +406,37 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	}
 
 	@FXML
+	void btnAECAEditPressed(ActionEvent event) {
+		this.mainBorderPane.setDisable(true);
+		this.editCarPane.setVisible(true);
+	}
+
+	@FXML
+	void btnECAClearPressed(ActionEvent event) {
+		clearEditCarPane();
+	}
+
+	@FXML
+	void btnECAClosePressed(ActionEvent event) {
+		this.mainBorderPane.setDisable(false);
+		this.editCarPane.setVisible(false);
+		clearEditCarPane();
+	}
+
+	@FXML
+	void btnECAShowPressed(ActionEvent event) {
+		String customerID = this.tfECACustID.getText();
+		if (customerID.isEmpty() || customerID.length() != 9 || customerID.matches(".*[A-z].*")) {
+			openErrorAlert("Error", "Field Not Valid");
+			return;
+		}
+
+		checkCustomerExists(customerID);
+	}
+
+	/*********************************************************************************/
+
+	@FXML
 	void openSetPurchasingProgram(ActionEvent event) {
 		this.visibleNow.setVisible(false);
 		this.setPurchasingPane.setVisible(true);
@@ -459,6 +500,9 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 					if (this.visibleNow == this.addEditCarPane && editCarPane.isVisible() == false) {
 						this.gpAECACarDetails.setDisable(true);
 						this.apAECACarDetails.setDisable(false);
+
+					} else if (this.visibleNow == this.addEditCarPane && editCarPane.isVisible() == true) {
+						this.controller.handleMessageFromClientUI("getcustomercars " + this.tfECACustID.getText());
 					}
 				}
 			}
@@ -476,6 +520,18 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 				this.gpECUCustomer.setDisable(true);
 				this.apECUCustomer.setDisable(false);
 			}
+
+		} else if (lastMsgFromServer instanceof CarList) {
+			System.out.println("got car list from server");
+			this.apECACustomer.setDisable(true);
+			this.apECACar.setDisable(false);
+			final ObservableList<Car> list = FXCollections.observableArrayList();
+			for (int i = 0; i < this.tvECACar.getItems().size(); ++i)
+				this.tvECACar.getItems().clear();
+			ArrayList<Car> cars = ((CarList) lastMsgFromServer).getCars();
+			for (Car car : cars)
+				list.add(car);
+			this.tvECACar.setItems(list);
 		}
 	}
 
@@ -484,6 +540,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	 * 
 	 * @param username
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked", "deprecation" })
 	@Override
 	public void setUserComponents(String username) {
 		super.setUserComponents(username);
@@ -496,6 +553,22 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.cobAECAFuelType.getItems().removeAll((Collection<?>) this.cobAECAFuelType.getItems());
 		this.cobAECAFuelType.getItems().addAll(new String[] { "Gasoline", "Diesel", "Motorbike Fuel" });
 		this.cobAECAFuelType.setValue("Gasoline");
+		this.cobECAFuelType.getItems().removeAll((Collection<?>) this.cobAECAFuelType.getItems());
+		this.cobECAFuelType.getItems().addAll(new String[] { "Gasoline", "Diesel", "Motorbike Fuel" });
+		this.cobECAFuelType.setValue("Gasoline");
+		final TableColumn<Car, String> regPlateColumn = (TableColumn<Car, String>) new TableColumn(
+				"Registration Plate");
+		regPlateColumn.setCellValueFactory((Callback) new PropertyValueFactory("registrationPlate"));
+		regPlateColumn.impl_setWidth(160);
+		this.tvECACar.getColumns().add(regPlateColumn);
+		final TableColumn<Car, String> ownerColumn = (TableColumn<Car, String>) new TableColumn("Owner Name");
+		ownerColumn.setCellValueFactory((Callback) new PropertyValueFactory("ownerName"));
+		ownerColumn.impl_setWidth(180);
+		this.tvECACar.getColumns().add(ownerColumn);
+		final TableColumn<Car, ProductName> productColumn = (TableColumn<Car, ProductName>) new TableColumn("Fuel Type");
+		productColumn.setCellValueFactory((Callback) new PropertyValueFactory("productName"));
+		productColumn.impl_setWidth(160);
+		this.tvECACar.getColumns().add(productColumn);
 		this.step2.setVisible(false);
 		this.step3.setVisible(false);
 	}
@@ -510,6 +583,9 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.cobAECUCustType.setValue("Person");
 		clearEditCustomerPane();
 		clearAddEditCarPane();
+		clearEditCarPane();
+		this.step2.setVisible(false);
+		this.step3.setVisible(false);
 	}
 
 	private void clearEditCustomerPane() {
@@ -531,6 +607,17 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.step2.setVisible(false);
 		this.gpAECACarDetails.setDisable(false);
 		this.apAECACarDetails.setDisable(true);
+	}
+
+	private void clearEditCarPane() {
+		this.tfECACustID.clear();
+		this.tfECARegistration.clear();
+		this.tfECAOwner.clear();
+		this.cobECAFuelType.setValue("Gasoline");
+		for (int i = 0; i < this.tvECACar.getItems().size(); ++i)
+			this.tvECACar.getItems().clear();
+		this.apECACustomer.setDisable(false);
+		this.apECACar.setDisable(true);
 	}
 
 	private void checkCustomerExists(String customerID) {

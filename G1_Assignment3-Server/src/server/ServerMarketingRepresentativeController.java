@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import database.DatabaseController;
 import entities.Car;
+import entities.CarList;
 import entities.Customer;
 import entities.User;
 import ocsf.server.ConnectionToClient;
@@ -85,6 +86,10 @@ public class ServerMarketingRepresentativeController {
 						client.sendToClient("Customer Check : Exists");
 					else
 						client.sendToClient("Customer Check : Doesn't Exist");
+
+				} else if (splitMsg[0].equals("getcustomercars")) {
+					CarList carList = this.databaseController.getCustomerCars(splitMsg[1]);
+					client.sendToClient(carList);
 				}
 			}
 

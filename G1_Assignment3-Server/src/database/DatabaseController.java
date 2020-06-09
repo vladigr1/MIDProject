@@ -8,6 +8,7 @@ import java.sql.Statement;
 
 import entities.ActivityList;
 import entities.Car;
+import entities.CarList;
 import entities.Customer;
 import entities.FastFuelList;
 import entities.HomeFuelOrder;
@@ -227,6 +228,15 @@ public class DatabaseController {
 	 */
 	public String saveNewCarSequence(Car car) {
 		return DatabaseMarketingRepresentativeController.getInstance(connection).saveNewCarSequence(car);
+	}
+
+	/**
+	 * 
+	 * @param customerID
+	 * @return list of cars of customer
+	 */
+	public CarList getCustomerCars(String customerID) {
+		return DatabaseMarketingRepresentativeController.getInstance(connection).getCustomerCars(customerID);
 	}
 
 }
