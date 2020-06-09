@@ -1162,7 +1162,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="btnECUUpdate" layoutX="258.0" layoutY="299.0" mnemonicParsing="false" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Update Customer">
+                  <Button fx:id="btnECUUpdate" layoutX="258.0" layoutY="299.0" mnemonicParsing="false" onAction="#btnECUUpdatePressed" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Update Customer">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>

@@ -200,4 +200,23 @@ public class DatabaseController {
 		return DatabaseMarketingRepresentativeController.getInstance(connection).deleteCustomer(customerID);
 	}
 
+	/**
+	 * check if customerID exists, 0 if exists, 1 if deleted, 2 if doesnt exist
+	 * 
+	 * @param customerID
+	 */
+	public Integer checkCustomerExists(String customerID) {
+		return DatabaseMarketingRepresentativeController.getInstance(connection).checkCustomerExists(customerID);
+	}
+
+	/**
+	 * 
+	 * @param user
+	 * @param customer
+	 * @return string of success or fail
+	 */
+	public String updateCustomer(User user, Customer customer) {
+		return DatabaseMarketingRepresentativeController.getInstance(connection).updateCustomer(user, customer);
+	}
+
 }

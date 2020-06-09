@@ -43,7 +43,7 @@ public class DatabaseMarketingRepresentativeController {
 	 * 
 	 * @param customerID
 	 */
-	private Integer checkCustomerExists(String customerID) {
+	public Integer checkCustomerExists(String customerID) {
 		try {
 			PreparedStatement pStmt = this.connection
 					.prepareStatement("SELECT deleted FROM customer WHERE customerID = ?");
@@ -99,9 +99,8 @@ public class DatabaseMarketingRepresentativeController {
 			pStmt.setString(1, customerID);
 			pStmt.executeUpdate();
 
-			pStmt = this.connection.prepareStatement("UPDATE user SET username = ? WHERE username = ?");
-			pStmt.setString(1, username + "Deleted");
-			pStmt.setString(2, username);
+			pStmt = this.connection.prepareStatement("DELETE FROM user WHERE username = ?");
+			pStmt.setString(1, username);
 			pStmt.executeUpdate();
 			return true;
 
@@ -122,15 +121,18 @@ public class DatabaseMarketingRepresentativeController {
 	 */
 	public String saveNewCustomerSequence(User user, Customer customer) {
 		try {
-			int exists = checkCustomerExists(customer.getCustomerID());
+			String customerID = customer.getCustomerID();
+			int exists = checkCustomerExists(customerID);
 			if (exists == 0) {
 				return "save customer exist";
 
-			} else if (checkCustomerExists(customer.getCustomerID()) == null) {
+			} else if (checkCustomerExists(customerID) == null) {
 				return "save customer fail";
 
-			} else if (exists == 1) {
-				if (deleteCustomer(customer.getCustomerID()) == false)
+			} else if (exists == 1) { // deleted customer
+				if (updateCustomer(user, customer).equals("update customer success"))
+					return "save customer success";
+				else
 					return "save customer fail";
 			}
 
@@ -140,7 +142,7 @@ public class DatabaseMarketingRepresentativeController {
 			TableInserts.insertUser(connection, values1);
 
 			// "customerID", "FK_userName", "creditCard", "customerType", "deleted"
-			Object[] values2 = { customer.getCustomerID(), user.getUsername(), customer.getCreditCard(),
+			Object[] values2 = { customerID, user.getUsername(), customer.getCreditCard(),
 					customer.getCustomerType().toString(), false };
 			TableInserts.insertCustomer(connection, values2);
 
@@ -152,6 +154,64 @@ public class DatabaseMarketingRepresentativeController {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return "save customer fail";
+		}
+	}
+
+	/**
+	 * 
+	 * @param user
+	 * @param customer
+	 * @return string of success or fail
+	 */
+	public String updateCustomer(User user, Customer customer) {
+		try {
+			String customerID = customer.getCustomerID();
+
+			PreparedStatement pStmt = this.connection
+					.prepareStatement("SELECT FK_username FROM customer WHERE customerID = ?");
+			pStmt.setString(1, customerID);
+			ResultSet rs1 = pStmt.executeQuery();
+			if (!rs1.next())
+				return "update customer fail";
+			String username = rs1.getString(1);
+			rs1.close();
+
+			pStmt = this.connection.prepareStatement("SELECT * FROM user WHERE username = ?");
+			pStmt.setString(1, username);
+			ResultSet rs2 = pStmt.executeQuery();
+
+			if (!rs2.next()) { // username doesn't exist
+				// "username", "password", "connected", "email", "firstName", "surname"
+				Object[] values1 = { user.getUsername(), "1234", false, user.getEmail(), user.getFirstName(),
+						user.getSurname() };
+				TableInserts.insertUser(connection, values1);
+
+			} else { // username does exist
+
+				pStmt = this.connection
+						.prepareStatement("UPDATE user SET email = ?, firstName = ?, surname = ? WHERE username = ?");
+				pStmt.setString(1, user.getEmail());
+				pStmt.setString(2, user.getFirstName());
+				pStmt.setString(3, user.getSurname());
+				pStmt.setString(4, username);
+				pStmt.executeUpdate();
+			}
+			rs2.close();
+
+			pStmt = this.connection.prepareStatement(
+					"UPDATE customer SET creditCard = ?, customerType = ?, deleted = 0 WHERE customerID = ?");
+			pStmt.setString(1, customer.getCreditCard());
+			pStmt.setString(2, customer.getCustomerType().toString());
+			pStmt.setString(3, customerID);
+			pStmt.executeUpdate();
+			return "update customer success";
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return "update customer fail";
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return "update customer fail";
 		}
 	}
 

@@ -162,10 +162,10 @@ public class DefaultTableInserts {
 		if (checkTableEmpty(con, "customer") == false)
 			return;
 		// "customerID", "FK_userName", "creditCard", "customerType", "deleted"
-		Object[] values1 = { "111111111", "IsraelThePersonCustomer", "1111-2222-3333-4444",
+		Object[] values1 = { "111111111", "IsraelThePersonCustomer", "1111222233334444",
 				CustomerType.Person.toString(), false };
 		TableInserts.insertCustomer(con, values1);
-		Object[] values2 = { "222222222", "IsraelTheCompanyCustomer", "4444-3333-2222-1111",
+		Object[] values2 = { "222222222", "IsraelTheCompanyCustomer", "4444333322221111",
 				CustomerType.Company.toString(), false };
 		TableInserts.insertCustomer(con, values2);
 	}

@@ -46,8 +46,13 @@ public class ServerMarketingRepresentativeController {
 			if (object instanceof Object[]) {
 				Object[] objArr = (Object[]) object;
 				if (objArr.length == 2 && objArr[0] instanceof User && objArr[1] instanceof Customer) {
-					String str = this.databaseController.saveNewCustomerSequence((User) objArr[0],
-							(Customer) objArr[1]);
+					String function = ((User) objArr[0]).getFunction();
+					String str = null;
+					if (function.equals("save customer")) {
+						str = this.databaseController.saveNewCustomerSequence((User) objArr[0], (Customer) objArr[1]);
+					} else if (function.equals("update customer")) {
+						str = this.databaseController.updateCustomer((User) objArr[0], (Customer) objArr[1]);
+					}
 					client.sendToClient(str);
 				}
 
@@ -63,6 +68,13 @@ public class ServerMarketingRepresentativeController {
 						client.sendToClient("Customer Deleted");
 					else
 						client.sendToClient("Customer Delete Failed");
+
+				} else if (splitMsg[0].equals("checkcustomer")) {
+					Integer exists = this.databaseController.checkCustomerExists(splitMsg[1]);
+					if (exists == 0)
+						client.sendToClient("Customer Check : Exists");
+					else
+						client.sendToClient("Customer Check : Doesn't Exist");
 				}
 			}
 

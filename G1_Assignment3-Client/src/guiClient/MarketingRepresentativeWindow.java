@@ -296,6 +296,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			return;
 		}
 
+		checkCustomerExists(customerID);
 		this.controller.handleMessageFromClientUI("getcustomerdetails " + customerID);
 	}
 
@@ -313,7 +314,36 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 
 	@FXML
 	void btnECUDeletePressed(ActionEvent event) {
-		this.controller.handleMessageFromClientUI("deletecustomer " + this.tfACUCustID.getText());
+		String customerID = this.tfACUCustID.getText();
+		if (customerID.isEmpty() || customerID.length() != 9 || customerID.matches(".*[A-z].*")) {
+			openErrorAlert("Error", "Field Not Valid");
+			return;
+		}
+		this.controller.handleMessageFromClientUI("deletecustomer " + customerID);
+	}
+
+	@FXML
+	void btnECUUpdatePressed(ActionEvent event) {
+		String customerID = this.tfACUCustID.getText();
+		String firstName = this.tfECUFirstName.getText();
+		String surname = this.tfECUSurname.getText();
+		String email = this.tfECUEmail.getText();
+		String creditCard = this.tfECUCredit.getText();
+		String customerType = this.cobECUCustType.getValue();
+
+		if (customerID.isEmpty() || firstName.isEmpty() || surname.isEmpty() || email.isEmpty()
+				|| creditCard.isEmpty()) {
+			openErrorAlert("Error", "Missing Required Fields");
+			return;
+		}
+		if (customerID.matches(".*[A-z].*") || firstName.matches(".*[0-9].*") || surname.matches(".*[0-9].*")
+				|| creditCard.matches(".*[A-z].*") || creditCard.length() != 16 || customerID.length() != 9) {
+			openErrorAlert("Error", "Field Not Valid");
+			return;
+		}
+
+		this.controller.handleMessageFromClientUI("updatecustomer " + customerID + " " + firstName + " " + surname + " "
+				+ email + " " + creditCard + " " + customerType);
 	}
 
 	@FXML
@@ -354,6 +384,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			if (str.equals("save customer success")) {
 				openErrorAlert("Success",
 						"Customer Saved\nUsername: " + this.tfAECUCustID.getText() + "\nPassword: 1234");
+				clearFields();
 
 			} else if (str.equals("save customer fail")) {
 				openErrorAlert("Error", "Add Customer Failed");
@@ -361,9 +392,19 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			} else if (str.equals("save customer exist")) {
 				openErrorAlert("Error", "Customer Already Exists");
 
+			} else if (str.equals("update customer success")) {
+				openErrorAlert("Success", "Customer Updated");
+				clearEditCustomerPane();
+
+			} else if (str.equals("update customer fail")) {
+				openErrorAlert("Success", "Customer Update Failed");
+
 			} else if (str.startsWith("Customer Delete")) {
 				openErrorAlert("Delete", str);
 				clearEditCustomerPane();
+
+			} else if (str.startsWith("Customer Check")) {
+				openErrorAlert("Check", str);
 			}
 
 		} else if (lastMsgFromServer instanceof Object[]) {
@@ -418,6 +459,10 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.cobECUCustType.setValue("Person");
 		this.gpECUCustomer.setDisable(false);
 		this.apECUCustomer.setDisable(true);
+	}
+
+	private void checkCustomerExists(String customerID) {
+		this.controller.handleMessageFromClientUI("checkcustomer " + customerID);
 	}
 
 }
