@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import entities.Car;
 import entities.Customer;
 import entities.User;
 import enums.CustomerType;
@@ -260,6 +261,44 @@ public class DatabaseMarketingRepresentativeController {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return null;
+		}
+	}
+
+	public String saveNewCarSequence(Car car) {
+		try {
+			String customerID = customer.getCustomerID();
+			int exists = checkCustomerExists(customerID);
+			if (exists == 0) {
+				return "save customer exist";
+
+			} else if (checkCustomerExists(customerID) == null) {
+				return "save customer fail";
+
+			} else if (exists == 1) { // deleted customer
+				if (updateCustomer(user, customer).equals("update customer success"))
+					return "save customer success";
+				else
+					return "save car fail";
+			}
+
+			// "username", "password", "connected", "email", "firstName", "surname"
+			Object[] values1 = { user.getUsername(), "1234", false, user.getEmail(), user.getFirstName(),
+					user.getSurname() };
+			TableInserts.insertUser(connection, values1);
+
+			// "customerID", "FK_userName", "creditCard", "customerType", "deleted"
+			Object[] values2 = { customerID, user.getUsername(), customer.getCreditCard(),
+					customer.getCustomerType().toString(), false };
+			TableInserts.insertCustomer(connection, values2);
+
+			return "save car success";
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return "save car fail";
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return "save car fail";
 		}
 	}
 

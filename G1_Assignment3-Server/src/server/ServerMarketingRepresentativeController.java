@@ -3,6 +3,7 @@ package server;
 import java.io.IOException;
 
 import database.DatabaseController;
+import entities.Car;
 import entities.Customer;
 import entities.User;
 import ocsf.server.ConnectionToClient;
@@ -43,7 +44,16 @@ public class ServerMarketingRepresentativeController {
 	 */
 	public void handleMessageFromClient(Object object, ConnectionToClient client) {
 		try {
-			if (object instanceof Object[]) {
+			if (object instanceof Car) {
+				Car car = (Car) object;
+				String function = car.getFunction();
+				String str = null;
+				if (function.equals("save car")) {
+					str = this.databaseController.saveNewCarSequence(car);
+				}
+				client.sendToClient(str);
+
+			} else if (object instanceof Object[]) {
 				Object[] objArr = (Object[]) object;
 				if (objArr.length == 2 && objArr[0] instanceof User && objArr[1] instanceof Customer) {
 					String function = ((User) objArr[0]).getFunction();

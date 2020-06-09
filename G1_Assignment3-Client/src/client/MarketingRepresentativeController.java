@@ -3,9 +3,11 @@ package client;
 import java.io.IOException;
 import java.net.ConnectException;
 
+import entities.Car;
 import entities.Customer;
 import entities.User;
 import enums.CustomerType;
+import enums.ProductName;
 
 /**
  * logic controller for marketing representative
@@ -45,6 +47,12 @@ public class MarketingRepresentativeController extends MarketingDepWorkerControl
 			boolean flag = true;
 
 			if (splitMsg[0].equals("savecustomer")) {
+				Car car = new Car(splitMsg[2], splitMsg[1], ProductName.valueOf(splitMsg[4]), splitMsg[3]);
+				car.setFunction("save car");
+				System.out.println("sending to server : " + car);
+				this.sendToServer(car);
+
+			} else if (splitMsg[0].equals("savecustomer")) {
 				User user = new User(splitMsg[1], splitMsg[4], splitMsg[2], splitMsg[3]);
 				Customer customer = new Customer(splitMsg[1], splitMsg[1], splitMsg[5],
 						CustomerType.valueOf(splitMsg[6]));

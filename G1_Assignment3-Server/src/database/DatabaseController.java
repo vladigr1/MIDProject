@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import entities.ActivityList;
+import entities.Car;
 import entities.Customer;
 import entities.FastFuelList;
 import entities.HomeFuelOrder;
@@ -217,6 +218,15 @@ public class DatabaseController {
 	 */
 	public String updateCustomer(User user, Customer customer) {
 		return DatabaseMarketingRepresentativeController.getInstance(connection).updateCustomer(user, customer);
+	}
+
+	/**
+	 * 
+	 * @param car
+	 * @return string of success or fail
+	 */
+	public String saveNewCarSequence(Car car) {
+		return DatabaseMarketingRepresentativeController.getInstance(connection).saveNewCarSequence(car);
 	}
 
 }

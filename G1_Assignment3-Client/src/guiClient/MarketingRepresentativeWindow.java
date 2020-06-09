@@ -102,6 +102,10 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	@FXML
 	private Label step2;
 	@FXML
+	private AnchorPane apAECACarDetails;
+	@FXML
+	private GridPane gpAECACarDetails;
+	@FXML
 	private TextField tfAECARegistration;
 	@FXML
 	private TextField tfAECAOwner;
@@ -112,7 +116,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	@FXML
 	private Button btnAECACheck;
 	@FXML
-	private ComboBox<?> cobAECAFuelType;
+	private ComboBox<String> cobAECAFuelType;
 	@FXML
 	private Button btnAECAEdit;
 	@FXML
@@ -356,6 +360,43 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	}
 
 	@FXML
+	void btnAECACheckPressed(ActionEvent event) {
+		String customerID = this.tfAECACustID.getText();
+		if (customerID.isEmpty() || customerID.length() != 9 || customerID.matches(".*[A-z].*")) {
+			openErrorAlert("Error", "Field Not Valid");
+			return;
+		}
+		checkCustomerExists(customerID);
+	}
+
+	@FXML
+	void btnAECAClearPressed(ActionEvent event) {
+		clearAddEditCarPane();
+	}
+
+	@FXML
+	void btnAECASavePressed(ActionEvent event) {
+		String customerID = this.tfAECACustID.getText();
+		String regPlate = this.tfAECARegistration.getText();
+		String owner = this.tfAECAOwner.getText();
+		String fuelType = this.cobAECAFuelType.getValue();
+		fuelType.replaceAll("\\s", "");
+
+		if (customerID.isEmpty() || regPlate.isEmpty() || owner.isEmpty() || fuelType.isEmpty()) {
+			openErrorAlert("Error", "Missing Required Fields");
+			return;
+		}
+		if (customerID.matches(".*[A-z].*") || owner.matches(".*[0-9].*") || regPlate.matches(".*[A-z].*")
+				|| (regPlate.length() != 7 && regPlate.length() != 8)) {
+			openErrorAlert("Error", "Field Not Valid");
+			return;
+		}
+
+		this.controller
+				.handleMessageFromClientUI("savecar " + customerID + " " + regPlate + " " + owner + " " + fuelType);
+	}
+
+	@FXML
 	void openSetPurchasingProgram(ActionEvent event) {
 		this.visibleNow.setVisible(false);
 		this.setPurchasingPane.setVisible(true);
@@ -405,6 +446,12 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 
 			} else if (str.startsWith("Customer Check")) {
 				openErrorAlert("Check", str);
+				if (str.contains("Exists")) {
+					if (this.visibleNow == this.addEditCarPane && editCarPane.isVisible() == false) {
+						this.gpAECACarDetails.setDisable(true);
+						this.apAECACarDetails.setDisable(false);
+					}
+				}
 			}
 
 		} else if (lastMsgFromServer instanceof Object[]) {
@@ -434,9 +481,14 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.cobAECUCustType.getItems().removeAll((Collection<?>) this.cobAECUCustType.getItems());
 		this.cobAECUCustType.getItems().addAll(new String[] { "Person", "Company" });
 		this.cobAECUCustType.setValue("Person");
-		this.cobECUCustType.getItems().removeAll((Collection<?>) this.cobAECUCustType.getItems());
+		this.cobECUCustType.getItems().removeAll((Collection<?>) this.cobECUCustType.getItems());
 		this.cobECUCustType.getItems().addAll(new String[] { "Person", "Company" });
 		this.cobECUCustType.setValue("Person");
+		this.cobAECAFuelType.getItems().removeAll((Collection<?>) this.cobAECAFuelType.getItems());
+		this.cobAECAFuelType.getItems().addAll(new String[] { "Gasoline", "Diesel", "Motorbike Fuel" });
+		this.cobAECAFuelType.setValue("Gasoline");
+		this.step2.setVisible(false);
+		this.step3.setVisible(false);
 	}
 
 	@Override
@@ -448,9 +500,10 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.tfAECUEmail.clear();
 		this.cobAECUCustType.setValue("Person");
 		clearEditCustomerPane();
+		clearAddEditCarPane();
 	}
 
-	public void clearEditCustomerPane() {
+	private void clearEditCustomerPane() {
 		this.tfACUCustID.clear();
 		this.tfECUFirstName.clear();
 		this.tfECUSurname.clear();
@@ -459,6 +512,16 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.cobECUCustType.setValue("Person");
 		this.gpECUCustomer.setDisable(false);
 		this.apECUCustomer.setDisable(true);
+	}
+
+	private void clearAddEditCarPane() {
+		this.tfAECACustID.clear();
+		this.tfAECARegistration.clear();
+		this.tfAECAOwner.clear();
+		this.cobAECAFuelType.setValue("Gasoline");
+		this.step2.setVisible(false);
+		this.gpAECACarDetails.setDisable(false);
+		this.apAECACarDetails.setDisable(true);
 	}
 
 	private void checkCustomerExists(String customerID) {

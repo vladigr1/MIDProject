@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import database.DatabaseController;
+import entities.Car;
 import entities.Customer;
 import entities.HomeFuelOrder;
 import entities.User;
@@ -83,6 +84,10 @@ public class ServerController extends AbstractServer {
 				this.serverWindow
 						.updateArea(formatter.format(date) + " : " + client + " : request : save homefuel order");
 				ServerCustomerController.getInstance(databaseController).handleMessageFromClient(homeFuelOrder, client);
+
+			} else if (object instanceof Car) {
+				ServerMarketingRepresentativeController.getInstance(databaseController).handleMessageFromClient(object,
+						client);
 
 			} else if (object instanceof String) {
 				String str = (String) object;
