@@ -379,8 +379,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		String customerID = this.tfAECACustID.getText();
 		String regPlate = this.tfAECARegistration.getText();
 		String owner = this.tfAECAOwner.getText();
-		String fuelType = this.cobAECAFuelType.getValue();
-		fuelType.replaceAll("\\s", "");
+		String fuelType = this.cobAECAFuelType.getValue().replaceAll("\\s", "");
 
 		if (customerID.isEmpty() || regPlate.isEmpty() || owner.isEmpty() || fuelType.isEmpty()) {
 			openErrorAlert("Error", "Missing Required Fields");
@@ -422,7 +421,17 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 
 		if (lastMsgFromServer instanceof String) {
 			String str = (String) lastMsgFromServer;
-			if (str.equals("save customer success")) {
+			if (str.equals("save car success")) {
+				openErrorAlert("Success", "Car Saved");
+				clearFields();
+
+			} else if (str.equals("save car fail")) {
+				openErrorAlert("Error", "Add Car Failed");
+
+			} else if (str.equals("save car exist")) {
+				openErrorAlert("Error", "Car Already Exists");
+
+			} else if (str.equals("save customer success")) {
 				openErrorAlert("Success",
 						"Customer Saved\nUsername: " + this.tfAECUCustID.getText() + "\nPassword: 1234");
 				clearFields();

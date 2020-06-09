@@ -200,10 +200,11 @@ public class DatabaseMarketingRepresentativeController {
 			rs2.close();
 
 			pStmt = this.connection.prepareStatement(
-					"UPDATE customer SET creditCard = ?, customerType = ?, deleted = 0 WHERE customerID = ?");
-			pStmt.setString(1, customer.getCreditCard());
-			pStmt.setString(2, customer.getCustomerType().toString());
-			pStmt.setString(3, customerID);
+					"UPDATE customer SET FK_username = ?, creditCard = ?, customerType = ?, deleted = 0 WHERE customerID = ?");
+			pStmt.setString(1, user.getUsername());
+			pStmt.setString(2, customer.getCreditCard());
+			pStmt.setString(3, customer.getCustomerType().toString());
+			pStmt.setString(4, customerID);
 			pStmt.executeUpdate();
 			return "update customer success";
 
@@ -264,32 +265,33 @@ public class DatabaseMarketingRepresentativeController {
 		}
 	}
 
+	/**
+	 * 
+	 * @param car
+	 * @return string of success or fail
+	 */
 	public String saveNewCarSequence(Car car) {
 		try {
-			String customerID = customer.getCustomerID();
-			int exists = checkCustomerExists(customerID);
+			String regPlate = car.getRegistrationPlate();
+			int exists = checkCarExists(regPlate);
 			if (exists == 0) {
-				return "save customer exist";
+				return "save car exist";
 
-			} else if (checkCustomerExists(customerID) == null) {
-				return "save customer fail";
+			} else if (checkCarExists(regPlate) == null) {
+				return "save car fail";
 
-			} else if (exists == 1) { // deleted customer
-				if (updateCustomer(user, customer).equals("update customer success"))
-					return "save customer success";
+			} else if (exists == 1) { // deleted car
+				if (updateCar(car).equals("update car success"))
+					return "save car success";
 				else
 					return "save car fail";
 			}
 
-			// "username", "password", "connected", "email", "firstName", "surname"
-			Object[] values1 = { user.getUsername(), "1234", false, user.getEmail(), user.getFirstName(),
-					user.getSurname() };
-			TableInserts.insertUser(connection, values1);
-
-			// "customerID", "FK_userName", "creditCard", "customerType", "deleted"
-			Object[] values2 = { customerID, user.getUsername(), customer.getCreditCard(),
-					customer.getCustomerType().toString(), false };
-			TableInserts.insertCustomer(connection, values2);
+			// "registrationPlate", "FK_customerID", "FK_productName", "ownerName",
+			// "deleted"
+			Object[] values1 = { regPlate, car.getCustomerID(), car.getProductName().toString(), car.getOwnerName(),
+					false };
+			TableInserts.insertCar(connection, values1);
 
 			return "save car success";
 
@@ -302,4 +304,65 @@ public class DatabaseMarketingRepresentativeController {
 		}
 	}
 
+	/**
+	 * 
+	 * @param car
+	 * @return string of success or fail
+	 */
+	private String updateCar(Car car) {
+		try {
+			String regPlate = car.getRegistrationPlate();
+			int exists = checkCarExists(regPlate);
+			if (exists != 0 && exists != 1)
+				return "update car fail";
+
+			PreparedStatement pStmt = this.connection.prepareStatement(
+					"UPDATE car SET FK_customerID = ?, FK_productName = ?, ownerName = ?, deleted = 0 WHERE registrationPlate = ?");
+			pStmt.setString(1, car.getCustomerID());
+			pStmt.setString(2, car.getProductName().toString());
+			pStmt.setString(3, car.getOwnerName());
+			pStmt.setString(4, regPlate);
+			pStmt.executeUpdate();
+
+			return "update car success";
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return "update car fail";
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return "update car fail";
+		}
+	}
+
+	/**
+	 * check if regPlate exists, 0 if exists, 1 if deleted, 2 if doesnt exist
+	 * 
+	 * @param regPlate
+	 */
+	private Integer checkCarExists(String regPlate) {
+		try {
+			PreparedStatement pStmt = this.connection
+					.prepareStatement("SELECT deleted FROM car WHERE registrationPlate = ?");
+			pStmt.setString(1, regPlate);
+			ResultSet rs1 = pStmt.executeQuery();
+
+			if (!rs1.next())
+				return 2;
+			int deleted = rs1.getInt(1);
+			rs1.close();
+
+			if (deleted == 1)
+				return 1;
+
+			return 0;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
 }

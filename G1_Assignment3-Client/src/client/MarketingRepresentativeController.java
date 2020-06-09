@@ -46,7 +46,7 @@ public class MarketingRepresentativeController extends MarketingDepWorkerControl
 			awaitResponse = true;
 			boolean flag = true;
 
-			if (splitMsg[0].equals("savecustomer")) {
+			if (splitMsg[0].equals("savecar")) {
 				Car car = new Car(splitMsg[2], splitMsg[1], ProductName.valueOf(splitMsg[4]), splitMsg[3]);
 				car.setFunction("save car");
 				System.out.println("sending to server : " + car);
