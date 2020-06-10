@@ -203,6 +203,10 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	@FXML
 	private AnchorPane pricingModelPane;
 	@FXML
+	private GridPane gpSPM;
+	@FXML
+	private AnchorPane apSPM;
+	@FXML
 	private Button btnSPMSet;
 	@FXML
 	private TextField tfSPMCustID;
@@ -544,8 +548,6 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 				"setprogram " + customerID + " " + program + " " + company1 + " " + company2 + " " + company3);
 	}
 
-	/*********************************************************************************/
-
 	@FXML
 	void openSetPricingModel(ActionEvent event) {
 		this.visibleNow.setVisible(false);
@@ -553,6 +555,53 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.visibleNow = this.pricingModelPane;
 		this.topbar_window_label.setText("Set Pricing Model");
 		clearFields();
+	}
+
+	@FXML
+	void btnSPMClearPressed(ActionEvent event) {
+		clearPricingModelPane();
+	}
+
+	@FXML
+	void btnSPMCheckPressed(ActionEvent event) {
+		String customerID = this.tfSPMCustID.getText();
+		if (customerID.isEmpty() || customerID.length() != 9 || customerID.matches(".*[A-z].*")) {
+			openErrorAlert("Error", "Field Not Valid");
+			return;
+		}
+		checkCustomerExists(customerID);
+	}
+
+	@FXML
+	void btnSPMSetPressed(ActionEvent event) {
+		String customerID = this.tfSPMCustID.getText();
+		String model = null;
+		String defaultDiscount = null;
+
+		if (customerID.isEmpty() || customerID.length() != 9 || customerID.matches(".*[A-z].*")) {
+			openErrorAlert("Error", "Field Not Valid");
+			return;
+		}
+
+		if (this.btnSPMChoose1.isSelected()) {
+			model = "PayInPlace";
+			defaultDiscount = "0";
+		} else if (this.btnSPMChoose2.isSelected()) {
+			model = "MonthlyProgramSingleCar";
+			defaultDiscount = "0.04";
+		} else if (this.btnSPMChoose3.isSelected()) {
+			model = "MonthlyProgramMultipleCars";
+			defaultDiscount = "0.1";
+		} else if (this.btnSPMChoose4.isSelected()) {
+			model = "FullProgramSingleCar";
+			defaultDiscount = "0.13";
+		} else {
+			openErrorAlert("Error", "No Pricing Model Chosen");
+			return;
+		}
+
+		this.controller
+				.handleMessageFromClientUI("setpricingmodel " + customerID + " " + model + " " + defaultDiscount);
 	}
 
 	/*************** boundary "logic" - window changes ***************/
@@ -579,6 +628,13 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 
 			} else if (str.equals("set purchasing program fail")) {
 				openErrorAlert("Error", "Purchasing Program Set Failed");
+
+			} else if (str.equals("set pricing model success")) {
+				openErrorAlert("Success", "Pricing Model Set Successfully");
+				clearSetPurchasingPane();
+
+			} else if (str.equals("set pricing model fail")) {
+				openErrorAlert("Error", "Pricing Model Set Failed");
 
 			} else if (str.equals("save customer success")) {
 				openErrorAlert("Success",
@@ -632,6 +688,9 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 						this.purchProg_ExpenProgBox_SP.setStyle("-fx-border-style: none;");
 						this.cobSPPFuelCompany2.setDisable(true);
 						this.cobSPPFuelCompany3.setDisable(true);
+
+					} else if (this.visibleNow == this.pricingModelPane) {
+						this.controller.handleMessageFromClientUI("getcustomercars " + this.tfSPMCustID.getText());
 					}
 				}
 			}
@@ -652,15 +711,36 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 
 		} else if (lastMsgFromServer instanceof CarList) {
 			System.out.println("got car list from server");
-			this.apECACustomer.setDisable(true);
-			this.apECACar.setDisable(false);
-			final ObservableList<Car> list = FXCollections.observableArrayList();
-			for (int i = 0; i < this.tvECACar.getItems().size(); ++i)
-				this.tvECACar.getItems().clear();
-			ArrayList<Car> cars = ((CarList) lastMsgFromServer).getCars();
-			for (Car car : cars)
-				list.add(car);
-			this.tvECACar.setItems(list);
+			if (this.editCarPane.isVisible() == true) {
+				this.apECACustomer.setDisable(true);
+				this.apECACar.setDisable(false);
+				final ObservableList<Car> list = FXCollections.observableArrayList();
+				for (int i = 0; i < this.tvECACar.getItems().size(); ++i)
+					this.tvECACar.getItems().clear();
+				ArrayList<Car> cars = ((CarList) lastMsgFromServer).getCars();
+				for (Car car : cars)
+					list.add(car);
+				this.tvECACar.setItems(list);
+
+			} else if (this.visibleNow == this.pricingModelPane) {
+				this.gpSPM.setDisable(true);
+				this.apSPM.setDisable(false);
+				int numOfCars = ((CarList) lastMsgFromServer).getCars().size();
+				if (numOfCars == 0) {
+					btnSPMChoose2.setDisable(true);
+					btnSPMChoose3.setDisable(true);
+					btnSPMChoose4.setDisable(true);
+				} else if (numOfCars == 1) {
+					btnSPMChoose2.setDisable(false);
+					btnSPMChoose3.setDisable(true);
+					btnSPMChoose4.setDisable(false);
+				} else if (numOfCars > 1) {
+					btnSPMChoose2.setDisable(true);
+					btnSPMChoose3.setDisable(false);
+					btnSPMChoose4.setDisable(true);
+				}
+				openErrorAlert("Success", "Number of Cars = " + numOfCars);
+			}
 		}
 	}
 
@@ -722,8 +802,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.taSPPExpensiveDetails
 				.setText("Fast fueling in fuel stations of 2-3 fuel companies\n\n20 dollars per month");
 
-		this.step2.setVisible(false);
-		this.step3.setVisible(false);
+		clearFields();
 	}
 
 	@Override
@@ -740,6 +819,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		clearSetPurchasingPane();
 		this.step2.setVisible(false);
 		this.step3.setVisible(false);
+		clearPricingModelPane();
 	}
 
 	private void clearEditCustomerPane() {
@@ -785,6 +865,13 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.step3.setVisible(false);
 		this.gpSPP.setDisable(false);
 		this.apSPP.setDisable(true);
+	}
+
+	private void clearPricingModelPane() {
+		this.tfSPMCustID.clear();
+		this.btnSPMChoose1.setSelected(true);
+		this.gpSPM.setDisable(false);
+		this.apSPM.setDisable(true);
 	}
 
 	private void checkCustomerExists(String customerID) {

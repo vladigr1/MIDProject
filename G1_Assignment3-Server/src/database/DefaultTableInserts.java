@@ -525,7 +525,7 @@ public class DefaultTableInserts {
 		// "lastMonthUtillization"
 		Object[] values1 = { "222222222", PricingModelName.MonthlyProgramMultipleCars.toString(), 0.38 };
 		TableInserts.insertPricingModel1(con, values1);
-		Object[] values2 = { "111111111", PricingModelName.FullProgramSingleCar.toString(), 0.17, 100 };
+		Object[] values2 = { "111111111", PricingModelName.FullProgramSingleCar.toString(), 0.17, 0.99 };
 		TableInserts.insertPricingModel2(con, values2);
 	}
 

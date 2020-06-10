@@ -13,6 +13,7 @@ import entities.Customer;
 import entities.FastFuelList;
 import entities.HomeFuelOrder;
 import entities.HomeFuelOrderList;
+import entities.PricingModel;
 import entities.PurchasingProgram;
 import entities.PurchasingProgramType;
 import entities.User;
@@ -266,6 +267,15 @@ public class DatabaseController {
 	public String setPurchasingProgram(PurchasingProgram purchasingProgram) {
 		return DatabaseMarketingRepresentativeController.getInstance(connection)
 				.setPurchasingProgram(purchasingProgram);
+	}
+
+	/**
+	 * 
+	 * @param pricingModel
+	 * @return string of success or fail
+	 */
+	public String setPricingModel(PricingModel pricingModel) {
+		return DatabaseMarketingRepresentativeController.getInstance(connection).setPricingModel(pricingModel);
 	}
 
 }

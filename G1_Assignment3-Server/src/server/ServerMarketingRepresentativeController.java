@@ -6,6 +6,7 @@ import database.DatabaseController;
 import entities.Car;
 import entities.CarList;
 import entities.Customer;
+import entities.PricingModel;
 import entities.PurchasingProgram;
 import entities.User;
 import ocsf.server.ConnectionToClient;
@@ -46,7 +47,12 @@ public class ServerMarketingRepresentativeController {
 	 */
 	public void handleMessageFromClient(Object object, ConnectionToClient client) {
 		try {
-			if (object instanceof PurchasingProgram) {
+			if (object instanceof PricingModel) {
+				PricingModel pricingModel = (PricingModel) object;
+				String str = this.databaseController.setPricingModel(pricingModel);
+				client.sendToClient(str);
+
+			} else if (object instanceof PurchasingProgram) {
 				PurchasingProgram purchasingProgram = (PurchasingProgram) object;
 				String str = this.databaseController.setPurchasingProgram(purchasingProgram);
 				client.sendToClient(str);

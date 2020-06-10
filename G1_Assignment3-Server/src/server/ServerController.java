@@ -8,6 +8,7 @@ import database.DatabaseController;
 import entities.Car;
 import entities.Customer;
 import entities.HomeFuelOrder;
+import entities.PricingModel;
 import entities.PurchasingProgram;
 import entities.User;
 import guiServer.ServerWindow;
@@ -91,6 +92,10 @@ public class ServerController extends AbstractServer {
 						client);
 
 			} else if (object instanceof PurchasingProgram) {
+				ServerMarketingRepresentativeController.getInstance(databaseController).handleMessageFromClient(object,
+						client);
+
+			} else if (object instanceof PricingModel) {
 				ServerMarketingRepresentativeController.getInstance(databaseController).handleMessageFromClient(object,
 						client);
 

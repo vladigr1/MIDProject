@@ -5,10 +5,12 @@ import java.net.ConnectException;
 
 import entities.Car;
 import entities.Customer;
+import entities.PricingModel;
 import entities.PurchasingProgram;
 import entities.User;
 import enums.CustomerType;
 import enums.FuelCompanyName;
+import enums.PricingModelName;
 import enums.ProductName;
 import enums.PurchasingProgramName;
 
@@ -49,7 +51,13 @@ public class MarketingRepresentativeController extends MarketingDepWorkerControl
 			awaitResponse = true;
 			boolean flag = true;
 
-			if (splitMsg[0].equals("setprogram")) {
+			if (splitMsg[0].equals("setpricingmodel")) {
+				PricingModel pricingModel = new PricingModel(splitMsg[1], PricingModelName.valueOf(splitMsg[2]),
+						Double.parseDouble(splitMsg[3]));
+				System.out.println("sending to server : " + pricingModel);
+				this.sendToServer(pricingModel);
+
+			} else if (splitMsg[0].equals("setprogram")) {
 				PurchasingProgram purchasingProgram = new PurchasingProgram(splitMsg[1],
 						PurchasingProgramName.valueOf(splitMsg[2]), FuelCompanyName.valueOf(splitMsg[3]), null, null);
 				if (!splitMsg[4].equals("NaN"))

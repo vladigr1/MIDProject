@@ -8,10 +8,12 @@ import java.sql.SQLException;
 import entities.Car;
 import entities.CarList;
 import entities.Customer;
+import entities.PricingModel;
 import entities.PurchasingProgram;
 import entities.User;
 import enums.CustomerType;
 import enums.FuelCompanyName;
+import enums.PricingModelName;
 import enums.ProductName;
 import enums.PurchasingProgramName;
 
@@ -531,6 +533,79 @@ public class DatabaseMarketingRepresentativeController {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return "set purchasing program fail";
+		}
+	}
+
+	/**
+	 * 
+	 * @param pricingModel
+	 * @return string of success or fail
+	 */
+	@SuppressWarnings("resource")
+	public String setPricingModel(PricingModel pricingModel) {
+		try {
+			String customerID = pricingModel.getCustomerID();
+			PricingModelName model = pricingModel.getPricingModelName();
+			double discount = pricingModel.getCurrentDiscount();
+			int numOfCars = 0;
+
+			if (model.equals(PricingModelName.MonthlyProgramMultipleCars)
+					|| model.equals(PricingModelName.FullProgramSingleCar)) {
+
+				CarList carList = getCustomerCars(customerID);
+				if (carList == null) {
+					System.out.println("setPricingModel carList == null true");
+					return "set pricing model success";
+				}
+				numOfCars = carList.getCars().size();
+				discount += numOfCars * 0.04;
+			}
+
+			PreparedStatement pStmt = this.connection
+					.prepareStatement("SELECT * FROM pricing_model WHERE FK_customerID = ?");
+			pStmt.setString(1, customerID);
+			ResultSet rs1 = pStmt.executeQuery();
+
+			if (!rs1.next()) { // doesnt already exist - add
+				// 1 - "FK_customerID", "FK_pricingModelName", "currentDiscount"
+				// 2 - "FK_customerID", "FK_pricingModelName", "currentDiscount",
+				// "lastMonthUtillization"
+				Object[] values1 = { customerID, model.toString(), discount };
+				TableInserts.insertPricingModel1(connection, values1);
+
+				if (model.equals(PricingModelName.FullProgramSingleCar)) {
+					pStmt = this.connection.prepareStatement(
+							"UPDATE pricing_model SET lastMonthUtillization = 1 WHERE FK_customerID = ?");
+					pStmt.setString(1, customerID);
+					pStmt.executeUpdate();
+				}
+
+				return "set pricing model success";
+			}
+
+			// already exists - update
+			pStmt = this.connection.prepareStatement(
+					"UPDATE pricing_model SET FK_pricingModelName = ?, currentDiscount = ?, lastMonthUtillization = null WHERE FK_customerID = ?");
+			pStmt.setString(1, model.toString());
+			pStmt.setDouble(2, discount);
+			pStmt.setString(3, customerID);
+			pStmt.executeUpdate();
+
+			if (model.equals(PricingModelName.FullProgramSingleCar)) {
+				pStmt = this.connection
+						.prepareStatement("UPDATE pricing_model SET lastMonthUtillization = 1 WHERE FK_customerID = ?");
+				pStmt.setString(1, customerID);
+				pStmt.executeUpdate();
+			}
+
+			return "set pricing model success";
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return "set pricing model fail";
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return "set pricing model fail";
 		}
 	}
 
