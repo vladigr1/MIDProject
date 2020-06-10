@@ -665,6 +665,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 					});
 
 				} else {
+					this.deletedACarCustomerID = this.tfAECACustID.getText();
+					clearAddEditCarPane();
 					this.controller.handleMessageFromClientUI("getcustomercars " + customerID);
 				}
 
@@ -701,7 +703,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 
 			} else if (str.equals("set pricing model success")) {
 				openErrorAlert("Success", "Pricing Model Set Successfully");
-				clearSetPurchasingPane();
+				clearPricingModelPane();
 
 				if (this.pricingModelOutdatedFlag == true) {
 					clearFields();
@@ -817,8 +819,10 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		} else if (lastMsgFromServer instanceof CarList) {
 			System.out.println("got car list from server");
 			if (this.editCarPane.isVisible() == true) {
-				this.apECACustomer.setDisable(true);
-				this.apECACar.setDisable(false);
+				if (this.deletedACarFlag == false) {
+					this.apECACustomer.setDisable(true);
+					this.apECACar.setDisable(false);
+				}
 				final ObservableList<Car> list = FXCollections.observableArrayList();
 				for (int i = 0; i < this.tvECACar.getItems().size(); ++i)
 					this.tvECACar.getItems().clear();
@@ -830,7 +834,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 				int numOfCars = ((CarList) lastMsgFromServer).getCars().size();
 				if (numOfCars == 1 && this.deletedACarFlag == true) {
 					this.pricingModelOutdatedFlag = true;
-					Alert alert = new Alert(AlertType.ERROR);
+					Alert alert = new Alert(AlertType.CONFIRMATION);
 					alert.setTitle("Pricing Model");
 					alert.setHeaderText("Your Pricing Model May Be Outdated\nRerouting to 'Set Pricing Model'");
 					ButtonType buttonTypeOne = new ButtonType("OK");
@@ -839,7 +843,6 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 
 					final Button btn = (Button) alert.getDialogPane().lookupButton(buttonTypeOne);
 					btn.setOnAction(event -> {
-						this.deletedACarFlag = false;
 						this.editCarPane.setVisible(false);
 						this.mainBorderPane.setDisable(false);
 						String customerID = this.deletedACarCustomerID;
@@ -861,6 +864,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 						this.btnSPMChoose4.setDisable(false);
 					});
 				}
+				this.deletedACarFlag = false;
 
 			} else if (this.visibleNow == this.addEditCarPane && this.addEditCarPane.isDisabled() == false
 					&& this.customerIsRegisteringFlag == false) {
@@ -878,7 +882,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 
 					final Button btn = (Button) alert.getDialogPane().lookupButton(buttonTypeOne);
 					btn.setOnAction(event -> {
-						String customerID = this.tfAECACustID.getText();
+						String customerID = this.deletedACarCustomerID;
+						this.deletedACarCustomerID = null;
 						this.visibleNow.setVisible(false);
 						this.pricingModelPane.setVisible(true);
 						this.visibleNow = this.pricingModelPane;

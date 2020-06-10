@@ -332,7 +332,7 @@ public class DatabaseMarketingRepresentativeController {
 			rs3.close();
 
 			if (pricingModelName.equals("Monthly Program Multiple Cars")) {
-				currentDiscount += 0.04;
+				currentDiscount += 0;
 				pStmt = this.connection
 						.prepareStatement("UPDATE pricing_model SET currentDiscount = ? WHERE FK_customerID = ?");
 				pStmt.setDouble(1, currentDiscount);
@@ -394,7 +394,7 @@ public class DatabaseMarketingRepresentativeController {
 				rs3.close();
 
 				if (pricingModelName.equals("Monthly Program Multiple Cars")) {
-					currentDiscount += 0.04;
+					currentDiscount += 0;
 					pStmt = this.connection
 							.prepareStatement("UPDATE pricing_model SET currentDiscount = ? WHERE FK_customerID = ?");
 					pStmt.setDouble(1, currentDiscount);
@@ -533,7 +533,7 @@ public class DatabaseMarketingRepresentativeController {
 			rs3.close();
 
 			if (pricingModelName.equals("Monthly Program Multiple Cars")) {
-				currentDiscount -= 0.04;
+				currentDiscount -= 0;
 				pStmt = this.connection
 						.prepareStatement("UPDATE pricing_model SET currentDiscount = ? WHERE FK_customerID = ?");
 				pStmt.setDouble(1, currentDiscount);
@@ -640,17 +640,10 @@ public class DatabaseMarketingRepresentativeController {
 			String customerID = pricingModel.getCustomerID();
 			PricingModelName model = pricingModel.getPricingModelName();
 			double discount = pricingModel.getCurrentDiscount();
-			int numOfCars = 0;
+			int numOfCars = 1;
 
 			if (model.equals(PricingModelName.MonthlyProgramMultipleCars)
 					|| model.equals(PricingModelName.FullProgramSingleCar)) {
-
-				CarList carList = getCustomerCars(customerID);
-				if (carList == null) {
-					System.out.println("setPricingModel carList == null true");
-					return "set pricing model success";
-				}
-				numOfCars = carList.getCars().size();
 				discount += numOfCars * 0.04;
 			}
 

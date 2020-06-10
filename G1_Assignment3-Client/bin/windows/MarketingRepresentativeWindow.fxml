@@ -692,7 +692,7 @@
                                              <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0">
                                                    <children>
-                                                      <TextArea fx:id="taSPPSingleDetails" maxHeight="1.7976931348623157E308" prefWidth="358.0" />
+                                                      <TextArea fx:id="taSPPSingleDetails" editable="false" maxHeight="1.7976931348623157E308" prefWidth="358.0" />
                                                    </children>
                                                 </AnchorPane>
                                              </content>
@@ -846,7 +846,7 @@
                                     </Text>
                                     <ToggleButton fx:id="btnSPMChoose3" layoutX="42.0" layoutY="226.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="98.0" styleClass="task-toggle-button" stylesheets="@../pics/style.css" text="Choose" toggleGroup="$three" />
                                     <Label layoutX="22.0" layoutY="189.0" prefHeight="27.0" prefWidth="136.0" text="default discount:" />
-                                    <Label fx:id="lblSPMModel3Discount" layoutX="116.0" layoutY="194.0" text="0.1" />
+                                    <Label fx:id="lblSPMModel3Discount" layoutX="116.0" layoutY="194.0" text="0.14" />
                                  </children>
                               </AnchorPane>
                               <AnchorPane layoutX="604.0" layoutY="43.0" prefHeight="270.0" prefWidth="179.0" style="-fx-background-color: #d8dce0;">
@@ -867,7 +867,7 @@
                                     </Text>
                                     <ToggleButton fx:id="btnSPMChoose4" layoutX="41.0" layoutY="226.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="98.0" styleClass="task-toggle-button" stylesheets="@../pics/style.css" text="Choose" toggleGroup="$three" />
                                     <Label layoutX="22.0" layoutY="188.0" prefHeight="27.0" prefWidth="136.0" text="default discount:" />
-                                    <Label fx:id="lblSPMModel4Discount" layoutX="116.0" layoutY="193.0" text="0.13" />
+                                    <Label fx:id="lblSPMModel4Discount" layoutX="116.0" layoutY="193.0" text="0.17" />
                                  </children>
                               </AnchorPane>
                            </children>

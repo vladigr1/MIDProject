@@ -135,7 +135,7 @@ public abstract class UserWindow extends AFXML {
 		} else if (lastMsgFromServer instanceof String) {
 			String message = (String) lastMsgFromServer;
 			if (message.startsWith("sign out"))
-				handleSignOutFromServer(message, this.getWindow());
+				handleSignOutFromServer(message, getWindow());
 		}
 	}
 

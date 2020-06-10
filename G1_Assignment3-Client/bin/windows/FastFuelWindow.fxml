@@ -13,25 +13,30 @@
    <children>
       <AnchorPane layoutX="43.0" layoutY="39.0" prefHeight="576.0" prefWidth="1014.0">
          <children>
-            <Label fx:id="lblFFPricePerLiter" layoutX="419.0" layoutY="282.0" text="0.00">
+            <Label fx:id="lblPrice" layoutX="409.0" layoutY="202.0" text="0.00">
                <font>
                   <Font size="96.0" />
                </font>
             </Label>
-            <Label layoutX="455.0" layoutY="413.0" text="Dollar Per Liter">
+            <Label layoutX="445.0" layoutY="333.0" text="Dollar Per Liter">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <Label layoutX="304.0" layoutY="141.0" text="Fuel Type">
+            <Label fx:id="lblFuelType" layoutX="305.0" layoutY="75.0" text="Fuel Type">
                <font>
                   <Font size="96.0" />
                </font>
             </Label>
-            <Label layoutX="465.0" layoutY="445.0" text="(after discounts)" />
+            <Label layoutX="453.0" layoutY="358.0" text="(after discounts)" />
+            <Label fx:id="lblContinue" layoutX="157.0" layoutY="391.0" text="Please Continue">
+               <font>
+                  <Font size="96.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="773.0" layoutY="374.0" prefHeight="251.0" prefWidth="325.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css">
+      <AnchorPane layoutY="26.0" prefHeight="251.0" prefWidth="325.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css">
          <children>
             <Button fx:id="btnEmulate" layoutX="56.0" layoutY="200.0" mnemonicParsing="false" onAction="#btnEmulatePressed" prefHeight="30.0" prefWidth="200.0" styleClass="task-button" stylesheets="@../pics/style.css" text="Emulate" textFill="WHITE">
                <font>
@@ -49,7 +54,7 @@
                </font>
             </Label>
             <TextField fx:id="tfRegPlate" layoutX="166.0" layoutY="46.0" prefHeight="30.0" prefWidth="149.0" promptText="*" />
-            <Label layoutX="19.0" layoutY="99.0" text="Fuel Station ID">
+            <Label layoutX="19.0" layoutY="99.0" text="Fuel Station Name">
                <font>
                   <Font name="Arial" size="16.0" />
                </font>

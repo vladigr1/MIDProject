@@ -1,5 +1,7 @@
 package client;
 
+import entities.FastFuel;
+
 /**
  * @version Basic
  * @author Lior
@@ -27,9 +29,10 @@ public class FastFuelController extends ClientController {
 
 	@Override
 	public void handleMessageFromClientUI(String message) {
-		/**
-		 * 
-		 */
+		String[] splitMsg = message.split(" ");
+		if (splitMsg[0].equals("getdiscount")) {
+			FastFuel fastFuel = new FastFuel(splitMsg[1]);
+		}
 	}
 
 }

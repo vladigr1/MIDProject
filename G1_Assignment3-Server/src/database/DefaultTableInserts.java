@@ -523,7 +523,7 @@ public class DefaultTableInserts {
 		// 1 - "FK_customerID", "FK_pricingModelName", "currentDiscount"
 		// 2 - "FK_customerID", "FK_pricingModelName", "currentDiscount",
 		// "lastMonthUtillization"
-		Object[] values1 = { "222222222", PricingModelName.MonthlyProgramMultipleCars.toString(), 0.38 };
+		Object[] values1 = { "222222222", PricingModelName.MonthlyProgramMultipleCars.toString(), 0.14 };
 		TableInserts.insertPricingModel1(con, values1);
 		Object[] values2 = { "111111111", PricingModelName.FullProgramSingleCar.toString(), 0.17, 0.99 };
 		TableInserts.insertPricingModel2(con, values2);

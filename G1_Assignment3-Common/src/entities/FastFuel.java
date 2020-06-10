@@ -29,6 +29,14 @@ public class FastFuel implements Serializable {
 	private String fuelStationName;
 
 	/**
+	 * empty constructor but regPlate
+	 */
+	public FastFuel(String registrationPlate) {
+		super();
+		this.registrationPlate = registrationPlate;
+	}
+	
+	/**
 	 * without fastFuelID auto-inc
 	 * 
 	 * @param registrationPlate
