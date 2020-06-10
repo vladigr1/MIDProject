@@ -51,6 +51,8 @@ public class LoginWindow extends AFXML {
 	private Label lblError;
 	@FXML
 	private Button btnSignIn;
+	@FXML
+	private Button btnEmu;
 
 	@FXML
 	void initialize() {

@@ -668,7 +668,7 @@ public class DatabaseMarketingRepresentativeController {
 
 				if (model.equals(PricingModelName.FullProgramSingleCar)) {
 					pStmt = this.connection.prepareStatement(
-							"UPDATE pricing_model SET lastMonthUtillization = 1 WHERE FK_customerID = ?");
+							"UPDATE pricing_model SET lastMonthUtillization = 0 WHERE FK_customerID = ?");
 					pStmt.setString(1, customerID);
 					pStmt.executeUpdate();
 				}
@@ -686,7 +686,7 @@ public class DatabaseMarketingRepresentativeController {
 
 			if (model.equals(PricingModelName.FullProgramSingleCar)) {
 				pStmt = this.connection
-						.prepareStatement("UPDATE pricing_model SET lastMonthUtillization = 1 WHERE FK_customerID = ?");
+						.prepareStatement("UPDATE pricing_model SET lastMonthUtillization = 0 WHERE FK_customerID = ?");
 				pStmt.setString(1, customerID);
 				pStmt.executeUpdate();
 			}
