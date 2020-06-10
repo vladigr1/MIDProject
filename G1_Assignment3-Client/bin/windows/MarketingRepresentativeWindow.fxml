@@ -31,7 +31,7 @@
    <children>
       <BorderPane fx:id="mainBorderPane" minHeight="700.0" prefHeight="764.0" prefWidth="1102.0" styleClass="main-pane" stylesheets="@../pics/style.css">
          <left>
-            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="602.0" minWidth="260.0" prefHeight="602.0" prefWidth="260.0" spacing="5.0" style="-fx-background-color: #1e262c;" BorderPane.alignment="CENTER">
+            <VBox fx:id="vbox2" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="602.0" minWidth="260.0" prefHeight="602.0" prefWidth="260.0" spacing="5.0" style="-fx-background-color: #1e262c;" BorderPane.alignment="CENTER">
                <children>
                   <Pane prefHeight="52.0" prefWidth="260.0">
                      <children>
@@ -203,7 +203,7 @@
             </VBox>
          </left>
          <top>
-            <VBox BorderPane.alignment="CENTER">
+            <VBox fx:id="vbox1" BorderPane.alignment="CENTER">
                <children>
                   <AnchorPane fx:id="titleBar" onMouseDragged="#dragTopBar" onMousePressed="#clickOnTopBar" styleClass="linear-grad-to-top" stylesheets="@../pics/style.css">
                      <children>
@@ -264,7 +264,7 @@
          <center>
             <AnchorPane fx:id="mainwindow_pane" minHeight="600.0" minWidth="830.0" prefWidth="840.0" BorderPane.alignment="CENTER">
                <children>
-                  <AnchorPane fx:id="homePane" layoutX="13.0" layoutY="10.0" prefHeight="687.0" prefWidth="816.0" styleClass="home" stylesheets="@../pics/gridPaneStyle.css">
+                  <AnchorPane fx:id="homePane" layoutX="13.0" layoutY="10.0" prefHeight="687.0" prefWidth="816.0" styleClass="home" stylesheets="@../pics/gridPaneStyle.css" visible="false">
                      <children>
                         <ImageView fitHeight="686.0" fitWidth="803.0" layoutX="6.0" layoutY="3.0">
                            <image>
@@ -493,7 +493,7 @@
                         </GridPane>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="addEditCarPane" layoutX="1.0" layoutY="10.0" prefHeight="429.0" prefWidth="830.0" visible="false">
+                  <AnchorPane fx:id="addEditCarPane" layoutX="1.0" layoutY="10.0" prefHeight="429.0" prefWidth="830.0">
                      <children>
                         <Label fx:id="step2" layoutX="618.0" layoutY="2.0" text="Customer Registration Step 2/3 " textFill="#0000ff">
                            <font>

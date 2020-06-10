@@ -31,7 +31,7 @@
    <children>
       <BorderPane fx:id="mainBorderPane" minHeight="700.0" prefHeight="764.0" prefWidth="1102.0" styleClass="main-pane" stylesheets="@../pics/style.css">
          <left>
-            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="602.0" minWidth="260.0" prefHeight="602.0" prefWidth="260.0" spacing="5.0" style="-fx-background-color: #1e262c;" BorderPane.alignment="CENTER">
+            <VBox fx:id="vbox2" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="602.0" minWidth="260.0" prefHeight="602.0" prefWidth="260.0" spacing="5.0" style="-fx-background-color: #1e262c;" BorderPane.alignment="CENTER">
                <children>
                   <Pane prefHeight="52.0" prefWidth="260.0">
                      <children>
@@ -203,7 +203,7 @@
             </VBox>
          </left>
          <top>
-            <VBox BorderPane.alignment="CENTER">
+            <VBox fx:id="vbox1" BorderPane.alignment="CENTER">
                <children>
                   <AnchorPane fx:id="titleBar" onMouseDragged="#dragTopBar" onMousePressed="#clickOnTopBar" styleClass="linear-grad-to-top" stylesheets="@../pics/style.css">
                      <children>
@@ -248,7 +248,7 @@
                               </Label>
                            </children>
                         </Pane>
-                        <Label fx:id="topbar_window_label" alignment="TOP_LEFT" minHeight="-Infinity" prefHeight="25.0" prefWidth="259.0" text="Home">
+                        <Label fx:id="topbar_window_label" alignment="TOP_LEFT" minHeight="-Infinity" prefHeight="25.0" prefWidth="432.0" text="Home">
                            <font>
                               <Font name="Arial" size="26.0" />
                            </font>

@@ -13,7 +13,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -54,6 +57,10 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	private ToggleButton sidebar_btn4;
 	@FXML
 	private ToggleButton sidebar_btn5;
+	@FXML
+	private VBox vbox1;
+	@FXML
+	private VBox vbox2;
 
 	@FXML
 	private AnchorPane addEditCustomerPane;
@@ -249,6 +256,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	@FXML
 	private Button btnSPMClear;
 
+	private boolean customerIsRegisteringFlag = false;
+
 	@FXML
 	void initialize() {
 		this.homePane.setVisible(true);
@@ -282,6 +291,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 
 	@FXML
 	void btnAECUSavePressed(ActionEvent event) {
+		this.customerIsRegisteringFlag = true;
+
 		String customerID = this.tfAECUCustID.getText();
 		String firstName = this.tfAECUFirstName.getText();
 		String surname = this.tfAECUSurname.getText();
@@ -614,7 +625,42 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			String str = (String) lastMsgFromServer;
 			if (str.equals("save car success")) {
 				openErrorAlert("Success", "Car Saved");
-				clearFields();
+				String customerID = this.tfAECACustID.getText();
+
+				if (this.customerIsRegisteringFlag == true) {
+					Alert alert = new Alert(AlertType.CONFIRMATION);
+					alert.setTitle("Add Car");
+					alert.setHeaderText("Would you like to add another car?");
+					ButtonType buttonTypeOne = new ButtonType("Yes");
+					ButtonType buttonTypeTwo = new ButtonType("No");
+					alert.show();
+					alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
+
+					final Button btn = (Button) alert.getDialogPane().lookupButton(buttonTypeOne);
+					btn.setOnAction(event -> {
+						alert.hide();
+					});
+					final Button btn2 = (Button) alert.getDialogPane().lookupButton(buttonTypeTwo);
+					btn2.setOnAction(event -> {
+						clearFields();
+						alert.hide();
+						openErrorAlert("Customer Registration", "Continue to Set Purchasing Program");
+						this.visibleNow.setVisible(false);
+						this.setPurchasingPane.setVisible(true);
+						this.visibleNow = this.setPurchasingPane;
+						this.topbar_window_label.setText("Set Purchasing Program");
+						this.tfSPPCustID.setText(customerID);
+						this.step3.setVisible(true);
+						this.gpSPP.setDisable(true);
+						this.btnSPPClear.setDisable(true);
+						this.vbox1.setDisable(true);
+						this.vbox2.setDisable(true);
+						this.apSPP.setDisable(false);
+						this.cobSPPFuelCompany2.setDisable(true);
+						this.cobSPPFuelCompany3.setDisable(true);
+						this.sidebar_btn3.setSelected(true);
+					});
+				}
 
 			} else if (str.equals("save car fail")) {
 				openErrorAlert("Error", "Add Car Failed");
@@ -625,6 +671,24 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			} else if (str.equals("set purchasing program success")) {
 				openErrorAlert("Success", "Purchasing Program Set Successfully");
 				clearSetPurchasingPane();
+
+				if (this.customerIsRegisteringFlag == true) {
+					clearFields();
+					this.step2.setVisible(false);
+					this.gpAECACarDetails.setDisable(false);
+					this.btnAECAEdit.setDisable(false);
+					this.btnAECAClear.setDisable(false);
+					this.vbox1.setDisable(false);
+					this.vbox2.setDisable(false);
+					this.apAECACarDetails.setDisable(true);
+					this.step3.setVisible(false);
+					this.gpSPP.setDisable(false);
+					this.btnSPPClear.setDisable(false);
+					this.vbox1.setDisable(false);
+					this.vbox2.setDisable(false);
+					this.apSPP.setDisable(true);
+					this.customerIsRegisteringFlag = false;
+				}
 
 			} else if (str.equals("set purchasing program fail")) {
 				openErrorAlert("Error", "Purchasing Program Set Failed");
@@ -639,9 +703,27 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			} else if (str.equals("save customer success")) {
 				openErrorAlert("Success",
 						"Customer Saved\nUsername: " + this.tfAECUCustID.getText() + "\nPassword: 1234");
-				this.controller.handleMessageFromClientUI(
-						"setpricingmodel " + this.tfAECUCustID.getText() + " " + "PayInPlace" + " " + "0");
+				String customerID = this.tfAECUCustID.getText();
+				this.controller
+						.handleMessageFromClientUI("setpricingmodel " + customerID + " " + "PayInPlace" + " " + "0");
 				clearFields();
+
+				if (this.customerIsRegisteringFlag == true) {
+					openErrorAlert("Customer Registration", "Continue to Add Car");
+					this.visibleNow.setVisible(false);
+					this.addEditCarPane.setVisible(true);
+					this.visibleNow = this.addEditCarPane;
+					this.topbar_window_label.setText("Add\\Edit Car");
+					this.tfAECACustID.setText(customerID);
+					this.step2.setVisible(true);
+					this.gpAECACarDetails.setDisable(true);
+					this.btnAECAEdit.setDisable(true);
+					this.btnAECAClear.setDisable(true);
+					this.vbox1.setDisable(true);
+					this.vbox2.setDisable(true);
+					this.apAECACarDetails.setDisable(false);
+					this.sidebar_btn2.setSelected(true);
+				}
 
 			} else if (str.equals("save customer fail")) {
 				openErrorAlert("Error", "Add Customer Failed");

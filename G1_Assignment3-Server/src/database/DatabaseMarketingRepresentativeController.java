@@ -496,7 +496,7 @@ public class DatabaseMarketingRepresentativeController {
 				} else {
 					Object[] values3 = { customerID, programName.toString(), fuelCompany1.toString(),
 							fuelCompany2.toString(), fuelCompany3.toString() };
-					TableInserts.insertPurchasingProgram2(connection, values3);
+					TableInserts.insertPurchasingProgram3(connection, values3);
 				}
 
 				return "set purchasing program success";
