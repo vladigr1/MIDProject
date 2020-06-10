@@ -13,7 +13,7 @@ import ocsf.server.ConnectionToClient;
 /**
  * controller for customer
  * 
- * @version Basic
+ * @version Final
  * @author Lior
  */
 public class ServerCustomerController {

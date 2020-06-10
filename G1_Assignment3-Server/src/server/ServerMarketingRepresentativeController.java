@@ -14,7 +14,7 @@ import ocsf.server.ConnectionToClient;
 /**
  * controller for marketing representative
  * 
- * @version Basic
+ * @version Final
  * @author Lior
  */
 public class ServerMarketingRepresentativeController {

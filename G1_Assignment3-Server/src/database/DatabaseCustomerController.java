@@ -19,7 +19,7 @@ import enums.ShipmentType;
 /**
  * controller for customer
  * 
- * @version Basic
+ * @version Final
  * @author Lior
  */
 public class DatabaseCustomerController {

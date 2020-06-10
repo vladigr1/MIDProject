@@ -12,7 +12,7 @@ import enums.ShipmentType;
 /**
  * logic controller for customer
  * 
- * @version Basic
+ * @version Final
  * @author Lior
  */
 public class CustomerController extends UserController {

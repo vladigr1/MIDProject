@@ -26,25 +26,6 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guiClient.CustomerWindow">
    <children>
-      <AnchorPane fx:id="fastFuelPane" layoutX="44.0" layoutY="64.0" prefHeight="576.0" prefWidth="1014.0" visible="false">
-         <children>
-            <Label fx:id="lblFFPricePerLiter" layoutX="419.0" layoutY="282.0" text="0.00">
-               <font>
-                  <Font size="96.0" />
-               </font>
-            </Label>
-            <Label layoutX="455.0" layoutY="413.0" text="Dollar Per Liter">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
-            <Label layoutX="304.0" layoutY="141.0" text="Fuel Type">
-               <font>
-                  <Font size="96.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
       <BorderPane fx:id="mainBorderPane" minHeight="676.0" prefHeight="703.0" prefWidth="1102.0" styleClass="main-pane" stylesheets="@../pics/style.css">
          <left>
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="602.0" minWidth="260.0" prefHeight="602.0" prefWidth="260.0" spacing="5.0" style="-fx-background-color: #1e262c;" BorderPane.alignment="CENTER">

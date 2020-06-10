@@ -33,7 +33,7 @@ import javafx.util.Callback;
 /**
  * boundary for customer window
  * 
- * @version Basic
+ * @version Final
  * @author Lior
  */
 public class CustomerWindow extends UserWindow {
@@ -93,16 +93,10 @@ public class CustomerWindow extends UserWindow {
 	private TableView<HomeFuelOrder> tvVODetails;
 
 	@FXML
-	private AnchorPane fastFuelPane;
-	@FXML
-	private Label lblFFPricePerLiter;
-
-	@FXML
 	void initialize() {
 		this.homePane.setVisible(true);
 		this.viewOrderPane.setVisible(false);
 		this.orderHomeFuelPane.setVisible(false);
-		this.fastFuelPane.setVisible(false);
 		this.visibleNow = this.homePane;
 		this.controller = CustomerController.getInstance();
 		this.controller.setCurrentWindow(this);

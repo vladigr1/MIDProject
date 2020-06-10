@@ -38,7 +38,7 @@ import javafx.util.Callback;
 /**
  * boundary for marketing representative window
  * 
- * @version Basic
+ * @version Almost Final
  * @author Elroy, Lior
  */
 public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
