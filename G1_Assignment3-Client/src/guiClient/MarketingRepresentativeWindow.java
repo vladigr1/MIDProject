@@ -257,6 +257,9 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	private Button btnSPMClear;
 
 	private boolean customerIsRegisteringFlag = false;
+	private boolean pricingModelOutdatedFlag = false;
+	private boolean deletedACarFlag = false;
+	private String deletedACarCustomerID;
 
 	@FXML
 	void initialize() {
@@ -660,6 +663,9 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 						this.cobSPPFuelCompany3.setDisable(true);
 						this.sidebar_btn3.setSelected(true);
 					});
+
+				} else {
+					this.controller.handleMessageFromClientUI("getcustomercars " + customerID);
 				}
 
 			} else if (str.equals("save car fail")) {
@@ -696,6 +702,16 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			} else if (str.equals("set pricing model success")) {
 				openErrorAlert("Success", "Pricing Model Set Successfully");
 				clearSetPurchasingPane();
+
+				if (this.pricingModelOutdatedFlag == true) {
+					clearFields();
+					this.vbox1.setDisable(false);
+					this.vbox2.setDisable(false);
+					this.btnSPMClear.setDisable(false);
+					this.gpSPM.setDisable(false);
+					this.apSPM.setDisable(true);
+					this.pricingModelOutdatedFlag = false;
+				}
 
 			} else if (str.equals("set pricing model fail")) {
 				openErrorAlert("Error", "Pricing Model Set Failed");
@@ -752,8 +768,13 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 
 			} else if (str.startsWith("Car Delete")) {
 				openErrorAlert("Delete", str);
-				if (str.equals("Car Deleted"))
+				if (str.equals("Car Deleted")) {
+					String customerID = this.tfECACustID.getText();
 					clearEditCarPane();
+					this.deletedACarFlag = true;
+					this.deletedACarCustomerID = customerID;
+					this.controller.handleMessageFromClientUI("getcustomercars " + customerID);
+				}
 
 			} else if (str.startsWith("Customer Check")) {
 				openErrorAlert("Check", str);
@@ -806,22 +827,92 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 					list.add(car);
 				this.tvECACar.setItems(list);
 
+				int numOfCars = ((CarList) lastMsgFromServer).getCars().size();
+				if (numOfCars == 1 && this.deletedACarFlag == true) {
+					this.pricingModelOutdatedFlag = true;
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Pricing Model");
+					alert.setHeaderText("Your Pricing Model May Be Outdated\nRerouting to 'Set Pricing Model'");
+					ButtonType buttonTypeOne = new ButtonType("OK");
+					alert.show();
+					alert.getButtonTypes().setAll(buttonTypeOne);
+
+					final Button btn = (Button) alert.getDialogPane().lookupButton(buttonTypeOne);
+					btn.setOnAction(event -> {
+						this.deletedACarFlag = false;
+						this.editCarPane.setVisible(false);
+						this.mainBorderPane.setDisable(false);
+						String customerID = this.deletedACarCustomerID;
+						this.deletedACarCustomerID = null;
+						this.visibleNow.setVisible(false);
+						this.pricingModelPane.setVisible(true);
+						this.visibleNow = this.pricingModelPane;
+						this.sidebar_btn4.setSelected(true);
+						this.topbar_window_label.setText("Set Pricing Model");
+						clearFields();
+						this.tfSPMCustID.setText(customerID);
+						this.vbox1.setDisable(true);
+						this.vbox2.setDisable(true);
+						this.btnSPMClear.setDisable(true);
+						this.gpSPM.setDisable(true);
+						this.apSPM.setDisable(false);
+						this.btnSPMChoose2.setDisable(false);
+						this.btnSPMChoose3.setDisable(true);
+						this.btnSPMChoose4.setDisable(false);
+					});
+				}
+
+			} else if (this.visibleNow == this.addEditCarPane && this.addEditCarPane.isDisabled() == false
+					&& this.customerIsRegisteringFlag == false) {
+
+				int numOfCars = ((CarList) lastMsgFromServer).getCars().size();
+
+				if (numOfCars == 2) {
+					this.pricingModelOutdatedFlag = true;
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Pricing Model");
+					alert.setHeaderText("Your Pricing Model May Be Outdated\nRerouting to 'Set Pricing Model'");
+					ButtonType buttonTypeOne = new ButtonType("OK");
+					alert.show();
+					alert.getButtonTypes().setAll(buttonTypeOne);
+
+					final Button btn = (Button) alert.getDialogPane().lookupButton(buttonTypeOne);
+					btn.setOnAction(event -> {
+						String customerID = this.tfAECACustID.getText();
+						this.visibleNow.setVisible(false);
+						this.pricingModelPane.setVisible(true);
+						this.visibleNow = this.pricingModelPane;
+						this.sidebar_btn4.setSelected(true);
+						this.topbar_window_label.setText("Set Pricing Model");
+						clearFields();
+						this.tfSPMCustID.setText(customerID);
+						this.vbox1.setDisable(true);
+						this.vbox2.setDisable(true);
+						this.btnSPMClear.setDisable(true);
+						this.gpSPM.setDisable(true);
+						this.apSPM.setDisable(false);
+						this.btnSPMChoose2.setDisable(true);
+						this.btnSPMChoose3.setDisable(false);
+						this.btnSPMChoose4.setDisable(true);
+					});
+				}
+
 			} else if (this.visibleNow == this.pricingModelPane) {
 				this.gpSPM.setDisable(true);
 				this.apSPM.setDisable(false);
 				int numOfCars = ((CarList) lastMsgFromServer).getCars().size();
 				if (numOfCars == 0) {
-					btnSPMChoose2.setDisable(true);
-					btnSPMChoose3.setDisable(true);
-					btnSPMChoose4.setDisable(true);
+					this.btnSPMChoose2.setDisable(true);
+					this.btnSPMChoose3.setDisable(true);
+					this.btnSPMChoose4.setDisable(true);
 				} else if (numOfCars == 1) {
-					btnSPMChoose2.setDisable(false);
-					btnSPMChoose3.setDisable(true);
-					btnSPMChoose4.setDisable(false);
+					this.btnSPMChoose2.setDisable(false);
+					this.btnSPMChoose3.setDisable(true);
+					this.btnSPMChoose4.setDisable(false);
 				} else if (numOfCars > 1) {
-					btnSPMChoose2.setDisable(true);
-					btnSPMChoose3.setDisable(false);
-					btnSPMChoose4.setDisable(true);
+					this.btnSPMChoose2.setDisable(true);
+					this.btnSPMChoose3.setDisable(false);
+					this.btnSPMChoose4.setDisable(true);
 				}
 				openErrorAlert("Success", "Number of Cars = " + numOfCars);
 			}

@@ -310,6 +310,36 @@ public class DatabaseMarketingRepresentativeController {
 					false };
 			TableInserts.insertCar(connection, values1);
 
+			PreparedStatement pStmt = this.connection
+					.prepareStatement("SELECT FK_customerID FROM car WHERE registrationPlate = ? AND deleted = 0");
+			pStmt.setString(1, regPlate);
+			ResultSet rs2 = pStmt.executeQuery();
+			if (!rs2.next()) {
+				return "save car fail";
+			}
+			String customerID = rs2.getString(1);
+			rs2.close();
+
+			pStmt = this.connection.prepareStatement(
+					"SELECT FK_pricingModelName, currentDiscount FROM pricing_model WHERE FK_customerID = ?");
+			pStmt.setString(1, customerID);
+			ResultSet rs3 = pStmt.executeQuery();
+			if (!rs3.next()) {
+				return "save car fail";
+			}
+			String pricingModelName = rs3.getString(1);
+			double currentDiscount = rs3.getDouble(2);
+			rs3.close();
+
+			if (pricingModelName.equals("Monthly Program Multiple Cars")) {
+				currentDiscount += 0.04;
+				pStmt = this.connection
+						.prepareStatement("UPDATE pricing_model SET currentDiscount = ? WHERE FK_customerID = ?");
+				pStmt.setDouble(1, currentDiscount);
+				pStmt.setString(2, customerID);
+				pStmt.executeUpdate();
+			}
+
 			return "save car success";
 
 		} catch (SQLException e) {
@@ -340,6 +370,38 @@ public class DatabaseMarketingRepresentativeController {
 			pStmt.setString(3, car.getOwnerName());
 			pStmt.setString(4, regPlate);
 			pStmt.executeUpdate();
+
+			if (exists == 1) {
+				pStmt = this.connection
+						.prepareStatement("SELECT FK_customerID FROM car WHERE registrationPlate = ? AND deleted = 0");
+				pStmt.setString(1, regPlate);
+				ResultSet rs2 = pStmt.executeQuery();
+				if (!rs2.next()) {
+					return "update car fail";
+				}
+				String customerID = rs2.getString(1);
+				rs2.close();
+
+				pStmt = this.connection.prepareStatement(
+						"SELECT FK_pricingModelName, currentDiscount FROM pricing_model WHERE FK_customerID = ?");
+				pStmt.setString(1, customerID);
+				ResultSet rs3 = pStmt.executeQuery();
+				if (!rs3.next()) {
+					return "update car fail";
+				}
+				String pricingModelName = rs3.getString(1);
+				double currentDiscount = rs3.getDouble(2);
+				rs3.close();
+
+				if (pricingModelName.equals("Monthly Program Multiple Cars")) {
+					currentDiscount += 0.04;
+					pStmt = this.connection
+							.prepareStatement("UPDATE pricing_model SET currentDiscount = ? WHERE FK_customerID = ?");
+					pStmt.setDouble(1, currentDiscount);
+					pStmt.setString(2, customerID);
+					pStmt.executeUpdate();
+				}
+			}
 
 			return "update car success";
 
@@ -448,6 +510,37 @@ public class DatabaseMarketingRepresentativeController {
 					.prepareStatement("UPDATE car SET deleted = 1 WHERE registrationPlate = ?");
 			pStmt.setString(1, regPlate);
 			pStmt.executeUpdate();
+
+			pStmt = this.connection
+					.prepareStatement("SELECT FK_customerID FROM car WHERE registrationPlate = ? AND deleted = 1");
+			pStmt.setString(1, regPlate);
+			ResultSet rs2 = pStmt.executeQuery();
+			if (!rs2.next()) {
+				return false;
+			}
+			String customerID = rs2.getString(1);
+			rs2.close();
+
+			pStmt = this.connection.prepareStatement(
+					"SELECT FK_pricingModelName, currentDiscount FROM pricing_model WHERE FK_customerID = ?");
+			pStmt.setString(1, customerID);
+			ResultSet rs3 = pStmt.executeQuery();
+			if (!rs3.next()) {
+				return false;
+			}
+			String pricingModelName = rs3.getString(1);
+			double currentDiscount = rs3.getDouble(2);
+			rs3.close();
+
+			if (pricingModelName.equals("Monthly Program Multiple Cars")) {
+				currentDiscount -= 0.04;
+				pStmt = this.connection
+						.prepareStatement("UPDATE pricing_model SET currentDiscount = ? WHERE FK_customerID = ?");
+				pStmt.setDouble(1, currentDiscount);
+				pStmt.setString(2, customerID);
+				pStmt.executeUpdate();
+			}
+
 			return true;
 
 		} catch (SQLException e) {
