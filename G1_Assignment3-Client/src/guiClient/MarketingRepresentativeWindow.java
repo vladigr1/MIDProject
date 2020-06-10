@@ -639,6 +639,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			} else if (str.equals("save customer success")) {
 				openErrorAlert("Success",
 						"Customer Saved\nUsername: " + this.tfAECUCustID.getText() + "\nPassword: 1234");
+				this.controller.handleMessageFromClientUI(
+						"setpricingmodel " + this.tfAECUCustID.getText() + " " + "PayInPlace" + " " + "0");
 				clearFields();
 
 			} else if (str.equals("save customer fail")) {
