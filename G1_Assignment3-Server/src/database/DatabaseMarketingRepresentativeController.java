@@ -8,9 +8,12 @@ import java.sql.SQLException;
 import entities.Car;
 import entities.CarList;
 import entities.Customer;
+import entities.PurchasingProgram;
 import entities.User;
 import enums.CustomerType;
+import enums.FuelCompanyName;
 import enums.ProductName;
+import enums.PurchasingProgramName;
 
 /**
  * controller for marketing representative
@@ -451,6 +454,83 @@ public class DatabaseMarketingRepresentativeController {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return false;
+		}
+	}
+
+	/**
+	 * 
+	 * @param purchasingProgram
+	 * @return string of success or fail
+	 */
+	public String setPurchasingProgram(PurchasingProgram purchasingProgram) {
+		try {
+			String customerID = purchasingProgram.getCustomerID();
+			PurchasingProgramName programName = purchasingProgram.getPurchasingProgramName();
+			FuelCompanyName fuelCompany1 = purchasingProgram.getFuelCompanyName1();
+			FuelCompanyName fuelCompany2 = purchasingProgram.getFuelCompanyName2();
+			FuelCompanyName fuelCompany3 = purchasingProgram.getFuelCompanyName3();
+
+			PreparedStatement pStmt = this.connection
+					.prepareStatement("SELECT * FROM purchasing_program WHERE FK_customerID = ?");
+			pStmt.setString(1, customerID);
+			ResultSet rs1 = pStmt.executeQuery();
+
+			if (!rs1.next()) { // doesnt already exist - add
+				// 1 - "FK_customerID", "FK_purchasingProgramName", "FK_fuelCompanyName1"
+				// 2 - "FK_customerID", "FK_purchasingProgramName", "FK_fuelCompanyName1",
+				// "FK_fuelCompanyName2"
+				// 3 - "FK_customerID", "FK_purchasingProgramName", "FK_fuelCompanyName1",
+				// "FK_fuelCompanyName2", "FK_fuelCompanyName3"
+
+				if (fuelCompany2 == null) {
+					Object[] values1 = { customerID, programName.toString(), fuelCompany1.toString() };
+					TableInserts.insertPurchasingProgram1(connection, values1);
+
+				} else if (fuelCompany3 == null) {
+					Object[] values2 = { customerID, programName.toString(), fuelCompany1.toString(),
+							fuelCompany2.toString() };
+					TableInserts.insertPurchasingProgram2(connection, values2);
+
+				} else {
+					Object[] values3 = { customerID, programName.toString(), fuelCompany1.toString(),
+							fuelCompany2.toString(), fuelCompany3.toString() };
+					TableInserts.insertPurchasingProgram2(connection, values3);
+				}
+
+				return "set purchasing program success";
+			}
+
+			// already exists - update
+			pStmt = this.connection.prepareStatement(
+					"UPDATE purchasing_program SET FK_purchasingProgramName = ?, FK_fuelCompanyName1 = ?, FK_fuelCompanyName2 = null, FK_fuelCompanyName3 = null WHERE FK_customerID = ?");
+			pStmt.setString(1, programName.toString());
+			pStmt.setString(2, fuelCompany1.toString());
+			pStmt.setString(3, customerID);
+			pStmt.executeUpdate();
+
+			if (fuelCompany2 != null) {
+				pStmt = this.connection.prepareStatement(
+						"UPDATE purchasing_program SET FK_fuelCompanyName2 = ?, FK_fuelCompanyName3 = null WHERE FK_customerID = ?");
+				pStmt.setString(1, fuelCompany2.toString());
+				pStmt.setString(2, customerID);
+				pStmt.executeUpdate();
+			}
+			if (fuelCompany3 != null) {
+				pStmt = this.connection.prepareStatement(
+						"UPDATE purchasing_program SET FK_fuelCompanyName3 = ? WHERE FK_customerID = ?");
+				pStmt.setString(1, fuelCompany3.toString());
+				pStmt.setString(2, customerID);
+				pStmt.executeUpdate();
+			}
+
+			return "set purchasing program success";
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return "set purchasing program fail";
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return "set purchasing program fail";
 		}
 	}
 

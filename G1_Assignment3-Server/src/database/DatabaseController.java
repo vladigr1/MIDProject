@@ -13,6 +13,7 @@ import entities.Customer;
 import entities.FastFuelList;
 import entities.HomeFuelOrder;
 import entities.HomeFuelOrderList;
+import entities.PurchasingProgram;
 import entities.PurchasingProgramType;
 import entities.User;
 import guiServer.ServerWindow;
@@ -255,6 +256,16 @@ public class DatabaseController {
 	 */
 	public String updateCar(Car car) {
 		return DatabaseMarketingRepresentativeController.getInstance(connection).updateCar(car);
+	}
+
+	/**
+	 * 
+	 * @param purchasingProgram
+	 * @return string of success or fail
+	 */
+	public String setPurchasingProgram(PurchasingProgram purchasingProgram) {
+		return DatabaseMarketingRepresentativeController.getInstance(connection)
+				.setPurchasingProgram(purchasingProgram);
 	}
 
 }

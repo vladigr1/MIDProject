@@ -264,7 +264,7 @@
          <center>
             <AnchorPane fx:id="mainwindow_pane" minHeight="600.0" minWidth="830.0" prefWidth="840.0" BorderPane.alignment="CENTER">
                <children>
-                  <AnchorPane fx:id="homePane" layoutX="13.0" layoutY="10.0" prefHeight="687.0" prefWidth="816.0" styleClass="home" stylesheets="@../pics/gridPaneStyle.css">
+                  <AnchorPane fx:id="homePane" layoutX="13.0" layoutY="10.0" prefHeight="687.0" prefWidth="816.0" styleClass="home" stylesheets="@../pics/gridPaneStyle.css" visible="false">
                      <children>
                         <ImageView fitHeight="686.0" fitWidth="803.0" layoutX="6.0" layoutY="3.0">
                            <image>
@@ -495,7 +495,7 @@
                   </AnchorPane>
                   <AnchorPane fx:id="addEditCarPane" layoutX="1.0" layoutY="10.0" prefHeight="429.0" prefWidth="830.0" visible="false">
                      <children>
-                        <Label fx:id="step2" disable="true" layoutX="618.0" layoutY="2.0" text="Customer Registration Step 2/3 " textFill="#0000ff">
+                        <Label fx:id="step2" layoutX="618.0" layoutY="2.0" text="Customer Registration Step 2/3 " textFill="#0000ff">
                            <font>
                               <Font name="Calibri Italic" size="16.0" />
                            </font>
@@ -608,11 +608,11 @@
                         </AnchorPane>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="setPurchasingPane" layoutX="6.0" layoutY="4.0" prefHeight="660.0" prefWidth="827.0" visible="false">
+                  <AnchorPane fx:id="setPurchasingPane" layoutX="6.0" layoutY="4.0" prefHeight="660.0" prefWidth="827.0">
                      <children>
                         <AnchorPane layoutY="23.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="636.0" prefWidth="827.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css">
                            <children>
-                              <AnchorPane layoutX="21.0" layoutY="59.0">
+                              <AnchorPane fx:id="apSPP" disable="true" layoutX="21.0" layoutY="59.0">
                                  <children>
                                     <Label text="Please Choose a Program:" textFill="#144465" underline="true">
                                        <font>
@@ -621,16 +621,16 @@
                                     </Label>
                                     <VBox fx:id="vbSPPMagicbox2" alignment="TOP_CENTER" layoutX="444.0" layoutY="29.0" prefHeight="340.0" prefWidth="340.0">
                                        <children>
-                                          <ScrollPane fx:id="purchProg_ExpenProgBox_SP" disable="true" prefHeight="360.0" prefWidth="360.0">
+                                          <ScrollPane fx:id="purchProg_ExpenProgBox_SP" prefHeight="360.0" prefWidth="360.0">
                                              <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0">
                                                    <children>
-                                                      <TextArea fx:id="taSPPExpensiveDetails" maxHeight="1.7976931348623157E308" prefHeight="193.0" prefWidth="358.0" text="program details&#10;" />
+                                                      <TextArea fx:id="taSPPExpensiveDetails" editable="false" maxHeight="1.7976931348623157E308" prefHeight="193.0" prefWidth="358.0" text="&#10;" />
                                                    </children>
                                                 </AnchorPane>
                                              </content>
                                           </ScrollPane>
-                                          <RadioButton fx:id="rbSPPPremium" disable="true" mnemonicParsing="false" text="Premium Program">
+                                          <RadioButton fx:id="rbSPPPremium" mnemonicParsing="false" onAction="#rbSPPPremiumPressed" text="Premium Program">
                                              <VBox.margin>
                                                 <Insets top="10.0" />
                                              </VBox.margin>
@@ -659,22 +659,22 @@
                                                 <Font name="Arial" size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label disable="true" text="Fuel Company #2" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                                          <Label text="Fuel Company #2" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                                              <font>
                                                 <Font name="Arial" size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label disable="true" text="Fuel Company #3" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+                                          <Label text="Fuel Company #3" GridPane.columnIndex="2" GridPane.halignment="CENTER">
                                              <font>
                                                 <Font name="Arial" size="16.0" />
                                              </font>
                                           </Label>
-                                          <ComboBox fx:id="cobSPPFuelCompany1" disable="true" prefWidth="150.0" promptText="#1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                                          <ComboBox fx:id="cobSPPFuelCompany2" disable="true" prefWidth="150.0" promptText="#2" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                                          <ComboBox fx:id="cobSPPFuelCompany3" disable="true" prefWidth="150.0" promptText="#3" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                                          <ComboBox fx:id="cobSPPFuelCompany1" prefWidth="150.0" promptText="#1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                                          <ComboBox fx:id="cobSPPFuelCompany2" prefWidth="150.0" promptText="#2" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                                          <ComboBox fx:id="cobSPPFuelCompany3" prefWidth="150.0" promptText="#3" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                                        </children>
                                     </GridPane>
-                                    <Button fx:id="btnSPPSave" disable="true" layoutX="260.0" layoutY="510.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="264.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Save Purchasing Program" textFill="WHITE">
+                                    <Button fx:id="btnSPPSave" layoutX="260.0" layoutY="510.0" mnemonicParsing="false" onAction="#btnSPPSavePressed" prefHeight="44.0" prefWidth="264.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Save Purchasing Program" textFill="WHITE">
                                        <font>
                                           <Font name="Calibri" size="20.0" />
                                        </font>
@@ -688,16 +688,16 @@
                                     </Button>
                                     <VBox fx:id="vbSPPMagicbox1" alignment="TOP_CENTER" layoutY="29.0" prefHeight="340.0" prefWidth="340.0">
                                        <children>
-                                          <ScrollPane fx:id="purchProg_ExpenProgBox_SP1" disable="true" prefHeight="360.0" prefWidth="360.0">
+                                          <ScrollPane fx:id="purchProg_ExpenProgBox_SP1" prefHeight="360.0" prefWidth="360.0">
                                              <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0">
                                                    <children>
-                                                      <TextArea fx:id="taSPPSingleDetails" maxHeight="1.7976931348623157E308" prefWidth="358.0" text="when you click the radio button the program&#10;border change to green color&#10;" />
+                                                      <TextArea fx:id="taSPPSingleDetails" maxHeight="1.7976931348623157E308" prefWidth="358.0" />
                                                    </children>
                                                 </AnchorPane>
                                              </content>
                                           </ScrollPane>
-                                          <RadioButton fx:id="rbSPPStandard" disable="true" mnemonicParsing="false" selected="true" text="Standard Program" toggleGroup="$two">
+                                          <RadioButton fx:id="rbSPPStandard" mnemonicParsing="false" onAction="#rbSPPStandardPressed" selected="true" text="Standard Program" toggleGroup="$two">
                                              <VBox.margin>
                                                 <Insets top="10.0" />
                                              </VBox.margin>
@@ -707,14 +707,14 @@
                                           </RadioButton>
                                        </children>
                                     </VBox>
-                                    <Label fx:id="lblSPPChooseCompany" layoutY="382.0" text="Please Choose --- Fuel Company:" textFill="#144465" underline="true">
+                                    <Label fx:id="lblSPPChooseCompany" layoutY="382.0" text="Please Choose Fuel Company or Companies:" textFill="#144465" underline="true">
                                        <font>
                                           <Font name="Arial" size="16.0" />
                                        </font>
                                     </Label>
                                  </children>
                               </AnchorPane>
-                              <GridPane layoutX="28.0" layoutY="11.0" prefHeight="45.0" prefWidth="616.0">
+                              <GridPane fx:id="gpSPP" layoutX="28.0" layoutY="11.0" prefHeight="45.0" prefWidth="616.0">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="284.0" minWidth="10.0" prefWidth="124.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="453.0" minWidth="10.0" prefWidth="235.0" />
@@ -729,12 +729,12 @@
                                           <Font name="Arial" size="16.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="tfSPPCustID" prefHeight="30.0" prefWidth="215.0" GridPane.columnIndex="1">
+                                    <TextField fx:id="tfSPPCustID" prefHeight="30.0" prefWidth="215.0" promptText="*" GridPane.columnIndex="1">
                                        <GridPane.margin>
                                           <Insets />
                                        </GridPane.margin>
                                     </TextField>
-                                    <Button fx:id="btnSPPCheck" mnemonicParsing="false" prefHeight="30.0" prefWidth="170.0" styleClass="task-button" stylesheets="@../pics/style.css" text="Check Customer" GridPane.columnIndex="2">
+                                    <Button fx:id="btnSPPCheck" mnemonicParsing="false" onAction="#btnSPPCheckPressed" prefHeight="30.0" prefWidth="170.0" styleClass="task-button" stylesheets="@../pics/style.css" text="Check Customer" GridPane.columnIndex="2">
                                        <GridPane.margin>
                                           <Insets left="30.0" />
                                        </GridPane.margin>
@@ -751,10 +751,10 @@
                                     </Button>
                                  </children>
                               </GridPane>
-                              <Button fx:id="btnSPPClear" layoutX="641.0" layoutY="19.0" mnemonicParsing="false" prefHeight="32.0" styleClass="task-button" stylesheets="@../pics/style.css" text="Clear" />
+                              <Button fx:id="btnSPPClear" layoutX="641.0" layoutY="19.0" mnemonicParsing="false" onAction="#btnSPPClearPressed" prefHeight="32.0" styleClass="task-button" stylesheets="@../pics/style.css" text="Clear" />
                            </children>
                         </AnchorPane>
-                        <Label fx:id="step3" disable="true" layoutX="621.0" layoutY="5.0" text="Customer Registration Step 3/3 " textFill="#0000ff">
+                        <Label fx:id="step3" layoutX="621.0" layoutY="5.0" text="Customer Registration Step 3/3 " textFill="#0000ff">
                            <font>
                               <Font name="Calibri Italic" size="16.0" />
                            </font>

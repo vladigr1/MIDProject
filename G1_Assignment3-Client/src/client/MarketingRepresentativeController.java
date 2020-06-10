@@ -5,9 +5,12 @@ import java.net.ConnectException;
 
 import entities.Car;
 import entities.Customer;
+import entities.PurchasingProgram;
 import entities.User;
 import enums.CustomerType;
+import enums.FuelCompanyName;
 import enums.ProductName;
+import enums.PurchasingProgramName;
 
 /**
  * logic controller for marketing representative
@@ -46,7 +49,18 @@ public class MarketingRepresentativeController extends MarketingDepWorkerControl
 			awaitResponse = true;
 			boolean flag = true;
 
-			if (splitMsg[0].equals("savecar")) {
+			if (splitMsg[0].equals("setprogram")) {
+				PurchasingProgram purchasingProgram = new PurchasingProgram(splitMsg[1],
+						PurchasingProgramName.valueOf(splitMsg[2]), FuelCompanyName.valueOf(splitMsg[3]), null, null);
+				if (!splitMsg[4].equals("NaN"))
+					purchasingProgram.setFuelCompanyName2(FuelCompanyName.valueOf(splitMsg[4]));
+				if (!splitMsg[5].equals("NaN"))
+					purchasingProgram.setFuelCompanyName3(FuelCompanyName.valueOf(splitMsg[5]));
+
+				System.out.println("sending to server : " + purchasingProgram);
+				this.sendToServer(purchasingProgram);
+
+			} else if (splitMsg[0].equals("savecar")) {
 				Car car = new Car(splitMsg[2], splitMsg[1], ProductName.valueOf(splitMsg[4]), splitMsg[3]);
 				car.setFunction("save car");
 				System.out.println("sending to server : " + car);

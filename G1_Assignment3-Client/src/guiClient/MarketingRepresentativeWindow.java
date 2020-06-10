@@ -160,6 +160,10 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	@FXML
 	private AnchorPane setPurchasingPane;
 	@FXML
+	private GridPane gpSPP;
+	@FXML
+	private AnchorPane apSPP;
+	@FXML
 	private Label step3;
 	@FXML
 	private VBox vbSPPMagicbox2;
@@ -168,11 +172,11 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	@FXML
 	private TextArea taSPPExpensiveDetails;
 	@FXML
-	private ComboBox<?> cobSPPFuelCompany1;
+	private ComboBox<String> cobSPPFuelCompany1;
 	@FXML
-	private ComboBox<?> cobSPPFuelCompany2;
+	private ComboBox<String> cobSPPFuelCompany2;
 	@FXML
-	private ComboBox<?> cobSPPFuelCompany3;
+	private ComboBox<String> cobSPPFuelCompany3;
 	@FXML
 	private Button btnSPPSave;
 	@FXML
@@ -395,8 +399,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			openErrorAlert("Error", "Missing Required Fields");
 			return;
 		}
-		if (customerID.matches(".*[A-z].*") || owner.matches(".*[0-9].*") || regPlate.matches(".*[A-z].*")
-				|| (regPlate.length() != 7 && regPlate.length() != 8)) {
+		if (customerID.length() != 9 || customerID.matches(".*[A-z].*") || owner.matches(".*[0-9].*")
+				|| regPlate.matches(".*[A-z].*") || (regPlate.length() != 7 && regPlate.length() != 8)) {
 			openErrorAlert("Error", "Field Not Valid");
 			return;
 		}
@@ -462,8 +466,6 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 				.handleMessageFromClientUI("updatecar " + customerID + " " + regPlate + " " + owner + " " + fuelType);
 	}
 
-	/*********************************************************************************/
-
 	@FXML
 	void openSetPurchasingProgram(ActionEvent event) {
 		this.visibleNow.setVisible(false);
@@ -472,6 +474,77 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.topbar_window_label.setText("Set Purchasing Program");
 		clearFields();
 	}
+
+	@FXML
+	void btnSPPClearPressed(ActionEvent event) {
+		clearSetPurchasingPane();
+	}
+
+	@FXML
+	void rbSPPStandardPressed(ActionEvent event) {
+		this.purchProg_ExpenProgBox_SP1.setStyle("-fx-border-color: green ; -fx-border-width: 2px ;");
+		this.purchProg_ExpenProgBox_SP.setStyle("-fx-border-style: none;");
+		this.cobSPPFuelCompany2.setDisable(true);
+		this.cobSPPFuelCompany3.setDisable(true);
+		this.cobSPPFuelCompany2.setValue("");
+		this.cobSPPFuelCompany3.setValue("");
+	}
+
+	@FXML
+	void rbSPPPremiumPressed(ActionEvent event) {
+		this.purchProg_ExpenProgBox_SP.setStyle("-fx-border-color: green ; -fx-border-width: 2px ;");
+		this.purchProg_ExpenProgBox_SP1.setStyle("-fx-border-style: none;");
+		this.cobSPPFuelCompany2.setDisable(false);
+		this.cobSPPFuelCompany3.setDisable(false);
+		this.cobSPPFuelCompany2.setValue("Paz");
+	}
+
+	@FXML
+	void btnSPPCheckPressed(ActionEvent event) {
+		String customerID = this.tfSPPCustID.getText();
+		if (customerID.isEmpty() || customerID.length() != 9 || customerID.matches(".*[A-z].*")) {
+			openErrorAlert("Error", "Field Not Valid");
+			return;
+		}
+		checkCustomerExists(customerID);
+	}
+
+	@FXML
+	void btnSPPSavePressed(ActionEvent event) {
+		String customerID = this.tfSPPCustID.getText();
+		String program = null;
+		if (rbSPPStandard.isSelected())
+			program = "Standard";
+		else
+			program = "Premium";
+
+		String company1 = this.cobSPPFuelCompany1.getValue();
+		String company2 = "NaN";
+		String company3 = "NaN";
+		if (!this.cobSPPFuelCompany2.getValue().equals(""))
+			company2 = this.cobSPPFuelCompany2.getValue();
+		if (!this.cobSPPFuelCompany3.getValue().equals(""))
+			company3 = this.cobSPPFuelCompany3.getValue();
+
+		if (customerID.isEmpty() || program == null) {
+			openErrorAlert("Error", "Missing Required Fields");
+			return;
+		}
+		if (customerID.length() != 9 || customerID.matches(".*[A-z].*")) {
+			openErrorAlert("Error", "Field Not Valid");
+			return;
+		}
+		if (company1.equals(company2) || company1.equals(company3)
+				|| (!company2.equals("NaN") && company2.equals(company3))) {
+			openErrorAlert("Error", "Duplicate Fuel Companies");
+			return;
+		}
+
+		this.controller.handleMessageFromClientUI(
+				"setprogram " + customerID + " " + program + " " + company1 + " " + company2 + " " + company3);
+	}
+
+	/*********************************************************************************/
 
 	@FXML
 	void openSetPricingModel(ActionEvent event) {
@@ -499,6 +572,13 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 
 			} else if (str.equals("save car exist")) {
 				openErrorAlert("Error", "Car Already Exists");
+
+			} else if (str.equals("set purchasing program success")) {
+				openErrorAlert("Success", "Purchasing Program Set Successfully");
+				clearSetPurchasingPane();
+
+			} else if (str.equals("set purchasing program fail")) {
+				openErrorAlert("Error", "Purchasing Program Set Failed");
 
 			} else if (str.equals("save customer success")) {
 				openErrorAlert("Success",
@@ -544,6 +624,14 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 
 					} else if (this.visibleNow == this.addEditCarPane && editCarPane.isVisible() == true) {
 						this.controller.handleMessageFromClientUI("getcustomercars " + this.tfECACustID.getText());
+
+					} else if (this.visibleNow == this.setPurchasingPane) {
+						this.gpSPP.setDisable(true);
+						this.apSPP.setDisable(false);
+						this.purchProg_ExpenProgBox_SP1.setStyle("-fx-border-color: green ; -fx-border-width: 2px ;");
+						this.purchProg_ExpenProgBox_SP.setStyle("-fx-border-style: none;");
+						this.cobSPPFuelCompany2.setDisable(true);
+						this.cobSPPFuelCompany3.setDisable(true);
 					}
 				}
 			}
@@ -585,15 +673,19 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	@Override
 	public void setUserComponents(String username) {
 		super.setUserComponents(username);
+
 		this.cobAECUCustType.getItems().removeAll((Collection<?>) this.cobAECUCustType.getItems());
 		this.cobAECUCustType.getItems().addAll(new String[] { "Person", "Company" });
 		this.cobAECUCustType.setValue("Person");
+
 		this.cobECUCustType.getItems().removeAll((Collection<?>) this.cobECUCustType.getItems());
 		this.cobECUCustType.getItems().addAll(new String[] { "Person", "Company" });
 		this.cobECUCustType.setValue("Person");
+
 		this.cobAECAFuelType.getItems().removeAll((Collection<?>) this.cobAECAFuelType.getItems());
 		this.cobAECAFuelType.getItems().addAll(new String[] { "Gasoline", "Diesel", "Motorbike Fuel" });
 		this.cobAECAFuelType.setValue("Gasoline");
+
 		this.cobECAFuelType.getItems().removeAll((Collection<?>) this.cobAECAFuelType.getItems());
 		this.cobECAFuelType.getItems().addAll(new String[] { "Gasoline", "Diesel", "Motorbike Fuel" });
 		this.cobECAFuelType.setValue("Gasoline");
@@ -616,6 +708,20 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 				tvECACarPressed();
 			}
 		});
+
+		this.cobSPPFuelCompany1.getItems().removeAll((Collection<?>) this.cobSPPFuelCompany1.getItems());
+		this.cobSPPFuelCompany1.getItems().addAll(new String[] { "Sonol", "Paz", "Delek" });
+		this.cobSPPFuelCompany1.setValue("Sonol");
+		this.cobSPPFuelCompany2.getItems().removeAll((Collection<?>) this.cobSPPFuelCompany2.getItems());
+		this.cobSPPFuelCompany2.getItems().addAll(new String[] { "Sonol", "Paz", "Delek" });
+		this.cobSPPFuelCompany2.setValue("");
+		this.cobSPPFuelCompany3.getItems().removeAll((Collection<?>) this.cobSPPFuelCompany3.getItems());
+		this.cobSPPFuelCompany3.getItems().addAll(new String[] { "", "Sonol", "Paz", "Delek" });
+		this.cobSPPFuelCompany3.setValue("");
+		this.taSPPSingleDetails.setText("Fast fueling in fuel stations of only 1 fuel company\n\n10 dollars per month");
+		this.taSPPExpensiveDetails
+				.setText("Fast fueling in fuel stations of 2-3 fuel companies\n\n20 dollars per month");
+
 		this.step2.setVisible(false);
 		this.step3.setVisible(false);
 	}
@@ -631,6 +737,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		clearEditCustomerPane();
 		clearAddEditCarPane();
 		clearEditCarPane();
+		clearSetPurchasingPane();
 		this.step2.setVisible(false);
 		this.step3.setVisible(false);
 	}
@@ -665,6 +772,19 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			this.tvECACar.getItems().clear();
 		this.apECACustomer.setDisable(false);
 		this.apECACar.setDisable(true);
+	}
+
+	private void clearSetPurchasingPane() {
+		this.tfSPPCustID.clear();
+		this.rbSPPStandard.setSelected(true);
+		this.purchProg_ExpenProgBox_SP1.setStyle("-fx-border-color: green ; -fx-border-width: 2px ;");
+		this.purchProg_ExpenProgBox_SP.setStyle("-fx-border-style: none;");
+		this.cobSPPFuelCompany1.setValue("Sonol");
+		this.cobSPPFuelCompany2.setValue("");
+		this.cobSPPFuelCompany3.setValue("");
+		this.step3.setVisible(false);
+		this.gpSPP.setDisable(false);
+		this.apSPP.setDisable(true);
 	}
 
 	private void checkCustomerExists(String customerID) {
