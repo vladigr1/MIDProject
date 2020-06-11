@@ -136,6 +136,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	private Button btnAECAEdit;
 	@FXML
 	private Button btnAECAClear;
+	@FXML
+	private Button btnAECACancelReg;
 
 	@FXML
 	private AnchorPane editCarPane;
@@ -206,6 +208,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	private Button btnSPPCheck;
 	@FXML
 	private Button btnSPPClear;
+	@FXML
+	private Button btnSPPCancelReg;
 
 	@FXML
 	private AnchorPane pricingModelPane;
@@ -271,6 +275,10 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.createSalePatternPane.setVisible(false);
 		this.editCustomerPane.setVisible(false);
 		this.editCarPane.setVisible(false);
+		this.step2.setVisible(false);
+		this.btnAECACancelReg.setVisible(false);
+		this.step3.setVisible(false);
+		this.btnSPPCancelReg.setVisible(false);
 		this.visibleNow = this.homePane;
 		this.controller = MarketingRepresentativeController.getInstance();
 		this.controller.setCurrentWindow(this);
@@ -430,6 +438,56 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	void btnAECAEditPressed(ActionEvent event) {
 		this.mainBorderPane.setDisable(true);
 		this.editCarPane.setVisible(true);
+	}
+
+	@FXML
+	void btnAECACancelRegPressed(ActionEvent event) {
+		String customerID = this.tfAECACustID.getText();
+
+		clearFields();
+		this.step2.setVisible(false);
+		this.btnAECACancelReg.setVisible(false);
+		this.gpAECACarDetails.setDisable(false);
+		this.btnAECAEdit.setDisable(false);
+		this.btnAECAClear.setDisable(false);
+		this.vbox1.setDisable(false);
+		this.vbox2.setDisable(false);
+		this.apAECACarDetails.setDisable(true);
+		this.step3.setVisible(false);
+		this.btnSPPCancelReg.setVisible(false);
+		this.gpSPP.setDisable(false);
+		this.apSPP.setDisable(true);
+		this.btnSPPClear.setDisable(false);
+		this.vbox1.setDisable(false);
+		this.vbox2.setDisable(false);
+		this.customerIsRegisteringFlag = false;
+
+		this.controller.handleMessageFromClientUI("deletecustomer " + customerID);
+	}
+
+	@FXML
+	void btnSPPCancelRegPressed(ActionEvent event) {
+		String customerID = this.tfSPPCustID.getText();
+
+		clearFields();
+		this.step2.setVisible(false);
+		this.btnAECACancelReg.setVisible(false);
+		this.gpAECACarDetails.setDisable(false);
+		this.btnAECAEdit.setDisable(false);
+		this.btnAECAClear.setDisable(false);
+		this.vbox1.setDisable(false);
+		this.vbox2.setDisable(false);
+		this.apAECACarDetails.setDisable(true);
+		this.step3.setVisible(false);
+		this.btnSPPCancelReg.setVisible(false);
+		this.gpSPP.setDisable(false);
+		this.apSPP.setDisable(true);
+		this.btnSPPClear.setDisable(false);
+		this.vbox1.setDisable(false);
+		this.vbox2.setDisable(false);
+		this.customerIsRegisteringFlag = false;
+
+		this.controller.handleMessageFromClientUI("deletecustomer " + customerID);
 	}
 
 	@FXML
@@ -654,6 +712,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 						this.topbar_window_label.setText("Set Purchasing Program");
 						this.tfSPPCustID.setText(customerID);
 						this.step3.setVisible(true);
+						this.btnSPPCancelReg.setVisible(true);
 						this.gpSPP.setDisable(true);
 						this.btnSPPClear.setDisable(true);
 						this.vbox1.setDisable(true);
@@ -683,6 +742,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 				if (this.customerIsRegisteringFlag == true) {
 					clearFields();
 					this.step2.setVisible(false);
+					this.btnAECACancelReg.setVisible(false);
 					this.gpAECACarDetails.setDisable(false);
 					this.btnAECAEdit.setDisable(false);
 					this.btnAECAClear.setDisable(false);
@@ -690,11 +750,12 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 					this.vbox2.setDisable(false);
 					this.apAECACarDetails.setDisable(true);
 					this.step3.setVisible(false);
+					this.btnSPPCancelReg.setVisible(false);
 					this.gpSPP.setDisable(false);
+					this.apSPP.setDisable(true);
 					this.btnSPPClear.setDisable(false);
 					this.vbox1.setDisable(false);
 					this.vbox2.setDisable(false);
-					this.apSPP.setDisable(true);
 					this.customerIsRegisteringFlag = false;
 				}
 
@@ -734,6 +795,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 					this.topbar_window_label.setText("Add\\Edit Car");
 					this.tfAECACustID.setText(customerID);
 					this.step2.setVisible(true);
+					this.btnAECACancelReg.setVisible(true);
 					this.gpAECACarDetails.setDisable(true);
 					this.btnAECAEdit.setDisable(true);
 					this.btnAECAClear.setDisable(true);
@@ -997,8 +1059,6 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		clearAddEditCarPane();
 		clearEditCarPane();
 		clearSetPurchasingPane();
-		this.step2.setVisible(false);
-		this.step3.setVisible(false);
 		clearPricingModelPane();
 	}
 
@@ -1019,6 +1079,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.tfAECAOwner.clear();
 		this.cobAECAFuelType.setValue("Gasoline");
 		this.step2.setVisible(false);
+		this.btnAECACancelReg.setVisible(false);
 		this.gpAECACarDetails.setDisable(false);
 		this.apAECACarDetails.setDisable(true);
 	}
@@ -1043,6 +1104,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.cobSPPFuelCompany2.setValue("");
 		this.cobSPPFuelCompany3.setValue("");
 		this.step3.setVisible(false);
+		this.btnSPPCancelReg.setVisible(false);
 		this.gpSPP.setDisable(false);
 		this.apSPP.setDisable(true);
 	}
