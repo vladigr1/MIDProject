@@ -10,6 +10,7 @@ import entities.ActivityList;
 import entities.Car;
 import entities.CarList;
 import entities.Customer;
+import entities.FastFuel;
 import entities.FastFuelList;
 import entities.HomeFuelOrder;
 import entities.HomeFuelOrderList;
@@ -276,6 +277,17 @@ public class DatabaseController {
 	 */
 	public String setPricingModel(PricingModel pricingModel) {
 		return DatabaseMarketingRepresentativeController.getInstance(connection).setPricingModel(pricingModel);
+	}
+
+	/************* fast fuel controller methods **************/
+
+	/**
+	 * 
+	 * @param fastFuel
+	 * @return fuel type of car and price per liter after discounts
+	 */
+	public FastFuel getFuelTypeAndPricePerLiter(FastFuel fastFuel) {
+		return DatabaseFastFuelController.getInstance(connection).getFuelTypeAndPricePerLiter(fastFuel);
 	}
 
 }

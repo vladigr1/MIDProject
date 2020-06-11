@@ -1,6 +1,7 @@
 package guiClient;
 
 import client.FastFuelController;
+import entities.FastFuel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -9,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
@@ -21,6 +23,8 @@ import javafx.stage.WindowEvent;
 public class FastFuelWindow extends AFXML {
 
 	@FXML
+	private AnchorPane emuPane;
+	@FXML
 	private TextField tfRegPlate;
 	@FXML
 	private TextField tfFuelStation;
@@ -28,6 +32,8 @@ public class FastFuelWindow extends AFXML {
 	private TextField tfAmount;
 	@FXML
 	private Button btnEmulate;
+	@FXML
+	private AnchorPane fuelPane;
 	@FXML
 	private Label lblPrice;
 	@FXML
@@ -40,6 +46,7 @@ public class FastFuelWindow extends AFXML {
 		this.lblContinue.setVisible(false);
 		this.controller = FastFuelController.getInstance();
 		this.controller.setCurrentWindow(this);
+		this.fuelPane.setVisible(false);
 	}
 
 	private Window getWindow() {
@@ -51,18 +58,18 @@ public class FastFuelWindow extends AFXML {
 	@FXML
 	void btnEmulatePressed(ActionEvent event) {
 		String regPlate = this.tfRegPlate.getText();
-		String fuelStationName = this.tfFuelStation.getText();
+		String fuelStationID = this.tfFuelStation.getText();
 		String amount = this.tfAmount.getText();
-		if (regPlate.isEmpty() || fuelStationName.isEmpty() || amount.isEmpty()) {
+		if (regPlate.isEmpty() || fuelStationID.isEmpty() || amount.isEmpty()) {
 			openErrorAlert("Error", "Missing Required Fields");
 			return;
 		}
-		if (regPlate.matches(".*[A-z].*") || fuelStationName.matches(".*[0-9].*") || amount.matches(".*[A-z].*")) {
+		if (regPlate.matches(".*[A-z].*") || fuelStationID.matches(".*[A-z].*") || amount.matches(".*[A-z].*")) {
 			openErrorAlert("Error", "Field Not Valid");
 			return;
 		}
 
-		this.controller.handleMessageFromClientUI("getdiscount " + regPlate + " " + fuelStationName + " " + amount);
+		this.controller.handleMessageFromClientUI("getdiscount " + regPlate + " " + fuelStationID + " " + amount);
 	}
 
 	@FXML
@@ -96,7 +103,26 @@ public class FastFuelWindow extends AFXML {
 
 	@Override
 	public void callAfterMessage(Object lastMsgFromServer) {
-		// TODO Auto-generated method stub
+		if (!(lastMsgFromServer instanceof FastFuel)) {
+			System.out.println("expected fastfuel but got something else");
+			return;
+		}
+
+		FastFuel fastFuel = (FastFuel) lastMsgFromServer;
+		String result = fastFuel.getFunction();
+
+		if (result.contains("doesn't") || result.equals("fail")) {
+			openErrorAlert("Error", result);
+			this.emuPane.setDisable(false);
+			this.fuelPane.setVisible(false);
+			return;
+
+		} else if (result.equals("getFuelTypeAndPricePerLiter success")) {
+			this.lblFuelType.setText(fastFuel.getFuelType().toString());
+			this.lblPrice.setText(fastFuel.getFinalPrice().toString());
+			this.emuPane.setDisable(true);
+			this.fuelPane.setVisible(true);
+		}
 
 	}
 

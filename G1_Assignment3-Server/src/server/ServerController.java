@@ -7,6 +7,7 @@ import java.util.Date;
 import database.DatabaseController;
 import entities.Car;
 import entities.Customer;
+import entities.FastFuel;
 import entities.HomeFuelOrder;
 import entities.PricingModel;
 import entities.PurchasingProgram;
@@ -98,6 +99,9 @@ public class ServerController extends AbstractServer {
 			} else if (object instanceof PricingModel) {
 				ServerMarketingRepresentativeController.getInstance(databaseController).handleMessageFromClient(object,
 						client);
+
+			} else if (object instanceof FastFuel) {
+				ServerFastFuelController.getInstance(databaseController).handleMessageFromClient(object, client);
 
 			} else if (object instanceof String) {
 				String str = (String) object;

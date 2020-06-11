@@ -3,6 +3,7 @@ package entities;
 import java.io.Serializable;
 import java.util.Date;
 
+import enums.FuelCompanyName;
 import enums.ProductName;
 
 /**
@@ -22,11 +23,15 @@ public class FastFuel implements Serializable {
 	// fields
 	private Date fastFuelTime;
 	private double amountBought;
-	private double finalPrice;
+	private Double finalPrice;
 
 	// added in java - can be null
 	private ProductName fuelType; // == productName
 	private String fuelStationName;
+	private int fuelStationID;
+	private FuelCompanyName fuelCompanyName;
+	private int saleID; // if active
+	private String function;
 
 	/**
 	 * empty constructor but regPlate
@@ -35,7 +40,7 @@ public class FastFuel implements Serializable {
 		super();
 		this.registrationPlate = registrationPlate;
 	}
-	
+
 	/**
 	 * without fastFuelID auto-inc
 	 * 
@@ -124,7 +129,7 @@ public class FastFuel implements Serializable {
 		this.amountBought = amountBought;
 	}
 
-	public double getFinalPrice() {
+	public Double getFinalPrice() {
 		return finalPrice;
 	}
 
@@ -146,6 +151,38 @@ public class FastFuel implements Serializable {
 
 	public void setFuelStationName(String fuelStationName) {
 		this.fuelStationName = fuelStationName;
+	}
+
+	public int getFuelStationID() {
+		return fuelStationID;
+	}
+
+	public void setFuelStationID(int fuelStationID) {
+		this.fuelStationID = fuelStationID;
+	}
+
+	public FuelCompanyName getFuelCompanyName() {
+		return fuelCompanyName;
+	}
+
+	public void setFuelCompanyName(FuelCompanyName fuelCompanyName) {
+		this.fuelCompanyName = fuelCompanyName;
+	}
+
+	public int getSaleID() {
+		return saleID;
+	}
+
+	public void setSaleID(int saleID) {
+		this.saleID = saleID;
+	}
+
+	public String getFunction() {
+		return function;
+	}
+
+	public void setFunction(String function) {
+		this.function = function;
 	}
 
 	@Override

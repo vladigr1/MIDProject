@@ -419,7 +419,7 @@ public class DatabaseMarketingRepresentativeController {
 	 * 
 	 * @param regPlate
 	 */
-	private Integer checkCarExists(String regPlate) {
+	public Integer checkCarExists(String regPlate) {
 		try {
 			PreparedStatement pStmt = this.connection
 					.prepareStatement("SELECT deleted FROM car WHERE registrationPlate = ?");
