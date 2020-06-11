@@ -239,7 +239,11 @@ public class DatabaseFastFuelController {
 			pStmt.setInt(2, productInStationID);
 			pStmt.executeUpdate();
 			if (capacity < threshold) {
-				makeNewFuelStationOrder(); // and make notification for fuelStationManager
+				if (makeNewFuelStationOrder(fastFuelTime, productInStationID, capacity, threshold) == false) {
+					// and make notification for fuelStationManager
+					fastFuel.setFunction("fail makeNewFuelStationOrder");
+					return fastFuel;
+				}
 			}
 
 			pStmt = this.connection.prepareStatement(
@@ -262,7 +266,10 @@ public class DatabaseFastFuelController {
 			}
 
 			if (saleID != -1) {
-				updateCustomerBoughtInSale();
+				if (updateCustomerBoughtInSale(saleID, customerID, finalPrice) == false) {
+					fastFuel.setFunction("fail updateCustomerBoughtInSale");
+					return fastFuel;
+				}
 			}
 
 			String fuelCompanyName = fastFuel.getFuelCompanyName().toString();
@@ -284,6 +291,43 @@ public class DatabaseFastFuelController {
 			fastFuel.setFunction("fail");
 			return fastFuel;
 		}
+	}
+
+	private boolean updateCustomerBoughtInSale(int saleID, String customerID, double amountPaid) {
+		try {
+			PreparedStatement pStmt = this.connection.prepareStatement(
+					"SELECT amountPaid FROM customer_bought_in_sale WHERE FK_saleID = ? AND FK_customerID = ?");
+			pStmt.setInt(1, saleID);
+			pStmt.setString(2, customerID);
+			ResultSet rs = pStmt.executeQuery();
+
+			if (!rs.next()) { // doesn't already exist
+				// "FK_saleID", "FK_customerID", "amountPaid"
+				Object[] values1 = { saleID, customerID, amountPaid };
+				TableInserts.insertCustomerBoughtInSale(connection, values1);
+
+			} else { // does exist
+				amountPaid += rs.getDouble(1);
+
+				pStmt = this.connection.prepareStatement(
+						"UPDATE customer_bought_in_sale SET amountPaid = ? WHERE FK_saleID = ? AND FK_customerID = ?");
+				pStmt.setDouble(1, amountPaid);
+				pStmt.setInt(2, saleID);
+				pStmt.setString(3, customerID);
+				pStmt.executeUpdate();
+			}
+
+			rs.close();
+			return true;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return false;
+		}
+
 	}
 
 	private boolean updateCustomerBoughtFromCompany(String customerID, Date fastFuelTime, String fuelCompanyName,
@@ -314,6 +358,60 @@ public class DatabaseFastFuelController {
 			}
 
 			rs.close();
+			return true;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return false;
+		}
+	}
+
+	private boolean makeNewFuelStationOrder(Date fastFuelTime, int productInStationID, double capacity,
+			double threshold) {
+		try {
+			PreparedStatement pStmt = this.connection
+					.prepareStatement("SELECT FK_fuelStationID FROM product_in_station WHERE productInStationID = ?");
+			pStmt.setInt(1, productInStationID);
+			ResultSet rs = pStmt.executeQuery();
+			if (!rs.next()) {
+				return false;
+			}
+			int fuelStationID = rs.getInt(1);
+			rs.close();
+
+			pStmt = this.connection
+					.prepareStatement("SELECT FK_employeeID, address FROM fuel_station WHERE fuelStationID = ?");
+			pStmt.setInt(1, fuelStationID);
+			rs = pStmt.executeQuery();
+			if (!rs.next()) {
+				return false;
+			}
+			int fuelStationManagerID = rs.getInt(1);
+			String address = rs.getString(2);
+			rs.close();
+
+			// "orderTime", "amountBought", "address"
+			Object[] values1 = { fastFuelTime, threshold - capacity, address };
+			TableInserts.insertOrders(connection, values1);
+
+			pStmt = this.connection.prepareStatement("SELECT MAX(ordersID) FROM orders");
+			rs = pStmt.executeQuery();
+			if (!rs.next())
+				return false;
+			int ordersID = rs.getInt(1);
+			rs.close();
+
+			// 1 - "FK_ordersID", "FK_productInStationID", "assessed", "supplied"
+			Object[] values2 = { ordersID, productInStationID, false, false };
+			TableInserts.insertFuelStationOrder1(connection, values2);
+
+			// "FK_employeeID", "message", "dismissed", "dateCreated"
+			Object[] values3 = { fuelStationManagerID, "a station order is ready to be assessed", false, fastFuelTime };
+			TableInserts.insertNotification(connection, values3);
+
 			return true;
 
 		} catch (SQLException e) {
