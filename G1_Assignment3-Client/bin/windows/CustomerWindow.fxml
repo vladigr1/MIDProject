@@ -332,7 +332,7 @@
                                     <Font name="Arial Bold" size="10.0" />
                                  </font>
                               </Label>
-                              <Button fx:id="btnHomeUpdatePass" layoutX="147.0" layoutY="571.0" mnemonicParsing="false" onAction="#btnHomeUpdatePassPressed" prefHeight="25.0" styleClass="task-button" stylesheets="@../pics/style.css" text="Update Password" />
+                              <Button fx:id="btnHomeUpdatePass" layoutX="147.0" layoutY="571.0" mnemonicParsing="false" onAction="#btnHomeUpdatePassPressed" prefHeight="25.0" styleClass="task-button" stylesheets="@../pics/style.css" text="Change Password" />
                               <PasswordField fx:id="tfHomeNewPass" layoutX="15.0" layoutY="572.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="127.0" promptText="* new password (0-9)" />
                            </children>
                         </AnchorPane>

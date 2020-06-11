@@ -133,11 +133,11 @@ public class CustomerWindow extends UserWindow {
 	void btnHomeUpdatePassPressed(ActionEvent event) {
 		String pass = this.tfHomeNewPass.getText();
 		if (pass.isEmpty()) {
-			openErrorAlert("Error", "Missing Required Fields");
+			openErrorAlert("Error", "Missing Password Field");
 			return;
 		}
-		if (pass.matches(".*[A-z].*")) {
-			openErrorAlert("Error", "Field Not Valid");
+		if (pass.matches(".*[ -/].*") || pass.matches(".*[:-~].*")) {
+			openErrorAlert("Error", "Password Not Valid\n Only Digits");
 			return;
 		}
 
@@ -168,14 +168,10 @@ public class CustomerWindow extends UserWindow {
 			this.tfOHFAddress.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			return;
 		}
-		if (amount.matches(".*[A-z].*")) {
+		if (amount.matches(".*[ -/].*") || amount.matches(".*[:-~].*") || amount.length() >= 5) {
 			openErrorAlert("Error", "Amount Not Valid");
-			this.tfOHFAmount1.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
-			this.tfOHFAddress.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			return;
 		}
-		this.tfOHFAmount1.setStyle("-fx-border-style: none;");
-		this.tfOHFAddress.setStyle("-fx-border-style: none;");
 
 		if (this.rbOHFShipment1.isSelected())
 			shipmentType = ShipmentType.Regular;
@@ -249,14 +245,14 @@ public class CustomerWindow extends UserWindow {
 			String str = (String) lastMsgFromServer;
 
 			if (str.equals("set homefuelorder success")) {
-				openErrorAlert("Success", "Order Saved");
+				openConfirmationAlert("Success", "Order Saved");
 				this.apOHFOrderDetails.setDisable(true);
 
 			} else if (str.equals("set homefuelorder fail")) {
 				openErrorAlert("Error", "Order Failed");
 
 			} else if (str.equals("update password success")) {
-				openErrorAlert("Success", "Password Updated");
+				openConfirmationAlert("Success", "Password Updated");
 				this.tfHomeNewPass.clear();
 
 			} else if (str.equals("update password fail")) {

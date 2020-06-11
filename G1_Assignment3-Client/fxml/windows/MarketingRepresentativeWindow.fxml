@@ -351,7 +351,7 @@
                   </AnchorPane>
                   <AnchorPane fx:id="addEditCustomerPane" layoutX="3.0" layoutY="12.0" prefHeight="600.0" prefWidth="830.0" visible="false">
                      <children>
-                        <Label layoutX="4.0" layoutY="-4.0" prefHeight="21.0" prefWidth="215.0" text="Customer Information:">
+                        <Label layoutX="4.0" layoutY="-4.0" prefHeight="21.0" prefWidth="215.0" text="Add Customer:">
                            <font>
                               <Font name="Arial Bold" size="18.0" />
                            </font>
@@ -500,7 +500,7 @@
                               <Font name="Calibri Italic" size="16.0" />
                            </font>
                         </Label>
-                        <Label layoutX="10.0" prefHeight="21.0" prefWidth="215.0" text="Car Information">
+                        <Label layoutX="10.0" prefHeight="21.0" prefWidth="215.0" text="Add Car">
                            <font>
                               <Font name="Arial Bold" size="18.0" />
                            </font>
@@ -525,7 +525,7 @@
                                        </font>
                                     </Label>
                                     <TextField fx:id="tfAECARegistration" layoutY="47.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="373.0" promptText="*" />
-                                    <TextField fx:id="tfAECAOwner" layoutY="107.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="373.0" promptText="*" />
+                                    <TextField fx:id="tfAECAOwner" layoutY="107.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="373.0" promptText="* (no spaces)" />
                                     <ComboBox fx:id="cobAECAFuelType" layoutY="175.0" prefHeight="30.0" prefWidth="173.0" promptText="Type #1" visibleRowCount="5" />
                                     <Label text="Please Fill in the Following:" textFill="#144465" underline="true">
                                        <font>
@@ -1188,7 +1188,7 @@
                <children>
                   <TableView fx:id="tvECACar" prefHeight="200.0" prefWidth="506.0" />
                   <TextField fx:id="tfECARegistration" editable="false" layoutY="214.0" prefHeight="30.0" promptText="Registration Plate" />
-                  <TextField fx:id="tfECAOwner" layoutX="180.0" layoutY="214.0" prefHeight="30.0" promptText="Owner Name" />
+                  <TextField fx:id="tfECAOwner" layoutX="180.0" layoutY="214.0" prefHeight="30.0" promptText="Owner Name (no spaces)" />
                   <ComboBox fx:id="cobECAFuelType" layoutX="356.0" layoutY="214.0" prefHeight="30.0" prefWidth="150.0" promptText="Fuel Type" />
                   <Button fx:id="btnECAUpdate" layoutX="285.0" layoutY="267.0" mnemonicParsing="false" onAction="#btnECAUpdatePressed" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Update Car" />
                   <Button fx:id="btnECADelete" layoutX="111.0" layoutY="267.0" mnemonicParsing="false" onAction="#btnECADeletePressed" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Delete Car" />

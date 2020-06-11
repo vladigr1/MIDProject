@@ -73,12 +73,22 @@ public class FastFuelWindow extends AFXML {
 		String regPlate = this.tfRegPlate.getText();
 		String fuelStationID = this.tfFuelStation.getText();
 		String amount = this.tfAmount.getText();
+
 		if (regPlate.isEmpty() || fuelStationID.isEmpty() || amount.isEmpty()) {
 			openErrorAlert("Error", "Missing Required Fields");
 			return;
 		}
-		if (regPlate.matches(".*[A-z].*") || fuelStationID.matches(".*[A-z].*") || amount.matches(".*[A-z].*")) {
-			openErrorAlert("Error", "Field Not Valid");
+		if (regPlate.matches(".*[ -/].*") || regPlate.matches(".*[:-~].*")
+				|| (regPlate.length() != 7 && regPlate.length() != 8)) {
+			openErrorAlert("Error", "Registration Plate Not Valid");
+			return;
+		}
+		if (fuelStationID.matches(".*[ -/].*") || fuelStationID.matches(".*[:-~].*")) {
+			openErrorAlert("Error", "Fuel Station ID Not Valid");
+			return;
+		}
+		if (amount.matches(".*[ -/].*") || amount.matches(".*[:-~].*")) {
+			openErrorAlert("Error", "Amount Not Valid");
 			return;
 		}
 
@@ -126,7 +136,7 @@ public class FastFuelWindow extends AFXML {
 		System.out.println(result);
 
 		if (result.equals("save fast fuel success")) {
-			openErrorAlert("Success", "Fast Fuel Saved Successfully");
+			openConfirmationAlert("Success", "Fast Fuel Saved Successfully");
 			this.emuPane.setDisable(false);
 
 		} else if (result.contains("doesn't") || result.equals("fail")) {

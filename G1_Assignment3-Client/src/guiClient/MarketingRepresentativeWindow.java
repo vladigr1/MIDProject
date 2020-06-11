@@ -316,9 +316,20 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			openErrorAlert("Error", "Missing Required Fields");
 			return;
 		}
-		if (customerID.matches(".*[A-z].*") || firstName.matches(".*[0-9].*") || surname.matches(".*[0-9].*")
-				|| creditCard.matches(".*[A-z].*") || creditCard.length() != 16 || customerID.length() != 9) {
-			openErrorAlert("Error", "Field Not Valid");
+		if (customerID.matches(".*[ -/].*") || customerID.matches(".*[:-~].*") || customerID.length() != 9) {
+			openErrorAlert("Error", "Customer ID Not Valid");
+			return;
+		}
+		if (creditCard.matches(".*[ -/].*") || creditCard.matches(".*[:-~].*") || creditCard.length() != 16) {
+			openErrorAlert("Error", "Credit Card Not Valid");
+			return;
+		}
+		if (firstName.matches(".*[ -@].*") || surname.matches(".*[ -@].*")) {
+			openErrorAlert("Error", "First Name or Surname Not Valid");
+			return;
+		}
+		if (!email.matches(".*[.-.].*") || !email.matches(".*[@-@].*") || email.matches(".*[ - ].*")) {
+			openErrorAlert("Error", "Email Not Valid");
 			return;
 		}
 
@@ -335,8 +346,12 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	@FXML
 	void btnECUShowPressed(ActionEvent event) {
 		String customerID = this.tfACUCustID.getText();
-		if (customerID.isEmpty() || customerID.length() != 9 || customerID.matches(".*[A-z].*")) {
-			openErrorAlert("Error", "Field Not Valid");
+		if (customerID.isEmpty()) {
+			openErrorAlert("Error", "Missing Required Customer ID");
+			return;
+		}
+		if (customerID.matches(".*[ -/].*") || customerID.matches(".*[:-~].*") || customerID.length() != 9) {
+			openErrorAlert("Error", "Customer ID Not Valid");
 			return;
 		}
 
@@ -359,8 +374,12 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	@FXML
 	void btnECUDeletePressed(ActionEvent event) {
 		String customerID = this.tfACUCustID.getText();
-		if (customerID.isEmpty() || customerID.length() != 9 || customerID.matches(".*[A-z].*")) {
-			openErrorAlert("Error", "Field Not Valid");
+		if (customerID.isEmpty()) {
+			openErrorAlert("Error", "Missing Required Customer ID");
+			return;
+		}
+		if (customerID.matches(".*[ -/].*") || customerID.matches(".*[:-~].*") || customerID.length() != 9) {
+			openErrorAlert("Error", "Customer ID Not Valid");
 			return;
 		}
 		this.controller.handleMessageFromClientUI("deletecustomer " + customerID);
@@ -380,9 +399,20 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			openErrorAlert("Error", "Missing Required Fields");
 			return;
 		}
-		if (customerID.matches(".*[A-z].*") || firstName.matches(".*[0-9].*") || surname.matches(".*[0-9].*")
-				|| creditCard.matches(".*[A-z].*") || creditCard.length() != 16 || customerID.length() != 9) {
-			openErrorAlert("Error", "Field Not Valid");
+		if (customerID.matches(".*[ -/].*") || customerID.matches(".*[:-~].*") || customerID.length() != 9) {
+			openErrorAlert("Error", "Customer ID Not Valid");
+			return;
+		}
+		if (creditCard.matches(".*[ -/].*") || creditCard.matches(".*[:-~].*") || creditCard.length() != 16) {
+			openErrorAlert("Error", "Credit Card Not Valid");
+			return;
+		}
+		if (firstName.matches(".*[ -@].*") || surname.matches(".*[ -@].*")) {
+			openErrorAlert("Error", "First Name or Surname Not Valid");
+			return;
+		}
+		if (!email.matches(".*[.-.].*") || !email.matches(".*[@-@].*") || email.matches(".*[ - ].*")) {
+			openErrorAlert("Error", "Email Not Valid");
 			return;
 		}
 
@@ -402,8 +432,12 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	@FXML
 	void btnAECACheckPressed(ActionEvent event) {
 		String customerID = this.tfAECACustID.getText();
-		if (customerID.isEmpty() || customerID.length() != 9 || customerID.matches(".*[A-z].*")) {
-			openErrorAlert("Error", "Field Not Valid");
+		if (customerID.isEmpty()) {
+			openErrorAlert("Error", "Missing Required Customer ID");
+			return;
+		}
+		if (customerID.matches(".*[ -/].*") || customerID.matches(".*[:-~].*") || customerID.length() != 9) {
+			openErrorAlert("Error", "Customer ID Not Valid");
 			return;
 		}
 		checkCustomerExists(customerID);
@@ -425,11 +459,20 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			openErrorAlert("Error", "Missing Required Fields");
 			return;
 		}
-		if (customerID.length() != 9 || customerID.matches(".*[A-z].*") || owner.matches(".*[0-9].*")
-				|| regPlate.matches(".*[A-z].*") || (regPlate.length() != 7 && regPlate.length() != 8)) {
-			openErrorAlert("Error", "Field Not Valid");
+		if (customerID.matches(".*[ -/].*") || customerID.matches(".*[:-~].*") || customerID.length() != 9) {
+			openErrorAlert("Error", "Customer ID Not Valid");
 			return;
 		}
+		if (regPlate.matches(".*[ -/].*") || regPlate.matches(".*[:-~].*")
+				|| (regPlate.length() != 7 && regPlate.length() != 8)) {
+			openErrorAlert("Error", "Registration Plate Not Valid");
+			return;
+		}
+		if (owner.matches(".*[ -@].*")) {
+			openErrorAlert("Error", "Owner Name Not Valid");
+			return;
+		}
+
 		this.controller
 				.handleMessageFromClientUI("savecar " + customerID + " " + regPlate + " " + owner + " " + fuelType);
 	}
@@ -505,8 +548,12 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	@FXML
 	void btnECAShowPressed(ActionEvent event) {
 		String customerID = this.tfECACustID.getText();
-		if (customerID.isEmpty() || customerID.length() != 9 || customerID.matches(".*[A-z].*")) {
-			openErrorAlert("Error", "Field Not Valid");
+		if (customerID.isEmpty()) {
+			openErrorAlert("Error", "Missing Required Customer ID");
+			return;
+		}
+		if (customerID.matches(".*[ -/].*") || customerID.matches(".*[:-~].*") || customerID.length() != 9) {
+			openErrorAlert("Error", "Customer ID Not Valid");
 			return;
 		}
 		checkCustomerExists(customerID);
@@ -515,8 +562,13 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	@FXML
 	void btnECADeletePressed(ActionEvent event) {
 		String regPlate = this.tfECARegistration.getText();
-		if (regPlate.isEmpty() || regPlate.matches(".*[A-z].*") || (regPlate.length() != 7 && regPlate.length() != 8)) {
-			openErrorAlert("Error", "Field Not Valid");
+		if (regPlate.isEmpty()) {
+			openErrorAlert("Error", "Missing Required Registration Plate");
+			return;
+		}
+		if (regPlate.matches(".*[ -/].*") || regPlate.matches(".*[:-~].*")
+				|| (regPlate.length() != 7 && regPlate.length() != 8)) {
+			openErrorAlert("Error", "Registration Plate Not Valid");
 			return;
 		}
 		this.controller.handleMessageFromClientUI("deletecar " + regPlate);
@@ -533,11 +585,20 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			openErrorAlert("Error", "Missing Required Fields");
 			return;
 		}
-		if (customerID.matches(".*[A-z].*") || owner.matches(".*[0-9].*") || regPlate.matches(".*[A-z].*")
-				|| (regPlate.length() != 7 && regPlate.length() != 8)) {
-			openErrorAlert("Error", "Field Not Valid");
+		if (customerID.matches(".*[ -/].*") || customerID.matches(".*[:-~].*") || customerID.length() != 9) {
+			openErrorAlert("Error", "Customer ID Not Valid");
 			return;
 		}
+		if (regPlate.matches(".*[ -/].*") || regPlate.matches(".*[:-~].*")
+				|| (regPlate.length() != 7 && regPlate.length() != 8)) {
+			openErrorAlert("Error", "Registration Plate Not Valid");
+			return;
+		}
+		if (owner.matches(".*[ -@].*")) {
+			openErrorAlert("Error", "Owner Name Not Valid");
+			return;
+		}
+
 		this.controller
 				.handleMessageFromClientUI("updatecar " + customerID + " " + regPlate + " " + owner + " " + fuelType);
 	}
@@ -578,8 +639,12 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	@FXML
 	void btnSPPCheckPressed(ActionEvent event) {
 		String customerID = this.tfSPPCustID.getText();
-		if (customerID.isEmpty() || customerID.length() != 9 || customerID.matches(".*[A-z].*")) {
-			openErrorAlert("Error", "Field Not Valid");
+		if (customerID.isEmpty()) {
+			openErrorAlert("Error", "Missing Required Customer ID");
+			return;
+		}
+		if (customerID.matches(".*[ -/].*") || customerID.matches(".*[:-~].*") || customerID.length() != 9) {
+			openErrorAlert("Error", "Customer ID Not Valid");
 			return;
 		}
 		checkCustomerExists(customerID);
@@ -606,8 +671,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			openErrorAlert("Error", "Missing Required Fields");
 			return;
 		}
-		if (customerID.length() != 9 || customerID.matches(".*[A-z].*")) {
-			openErrorAlert("Error", "Field Not Valid");
+		if (customerID.matches(".*[ -/].*") || customerID.matches(".*[:-~].*") || customerID.length() != 9) {
+			openErrorAlert("Error", "Customer ID Not Valid");
 			return;
 		}
 		if (company1.equals(company2) || company1.equals(company3)
@@ -637,8 +702,12 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	@FXML
 	void btnSPMCheckPressed(ActionEvent event) {
 		String customerID = this.tfSPMCustID.getText();
-		if (customerID.isEmpty() || customerID.length() != 9 || customerID.matches(".*[A-z].*")) {
-			openErrorAlert("Error", "Field Not Valid");
+		if (customerID.isEmpty()) {
+			openErrorAlert("Error", "Missing Required Customer ID");
+			return;
+		}
+		if (customerID.matches(".*[ -/].*") || customerID.matches(".*[:-~].*") || customerID.length() != 9) {
+			openErrorAlert("Error", "Customer ID Not Valid");
 			return;
 		}
 		checkCustomerExists(customerID);
@@ -650,8 +719,12 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		String model = null;
 		String defaultDiscount = null;
 
-		if (customerID.isEmpty() || customerID.length() != 9 || customerID.matches(".*[A-z].*")) {
-			openErrorAlert("Error", "Field Not Valid");
+		if (customerID.isEmpty()) {
+			openErrorAlert("Error", "Missing Required Customer ID");
+			return;
+		}
+		if (customerID.matches(".*[ -/].*") || customerID.matches(".*[:-~].*") || customerID.length() != 9) {
+			openErrorAlert("Error", "Customer ID Not Valid");
 			return;
 		}
 
@@ -685,7 +758,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		if (lastMsgFromServer instanceof String) {
 			String str = (String) lastMsgFromServer;
 			if (str.equals("save car success")) {
-				openErrorAlert("Success", "Car Saved");
+				openConfirmationAlert("Success", "Car Saved");
 				requestToLogActivity("saved car '" + this.tfAECARegistration.getText() + "' for customer '"
 						+ this.tfAECACustID.getText() + "'");
 				String customerID = this.tfAECACustID.getText();
@@ -707,7 +780,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 					btn2.setOnAction(event -> {
 						clearFields();
 						alert.hide();
-						openErrorAlert("Customer Registration", "Continue to Set Purchasing Program");
+						openConfirmationAlert("Customer Registration", "Continue to Set Purchasing Program");
 						this.visibleNow.setVisible(false);
 						this.setPurchasingPane.setVisible(true);
 						this.visibleNow = this.setPurchasingPane;
@@ -738,7 +811,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 				openErrorAlert("Error", "Car Already Exists");
 
 			} else if (str.equals("set purchasing program success")) {
-				openErrorAlert("Success", "Purchasing Program Set Successfully");
+				openConfirmationAlert("Success", "Purchasing Program Set Successfully");
 				if (this.rbSPPStandard.isSelected())
 					requestToLogActivity(
 							"set purchasing program 'Standard' for customer '" + this.tfSPPCustID.getText() + "'");
@@ -771,7 +844,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 				openErrorAlert("Error", "Purchasing Program Set Failed");
 
 			} else if (str.equals("set pricing model success")) {
-				openErrorAlert("Success", "Pricing Model Set Successfully");
+				openConfirmationAlert("Success", "Pricing Model Set Successfully");
 				if (this.visibleNow == this.pricingModelPane)
 					requestToLogActivity("set pricing model for customer '" + this.tfSPMCustID.getText() + "'");
 
@@ -791,7 +864,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 				openErrorAlert("Error", "Pricing Model Set Failed");
 
 			} else if (str.equals("save customer success")) {
-				openErrorAlert("Success", "Customer Saved\nUsername: " + this.tfAECUCustID.getText()
+				openConfirmationAlert("Success", "Customer Saved\nUsername: " + this.tfAECUCustID.getText()
 						+ "\nPassword: 1234\nThe Customer should login and change his password");
 				requestToLogActivity("saved customer '" + this.tfAECUCustID.getText() + "'");
 				String customerID = this.tfAECUCustID.getText();
@@ -800,7 +873,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 				clearFields();
 
 				if (this.customerIsRegisteringFlag == true) {
-					openErrorAlert("Customer Registration", "Continue to Add Car");
+					openConfirmationAlert("Customer Registration", "Continue to Add Car");
 					this.visibleNow.setVisible(false);
 					this.addEditCarPane.setVisible(true);
 					this.visibleNow = this.addEditCarPane;
@@ -824,36 +897,38 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 				openErrorAlert("Error", "Customer Already Exists");
 
 			} else if (str.equals("update customer success")) {
-				openErrorAlert("Success", "Customer Updated");
+				openConfirmationAlert("Success", "Customer Updated");
 				requestToLogActivity("updated customer '" + this.tfACUCustID.getText() + "'");
 				clearEditCustomerPane();
 
 			} else if (str.equals("update customer fail")) {
-				openErrorAlert("Success", "Customer Update Failed");
+				openConfirmationAlert("Success", "Customer Update Failed");
 
 			} else if (str.equals("update car success")) {
-				openErrorAlert("Success", "Car Updated");
+				openConfirmationAlert("Success", "Car Updated");
 				requestToLogActivity("updated car '" + this.tfECARegistration.getText() + "' for customer '"
 						+ this.tfECACustID.getText() + "'");
 				clearEditCarPane();
 
 			} else if (str.equals("update car fail")) {
-				openErrorAlert("Success", "Car Update Failed");
+				openConfirmationAlert("Success", "Car Update Failed");
 
 			} else if (str.startsWith("Customer Delete")) {
-				openErrorAlert("Delete", str);
-
 				if (str.equals("Customer Deleted")) {
+					openConfirmationAlert("Delete", str);
+
 					if (this.addEditCustomerPane.isVisible() == true)
 						requestToLogActivity("deleted customer '" + this.tfACUCustID.getText() + "'");
 					else
 						requestToLogActivity("deleted customer");
 					clearEditCustomerPane();
+				} else {
+					openErrorAlert("Delete", str);
 				}
 
 			} else if (str.startsWith("Car Delete")) {
-				openErrorAlert("Delete", str);
 				if (str.equals("Car Deleted")) {
+					openConfirmationAlert("Delete", str);
 					requestToLogActivity("deleted car '" + this.tfECARegistration.getText() + "' for customer '"
 							+ this.tfECACustID.getText() + "'");
 					String customerID = this.tfECACustID.getText();
@@ -861,10 +936,12 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 					this.deletedACarFlag = true;
 					this.deletedACarCustomerID = customerID;
 					this.controller.handleMessageFromClientUI("getcustomercars " + customerID);
+				} else {
+					openErrorAlert("Delete", str);
 				}
 
 			} else if (str.startsWith("Customer Check")) {
-				openErrorAlert("Check", str);
+				openConfirmationAlert("Check", str);
 				if (str.contains("Exists")) {
 					if (this.visibleNow == this.addEditCarPane && editCarPane.isVisible() == false) {
 						this.gpAECACarDetails.setDisable(true);
@@ -1004,7 +1081,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 					this.btnSPMChoose3.setDisable(false);
 					this.btnSPMChoose4.setDisable(true);
 				}
-				openErrorAlert("Success", "Number of Cars = " + numOfCars);
+				openConfirmationAlert("Success", "Number of Cars = " + numOfCars);
 			}
 		}
 	}
