@@ -30,7 +30,7 @@ public class FastFuel implements Serializable {
 	private String fuelStationName;
 	private int fuelStationID;
 	private FuelCompanyName fuelCompanyName;
-	private int saleID; // if active
+	private Integer saleID; // if active
 	private String function;
 
 	/**
@@ -169,7 +169,7 @@ public class FastFuel implements Serializable {
 		this.fuelCompanyName = fuelCompanyName;
 	}
 
-	public int getSaleID() {
+	public Integer getSaleID() {
 		return saleID;
 	}
 

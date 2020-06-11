@@ -507,12 +507,12 @@ public class DefaultTableInserts {
 		TableInserts.insertPricingModelType(con, values2);
 		String pricingModelType3 = PricingModelName.MonthlyProgramMultipleCars.toString();
 		String description3 = "Like 'Monthly Program Single Car' x number of cars + general discount of 10% (per liter)";
-		double defaultDiscount3 = 0.1;
+		double defaultDiscount3 = 0.14;
 		Object[] values3 = { pricingModelType3, description3, defaultDiscount3 };
 		TableInserts.insertPricingModelType(con, values3);
 		String pricingModelType4 = PricingModelName.FullProgramSingleCar.toString();
 		String description4 = "Payment every month for the amount bought in practice in the previous month, by price like 'Monthly Program Multiple Cars' + extra discount of 3% (per liter)";
-		double defaultDiscount4 = 0.13;
+		double defaultDiscount4 = 0.17;
 		Object[] values4 = { pricingModelType4, description4, defaultDiscount4 };
 		TableInserts.insertPricingModelType(con, values4);
 	}

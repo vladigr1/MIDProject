@@ -290,4 +290,13 @@ public class DatabaseController {
 		return DatabaseFastFuelController.getInstance(connection).getFuelTypeAndPricePerLiter(fastFuel);
 	}
 
+	/**
+	 * 
+	 * @param fastFuel
+	 * @return message of success or fail in fastFuel->function
+	 */
+	public FastFuel saveFastFuel(FastFuel fastFuel) {
+		return DatabaseFastFuelController.getInstance(connection).saveFastFuel(fastFuel);
+	}
+
 }

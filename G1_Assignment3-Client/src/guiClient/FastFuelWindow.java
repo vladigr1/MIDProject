@@ -1,5 +1,7 @@
 package guiClient;
 
+import java.text.SimpleDateFormat;
+
 import client.FastFuelController;
 import entities.FastFuel;
 import javafx.event.ActionEvent;
@@ -7,9 +9,12 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -33,24 +38,32 @@ public class FastFuelWindow extends AFXML {
 	@FXML
 	private Button btnEmulate;
 	@FXML
-	private AnchorPane fuelPane;
-	@FXML
 	private Label lblPrice;
 	@FXML
 	private Label lblFuelType;
 	@FXML
-	private Label lblContinue;
+	private Label lblFuelCompanyNameRes;
+	@FXML
+	private Label lblSaleIDRes;
+	@FXML
+	private Label lblCustomerIDRes;
+	@FXML
+	private Label lblFuelTimeRes;
+
+	private static FastFuel currentEmulation;
 
 	@FXML
 	void initialize() {
-		this.lblContinue.setVisible(false);
 		this.controller = FastFuelController.getInstance();
 		this.controller.setCurrentWindow(this);
-		this.fuelPane.setVisible(false);
 	}
 
 	private Window getWindow() {
 		return this.lblFuelType.getScene().getWindow();
+	}
+
+	public static FastFuel getCurrentEmulation() {
+		return currentEmulation;
 	}
 
 	/*********************** button listeners ***********************/
@@ -110,18 +123,38 @@ public class FastFuelWindow extends AFXML {
 
 		FastFuel fastFuel = (FastFuel) lastMsgFromServer;
 		String result = fastFuel.getFunction();
+		System.out.println(result);
 
-		if (result.contains("doesn't") || result.equals("fail")) {
+		if (result.equals("save fast fuel success")) {
+			openErrorAlert("Success", "Fast Fuel Saved Successfully");
+			this.emuPane.setDisable(false);
+
+		} else if (result.contains("doesn't") || result.equals("fail")) {
 			openErrorAlert("Error", result);
 			this.emuPane.setDisable(false);
-			this.fuelPane.setVisible(false);
-			return;
 
 		} else if (result.equals("getFuelTypeAndPricePerLiter success")) {
 			this.lblFuelType.setText(fastFuel.getFuelType().toString());
 			this.lblPrice.setText(fastFuel.getFinalPrice().toString());
+			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+			this.lblFuelTimeRes.setText("Time = " + formatter.format(fastFuel.getFastFuelTime()));
+			this.lblCustomerIDRes.setText("Customer ID = " + fastFuel.getCustomerID());
+			this.lblFuelCompanyNameRes.setText("Fuel Company = " + fastFuel.getFuelCompanyName().toString());
+			this.lblSaleIDRes.setText("Sale ID = " + fastFuel.getSaleID().toString());
 			this.emuPane.setDisable(true);
-			this.fuelPane.setVisible(true);
+
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Please Continue");
+			ButtonType buttonTypeOne = new ButtonType("Continue To Fueling");
+			alert.show();
+			alert.getButtonTypes().setAll(buttonTypeOne);
+			final Button btn = (Button) alert.getDialogPane().lookupButton(buttonTypeOne);
+			btn.setOnAction(event -> {
+				alert.hide();
+				currentEmulation = fastFuel;
+				this.controller.handleMessageFromClientUI("saveFastFuel");
+			});
+
 		}
 
 	}

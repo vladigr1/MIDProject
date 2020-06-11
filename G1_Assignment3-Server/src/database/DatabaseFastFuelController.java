@@ -4,9 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 import entities.FastFuel;
 import enums.FuelCompanyName;
+import enums.PricingModelName;
 import enums.ProductName;
 
 /**
@@ -171,6 +173,8 @@ public class DatabaseFastFuelController {
 			fastFuel.setFinalPrice(finalPrice); // price per liter
 			fastFuel.setSaleID(saleID);
 			fastFuel.setFuelType(fuelType);
+			fastFuel.setCustomerID(customerID);
+			fastFuel.setFastFuelTime(new Date());
 			fastFuel.setFunction("getFuelTypeAndPricePerLiter success");
 			return fastFuel;
 
@@ -182,6 +186,142 @@ public class DatabaseFastFuelController {
 			ex.printStackTrace();
 			fastFuel.setFunction("fail");
 			return fastFuel;
+		}
+	}
+
+	/**
+	 * 
+	 * @param fastFuel
+	 * @return message of success or fail in fastFuel->function
+	 */
+	@SuppressWarnings("deprecation")
+	public FastFuel saveFastFuel(FastFuel fastFuel) {
+		try {
+			String regPlate = fastFuel.getRegistrationPlate();
+			String customerID = fastFuel.getCustomerID();
+			Date fastFuelTime = fastFuel.getFastFuelTime();
+			double amountBought = fastFuel.getAmountBought();
+			double finalPrice = fastFuel.getFinalPrice() * amountBought;
+			String productName = fastFuel.getFuelType().toString();
+			int fuelStationID = fastFuel.getFuelStationID();
+			int saleID = fastFuel.getSaleID();
+
+			// get productInStationID by productName and fuelStationID
+			PreparedStatement pStmt = this.connection.prepareStatement(
+					"SELECT productInStationID, capacity, threshold FROM product_in_station WHERE FK_productName = ? AND FK_fuelStationID = ?");
+			pStmt.setString(1, productName);
+			pStmt.setInt(2, fuelStationID);
+			ResultSet rs = pStmt.executeQuery();
+			if (!rs.next()) {
+				fastFuel.setFunction("productInStationID doesn't exist");
+				return fastFuel;
+			}
+			int productInStationID = rs.getInt(1);
+			double capacity = rs.getDouble(2) - amountBought;
+			double threshold = rs.getDouble(3);
+			rs.close();
+			if (capacity < 0) {
+				fastFuel.setFunction("emulation fail - amountBought > capacity");
+				return fastFuel;
+			}
+
+			// "FK_registrationPlate", "FK_customerID", "FK_productInStationID",
+			// "fastFuelTime", "amountBought", "finalPrice"
+			fastFuelTime.setHours(fastFuelTime.getHours() - 2);
+			fastFuelTime.setMinutes(fastFuelTime.getMinutes() - 30);
+			Object[] values1 = { regPlate, customerID, productInStationID, fastFuelTime, amountBought, finalPrice };
+			TableInserts.insertFastFuel(connection, values1);
+
+			// update stock of productInStationID
+			pStmt = this.connection
+					.prepareStatement("UPDATE product_in_station SET capacity = ? WHERE productInStationID = ?");
+			pStmt.setDouble(1, capacity);
+			pStmt.setInt(2, productInStationID);
+			pStmt.executeUpdate();
+			if (capacity < threshold) {
+				makeNewFuelStationOrder(); // and make notification for fuelStationManager
+			}
+
+			pStmt = this.connection.prepareStatement(
+					"SELECT FK_pricingModelName, lastMonthUtillization FROM pricing_model WHERE FK_customerID = ?");
+			pStmt.setString(1, customerID);
+			rs = pStmt.executeQuery();
+			if (!rs.next()) {
+				fastFuel.setFunction("pricingModelName doesn't exist");
+				return fastFuel;
+			}
+			String pricingModelName = rs.getString(1);
+			double lastMonthUtillization = rs.getDouble(2) + 0.17;
+			rs.close();
+			if (pricingModelName.equals(PricingModelName.FullProgramSingleCar.toString())) {
+				pStmt = this.connection
+						.prepareStatement("UPDATE pricing_model SET lastMonthUtillization = ? WHERE FK_customerID = ?");
+				pStmt.setDouble(1, lastMonthUtillization);
+				pStmt.setString(2, customerID);
+				pStmt.executeUpdate();
+			}
+
+			if (saleID != -1) {
+				updateCustomerBoughtInSale();
+			}
+
+			String fuelCompanyName = fastFuel.getFuelCompanyName().toString();
+			if (updateCustomerBoughtFromCompany(customerID, fastFuelTime, fuelCompanyName, amountBought,
+					finalPrice) == false) {
+				fastFuel.setFunction("fail updateCustomerBoughtFromCompany");
+				return fastFuel;
+			}
+
+			fastFuel.setFunction("save fast fuel success");
+			return fastFuel;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			fastFuel.setFunction("fail");
+			return fastFuel;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			fastFuel.setFunction("fail");
+			return fastFuel;
+		}
+	}
+
+	private boolean updateCustomerBoughtFromCompany(String customerID, Date fastFuelTime, String fuelCompanyName,
+			double amountBought, double amountPaid) {
+		try {
+			PreparedStatement pStmt = this.connection.prepareStatement(
+					"SELECT amountBoughtFromCompany, amountPaidCompany FROM customer_bought_from_company WHERE FK_customerID = ? AND DATE(dateOfPurchase) = ?");
+			pStmt.setString(1, customerID);
+			pStmt.setDate(2, new java.sql.Date(fastFuelTime.getTime()));
+			ResultSet rs = pStmt.executeQuery();
+
+			if (!rs.next()) { // doesn't already exist
+				// "FK_customerID", "FK_fuelCompanyName", "dateOfPurchase",
+				// "amountBoughtFromCompany", "amountPaidCompany"
+				Object[] values1 = { customerID, fuelCompanyName, fastFuelTime, amountBought, amountPaid };
+				TableInserts.insertCustomerBoughtFromCompany(connection, values1);
+
+			} else { // does exist
+				amountBought += rs.getDouble(1);
+				amountPaid += rs.getDouble(2);
+
+				pStmt = this.connection.prepareStatement(
+						"UPDATE customer_bought_from_company SET amountBoughtFromCompany = ?, amountPaidCompany = ? WHERE FK_customerID = ?");
+				pStmt.setDouble(1, amountBought);
+				pStmt.setDouble(2, amountPaid);
+				pStmt.setString(3, customerID);
+				pStmt.executeUpdate();
+			}
+
+			rs.close();
+			return true;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return false;
 		}
 	}
 

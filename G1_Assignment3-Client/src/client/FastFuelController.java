@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ConnectException;
 
 import entities.FastFuel;
+import guiClient.FastFuelWindow;
 
 /**
  * @version Basic
@@ -46,6 +47,11 @@ public class FastFuelController extends ClientController {
 				fastFuel.setFunction("get");
 				this.sendToServer(fastFuel);
 
+			} else if (splitMsg[0].equals("saveFastFuel")) {
+				System.out.println("got saveFastFuel from boundary");
+				FastFuel fastFuel = FastFuelWindow.getCurrentEmulation();
+				fastFuel.setFunction("save");
+				this.sendToServer(fastFuel);
 			} else {
 				flag = false;
 				awaitResponse = false;
@@ -62,7 +68,9 @@ public class FastFuelController extends ClientController {
 				this.currentWindow.callAfterMessage(this.lastMsgFromServer);
 			}
 
-		} catch (ConnectException ce) {
+		} catch (
+
+		ConnectException ce) {
 			this.currentWindow.openErrorAlert("Server Error", "Error - No connection to server");
 			ce.printStackTrace();
 		} catch (IOException ioe) {

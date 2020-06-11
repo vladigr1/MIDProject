@@ -43,10 +43,15 @@ public class ServerFastFuelController {
 	public void handleMessageFromClient(Object object, ConnectionToClient client) {
 		try {
 			FastFuel fastFuel = (FastFuel) object;
+			FastFuel result = null;
 			if (fastFuel.getFunction().equals("get")) {
-				FastFuel result = this.databaseController.getFuelTypeAndPricePerLiter(fastFuel);
-				client.sendToClient(result);
+				result = this.databaseController.getFuelTypeAndPricePerLiter(fastFuel);
+
+			} else if (fastFuel.getFunction().equals("save")) {
+				result = this.databaseController.saveFastFuel(fastFuel);
 			}
+
+			client.sendToClient(result);
 
 		} catch (IOException e) {
 			e.printStackTrace();
