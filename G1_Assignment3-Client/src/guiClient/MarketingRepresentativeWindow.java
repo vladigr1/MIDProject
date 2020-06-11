@@ -686,6 +686,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			String str = (String) lastMsgFromServer;
 			if (str.equals("save car success")) {
 				openErrorAlert("Success", "Car Saved");
+				requestToLogActivity("saved car '" + this.tfAECARegistration.getText() + "' for customer '"
+						+ this.tfAECACustID.getText() + "'");
 				String customerID = this.tfAECACustID.getText();
 
 				if (this.customerIsRegisteringFlag == true) {
@@ -737,6 +739,12 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 
 			} else if (str.equals("set purchasing program success")) {
 				openErrorAlert("Success", "Purchasing Program Set Successfully");
+				if (this.rbSPPStandard.isSelected())
+					requestToLogActivity(
+							"set purchasing program 'Standard' for customer '" + this.tfSPPCustID.getText() + "'");
+				else
+					requestToLogActivity(
+							"set purchasing program 'Premium' for customer '" + this.tfSPPCustID.getText() + "'");
 				clearSetPurchasingPane();
 
 				if (this.customerIsRegisteringFlag == true) {
@@ -764,6 +772,9 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 
 			} else if (str.equals("set pricing model success")) {
 				openErrorAlert("Success", "Pricing Model Set Successfully");
+				if (this.visibleNow == this.pricingModelPane)
+					requestToLogActivity("set pricing model for customer '" + this.tfSPMCustID.getText() + "'");
+
 				clearPricingModelPane();
 
 				if (this.pricingModelOutdatedFlag == true) {
@@ -780,8 +791,9 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 				openErrorAlert("Error", "Pricing Model Set Failed");
 
 			} else if (str.equals("save customer success")) {
-				openErrorAlert("Success",
-						"Customer Saved\nUsername: " + this.tfAECUCustID.getText() + "\nPassword: 1234");
+				openErrorAlert("Success", "Customer Saved\nUsername: " + this.tfAECUCustID.getText()
+						+ "\nPassword: 1234\nThe Customer should login and change his password");
+				requestToLogActivity("saved customer '" + this.tfAECUCustID.getText() + "'");
 				String customerID = this.tfAECUCustID.getText();
 				this.controller
 						.handleMessageFromClientUI("setpricingmodel " + customerID + " " + "PayInPlace" + " " + "0");
@@ -813,6 +825,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 
 			} else if (str.equals("update customer success")) {
 				openErrorAlert("Success", "Customer Updated");
+				requestToLogActivity("updated customer '" + this.tfACUCustID.getText() + "'");
 				clearEditCustomerPane();
 
 			} else if (str.equals("update customer fail")) {
@@ -820,6 +833,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 
 			} else if (str.equals("update car success")) {
 				openErrorAlert("Success", "Car Updated");
+				requestToLogActivity("updated car '" + this.tfECARegistration.getText() + "' for customer '"
+						+ this.tfECACustID.getText() + "'");
 				clearEditCarPane();
 
 			} else if (str.equals("update car fail")) {
@@ -827,12 +842,20 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 
 			} else if (str.startsWith("Customer Delete")) {
 				openErrorAlert("Delete", str);
-				if (str.equals("Customer Deleted"))
+
+				if (str.equals("Customer Deleted")) {
+					if (this.addEditCustomerPane.isVisible() == true)
+						requestToLogActivity("deleted customer '" + this.tfACUCustID.getText() + "'");
+					else
+						requestToLogActivity("deleted customer");
 					clearEditCustomerPane();
+				}
 
 			} else if (str.startsWith("Car Delete")) {
 				openErrorAlert("Delete", str);
 				if (str.equals("Car Deleted")) {
+					requestToLogActivity("deleted car '" + this.tfECARegistration.getText() + "' for customer '"
+							+ this.tfECACustID.getText() + "'");
 					String customerID = this.tfECACustID.getText();
 					clearEditCarPane();
 					this.deletedACarFlag = true;

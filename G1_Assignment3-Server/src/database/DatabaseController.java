@@ -173,6 +173,16 @@ public class DatabaseController {
 		return DatabaseCustomerController.getInstance(connection).getHomeFuelOrdersSequence(username);
 	}
 
+	/**
+	 * 
+	 * @param username
+	 * @param password
+	 * @return string of success or fail
+	 */
+	public String updatePassword(String username, String password) {
+		return DatabaseCustomerController.getInstance(connection).updatePassword(username, password);
+	}
+
 	/************* marketing representative controller methods **************/
 
 	/**

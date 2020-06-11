@@ -67,6 +67,9 @@ public class ServerCustomerController {
 							client.sendToClient(homeFuelOrderList);
 						}
 					}
+				} else if (splitMsg[0].equals("updatepassword")) {
+					String str = this.databaseController.updatePassword(splitMsg[1], splitMsg[2]);
+					client.sendToClient(str);
 				}
 
 			} else if (object instanceof HomeFuelOrder) {

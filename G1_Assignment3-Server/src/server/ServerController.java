@@ -124,6 +124,8 @@ public class ServerController extends AbstractServer {
 						|| str.startsWith("deletecar")) {
 					ServerMarketingRepresentativeController.getInstance(databaseController).handleMessageFromClient(str,
 							client);
+				} else if (str.startsWith("updatepassword")) {
+					ServerCustomerController.getInstance(databaseController).handleMessageFromClient(str, client);
 				}
 
 			} else if (object instanceof Object[]) {

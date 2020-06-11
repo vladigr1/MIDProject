@@ -315,4 +315,28 @@ public class DatabaseCustomerController {
 		}
 	}
 
+	/**
+	 * 
+	 * @param username
+	 * @param password
+	 * @return string of success or fail
+	 */
+	public String updatePassword(String username, String password) {
+		try {
+			PreparedStatement pStmt = this.connection
+					.prepareStatement("UPDATE user SET password = ? WHERE username = ?");
+			pStmt.setString(1, password);
+			pStmt.setString(2, username);
+			pStmt.executeUpdate();
+			return "update password success";
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return "update password fail";
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return "update password fail";
+		}
+	}
+
 }
