@@ -97,7 +97,8 @@ public class LoginWindow extends AFXML {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource(newWindowPath));
 			Scene newScene = new Scene(loader.load());
-			Stage newStage = new Stage();;
+			Stage newStage = new Stage();
+			;
 
 			newStage.setResizable(false);
 			newStage.setScene(newScene);

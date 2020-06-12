@@ -1095,7 +1095,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	 * 
 	 * @param username
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked", "deprecation" })
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void setUserComponents(String username) {
 		super.setUserComponents(username);

@@ -19,7 +19,6 @@ import enums.ShipmentType;
  * 
  * @author Elroy, Lior, Vlad
  */
-@SuppressWarnings("deprecation")
 public class DefaultTableInserts {
 
 	/**
@@ -162,8 +161,8 @@ public class DefaultTableInserts {
 		if (checkTableEmpty(con, "customer") == false)
 			return;
 		// "customerID", "FK_userName", "creditCard", "customerType", "deleted"
-		Object[] values1 = { "111111111", "IsraelThePersonCustomer", "1111222233334444",
-				CustomerType.Person.toString(), false };
+		Object[] values1 = { "111111111", "IsraelThePersonCustomer", "1111222233334444", CustomerType.Person.toString(),
+				false };
 		TableInserts.insertCustomer(con, values1);
 		Object[] values2 = { "222222222", "IsraelTheCompanyCustomer", "4444333322221111",
 				CustomerType.Company.toString(), false };

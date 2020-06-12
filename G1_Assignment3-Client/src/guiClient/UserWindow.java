@@ -64,7 +64,6 @@ public abstract class UserWindow extends AFXML {
 	 * 
 	 * @param username
 	 */
-	@SuppressWarnings({ "deprecation" })
 	public void setUserComponents(String username) {
 		this.username = username;
 		this.lblHelloUser.setText("Hello, " + username);

@@ -61,7 +61,7 @@ public abstract class EmployeeWindow extends UserWindow {
 	 * initialized tableview in home of employees
 	 */
 	@Override
-	@SuppressWarnings({ "unchecked", "deprecation", "rawtypes" })
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void setUserComponents(String username) {
 		super.setUserComponents(username);
 		final TableColumn<Activity, Date> timeColumn = (TableColumn<Activity, Date>) new TableColumn("Date");
