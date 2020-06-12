@@ -1,11 +1,8 @@
 package guiClient;
 
 import java.text.SimpleDateFormat;
-
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
@@ -16,6 +13,7 @@ import client.MarketingManagerController;
 import entities.CustomerBoughtFromCompany;
 import entities.CustomerBoughtInSale;
 import entities.PeriodicCustomersReport;
+import entities.PeriodicReportList;
 import entities.Product;
 import entities.ProductInSalePatternList;
 import entities.ProductInSalesPattern;
@@ -25,12 +23,11 @@ import entities.RankingSheetList;
 import entities.RowForRankingSheetTable;
 import entities.RowForSalesPatternTable;
 import entities.RowInSaleCommentReportTable;
+import entities.SaleCommentReportList;
 import entities.SaleCommentsReport;
 import entities.SalesList;
 import entities.SalesPattern;
 import entities.SalesPatternList;
-import entities.PeriodicReportList;
-import entities.SaleCommentReportList;
 import enums.FuelCompanyName;
 import enums.ProductName;
 import javafx.collections.FXCollections;
@@ -223,9 +220,9 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		this.controller.setCurrentWindow(this);
 //		String[] strarr = str.split(" ");
 //		userName = strarr[1];
-		initializeSalePatternTable();
+		initializeSalesPatternTable();
 		initializeRankingSheetTable();
-		initiateSaleCommonReportTable();
+		initiateSaleCommentsReportTable();
 		initiateCustomersTableInCommonReport();
 		initiateCustomersTableInPeriodicReport();
 
@@ -342,7 +339,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 				a.setContentText("there are no sales");
 				a.show();
 			} else {
-				updateCommonReportTable(list);
+				updateCommentsReportTable(list);
 			}
 		}
 
@@ -654,12 +651,10 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		// do stuff
 		if (checkDatePickerHasValue(dpGMRStartDate) == true && checkDatePickerHasValue(dpGMREndDate) == true) {
 			LocalDate localDate = dpGMRStartDate.getValue();
-			Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-			Date startDate = Date.from(instant);
+			Date startDate = java.sql.Date.valueOf(localDate);
 
 			localDate = dpGMREndDate.getValue();
-			instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-			Date endDate = Date.from(instant);
+			Date endDate = java.sql.Date.valueOf(localDate);
 
 			if (startDate.compareTo(endDate) > 0) {
 				Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -669,16 +664,24 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 			} else {
 				dpGMRStartDate.setStyle("-fx-border-style: none;");
 				// do what need to be done
-				System.out.println("generate periodic report " + dpGMRStartDate.getValue().getYear() + " "
-						+ dpGMRStartDate.getValue().getMonth().getValue() + " "
-						+ dpGMRStartDate.getValue().getDayOfMonth() + " " + dpGMREndDate.getValue().getYear() + " "
-						+ dpGMREndDate.getValue().getMonth().getValue() + " "
-						+ dpGMREndDate.getValue().getDayOfMonth());
-				this.sendToClientController("generate periodic report " + dpGMRStartDate.getValue().getYear() + " "
-						+ dpGMRStartDate.getValue().getMonth().getValue() + " "
-						+ dpGMRStartDate.getValue().getDayOfMonth() + " " + dpGMREndDate.getValue().getYear() + " "
-						+ dpGMREndDate.getValue().getMonth().getValue() + " "
-						+ dpGMREndDate.getValue().getDayOfMonth());
+
+				Calendar calendar1 = Calendar.getInstance();
+				LocalDate ld1 = this.dpGMRStartDate.getValue();
+				Date ldDate1 = java.sql.Date.valueOf(ld1);
+				calendar1.setTime(ldDate1);
+				Calendar calendar2 = Calendar.getInstance();
+				LocalDate ld2 = this.dpGMREndDate.getValue();
+				Date ldDate2 = java.sql.Date.valueOf(ld2);
+				calendar2.setTime(ldDate2);
+
+				System.out.println(
+						"generate periodic report " + calendar1.get(Calendar.YEAR) + " " + calendar1.get(Calendar.MONTH)
+								+ " " + calendar1.get(Calendar.DAY_OF_MONTH) + " " + calendar2.get(Calendar.YEAR) + " "
+								+ calendar2.get(Calendar.MONTH) + " " + calendar2.get(Calendar.DAY_OF_MONTH));
+				this.sendToClientController(
+						"generate periodic report " + calendar1.get(Calendar.YEAR) + " " + calendar1.get(Calendar.MONTH)
+								+ " " + calendar1.get(Calendar.DAY_OF_MONTH) + " " + calendar2.get(Calendar.YEAR) + " "
+								+ calendar2.get(Calendar.MONTH) + " " + calendar2.get(Calendar.DAY_OF_MONTH));
 				periodicReportPane.setVisible(true);
 				generateReportPane.setVisible(false);
 			}
@@ -815,9 +818,9 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		calendar2.setTime(calendar1.getTime());
 		calendar2.add(Calendar.MINUTE, choosesPatternDuration);
 
-		message = "check sale range " + calendar1.get(Calendar.YEAR) + " " + (calendar1.get(Calendar.MONTH) + 1) + " "
+		message = "check sale range " + calendar1.get(Calendar.YEAR) + " " + calendar1.get(Calendar.MONTH) + " "
 				+ calendar1.get(Calendar.DAY_OF_MONTH) + " " + calendar2.get(Calendar.YEAR) + " "
-				+ (calendar2.get(Calendar.MONTH) + 1) + " " + calendar2.get(Calendar.DAY_OF_MONTH);
+				+ calendar2.get(Calendar.MONTH) + " " + calendar2.get(Calendar.DAY_OF_MONTH);
 
 		System.out.println("///////////////////////message of in range= " + message);
 
@@ -851,7 +854,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		}
 
 		Alert alert = new Alert(Alert.AlertType.ERROR);
-		alert.setHeaderText("Please enter a date which is today or futrue date");
+		alert.setHeaderText("Please enter a date which is today or future date");
 		dp.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 		alert.show();
 		return false;
@@ -917,12 +920,11 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	 * @param action
 	 */
 	private void addActivity(String action) {
-
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
 		String message = "add activity " + username + " " + calendar.get(Calendar.YEAR) + " "
 				+ calendar.get(Calendar.MONTH) + " " + calendar.get(Calendar.DAY_OF_MONTH) + " "
-				+ calendar.get(Calendar.HOUR) + " " + calendar.get(Calendar.MINUTE) + " " + action;
+				+ (calendar.get(Calendar.HOUR) - 2) + " " + (calendar.get(Calendar.MINUTE) - 30) + " " + action;
 		this.sendToClientController(message);
 	}
 
@@ -945,11 +947,11 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		calendar2.add(Calendar.MINUTE, choosesPatternDuration);
 
 		message = "insert sale " + this.choosesPatternID + " " + calendar1.get(Calendar.YEAR) + " "
-				+ (calendar1.get(Calendar.MONTH) + 1) + " " + calendar1.get(Calendar.DAY_OF_MONTH) + " "
-				+ calendar1.get(Calendar.HOUR) + " " + calendar1.get(Calendar.MINUTE) + " "
-				+ calendar2.get(Calendar.YEAR) + " " + (calendar2.get(Calendar.MONTH) + 1) + " "
-				+ calendar2.get(Calendar.DAY_OF_MONTH) + " " + calendar2.get(Calendar.HOUR) + " "
-				+ calendar2.get(Calendar.MINUTE);
+				+ calendar1.get(Calendar.MONTH) + " " + calendar1.get(Calendar.DAY_OF_MONTH) + " "
+				+ (calendar1.get(Calendar.HOUR) - 2) + " " + (calendar1.get(Calendar.MINUTE) - 30) + " "
+				+ calendar2.get(Calendar.YEAR) + " " + calendar2.get(Calendar.MONTH) + " "
+				+ calendar2.get(Calendar.DAY_OF_MONTH) + " " + (calendar2.get(Calendar.HOUR) - 2) + " "
+				+ (calendar2.get(Calendar.MINUTE) - 30);
 		this.sendToClientController(message);
 	}
 
@@ -1003,8 +1005,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	 * 
 	 * @return
 	 */
-
-	private boolean checkRPRUCheckBoxes() {// *
+	private boolean checkRPRUCheckBoxes() {
 		if (!cbRPRUDiesel.isSelected() && !cbRPRUGasoline.isSelected() && !cbRPRUMotorbike.isSelected()
 				&& !cbRPRUHomeFuel.isSelected()) {
 //			cbRPRUDiesel.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
@@ -1018,7 +1019,6 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 			return false;
 		}
 		return true;
-
 	}
 
 	/**
@@ -1127,7 +1127,6 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 
 		}
 		return flagDiesel && flagGasoline && flagMotorbikeFuel && flagHomeFuel;
-
 	}
 
 	/**
@@ -1258,7 +1257,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	 * 
 	 * @param list
 	 */
-	private void updateCommonReportTable(SalesList list) {
+	private void updateCommentsReportTable(SalesList list) {
 		List<RowInSaleCommentReportTable> rowLister = list.getList();
 		ObservableList<RowInSaleCommentReportTable> rowsList = FXCollections.observableArrayList();
 
@@ -1285,7 +1284,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	/**
 	 * initializes the table of sales pattern
 	 */
-	private void initializeSalePatternTable() {
+	private void initializeSalesPatternTable() {
 		tvISSalesPattern.getColumns().clear();
 		idColumn = new TableColumn<RowForSalesPatternTable, Integer>("Pattern ID");
 		idColumn.setCellValueFactory(new PropertyValueFactory<>("salePatternID"));
@@ -1454,14 +1453,13 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 			}
 			tvSCRDetails.setItems(rowsList);
 		}
-
 	}
 
 	/**
 	 * method that initiate a table
 	 */
 
-	private void initiateSaleCommonReportTable() {
+	private void initiateSaleCommentsReportTable() {
 		tvGMRPickSale.getColumns().clear();
 		TableColumn<RowInSaleCommentReportTable, Integer> saleIDColumn = new TableColumn<RowInSaleCommentReportTable, Integer>(
 				"ID");

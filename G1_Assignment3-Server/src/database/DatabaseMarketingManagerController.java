@@ -538,7 +538,7 @@ public class DatabaseMarketingManagerController {
 	 * @param endDate
 	 * @return
 	 */
-	public String checSaleRange(Date startDate, Date endDate) {
+	public String checkSaleRange(Date startDate, Date endDate) {
 		PreparedStatement pStmt = null;
 		ResultSet rs = null;
 		try {

@@ -3,6 +3,7 @@ package server;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import database.DatabaseController;
@@ -132,13 +133,15 @@ public class ServerMarketingManagerController {
 						values[i] = Integer.parseInt(msgarr[3 + i]);
 					}
 					String username = msgarr[2];
-					
-					
-					
-					
-					
-					
-					Date date1 = new Date(values[0], values[1], values[2], values[3], values[4]);
+
+					Calendar calendar = Calendar.getInstance();
+					calendar.set(Calendar.YEAR, values[0]);
+					calendar.set(Calendar.MONTH, values[1]);
+					calendar.set(Calendar.DAY_OF_MONTH, values[2]);
+					calendar.set(Calendar.HOUR, values[3]);
+					calendar.set(Calendar.MINUTE, values[4]);
+					Date date1 = calendar.getTime();
+
 					StringBuilder sb = new StringBuilder();
 					for (int i = 8; i < msgarr.length; i++)
 						sb.append(msgarr[i]);
@@ -229,15 +232,20 @@ public class ServerMarketingManagerController {
 						this.lock.notifyAll();
 					}
 					String[] msgarr = function.split(" ");
-					Date fromDate = new Date(Integer.parseInt(msgarr[3]) - 1900, Integer.parseInt(msgarr[4]) - 1,
-							Integer.parseInt(msgarr[5]));
-
-					Date toDate = new Date(Integer.parseInt(msgarr[6]) - 1900, Integer.parseInt(msgarr[7]) - 1,
-							Integer.parseInt(msgarr[8]));
+					Calendar calendar1 = Calendar.getInstance(); // fromDate
+					calendar1.set(Calendar.YEAR, Integer.parseInt(msgarr[3]));
+					calendar1.set(Calendar.MONTH, Integer.parseInt(msgarr[4]));
+					calendar1.set(Calendar.DAY_OF_MONTH, Integer.parseInt(msgarr[5]));
+					Date fromDate = calendar1.getTime();
+					System.out.println(fromDate.toString());
+					Calendar calendar2 = Calendar.getInstance(); // toDate
+					calendar2.set(Calendar.YEAR, Integer.parseInt(msgarr[6]));
+					calendar2.set(Calendar.MONTH, Integer.parseInt(msgarr[7]));
+					calendar2.set(Calendar.DAY_OF_MONTH, Integer.parseInt(msgarr[8]));
+					Date toDate = calendar2.getTime();
 					System.out.println(toDate.toString());
 
 					result = this.databaseController.generatePeriodicReport(fromDate, toDate);
-
 				}
 
 				else if (function.startsWith("check sale range")) {
@@ -247,13 +255,21 @@ public class ServerMarketingManagerController {
 						this.lock.notifyAll();
 					}
 					String[] msgarr = function.split(" ");
-					Date startDate = new Date(Integer.parseInt(msgarr[3]), Integer.parseInt(msgarr[4]),
-							Integer.parseInt(msgarr[5]));
 
-					Date endDate = new Date(Integer.parseInt(msgarr[6]), Integer.parseInt(msgarr[7]),
-							Integer.parseInt(msgarr[8]));
+					Calendar calendar1 = Calendar.getInstance(); // startDate
+					calendar1.set(Calendar.YEAR, Integer.parseInt(msgarr[3]));
+					calendar1.set(Calendar.MONTH, Integer.parseInt(msgarr[4]));
+					calendar1.set(Calendar.DAY_OF_MONTH, Integer.parseInt(msgarr[5]));
+					Date startDate = calendar1.getTime();
+					System.out.println(startDate.toString());
+					Calendar calendar2 = Calendar.getInstance(); // endDate
+					calendar2.set(Calendar.YEAR, Integer.parseInt(msgarr[6]));
+					calendar2.set(Calendar.MONTH, Integer.parseInt(msgarr[7]));
+					calendar2.set(Calendar.DAY_OF_MONTH, Integer.parseInt(msgarr[8]));
+					Date endDate = calendar2.getTime();
+					System.out.println(endDate.toString());
 
-					result = this.databaseController.checSaleRange(startDate, endDate);
+					result = this.databaseController.checkSaleRange(startDate, endDate);
 
 				}
 

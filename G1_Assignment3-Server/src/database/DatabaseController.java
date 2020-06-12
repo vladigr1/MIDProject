@@ -55,8 +55,8 @@ public class DatabaseController {
 		}
 
 		try {
-			this.connection = DriverManager.getConnection("jdbc:mysql://" + host + "/?serverTimezone=Asia/Jerusalem", dbUsername,
-					dbPassword);
+			this.connection = DriverManager.getConnection("jdbc:mysql://" + host + "/?serverTimezone=Asia/Jerusalem",
+					dbUsername, dbPassword);
 			serverWindow.updateArea("SQL connection succeeded");
 
 			Statement stmt = this.connection.createStatement();
@@ -368,8 +368,8 @@ public class DatabaseController {
 		return DatabaseMarketingManagerController.getInstance(connection).generatePeriodicReport(fromDate, toDate);
 	}
 
-	public Object checSaleRange(Date startDate, Date endDate) {
-		return DatabaseMarketingManagerController.getInstance(connection).checSaleRange(startDate, endDate);
+	public Object checkSaleRange(Date startDate, Date endDate) {
+		return DatabaseMarketingManagerController.getInstance(connection).checkSaleRange(startDate, endDate);
 	}
 
 }
