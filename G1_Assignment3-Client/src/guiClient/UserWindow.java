@@ -1,5 +1,6 @@
 package guiClient;
 
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -69,12 +70,15 @@ public abstract class UserWindow extends AFXML {
 		this.lblHelloUser.setText("Hello, " + username);
 		this.lblHomeUserName.setText(username + " !");
 
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new java.util.Date());
+
 		this.cobHomeYear.getItems().removeAll((Collection<?>) this.cobHomeYear.getItems());
 		this.cobHomeYear.getItems().addAll(new Integer[] { 2019, 2020 });
-		this.cobHomeYear.setValue(new java.util.Date().getYear() + 1900);
+		this.cobHomeYear.setValue(calendar.get(Calendar.YEAR));
 		this.cobHomeMonth.getItems().removeAll((Collection<?>) this.cobHomeMonth.getItems());
 		this.cobHomeMonth.getItems().addAll(new Integer[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 });
-		this.cobHomeMonth.setValue(new java.util.Date().getMonth() + 1);
+		this.cobHomeMonth.setValue(calendar.get(Calendar.MONTH) + 1);
 	}
 
 	/*********************** button listeners ***********************/

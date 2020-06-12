@@ -402,7 +402,7 @@ public class DatabaseFastFuelController {
 			rs.close();
 
 			// "orderTime", "amountBought", "address"
-			Object[] values1 = { fastFuelTime, threshold - capacity, address };
+			Object[] values1 = { fastFuelTime, (threshold - capacity) * 2, address };
 			TableInserts.insertOrders(connection, values1);
 
 			pStmt = this.connection.prepareStatement("SELECT MAX(ordersID) FROM orders");

@@ -3,6 +3,7 @@ package guiClient;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import client.CustomerController;
@@ -331,8 +332,12 @@ public class CustomerWindow extends UserWindow {
 		orderPrice.setCellValueFactory((Callback) new PropertyValueFactory("finalPrice"));
 		this.tvVODetails.getColumns().add(orderPrice);
 
-		this.controller.handleMessageFromClientUI(("fastfuel get " + username + " "
-				+ (new java.util.Date().getYear() + 1900) + " " + (new java.util.Date().getMonth() + 1)));
+		Calendar calendar = Calendar.getInstance();
+		Date now = new Date();
+		calendar.setTime(now);
+
+		this.controller.handleMessageFromClientUI(("fastfuel get " + username + " " + (calendar.get(Calendar.YEAR))
+				+ " " + (calendar.get(Calendar.MONTH) + 1)));
 
 		this.controller.handleMessageFromClientUI("getcustomerpurchasingprogram " + username);
 	}

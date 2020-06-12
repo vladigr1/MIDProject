@@ -6,6 +6,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -408,7 +409,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 			}
 
 			else if (message.equals("inactive sale")) {
-				initateNewSale(); // build method
+				initiateNewSale(); // build method
 			} else if (message.equals("sale failed")) {
 				Alert a = new Alert(AlertType.ERROR);
 				a.setTitle("Initaite Sale Failed");
@@ -795,36 +796,32 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	 * @return
 	 */
 
-	@SuppressWarnings("deprecation")
 	private boolean checkSaleInDates() { // elro2
 		String message = "check sale range";
-		String[] timeStr = tfISTime.getText().split(":");
-		int hours = Integer.parseInt(timeStr[0]);
-		int minutes = Integer.parseInt(timeStr[1]);
 		RowForSalesPatternTable item = tvISSalesPattern.getSelectionModel().getSelectedItem();
 		choosesPatternID = item.getSalePatternID();
 		choosesPatternDuration = item.getDuration();
 
-//		LocalDate localDate = dpISDate.getValue();
-//		Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-//		Date startDate = Date.from(instant);
-		Date startDate = new Date(dpISDate.getValue().getYear() - 1900, dpISDate.getValue().getMonthValue() - 1,
-				dpISDate.getValue().getDayOfMonth(), hours, minutes);
-		Date endDate;
-//		System.out.println("start date is: " + startDate.toString());
-		endDate = new Date(startDate.getTime() + choosesPatternDuration * 60000);
+		String[] timeStr = tfISTime.getText().split(":");
+		int hours = Integer.parseInt(timeStr[0]);
+		int minutes = Integer.parseInt(timeStr[1]);
+		Calendar calendar1 = Calendar.getInstance();
+		LocalDate ld = this.dpISDate.getValue();
+		Date ldDate = java.sql.Date.valueOf(ld);
+		calendar1.setTime(ldDate);
+		calendar1.set(Calendar.HOUR, hours);
+		calendar1.set(Calendar.MINUTE, minutes);
+		Calendar calendar2 = Calendar.getInstance();
+		calendar2.setTime(calendar1.getTime());
+		calendar2.add(Calendar.MINUTE, choosesPatternDuration);
 
-////		System.out.println("end date is: " + endDate.toString());
-//		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Israel"));
-//		cal.setTime(endDate);
-
-		message = "check sale range " + startDate.getYear() + " " + startDate.getMonth() + " " + startDate.getDate()
-				+ " " + endDate.getYear() + " " + endDate.getMonth() + " " + endDate.getDate();
+		message = "check sale range " + calendar1.get(Calendar.YEAR) + " " + (calendar1.get(Calendar.MONTH) + 1) + " "
+				+ calendar1.get(Calendar.DAY_OF_MONTH) + " " + calendar2.get(Calendar.YEAR) + " "
+				+ (calendar2.get(Calendar.MONTH) + 1) + " " + calendar2.get(Calendar.DAY_OF_MONTH);
 
 		System.out.println("///////////////////////message of in range= " + message);
 
 		this.sendToClientController(message);
-
 		return false;
 	}
 
@@ -834,14 +831,21 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	 * @param dpISDate2
 	 * @return
 	 */
-	@SuppressWarnings("deprecation")
 	private boolean checkDateIsCorrect(DatePicker dp) {
+
+		Calendar calendar1 = Calendar.getInstance();
 		Date currendDate = new Date();
-		LocalDate localDate = dp.getValue();
-		Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-		Date picked = Date.from(instant);
-		if (currendDate.compareTo(picked) < 0 || (currendDate.getYear() == picked.getYear()
-				&& currendDate.getMonth() == picked.getMonth() && currendDate.getDate() == picked.getDate())) {
+		calendar1.setTime(currendDate);
+
+		Calendar calendar2 = Calendar.getInstance();
+		LocalDate ld = dp.getValue();
+		Date picked = java.sql.Date.valueOf(ld);
+		calendar2.setTime(picked);
+
+		if (((calendar1.getTime()).compareTo(calendar2.getTime()) < 0)
+				|| (calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR)
+						&& calendar1.get(Calendar.MONTH) == calendar2.get(Calendar.MONTH)
+						&& calendar1.get(Calendar.DAY_OF_MONTH) == calendar2.get(Calendar.DAY_OF_MONTH))) {
 			dp.setStyle("-fx-border-style: none;");
 			return true;
 		}
@@ -913,33 +917,40 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	 * @param action
 	 */
 	private void addActivity(String action) {
-		Date currentDate = new Date();
-		@SuppressWarnings("deprecation")
-		String message = "add activity " + username + " " + currentDate.getYear() + " " + currentDate.getMonth() + " "
-				+ currentDate.getDate() + " " + currentDate.getHours() + " " + currentDate.getMinutes() + " " + action;
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		String message = "add activity " + username + " " + calendar.get(Calendar.YEAR) + " "
+				+ calendar.get(Calendar.MONTH) + " " + calendar.get(Calendar.DAY_OF_MONTH) + " "
+				+ calendar.get(Calendar.HOUR) + " " + calendar.get(Calendar.MINUTE) + " " + action;
 		this.sendToClientController(message);
 	}
 
 	/**
 	 * method that will call for client to insert a new row for sale table
 	 */
-	@SuppressWarnings("deprecation")
-	private void initateNewSale() { // elro2
+	private void initiateNewSale() { // elro2
 		String message = "insert sale";
 		String[] timeStr = tfISTime.getText().split(":");
 		int hours = Integer.parseInt(timeStr[0]);
 		int minutes = Integer.parseInt(timeStr[1]);
-		Date startDate = new Date(dpISDate.getValue().getYear() - 1900, dpISDate.getValue().getMonthValue() - 1,
-				dpISDate.getValue().getDayOfMonth(), hours, minutes);
-		Date endDate;
-		endDate = new Date(startDate.getTime() + choosesPatternDuration * 60000);
+		Calendar calendar1 = Calendar.getInstance();
+		LocalDate ld = this.dpISDate.getValue();
+		Date ldDate = java.sql.Date.valueOf(ld);
+		calendar1.setTime(ldDate);
+		calendar1.set(Calendar.HOUR, hours);
+		calendar1.set(Calendar.MINUTE, minutes);
+		Calendar calendar2 = Calendar.getInstance();
+		calendar2.setTime(calendar1.getTime());
+		calendar2.add(Calendar.MINUTE, choosesPatternDuration);
 
-		message = "insert sale " + this.choosesPatternID + " " + startDate.getYear() + " " + startDate.getMonth() + " "
-				+ startDate.getDate() + " " + startDate.getHours() + " " + startDate.getMinutes() + " "
-				+ endDate.getYear() + " " + endDate.getMonth() + " " + endDate.getDate() + " " + endDate.getHours()
-				+ " " + endDate.getMinutes();
+		message = "insert sale " + this.choosesPatternID + " " + calendar1.get(Calendar.YEAR) + " "
+				+ (calendar1.get(Calendar.MONTH) + 1) + " " + calendar1.get(Calendar.DAY_OF_MONTH) + " "
+				+ calendar1.get(Calendar.HOUR) + " " + calendar1.get(Calendar.MINUTE) + " "
+				+ calendar2.get(Calendar.YEAR) + " " + (calendar2.get(Calendar.MONTH) + 1) + " "
+				+ calendar2.get(Calendar.DAY_OF_MONTH) + " " + calendar2.get(Calendar.HOUR) + " "
+				+ calendar2.get(Calendar.MINUTE);
 		this.sendToClientController(message);
-
 	}
 
 	/**
