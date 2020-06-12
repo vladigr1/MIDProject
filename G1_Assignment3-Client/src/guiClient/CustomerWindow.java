@@ -116,6 +116,7 @@ public class CustomerWindow extends UserWindow {
 
 	@FXML
 	void openHome(ActionEvent event) {
+		this.sidebar_btn0.setSelected(true);
 		this.visibleNow.setVisible(false);
 		this.homePane.setVisible(true);
 		this.visibleNow = homePane;
@@ -146,6 +147,7 @@ public class CustomerWindow extends UserWindow {
 
 	@FXML
 	void openOrderHomeFuel(ActionEvent event) {
+		this.sidebar_btn1.setSelected(true);
 		this.visibleNow.setVisible(false);
 		this.orderHomeFuelPane.setVisible(true);
 		this.visibleNow = this.orderHomeFuelPane;
@@ -195,6 +197,7 @@ public class CustomerWindow extends UserWindow {
 
 	@FXML
 	void openViewOrders(ActionEvent event) {
+		this.sidebar_btn2.setSelected(true);
 		this.visibleNow.setVisible(false);
 		this.viewOrderPane.setVisible(true);
 		this.visibleNow = this.viewOrderPane;

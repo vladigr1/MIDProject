@@ -293,6 +293,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 
 	@FXML
 	void openAddEditCustomer(ActionEvent event) {
+		this.sidebar_btn1.setSelected(true);
 		this.visibleNow.setVisible(false);
 		this.addEditCustomerPane.setVisible(true);
 		this.visibleNow = this.addEditCustomerPane;
@@ -422,6 +423,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 
 	@FXML
 	void openAddEditCar(ActionEvent event) {
+		this.sidebar_btn2.setSelected(true);
 		this.visibleNow.setVisible(false);
 		this.addEditCarPane.setVisible(true);
 		this.visibleNow = this.addEditCarPane;
@@ -605,6 +607,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 
 	@FXML
 	void openSetPurchasingProgram(ActionEvent event) {
+		this.sidebar_btn3.setSelected(true);
 		this.visibleNow.setVisible(false);
 		this.setPurchasingPane.setVisible(true);
 		this.visibleNow = this.setPurchasingPane;
@@ -687,6 +690,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 
 	@FXML
 	void openSetPricingModel(ActionEvent event) {
+		this.sidebar_btn4.setSelected(true);
 		this.visibleNow.setVisible(false);
 		this.pricingModelPane.setVisible(true);
 		this.visibleNow = this.pricingModelPane;
