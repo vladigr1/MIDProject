@@ -35,7 +35,7 @@
                      <children>
                         <Label fx:id="lblHelloUser" layoutX="15.0" prefHeight="35.0" prefWidth="232.0" text="Hello, Julia" textFill="WHITE">
                            <font>
-                              <Font name="Leelawadee UI" size="24.0" />
+                              <Font name="Leelawadee UI" size="14.0" />
                            </font>
                         </Label>
                      </children>
@@ -431,9 +431,9 @@
                                           <Font name="Arial" size="16.0" />
                                        </font>
                                     </Label>
-                                    <CheckBox fx:id="cbCSPDiesel" mnemonicParsing="false" onMouseClicked="#cbCSPDieselCliked" prefHeight="17.0" prefWidth="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <CheckBox fx:id="cbCSPGasoline" mnemonicParsing="false" onMouseClicked="#cbCSPGasolineCliked" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <CheckBox fx:id="cbCSPMotorbike" mnemonicParsing="false" onMouseClicked="#cbCSPMotorbikeCliked" prefHeight="17.0" prefWidth="16.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <CheckBox fx:id="cbCSPDiesel" mnemonicParsing="false" onMouseClicked="#cbCSPDieselClicked" prefHeight="17.0" prefWidth="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <CheckBox fx:id="cbCSPGasoline" mnemonicParsing="false" onMouseClicked="#cbCSPGasolineClicked" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <CheckBox fx:id="cbCSPMotorbike" mnemonicParsing="false" onMouseClicked="#cbCSPMotorbikeClicked" prefHeight="17.0" prefWidth="16.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                     <HBox alignment="CENTER_LEFT" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                        <children>
                                           <TextField fx:id="tfCSPDieselDisc" disable="true" prefHeight="30.0" prefWidth="182.0" promptText="Discount">
@@ -1023,7 +1023,7 @@
                                     </HBox>
                                  </children>
                               </GridPane>
-                              <Label layoutX="25.0" layoutY="14.0" text="Current Product Rates:" textFill="#144465" underline="true">
+                              <Label layoutX="25.0" layoutY="14.0" text="Current Product Rates: (discount from max price)" textFill="#144465" underline="true">
                                  <font>
                                     <Font name="Arial" size="16.0" />
                                  </font>
