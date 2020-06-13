@@ -51,7 +51,7 @@ import javafx.stage.Window;
 
 /**
  * 
- * @author Elroy
+ * @author Elroy, Lior
  *
  */
 public class MarketingManagerWindow extends MarketingDepWorkerWindow {
@@ -246,7 +246,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	}
 
 	@Override
-	public void callAfterMessage(Object lastMsgFromServer) {// hello
+	public void callAfterMessage(Object lastMsgFromServer) {
 		/**
 		 * get sales patterns and product in sale pattern and than sert it to the table
 		 * view
@@ -368,7 +368,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 				String[] msg = message.split(" ");
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Initiate Sale");
-				alert.setContentText("There is a sale actie with product = " + msg[2]);
+				alert.setContentText("There is a sale active with product = " + msg[2]);
 				alert.show();
 			}
 
@@ -421,7 +421,6 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 				addActivity("Update Prodcut Rate Reuest ID= " + str[2]); // add activity
 			}
 		}
-
 		super.callAfterMessage(lastMsgFromServer);
 	}
 
