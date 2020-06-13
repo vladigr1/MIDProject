@@ -293,7 +293,6 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 				updateCustomersTableInCommonReportTable(report.getList());
 				if (report.isGenerated())
 					addActivity("Generated New Common Report For Sale = " + saleReport.getSaleID());
-				// continue for filling customer table
 			}
 		}
 
@@ -308,7 +307,6 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 				tfSCRNumberOf.setText(report.getNumberOfCustomersBoughtInSale() + "");
 				tfSCRSumPurchase.setText(report.getSumOfPurchases() + "");
 				lblSCRDateCreated.setText(report.getDateCreated().toString());
-				// continue for filling customer table
 			}
 		}
 
@@ -348,6 +346,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 				rankingSheetList = list;
 				updateRankingSheetListInTable();
 			}
+
 		} else if (lastMsgFromServer instanceof SalesPatternList) {
 			SalesPatternList list = (SalesPatternList) lastMsgFromServer;
 			if (list.getList().isEmpty()) {
@@ -358,10 +357,12 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 			} else {
 				salesPatternList = list;
 			}
+
 		} else if (lastMsgFromServer instanceof ProductInSalePatternList) {
 			ProductInSalePatternList list = (ProductInSalePatternList) lastMsgFromServer;
 			productInSalesPatternList = list;
 			updateSalesListInTable();
+
 		} else if (lastMsgFromServer instanceof String) {
 			String message = (String) lastMsgFromServer;
 			if (message.startsWith("active sale")) {
@@ -376,31 +377,37 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 				Alert alert = new Alert(Alert.AlertType.ERROR);
 				alert.setHeaderText("Software error , call of technician");
 				alert.show();
+
 			} else if (message.equals("sale is in range")) {
 				dpISDate.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 				Alert alert = new Alert(Alert.AlertType.ERROR);
 				alert.setHeaderText("There is a sale already in such range of days");
 				alert.show();
+
 			} else if (message.equals("sale not in range")) { // elro
 				dpISDate.setStyle("-fx-border-style: none;");
 				checkForActiveSales();
 			}
 
 			else if (message.equals("inactive sale")) {
-				initiateNewSale(); // build method
+				initiateNewSale();
+
 			} else if (message.equals("sale failed")) {
 				Alert a = new Alert(AlertType.ERROR);
 				a.setTitle("Initaite Sale Failed");
 				a.setContentText("there is a problem in saving the new sale");
 				a.show();
+
 			} else if (message.startsWith("new sale")) {
 				openConfirmationAlert("Sale", "Initiate Sale Success");
-				addActivity("Initialzing Sale"); // add activity
+				addActivity("Initialzing Sale");
+
 			} else if (message.startsWith("failed to create sale pattern")) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Creating Sale Pattern");
 				alert.setContentText("There was a technical probel in creating 'Sale Pattern' , Contact Technician");
 				alert.show();
+
 			} else if (message.startsWith("created sale pattern")) {
 				String[] str = message.split(" ");
 				Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -408,17 +415,19 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 				alert.setHeaderText("Creation Successful!");
 				alert.setContentText("the id is: " + str[3]);
 				alert.show();
-				addActivity("Created A Sale Pattern With ID= " + str[3]); // add activity
+				addActivity("Created A Sale Pattern With ID= " + str[3]);
+
 			} else if (message.startsWith("failed PRUR")) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Update Prodcut Rate");
 				alert.setHeaderText("Update Prodcut Rate Failed");
 				alert.setContentText("There was a technical problem in 'Update Prodcut Rate' , Contact Technician");
 				alert.show();
+
 			} else if (message.startsWith("success PRUR")) {
 				openConfirmationAlert("Product Rates Update Request", "Request Sent To Network Manager");
 				String[] str = message.split(" ");
-				addActivity("Update Prodcut Rate Reuest ID= " + str[2]); // add activity
+				addActivity("Update Prodcut Rate Reuest ID= " + str[2]);
 			}
 		}
 		super.callAfterMessage(lastMsgFromServer);
@@ -546,8 +555,9 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 			tfSCREndTime.setText(row.getEndTime().toString());
 //			tfSCRSaleID.setText(row.getSaleID() + "");
 			this.sendToClientController("generate SaleCommentReport " + row.getSaleID());
-			generateReportPane.setVisible(false);
+//			generateReportPane.setVisible(false);
 			saleCommentReportPane.setVisible(true);
+			this.mainBorderPane.setDisable(true);
 		}
 
 	}
@@ -595,7 +605,8 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 							+ " " + calendar1.get(Calendar.DAY_OF_MONTH) + " " + calendar2.get(Calendar.YEAR) + " "
 							+ calendar2.get(Calendar.MONTH) + " " + calendar2.get(Calendar.DAY_OF_MONTH));
 			periodicReportPane.setVisible(true);
-			generateReportPane.setVisible(false);
+			this.mainBorderPane.setDisable(true);
+//			generateReportPane.setVisible(false);
 		}
 
 	}
@@ -609,8 +620,9 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	}
 
 	public void btnSCRCloseClicked() {
-		generateReportPane.setVisible(true);
+//		generateReportPane.setVisible(true);
 		saleCommentReportPane.setVisible(false);
+		this.mainBorderPane.setDisable(false);
 		this.sendToClientController("pull common data for common tableView");
 
 	}
@@ -626,7 +638,8 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	public void btnPCRCloseClicked() {
 		// do stuff
 		periodicReportPane.setVisible(false);
-		generateReportPane.setVisible(true);
+		this.mainBorderPane.setDisable(false);
+//		generateReportPane.setVisible(true);
 	}
 
 	public void btnPCRCloseHover() {
@@ -1367,6 +1380,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	 */
 	@Override
 	public void clearFields() {
+		this.mainBorderPane.setDisable(false);
 		saleCommentReportPane.setVisible(false);
 		periodicReportPane.setVisible(false);
 		dpGMRStartDate.setValue(null);
