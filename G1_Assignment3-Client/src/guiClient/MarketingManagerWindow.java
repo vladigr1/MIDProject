@@ -394,6 +394,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 				a.setContentText("there is a problem in saving the new sale");
 				a.show();
 			} else if (message.startsWith("new sale")) {
+				openConfirmationAlert("Sale", "Initiate Sale Success");
 				addActivity("Initialzing Sale"); // add activity
 			} else if (message.startsWith("failed to create sale pattern")) {
 				Alert alert = new Alert(AlertType.ERROR);
@@ -415,6 +416,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 				alert.setContentText("There was a technical problem in 'Update Prodcut Rate' , Contact Technician");
 				alert.show();
 			} else if (message.startsWith("success PRUR")) {
+				openConfirmationAlert("Product Rates Update Request", "Request Sent To Network Manager");
 				String[] str = message.split(" ");
 				addActivity("Update Prodcut Rate Reuest ID= " + str[2]); // add activity
 			}
@@ -441,6 +443,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 ///////// Initiate sale Start: //////////////
 
 	public void tbInitiateSaleClicked() {
+		this.tbInitiateSale.setSelected(true);
 		removeAllPanesVisiblity();
 		initiateSalePane.setVisible(true);
 		clearFields();
@@ -463,7 +466,6 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		if (checkTimeByClock(tfISTime) && checkDateIsCorrect(dpISDate)
 				&& checkIfRowSelectedFromTable(tvISSalesPattern)) { // check time does not work
 			// enter stuff here
-
 			checkSaleInDates();
 		}
 	}
@@ -503,6 +505,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 ///////// Generate Marketing Report Start: //////////////
 
 	public void tbGenerateReportClicked() {
+		this.tbGenerateReport.setSelected(true);
 		removeAllPanesVisiblity();
 		generateReportPane.setVisible(true);
 		clearFields();
@@ -642,6 +645,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 ///////// Request Product Rate Update Start: //////////////
 
 	public void tbRequestProductRateUpdateClicked() {
+		this.tbRequestProductRateUpdate.setSelected(true);
 		removeAllPanesVisiblity();
 		requestRateUpdatePane.setVisible(true);
 		clearFields();
@@ -745,7 +749,6 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	 * @return
 	 */
 	private boolean checkDateIsCorrect(DatePicker dp) {
-
 		Calendar calendar1 = Calendar.getInstance();
 		Date currendDate = new Date();
 		calendar1.setTime(currendDate);
@@ -783,6 +786,12 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 			return false;
 		}
 		String[] str = tf.getText().split(":");
+
+		if (this.checkValidTextField(str[0], "digits", "Time is only digits") == false
+				|| this.checkValidTextField(str[1], "digits", "Time is only digits") == false) {
+			return false;
+		}
+
 		if (Integer.parseInt(str[0]) >= 24 || Integer.parseInt(str[0]) < 0 || Integer.parseInt(str[1]) >= 60
 				|| Integer.parseInt(str[1]) < 0) {
 			tf.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
@@ -934,32 +943,40 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		cbRPRUMotorbike.setStyle("-fx-border-style: none;");
 		cbRPRUHomeFuel.setStyle("-fx-border-style: none;");
 
-		if (cbRPRUDiesel.isSelected() && tfRPRUDiesel2.getText().trim().isEmpty()) {
+		if (cbRPRUDiesel.isSelected() && tfRPRUDiesel2.getText().trim().isEmpty()
+				|| this.checkValidTextField(tfRPRUDiesel2.getText(), "digits", "Rate is only digits") == false) {
 			tfRPRUDiesel2.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			return false;
 		}
 
-		if (cbRPRUDiesel.isSelected() && !tfRPRUDiesel2.getText().trim().isEmpty())
+		if (cbRPRUDiesel.isSelected() && !tfRPRUDiesel2.getText().trim().isEmpty()
+				|| this.checkValidTextField(tfRPRUDiesel2.getText(), "digits", "Rate is only digits") == true) {
 			tfRPRUDiesel2.setStyle("-fx-border-style: none;");
-
-		if (cbRPRUGasoline.isSelected() && tfRPRUGasoline2.getText().trim().isEmpty()) {
+		}
+		if (cbRPRUGasoline.isSelected() && tfRPRUGasoline2.getText().trim().isEmpty()
+				|| this.checkValidTextField(tfRPRUGasoline2.getText(), "digits", "Rate is only digits") == false) {
 			tfRPRUGasoline2.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			return false;
 		}
-		if (cbRPRUGasoline.isSelected() && !tfRPRUGasoline2.getText().trim().isEmpty())
+		if (cbRPRUGasoline.isSelected() && !tfRPRUGasoline2.getText().trim().isEmpty()
+				|| this.checkValidTextField(tfRPRUGasoline2.getText(), "digits", "Rate is only digits") == true) {
 			tfRPRUGasoline2.setStyle("-fx-border-style: none;");
-
-		if (cbRPRUMotorbike.isSelected() && tfRPRUMotorbike2.getText().trim().isEmpty()) {
+		}
+		if (cbRPRUMotorbike.isSelected() && tfRPRUMotorbike2.getText().trim().isEmpty()
+				|| this.checkValidTextField(tfRPRUMotorbike2.getText(), "digits", "Rate is only digits") == false) {
 			tfRPRUMotorbike2.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			return false;
 		}
-		if (cbRPRUMotorbike.isSelected() && !tfRPRUMotorbike2.getText().trim().isEmpty())
+		if (cbRPRUMotorbike.isSelected() && !tfRPRUMotorbike2.getText().trim().isEmpty()
+				|| this.checkValidTextField(tfRPRUMotorbike2.getText(), "digits", "Rate is only digits") == true) {
 			tfRPRUMotorbike2.setStyle("-fx-border-style: none;");
-
-		if (cbRPRUHomeFuel.isSelected() && tfRPRUHomeFuel2.getText().trim().isEmpty()) {
+		}
+		if (cbRPRUHomeFuel.isSelected() && tfRPRUHomeFuel2.getText().trim().isEmpty()
+				|| this.checkValidTextField(tfRPRUHomeFuel2.getText(), "digits", "Rate is only digits") == false) {
 			tfRPRUHomeFuel2.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			return false;
 		}
+
 		boolean flagDiesel = true;
 		boolean flagGasoline = true;
 		boolean flagMotorbikeFuel = true;

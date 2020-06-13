@@ -22,8 +22,8 @@ import entities.ProductRateList;
 import entities.RankingSheet;
 import entities.RankingSheetList;
 import entities.RowInSaleCommentsReportTable;
-import entities.SaleCommentsReportList;
 import entities.SaleCommentsReport;
+import entities.SaleCommentsReportList;
 import entities.SalesList;
 import entities.SalesPattern;
 import entities.SalesPatternList;
@@ -429,6 +429,7 @@ public class DatabaseMarketingManagerController {
 		List<CustomerBoughtInSale> customerList = new ArrayList<>();
 		Statement stmt = null;
 		boolean found = false;
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
 			stmt = connection.createStatement();
 			CustomerBoughtInSale customerBought;
@@ -436,7 +437,8 @@ public class DatabaseMarketingManagerController {
 			SaleCommentsReport saleReport = null;
 			rs = stmt.executeQuery("SELECT * FROM sale_comments_report WHERE FK_saleID=" + saleID);
 			while (rs.next()) {
-				saleReport = new SaleCommentsReport(rs.getInt(1), rs.getInt(2), rs.getDouble(3), rs.getDate(4));
+				saleReport = new SaleCommentsReport(rs.getInt(1), rs.getInt(2), rs.getDouble(3),
+						formatter.parse(rs.getString(4)));
 				found = true;
 			}
 			rs = stmt.executeQuery("SELECT * FROM customer_bought_in_sale WHERE FK_saleID=" + saleID);
@@ -479,6 +481,9 @@ public class DatabaseMarketingManagerController {
 			System.out.println(e.getSQLState());
 			System.out.println(e.getMessage());
 			return new SaleCommentsReportList();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return new SaleCommentsReportList();
 		}
 		return report;
 	}
@@ -492,12 +497,12 @@ public class DatabaseMarketingManagerController {
 	 * @return
 	 */
 	public PeriodicReportList generatePeriodicReport(Date fromDate, Date toDate) { // here
-
 		PeriodicReportList periodicReport = new PeriodicReportList();
 		List<CustomerBoughtFromCompany> customerList = new ArrayList<>();
 		Statement stmt = null;
 		PreparedStatement pStmt = null;
 		boolean found = false;
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
 			stmt = connection.createStatement();
 			PeriodicCustomersReport PCReport = null;
@@ -510,7 +515,8 @@ public class DatabaseMarketingManagerController {
 			rs = pStmt.executeQuery();
 			while (rs.next()) {
 				System.out.println("found");
-				PCReport = new PeriodicCustomersReport(rs.getDate(1), rs.getDate(2), rs.getDate(3));
+				PCReport = new PeriodicCustomersReport(formatter.parse(rs.getString(1)),
+						formatter.parse(rs.getString(2)), formatter.parse(rs.getString(3)));
 				System.out.println("found Report = " + PCReport);
 				found = true;
 			}
@@ -547,6 +553,9 @@ public class DatabaseMarketingManagerController {
 			System.out.println(e.getLocalizedMessage());
 			System.out.println(e.getSQLState());
 			System.out.println(e.getMessage());
+			return new PeriodicReportList();
+		} catch (Exception e) {
+			e.printStackTrace();
 			return new PeriodicReportList();
 		}
 		return periodicReport;
@@ -616,7 +625,7 @@ public class DatabaseMarketingManagerController {
 	}
 
 	/**
-	 * method that gets a ProdcutName enum from a string
+	 * method that gets a ProductName enum from a string
 	 * 
 	 * @param name
 	 * @return

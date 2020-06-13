@@ -192,8 +192,16 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 	 */
 	protected boolean checkOfCreateSalePatternFields() {
 		boolean result = false;
-		if (tfCSPDuration.getText().trim().isEmpty())
+		if (tfCSPDuration.getText().trim().isEmpty()
+				|| this.checkValidTextField(tfCSPDuration.getText(), "digits", "Duration is only digits") == false) {
 			tfCSPDuration.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+			return false;
+		}
+		if (Integer.parseInt(tfCSPDuration.getText()) > 60 * 24) {
+			openErrorAlert("Error", "Sale can't be more than 24 hours");
+			return false;
+		}
+
 		if (!cbCSPDiesel.isSelected() && !cbCSPGasoline.isSelected() && !cbCSPGasoline.isSelected()
 				&& !cbCSPMotorbike.isSelected()) {
 			tfCSPDieselDisc.setStyle("-fx-border-style: none;");
@@ -201,18 +209,22 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 			tfCSPMotorbikeDisc.setStyle("-fx-border-style: none;");
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setTitle("Discounts Are Empty");
-			alert.setContentText("You must feel at least one discount");
+			alert.setContentText("You must fill at least one discount");
 			alert.show();
+			return false;
 		}
-		if (cbCSPDiesel.isSelected() && tfCSPDieselDisc.getText().trim().isEmpty()) {
+		if (cbCSPDiesel.isSelected() && tfCSPDieselDisc.getText().trim().isEmpty()
+				|| this.checkValidTextField(tfCSPDieselDisc.getText(), "digits", "Discount is only digits") == false) {
 			tfCSPDieselDisc.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			return false;
 		}
-		if (cbCSPGasoline.isSelected() && tfCSPGasolineDisc.getText().trim().isEmpty()) {
+		if (cbCSPGasoline.isSelected() && tfCSPGasolineDisc.getText().trim().isEmpty() || this
+				.checkValidTextField(tfCSPGasolineDisc.getText(), "digits", "Discount is only digits") == false) {
 			tfCSPGasolineDisc.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			return false;
 		}
-		if (cbCSPMotorbike.isSelected() && tfCSPMotorbikeDisc.getText().trim().isEmpty()) {
+		if (cbCSPMotorbike.isSelected() && tfCSPMotorbikeDisc.getText().trim().isEmpty() || this
+				.checkValidTextField(tfCSPMotorbikeDisc.getText(), "digits", "Discount is only digits") == false) {
 			tfCSPMotorbikeDisc.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			return false;
 		}
