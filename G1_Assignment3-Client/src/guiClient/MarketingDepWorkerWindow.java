@@ -146,6 +146,7 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 			String str = (String) lastMsgFromServer;
 			if (str.equals("genAnalysis success")) {
 				openConfirmationAlert("Analysis", "Weekly Analysis Generated");
+				requestToLogActivity("generated or updated analysis");
 			} else if (str.equals("genAnalysis fail")) {
 				openErrorAlert("Analysis", "Weekly Analysis Generate Failed");
 			}

@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -140,20 +141,24 @@ public class DatabaseMarketingManagerController {
 				while (rs.next()) {
 					int num = rs.getInt(1);
 					PreparedStatement pStmt2 = this.connection
-							.prepareStatement("SELECT COUNT(*) FROM sale WHERE active=1 AND FK_salesPatternID=?");
+							.prepareStatement("SELECT startTime, endTime FROM sale WHERE FK_salesPatternID=?");
 					pStmt2.setInt(1, num);
 					ResultSet rs2 = pStmt2.executeQuery();
 					if (rs2.next()) {
-						if (rs2.getInt(1) != 0) {
+						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+						Date startTime = formatter.parse(rs2.getString(1));
+						Date endTime = formatter.parse(rs2.getString(2));
+						if (startTime.compareTo(new Date()) <= 0 && endTime.compareTo(new Date()) >= 0) {
 							return "active sale " + pName;
 						}
-
 					}
 					rs2.close();
 				}
 			}
-
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
 		}
 		return "inactive sale";
 	}
@@ -184,7 +189,8 @@ public class DatabaseMarketingManagerController {
 
 		System.out.println(calendar1.getTime() + ", " + calendar2.getTime());
 
-		Object[] values2 = { salePatternID, 0, calendar1.getTime(), calendar2.getTime() };
+		// "FK_salesPatternID", "startTime", "endTime"
+		Object[] values2 = { salePatternID, calendar1.getTime(), calendar2.getTime() };
 		try {
 			flag = TableInserts.insertSale(connection, values2);
 		} catch (Exception e) {
@@ -372,8 +378,7 @@ public class DatabaseMarketingManagerController {
 			stmt = connection.createStatement();
 			stmt2 = connection.createStatement();
 			ResultSet rs2 = null;
-			ResultSet rs = stmt
-					.executeQuery("SELECT saleID,FK_salesPatternID,startTime,endTime FROM sale WHERE active=0");
+			ResultSet rs = stmt.executeQuery("SELECT saleID,FK_salesPatternID,startTime,endTime FROM sale");
 			while (rs.next()) {
 				RowInSaleCommentsReportTable row = new RowInSaleCommentsReportTable();
 				int saleID = rs.getInt(1);
@@ -534,7 +539,7 @@ public class DatabaseMarketingManagerController {
 			}
 			rs = stmt.executeQuery("SELECT * FROM customer_bought_from_company");
 			while (rs.next()) {
-				Date datePurchase = rs.getDate(3);
+				Date datePurchase = formatter.parse(rs.getString(3));
 				Date from2Date = new java.sql.Date(fromDate.getTime());
 				Date to2Date = new java.sql.Date(toDate.getTime());
 				if (datePurchase.compareTo(from2Date) >= 0 && datePurchase.compareTo(to2Date) <= 0) {
@@ -545,8 +550,8 @@ public class DatabaseMarketingManagerController {
 						company = FuelCompanyName.Delek;
 					if (rs.getString(2).equals("Sonol"))
 						company = FuelCompanyName.Sonol;
-					customerBoughtFromCompany = new CustomerBoughtFromCompany(rs.getString(1), company, rs.getDate(3),
-							rs.getDouble(4), rs.getDouble(5));
+					customerBoughtFromCompany = new CustomerBoughtFromCompany(rs.getString(1), company,
+							formatter.parse(rs.getString(3)), rs.getDouble(4), rs.getDouble(5));
 					customerList.add(customerBoughtFromCompany);
 				}
 			}
