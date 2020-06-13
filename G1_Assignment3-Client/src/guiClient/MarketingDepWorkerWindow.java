@@ -1,5 +1,6 @@
 package guiClient;
 
+import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
 
@@ -37,6 +38,8 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 
 	@FXML
 	protected AnchorPane createSalePatternPane;
+	@FXML
+	protected Label lblCSPUpdateToDate;
 	@FXML
 	protected TableView<RowForRankingSheetTable> tvCSPAnalysis;
 	@FXML
@@ -191,6 +194,8 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 	protected void updateRankingSheetListInTable() {
 		List<RankingSheet> RSList = this.rankingSheetList.getList();
 		ObservableList<RowForRankingSheetTable> rowsList = FXCollections.observableArrayList();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		this.lblCSPUpdateToDate.setText(formatter.format(RSList.get(0).getUpdatedForDate()));
 
 		for (int i = 0; i < tvCSPAnalysis.getItems().size(); i++) {
 			tvCSPAnalysis.getItems().clear();

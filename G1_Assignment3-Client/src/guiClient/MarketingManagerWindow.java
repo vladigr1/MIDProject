@@ -443,6 +443,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 
 	public void tbInitiateSaleClicked() {
 		this.tbInitiateSale.setSelected(true);
+		this.topbar_window_label.setText("Initiate Sale");
 		removeAllPanesVisiblity();
 		initiateSalePane.setVisible(true);
 		clearFields();
@@ -504,6 +505,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 
 	public void tbGenerateReportClicked() {
 		this.tbGenerateReport.setSelected(true);
+		this.topbar_window_label.setText("Generate Marketing Report");
 		removeAllPanesVisiblity();
 		generateReportPane.setVisible(true);
 		clearFields();
@@ -641,6 +643,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 
 	public void tbRequestProductRateUpdateClicked() {
 		this.tbRequestProductRateUpdate.setSelected(true);
+		this.topbar_window_label.setText("Request Product Rates Update");
 		removeAllPanesVisiblity();
 		requestRateUpdatePane.setVisible(true);
 		clearFields();
@@ -651,18 +654,17 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		if (checkRPRUCheckBoxes() && checkRPRUCheckFields()) {
 			createNewPRUR();
 		}
-
 	}
 
-	public void btnRPRUSendHover() {// *
+	public void btnRPRUSendHover() {
 		btnRPRUSend.setOpacity(0.85);
 	}
 
-	public void btnRPRUSendExit() {// *
+	public void btnRPRUSendExit() {
 		btnRPRUSend.setOpacity(1);
 	}
 
-	public void cbRPRUDieselClicked() {// *
+	public void cbRPRUDieselClicked() {
 		tfRPRUDiesel2.setDisable(!tfRPRUDiesel2.isDisable());
 		if (tfRPRUDiesel2.isDisable()) {
 			this.lblDieselERR2.setVisible(false);
@@ -671,7 +673,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		}
 	}
 
-	public void cbRPRUGasolineClicked() {// *
+	public void cbRPRUGasolineClicked() {
 		tfRPRUGasoline2.setDisable(!tfRPRUGasoline2.isDisable());
 		if (tfRPRUGasoline2.isDisable()) {
 			this.lblGasolineERR2.setVisible(false);
@@ -680,7 +682,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		}
 	}
 
-	public void cbRPRUMotorbikeClicked() {// *
+	public void cbRPRUMotorbikeClicked() {
 		tfRPRUMotorbike2.setDisable(!tfRPRUMotorbike2.isDisable());
 		if (tfRPRUMotorbike2.isDisable()) {
 			this.lblMotorERR2.setVisible(false);
@@ -689,7 +691,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		}
 	}
 
-	public void cbRPRUHomeFuelClicked() {// *
+	public void cbRPRUHomeFuelClicked() {
 		tfRPRUHomeFuel2.setDisable(!tfRPRUHomeFuel2.isDisable());
 		if (tfRPRUHomeFuel2.isDisable()) {
 			this.lblHomeERR2.setVisible(false);
@@ -707,7 +709,6 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	 * 
 	 * @return
 	 */
-
 	private boolean checkSaleInDates() { // elro2
 		String message = "check sale range";
 		RowForSalesPatternTable item = tvISSalesPattern.getSelectionModel().getSelectedItem();
@@ -781,6 +782,11 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 			return false;
 		}
 		String[] str = tf.getText().split(":");
+		if (str[0].length() != 2 || str[1].length() != 2) {
+			openErrorAlert("Error", "Time Not Valid");
+			return false;
+		}
+
 		if (this.checkValidTextField(str[0], "digits", "Time is only digits") == false
 				|| this.checkValidTextField(str[1], "digits", "Time is only digits") == false) {
 			return false;
