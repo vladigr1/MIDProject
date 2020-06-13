@@ -13,6 +13,9 @@ public class OutcomeReport extends QuarterlyReport {
 	/* private String repYear; */
 	/* private int fuelStationID; */
 
+	// fields
+	private double totalAmountBoughtFromSupplier;
+
 	/**
 	 * 
 	 * @param repQuarter
@@ -22,6 +25,29 @@ public class OutcomeReport extends QuarterlyReport {
 	 */
 	public OutcomeReport(int repQuarter, String repYear, int fuelStationID, Date dateCreated) {
 		super(repQuarter, repYear, fuelStationID, dateCreated);
+	}
+
+	/**
+	 * everything
+	 * 
+	 * @param repQuarter
+	 * @param repYear
+	 * @param fuelStationID
+	 * @param dateCreated
+	 * @param totalAmountBoughtFromSupplier
+	 */
+	public OutcomeReport(int repQuarter, String repYear, int fuelStationID, Date dateCreated,
+			double totalAmountBoughtFromSupplier) {
+		super(repQuarter, repYear, fuelStationID, dateCreated);
+		this.totalAmountBoughtFromSupplier = totalAmountBoughtFromSupplier;
+	}
+
+	public double getTotalAmountBoughtFromSupplier() {
+		return totalAmountBoughtFromSupplier;
+	}
+
+	public void setTotalAmountBoughtFromSupplier(double totalAmountBoughtFromSupplier) {
+		this.totalAmountBoughtFromSupplier = totalAmountBoughtFromSupplier;
 	}
 
 	@Override
