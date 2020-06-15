@@ -302,6 +302,17 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 
 	/*********************** button listeners ***********************/
 
+	/**
+	 * click on side button Home
+	 * 
+	 * @param event
+	 */
+	@Override
+	void openHome(ActionEvent event) {
+		super.openHome(event);
+		sidebar_btn0.setSelected(true);
+	}
+
 	@FXML
 	void openAddEditCustomer(ActionEvent event) {
 		this.sidebar_btn1.setSelected(true);

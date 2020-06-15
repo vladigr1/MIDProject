@@ -1,15 +1,13 @@
 package guiClient;
 
-import javafx.stage.Window;
-import javafx.util.Callback;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeSet;
+
 import client.FuelStationManagerController;
 import entities.FuelStationOrder;
 import entities.MyIncomeReport;
@@ -17,7 +15,6 @@ import entities.MyInventoryReport;
 import entities.MyOutcomeReport;
 import entities.Notification;
 import entities.ProductInStation;
-import entities.QuarterlyReport;
 import entities.RowForQuarterlyReports;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,15 +29,16 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.image.ImageView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Window;
+import javafx.util.Callback;
 
 /**
  * @author LiadVax
  */
 public class FuelStationManagerWindow extends EmployeeWindow {
+
 	@FXML
 	private ToggleButton sidebar_btn0;
 	@FXML
@@ -69,6 +67,12 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 	private TextField tfUTMotorbike1;
 	@FXML
 	private TextField tfUTDiesel1;
+	@FXML
+	private TextField tfUTGasoline11;
+	@FXML
+	private TextField tfUTMotorbike11;
+	@FXML
+	private TextField tfUTDiesel11;
 	@FXML
 	private Button btnUTUpdate;
 	@FXML
@@ -153,61 +157,77 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 			Object[] objArr = (Object[]) lastMsgFromServer;
 			if (objArr.length == 0) {
 				System.out.println("callAfterMessage: object[] empty");
+
 			} else if (objArr[0] instanceof String) {
 				String str = (String) objArr[0];
 				if (str.equals("Unassesd Order IDs")) {
 					TreeSet<Integer> unassedOrderList = (TreeSet<Integer>) objArr[1];
 					fillUnassessedOrderToComboBox(unassedOrderList);
+
 				} else if (str.equals("No Unassessd Orders")) {
 					this.cobASOOrderId.getItems().removeAll((Collection<?>) this.cobASOOrderId.getItems());
-					this.openCONFIRMATIONAlert("Information",
+					this.openConfirmationAlert("Information",
 							"There are no orders waiting for assessment in your station.");
+
 				} else if (str.equals("Quarter Report")) {
 					openQuarterlyReport2(objArr);
 					requestToLogActivity("Genarated generated quarter report Year: " + cobGQRYear.getValue()
 							+ " Quarter: " + cobGQRQuarter.getValue() + ".");
+
 				} else if (str.equals("Undismissed Notifications")) {
 					ArrayList<Notification> notificationsList = (ArrayList<Notification>) objArr[1];
 					fillNotificationsTable(notificationsList);
+
 				} else if (str.equals("No Undismissed Notifications")) {
 					for (int i = 0; i < tvHomeNotifytable.getItems().size(); i++) {
 						tvHomeNotifytable.getItems().clear();
 					}
-					this.openCONFIRMATIONAlert("Information", "There are no new notifications.");
+//					this.openConfirmationAlert("Information", "There are no new notifications.");
+
 				} else if (str.equals("Station Products In Orders")) {
 					ProductInStation productInStation = (ProductInStation) objArr[1];
 					FuelStationOrder fuelStationOrder = (FuelStationOrder) objArr[2];
 					fillUnassessedOrderData(productInStation, fuelStationOrder);
+
 				} else if (str.equals("products In Station")) {
 					ArrayList<ProductInStation> productInStationList = (ArrayList<ProductInStation>) objArr[1];
 					fillUpdateThreshold(productInStationList);
+
 				} else if (str.equals("No Product In Station")) {
-					this.openCONFIRMATIONAlert("Information", "There is no products in your station.");
+					this.openConfirmationAlert("Information", "There is no products in your station.");
 				}
 			}
 		}
 
 		else if (lastMsgFromServer instanceof Boolean) {
 			if (visibleNow == thresholdPane) {
-				requestToLogActivity("Updated Threshold");
-				this.openCONFIRMATIONAlert("Success", "Threshold updated successfully");
-				initializeThresholdPane();
+				Boolean bool = (Boolean) lastMsgFromServer;
+				if (bool.booleanValue() == true) {
+					requestToLogActivity("Updated Threshold");
+					this.openConfirmationAlert("Success", "Threshold updated successfully");
+					initializeThresholdPane();
+				} else {
+					this.openErrorAlert("Error", "Threshold must be more than capacity");
+				}
+
 			} else if (visibleNow == assessPane) {
 				int orderID = cobASOOrderId.getValue();
 				requestToLogActivity("Confirmed unassessed order No." + orderID);
-				this.openCONFIRMATIONAlert("Success", "Order: " + orderID + " Approved, Assessment completed!");
+				this.openConfirmationAlert("Success", "Order: " + orderID + " Approved, Assessment completed!");
 				initializeAssessPane();
+
 			} else if (visibleNow == declineOrderPane) {
 				int orderID = cobASOOrderId.getValue();
 				requestToLogActivity("Declined unassessed order No." + orderID);
 				mainBorderPane.setDisable(false);
 				declineOrderPane.setVisible(false);
-				this.openCONFIRMATIONAlert("Success", "Order: " + orderID + " Declined, Assessment completed!");
+				this.openConfirmationAlert("Success", "Order: " + orderID + " Declined, Assessment completed!");
 				visibleNow = assessPane;
 				initializeAssessPane();
+
 			} else if (visibleNow == notificationPane) {
 				requestToLogActivity("Notification Dismissed");
-				this.openCONFIRMATIONAlert("Success", "Notification Dismissed");
+				this.openConfirmationAlert("Success", "Notification Dismissed");
 				getNotifications();
 			}
 		}
@@ -418,7 +438,6 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 		}
 		String message = "generate QuarterReport" + "_" + this.username + "_" + selectedYear + " " + selectedQuarter;
 		controller.handleMessageFromClientUI(message);
-
 	}
 
 	/**
@@ -426,7 +445,7 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 	 * 
 	 * @param event
 	 */
-	void openQuarterlyReport2(Object[] reports) {
+	private void openQuarterlyReport2(Object[] reports) {
 		// reports[0] have string
 		MyIncomeReport incomeReport = (MyIncomeReport) reports[1];
 		MyOutcomeReport outcomeReport = (MyOutcomeReport) reports[2];
@@ -493,12 +512,18 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 	 */
 	private void fillUpdateThreshold(ArrayList<ProductInStation> productList) {
 		for (ProductInStation product : productList) {
-			if (product.getProductName().toString().equals("Gasoline"))
+			if (product.getProductName().toString().equals("Gasoline")) {
 				tfUTGasoline1.setText(product.getThreshold() + "");
-			else if (product.getProductName().toString().equals("Diesel"))
+				tfUTGasoline11.setText(product.getCapacity() + "");
+				
+			} else if (product.getProductName().toString().equals("Diesel")) {
 				tfUTDiesel1.setText(product.getThreshold() + "");
-			else if (product.getProductName().toString().equals("Motorbike Fuel"))
+				tfUTDiesel11.setText(product.getCapacity() + "");
+				
+			} else if (product.getProductName().toString().equals("Motorbike Fuel")) {
 				tfUTMotorbike1.setText(product.getThreshold() + "");
+				tfUTMotorbike11.setText(product.getCapacity() + "");
+			}
 		}
 	}
 
@@ -602,6 +627,9 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 		tfUTGasoline1.clear();
 		tfUTDiesel1.clear();
 		tfUTMotorbike1.clear();
+		tfUTGasoline11.clear();
+		tfUTDiesel11.clear();
+		tfUTMotorbike11.clear();
 
 		tfUTGasoline2.clear();
 		tfUTMotorbike2.clear();
@@ -635,7 +663,6 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 	/**
 	 * Initialize table view columns
 	 */
-	@SuppressWarnings("unchecked")
 	private void initiallizeIncomeReportTables() {
 		tvQRDetails1.getColumns().clear();
 		TableColumn<RowForQuarterlyReports, Integer> productIDColumn = new TableColumn<RowForQuarterlyReports, Integer>(
@@ -702,7 +729,7 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 	/**
 	 * Initialize table view columns
 	 */
-	@SuppressWarnings({ "unchecked" })
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void initiallizeNotificationTable() {
 		final TableColumn<Notification, Integer> notificationIDColumn = (TableColumn<Notification, Integer>) new TableColumn(
 				"Notification ID");
@@ -736,26 +763,26 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 		try {
 			if (!tfUTGasoline2.isDisable()) {
 				newGasoline = Double.parseDouble(tfUTGasoline2.getText());
-				if (newGasoline < 0)
+				if (newGasoline <= 0)
 					throw new java.lang.NumberFormatException();
 				func += "Gasoline " + newGasoline + " ";
 			}
 			if (!tfUTDiesel2.isDisable()) {
 				newDiesel = Double.parseDouble(tfUTDiesel2.getText());
-				if (newDiesel < 0)
+				if (newDiesel <= 0)
 					throw new java.lang.NumberFormatException();
 				func += "Diesel " + newDiesel + " ";
 
 			}
 			if (!tfUTMotorbike2.isDisable()) {
 				newMotorbike = Double.parseDouble(tfUTMotorbike2.getText());
-				if (newMotorbike < 0)
+				if (newMotorbike <= 0)
 					throw new java.lang.NumberFormatException();
 				func += "Motorbike-Fuel " + newMotorbike + " ";
 
 			}
 		} catch (java.lang.NumberFormatException e) {
-			this.openErrorAlert("Worng input", "Please enter only positive number.");
+			this.openErrorAlert("Wrong input", "Please enter only positive number.");
 			return;
 		}
 		if (func.isEmpty())
@@ -823,6 +850,9 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 		tfUTGasoline1.clear();
 		tfUTDiesel1.clear();
 		tfUTMotorbike1.clear();
+		tfUTGasoline11.clear();
+		tfUTDiesel11.clear();
+		tfUTMotorbike11.clear();
 		cobASOOrderId.getItems().removeAll((Collection<?>) this.cobASOOrderId.getItems());
 		tfASOTime.clear();
 		tfASOAmount.clear();

@@ -13,6 +13,7 @@ import entities.MarketingManager;
 import entities.PricingModel;
 import entities.PurchasingProgram;
 import entities.User;
+import entities.myFuelStationManager;
 import guiServer.ServerWindow;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
@@ -156,6 +157,15 @@ public class ServerController extends AbstractServer {
 				ServerMarketingManagerController.getInstance(serverWindow, databaseController, lock)
 						.handleMessageFromClient(manager, client);
 				System.out.println(client + " end MarketingManager ");
+
+			} else if (object instanceof myFuelStationManager) {
+				System.out.println(client + " requesterd FuelStationManager ");
+				myFuelStationManager manager = (myFuelStationManager) object;
+				this.serverWindow.updateArea(formatter.format(date) + " : " + client
+						+ " : requesterd FuelStationManager operation : " + manager.getUserName());
+				ServerFuelStationManagerController.getInstance(serverWindow, databaseController, lock)
+						.handleMessageFromClient(manager, client);
+				System.out.println(client + " end FuelStationManager ");
 			}
 
 		} catch (IOException e) {

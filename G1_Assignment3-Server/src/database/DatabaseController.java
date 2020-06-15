@@ -468,4 +468,45 @@ public class DatabaseController {
 		return DatabaseMarketingManagerController.getInstance(connection).generateAnalysis();
 	}
 
+	/****************** fuelstation manager controller methods *****************/
+
+	public Object[] getUnassesdOrderIDbyUsername(String username) {
+		return DatabaseFuelStationManagerController.getInstance(connection).getUnassesdOrderID(username);
+	}
+
+	public Object[] getStationProductInOrderbyOrderID(int orderID) {
+		return DatabaseFuelStationManagerController.getInstance(connection).getStationProductInOrderbyOrderID(orderID);
+	}
+
+	public Object[] getStationProductThresholdOrderbyUsername(String username) {
+		return DatabaseFuelStationManagerController.getInstance(connection)
+				.getStationProductThresholdOrderbyUsername(username);
+	}
+
+	public Boolean updateProductInStationThresholdbyUsername(String username, String newThresholds) {
+		return DatabaseFuelStationManagerController.getInstance(connection)
+				.updateProductInStationThresholdbyUsername(username, newThresholds);
+	}
+
+	public Boolean updateOrderDoneAssesmentbyOrderID(String username, String params) {
+		return DatabaseFuelStationManagerController.getInstance(connection).updateOrderDoneAssesmentbyOrderID(username,
+				params);
+	}
+
+	public Object[] getUndismissNotificationsByUsername(String username) {
+		return DatabaseFuelStationManagerController.getInstance(connection)
+				.getUndismissNotificationsByUsername(username);
+	}
+
+	public Object[] getQuarterlyReportDataByUsernameYearQuarter(String username, String params) {
+		return DatabaseFuelStationManagerController.getInstance(connection)
+				.getQuarterlyReportDataByUsernameYearQuarter(username, params);
+
+	}
+
+	public Boolean dismissNotificationsByNotificationID(String params) {
+		return DatabaseFuelStationManagerController.getInstance(connection)
+				.dismissNotificationsByNotificationID(params);
+	}
+
 }

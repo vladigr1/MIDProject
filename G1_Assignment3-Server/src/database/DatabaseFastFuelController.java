@@ -241,8 +241,8 @@ public class DatabaseFastFuelController {
 			double capacity = rs.getDouble(2) - amountBought;
 			double threshold = rs.getDouble(3);
 			rs.close();
-			if (capacity < 0) {
-				fastFuel.setFunction("emulation fail - amountBought > capacity");
+			if (capacity < threshold / 2) {
+				fastFuel.setFunction("emulation fail - amountBought is too much and not realistic");
 				return fastFuel;
 			}
 

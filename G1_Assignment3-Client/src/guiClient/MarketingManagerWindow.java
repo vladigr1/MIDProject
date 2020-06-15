@@ -441,6 +441,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		sendToClientController(("activity get " + username + " " + cobHomeYear.getValue().toString() + " "
 				+ cobHomeMonth.getValue().toString()));
 
+		this.tbHomePage.setSelected(true);
 		removeAllPanesVisiblity();
 		this.clearFields();
 		homePane.setVisible(true);

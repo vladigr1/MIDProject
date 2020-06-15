@@ -173,6 +173,8 @@ public class FastFuelWindow extends AFXML {
 
 		} else if (result.contains("doesn't") || result.contains("fail")) {
 			openErrorAlert("Error", result);
+			this.step1f.setDisable(false);
+			this.step2f.setDisable(false);
 
 		} else if (result.equals("getFuelTypeAndPricePerLiter success")) {
 			this.simulationData.clear();
