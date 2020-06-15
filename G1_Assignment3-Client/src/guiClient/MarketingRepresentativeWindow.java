@@ -216,6 +216,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	@FXML
 	private AnchorPane pricingModelPane;
 	@FXML
+	private Label step4;
+	@FXML
 	private GridPane gpSPM;
 	@FXML
 	private AnchorPane apSPM;
@@ -263,6 +265,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	private Label lblSPMModel4Discount;
 	@FXML
 	private Button btnSPMClear;
+	@FXML
+	private Button btnSPMCancelReg;
 
 	private boolean customerIsRegisteringFlag = false;
 	private boolean pricingModelOutdatedFlag = false;
@@ -282,7 +286,9 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.step2.setVisible(false);
 		this.btnAECACancelReg.setVisible(false);
 		this.step3.setVisible(false);
+		this.step4.setVisible(false);
 		this.btnSPPCancelReg.setVisible(false);
+		this.btnSPMCancelReg.setVisible(false);
 		this.visibleNow = this.homePane;
 		this.controller = MarketingRepresentativeController.getInstance();
 		this.controller.setCurrentWindow(this);
@@ -500,8 +506,6 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.gpAECACarDetails.setDisable(false);
 		this.btnAECAEdit.setDisable(false);
 		this.btnAECAClear.setDisable(false);
-		this.vbox1.setDisable(false);
-		this.vbox2.setDisable(false);
 		this.apAECACarDetails.setDisable(true);
 		this.step3.setVisible(false);
 		this.btnSPPCancelReg.setVisible(false);
@@ -525,14 +529,40 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.gpAECACarDetails.setDisable(false);
 		this.btnAECAEdit.setDisable(false);
 		this.btnAECAClear.setDisable(false);
-		this.vbox1.setDisable(false);
-		this.vbox2.setDisable(false);
 		this.apAECACarDetails.setDisable(true);
 		this.step3.setVisible(false);
+		this.step4.setVisible(false);
 		this.btnSPPCancelReg.setVisible(false);
+		this.btnSPMCancelReg.setVisible(false);
 		this.gpSPP.setDisable(false);
 		this.apSPP.setDisable(true);
 		this.btnSPPClear.setDisable(false);
+		this.vbox1.setDisable(false);
+		this.vbox2.setDisable(false);
+		this.customerIsRegisteringFlag = false;
+
+		this.controller.handleMessageFromClientUI("deletecustomer " + customerID);
+	}
+
+	@FXML
+	void btnSPMCancelRegPressed(ActionEvent event) {
+		String customerID = this.tfSPMCustID.getText();
+
+		clearFields();
+		this.step3.setVisible(false);
+		this.step4.setVisible(false);
+		this.btnSPPCancelReg.setVisible(false);
+		this.btnSPMCancelReg.setVisible(false);
+		this.gpSPP.setDisable(false);
+		this.apSPP.setDisable(true);
+		this.btnSPPClear.setDisable(false);
+		this.step3.setVisible(false);
+		this.btnSPPCancelReg.setVisible(false);
+		this.step4.setVisible(false);
+		this.btnSPMCancelReg.setVisible(false);
+		this.gpSPM.setDisable(false);
+		this.apSPM.setDisable(true);
+		this.btnSPMClear.setDisable(false);
 		this.vbox1.setDisable(false);
 		this.vbox2.setDisable(false);
 		this.customerIsRegisteringFlag = false;
@@ -846,13 +876,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 				openErrorAlert("Error", "Car Already Exists");
 
 			} else if (str.equals("set purchasing program success")) {
-				if (this.visibleNow == this.setPurchasingPane) {
-					if (this.customerIsRegisteringFlag == false) {
-						openConfirmationAlert("Success", "Purchasing Program Set Successfully");
-					} else {
-						openConfirmationAlert("Success", "Customer Saved\nUsername: " + this.tfSPPCustID.getText()
-								+ "\nPassword: 1234\nThe Customer should login and change his password");
-					}
+				if (this.customerIsRegisteringFlag == false && this.visibleNow == this.setPurchasingPane) {
+					openConfirmationAlert("Success", "Purchasing Program Is Set");
 				}
 				if (this.rbSPPStandard.isSelected())
 					requestToLogActivity(
@@ -860,10 +885,11 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 				else
 					requestToLogActivity(
 							"set purchasing program 'Premium' for customer '" + this.tfSPPCustID.getText() + "'");
+				String customerID = this.tfSPPCustID.getText();
 				clearSetPurchasingPane();
 
 				if (this.customerIsRegisteringFlag == true) {
-					clearFields();
+					// clear setPurchasingPane
 					this.step2.setVisible(false);
 					this.btnAECACancelReg.setVisible(false);
 					this.gpAECACarDetails.setDisable(false);
@@ -877,22 +903,57 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 					this.gpSPP.setDisable(false);
 					this.apSPP.setDisable(true);
 					this.btnSPPClear.setDisable(false);
-					this.vbox1.setDisable(false);
-					this.vbox2.setDisable(false);
-					this.customerIsRegisteringFlag = false;
+
+					// set pricingModelPane
+					clearFields();
+					openConfirmationAlert("Customer Registration", "Continue to Set Pricing Model");
+					this.visibleNow.setVisible(false);
+					this.pricingModelPane.setVisible(true);
+					this.visibleNow = this.pricingModelPane;
+					this.topbar_window_label.setText("Set Pricing Model");
+					this.tfSPMCustID.setText(customerID);
+					this.step4.setVisible(true);
+					this.btnSPMCancelReg.setVisible(true);
+					this.gpSPM.setDisable(true);
+					this.apSPM.setDisable(false);
+					this.btnSPMClear.setDisable(true);
+					this.vbox1.setDisable(true);
+					this.vbox2.setDisable(true);
+					this.sidebar_btn4.setSelected(true);
+					this.controller.handleMessageFromClientUI("getcustomercars " + this.tfSPMCustID.getText());
 				}
 
 			} else if (str.equals("set purchasing program fail")) {
 				openErrorAlert("Error", "Purchasing Program Set Failed");
 
 			} else if (str.equals("set pricing model success")) {
-				if (this.customerIsRegisteringFlag == false && this.visibleNow == this.pricingModelPane) {
-					openConfirmationAlert("Success", "Pricing Model Set Successfully");
+				if (this.visibleNow == this.pricingModelPane) {
+					if (this.customerIsRegisteringFlag == false) {
+						openConfirmationAlert("Success", "Pricing Model Is Set");
+					} else {
+						openConfirmationAlert("Success", "Customer Saved\nUsername: " + this.tfSPMCustID.getText()
+								+ "\nPassword: 1234\nThe Customer should login and change his password");
+					}
 				}
+
 				if (this.visibleNow == this.pricingModelPane) {
 					requestToLogActivity("set pricing model for customer '" + this.tfSPMCustID.getText() + "'");
 				}
 				clearPricingModelPane();
+
+				if (this.customerIsRegisteringFlag == true && this.visibleNow == this.pricingModelPane) {
+					clearFields();
+					this.step3.setVisible(false);
+					this.btnSPPCancelReg.setVisible(false);
+					this.step4.setVisible(false);
+					this.btnSPMCancelReg.setVisible(false);
+					this.gpSPM.setDisable(false);
+					this.apSPM.setDisable(true);
+					this.btnSPMClear.setDisable(false);
+					this.vbox1.setDisable(false);
+					this.vbox2.setDisable(false);
+					this.customerIsRegisteringFlag = false;
+				}
 
 				if (this.pricingModelOutdatedFlag == true) {
 					clearFields();
@@ -965,7 +1026,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 
 			} else if (str.startsWith("Customer Delete")) {
 				if (str.equals("Customer Deleted")) {
-					if (this.visibleNow == this.addEditCarPane || this.visibleNow == this.setPurchasingPane) {
+					if (this.visibleNow == this.addEditCarPane || this.visibleNow == this.setPurchasingPane
+							|| this.visibleNow == this.pricingModelPane) {
 						openConfirmationAlert("Abort", "Registration Aborted");
 					} else if (this.editCustomerPane.isVisible() == true) {
 						openConfirmationAlert("Delete", str);
@@ -1302,6 +1364,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.btnSPMChoose1.setSelected(true);
 		this.gpSPM.setDisable(false);
 		this.apSPM.setDisable(true);
+		this.step4.setVisible(false);
+		this.btnSPMCancelReg.setVisible(false);
 	}
 
 	private void checkCustomerExists(String customerID) {
