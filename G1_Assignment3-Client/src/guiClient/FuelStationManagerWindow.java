@@ -37,6 +37,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
+
+/**
+ * @author LiadVax 
+ */
 public class FuelStationManagerWindow extends EmployeeWindow {
 	@FXML
 	private ToggleButton sidebar_btn0;

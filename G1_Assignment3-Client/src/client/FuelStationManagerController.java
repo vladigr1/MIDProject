@@ -8,6 +8,10 @@ import entities.myFuelStationManager;
 
 public class FuelStationManagerController extends UserController {
 
+	/**
+	 * @author LiadVax 
+	 */
+	
 	private static FuelStationManagerController instance;
 	private boolean logged = false;
 
