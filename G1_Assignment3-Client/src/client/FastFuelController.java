@@ -43,7 +43,6 @@ public class FastFuelController extends ClientController {
 			if (splitMsg[0].equals("getdiscount")) {
 				FastFuel fastFuel = new FastFuel(splitMsg[1]);
 				fastFuel.setFuelStationID(Integer.parseInt(splitMsg[2]));
-				fastFuel.setAmountBought(Double.parseDouble(splitMsg[3]));
 				fastFuel.setFunction("get");
 				this.sendToServer(fastFuel);
 

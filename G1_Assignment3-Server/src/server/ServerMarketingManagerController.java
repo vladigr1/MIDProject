@@ -64,10 +64,6 @@ public class ServerMarketingManagerController {
 				String function = manager.getFunction();
 
 				//////////////////////// functions /////////////////////
-				/**
-				 * if the required function is to get sales pattern
-				 */
-
 				if (function.startsWith("pull sales patterns")) {
 					synchronized (this.lock) {
 						this.serverWindow.updateArea(

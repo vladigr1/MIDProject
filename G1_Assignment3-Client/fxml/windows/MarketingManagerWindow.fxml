@@ -285,7 +285,7 @@
                                     <Font name="Arial" size="16.0" />
                                  </font>
                               </Label>
-                              <Button fx:id="btnHomeGenerateAnalysis" layoutX="275.0" layoutY="559.0" mnemonicParsing="false" onAction="#btnHomeGenerateAnalysisPressed" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Generate This Week's Analysis">
+                              <Button fx:id="btnHomeGenerateAnalysis" layoutX="275.0" layoutY="559.0" mnemonicParsing="false" onAction="#btnHomeGenerateAnalysisPressed" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Generate This Week's Analytics">
                                  <graphic>
                                     <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -510,7 +510,7 @@
                                     <Font name="Arial" size="16.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="23.0" layoutY="266.0" text="Sales Analysis:" textFill="#144465" underline="true">
+                              <Label layoutX="23.0" layoutY="266.0" text="Sales Analytics Review:" textFill="#144465" underline="true">
                                  <font>
                                     <Font name="Arial" size="16.0" />
                                  </font>

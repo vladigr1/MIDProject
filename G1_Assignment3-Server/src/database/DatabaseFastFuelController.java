@@ -12,6 +12,7 @@ import entities.FastFuel;
 import enums.FuelCompanyName;
 import enums.PricingModelName;
 import enums.ProductName;
+import enums.PurchasingProgramName;
 
 /**
  * controller for fast fuel
@@ -85,7 +86,7 @@ public class DatabaseFastFuelController {
 
 			// check fuelCompanyName in customer's purchasing program
 			pStmt = this.connection.prepareStatement(
-					"SELECT FK_fuelCompanyName1, FK_fuelCompanyName2, FK_fuelCompanyName3 FROM purchasing_program WHERE FK_customerID = ?");
+					"SELECT FK_fuelCompanyName1, FK_fuelCompanyName2, FK_fuelCompanyName3, FK_purchasingProgramName FROM purchasing_program WHERE FK_customerID = ?");
 			pStmt.setString(1, customerID);
 			rs = pStmt.executeQuery();
 			if (!rs.next()) {
@@ -95,6 +96,7 @@ public class DatabaseFastFuelController {
 			String fuelCompanyName1 = rs.getString(1);
 			String fuelCompanyName2 = rs.getString(2);
 			String fuelCompanyName3 = rs.getString(3);
+			PurchasingProgramName purchasingProgramName = PurchasingProgramName.valueOf(rs.getString(4));
 			rs.close();
 
 			if (!fuelCompanyName.equals(fuelCompanyName1) && !fuelCompanyName.equals(fuelCompanyName2)
@@ -128,8 +130,8 @@ public class DatabaseFastFuelController {
 			rs.close();
 
 			// get pricingModelDiscount by customerID
-			pStmt = this.connection
-					.prepareStatement("SELECT currentDiscount FROM pricing_model WHERE FK_customerID = ?");
+			pStmt = this.connection.prepareStatement(
+					"SELECT currentDiscount, FK_pricingModelName FROM pricing_model WHERE FK_customerID = ?");
 			pStmt.setString(1, customerID);
 			rs = pStmt.executeQuery();
 			if (!rs.next()) {
@@ -137,6 +139,7 @@ public class DatabaseFastFuelController {
 				return fastFuel;
 			}
 			double pricingModelDiscount = rs.getDouble(1);
+			PricingModelName pricingModelName = PricingModelName.valueOf(rs.getString(2).replaceAll("\\s", ""));
 			rs.close();
 
 			// 1 - check if there is active sale on fuelType
@@ -189,6 +192,11 @@ public class DatabaseFastFuelController {
 			fastFuel.setFuelType(fuelType);
 			fastFuel.setCustomerID(customerID);
 			fastFuel.setFastFuelTime(new Date());
+			fastFuel.setPricingModelDiscount(pricingModelDiscount);
+			fastFuel.setPurchasingProgramName(purchasingProgramName);
+			fastFuel.setPricingModelName(pricingModelName);
+			fastFuel.setCurrentPrice(currentPrice);
+			fastFuel.setSalesDiscount(salesDiscount);
 			fastFuel.setFunction("getFuelTypeAndPricePerLiter success");
 			return fastFuel;
 
@@ -296,6 +304,7 @@ public class DatabaseFastFuelController {
 				return fastFuel;
 			}
 
+			fastFuel.setFinalPrice(finalPrice);
 			fastFuel.setFunction("save fast fuel success");
 			return fastFuel;
 
@@ -309,6 +318,10 @@ public class DatabaseFastFuelController {
 			return fastFuel;
 		}
 	}
+
+	/**********************************
+	 * private methods
+	 ******************************************/
 
 	private boolean updateCustomerBoughtInSale(int saleID, String customerID, double amountPaid) {
 		try {
@@ -429,7 +442,8 @@ public class DatabaseFastFuelController {
 			TableInserts.insertFuelStationOrder1(connection, values2);
 
 			// "FK_employeeID", "message", "dismissed", "dateCreated"
-			Object[] values3 = { fuelStationManagerID, "a station order is ready to be assessed", false, fastFuelTime };
+			Object[] values3 = { fuelStationManagerID, "station order " + ordersID + " is ready to be assessed", false,
+					fastFuelTime };
 			TableInserts.insertNotification(connection, values3);
 
 			return true;

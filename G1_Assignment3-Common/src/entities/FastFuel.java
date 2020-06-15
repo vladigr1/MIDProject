@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 import enums.FuelCompanyName;
+import enums.PricingModelName;
 import enums.ProductName;
+import enums.PurchasingProgramName;
 
 /**
  * @author Elroy, Vlad, Lior
@@ -22,15 +24,20 @@ public class FastFuel implements Serializable {
 
 	// fields
 	private Date fastFuelTime;
-	private double amountBought;
+	private Double amountBought;
 	private Double finalPrice;
 
 	// added in java - can be null
 	private ProductName fuelType; // == productName
+	private Double currentPrice;
 	private String fuelStationName;
 	private int fuelStationID;
 	private FuelCompanyName fuelCompanyName;
 	private Integer saleID;
+	private PurchasingProgramName purchasingProgramName;
+	private PricingModelName pricingModelName;
+	private Double pricingModelDiscount;
+	private Double salesDiscount;
 	private String function;
 
 	/**
@@ -121,7 +128,7 @@ public class FastFuel implements Serializable {
 		this.fastFuelTime = fastFuelTime;
 	}
 
-	public double getAmountBought() {
+	public Double getAmountBought() {
 		return amountBought;
 	}
 
@@ -143,6 +150,14 @@ public class FastFuel implements Serializable {
 
 	public void setFuelType(ProductName fuelType) {
 		this.fuelType = fuelType;
+	}
+
+	public Double getCurrentPrice() {
+		return currentPrice;
+	}
+
+	public void setCurrentPrice(Double currentPrice) {
+		this.currentPrice = currentPrice;
 	}
 
 	public String getFuelStationName() {
@@ -175,6 +190,38 @@ public class FastFuel implements Serializable {
 
 	public void setSaleID(int saleID) {
 		this.saleID = saleID;
+	}
+
+	public PurchasingProgramName getPurchasingProgramName() {
+		return purchasingProgramName;
+	}
+
+	public void setPurchasingProgramName(PurchasingProgramName purchasingProgramName) {
+		this.purchasingProgramName = purchasingProgramName;
+	}
+
+	public PricingModelName getPricingModelName() {
+		return pricingModelName;
+	}
+
+	public void setPricingModelName(PricingModelName pricingModelName) {
+		this.pricingModelName = pricingModelName;
+	}
+
+	public Double getPricingModelDiscount() {
+		return pricingModelDiscount;
+	}
+
+	public void setPricingModelDiscount(double pricingModelDiscount) {
+		this.pricingModelDiscount = pricingModelDiscount;
+	}
+
+	public Double getSalesDiscount() {
+		return salesDiscount;
+	}
+
+	public void setSalesDiscount(Double salesDiscount) {
+		this.salesDiscount = salesDiscount;
 	}
 
 	public String getFunction() {

@@ -93,7 +93,7 @@ public class LoginWindow extends AFXML {
 	void btnEmuPressed(ActionEvent event) {
 		try {
 			String newWindowPath = "/windows/FastFuelWindow.fxml";
-			String newWindowTitle = "MyFuel Fast Fuel Emulator";
+			String newWindowTitle = "MyFuel Fast Fuel Simulator";
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource(newWindowPath));
 			Scene newScene = new Scene(loader.load());

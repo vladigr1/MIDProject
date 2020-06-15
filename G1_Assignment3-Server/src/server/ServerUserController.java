@@ -99,11 +99,15 @@ public class ServerUserController {
 									.updateArea(formatter.format(date) + " : " + client + " : activity list fetched");
 							this.lock.notifyAll();
 						}
-
 						/* send message back to client */
 						client.sendToClient(activityList);
 
 					} else if (splitMsg[1].equals("log")) {
+						synchronized (this.lock) {
+							this.serverWindow.updateArea(formatter.format(date) + " : " + client
+									+ " : request to log activity : " + (String) object);
+							this.lock.notifyAll();
+						}
 						String answer = this.databaseController.activityLogger(splitMsg[2], splitMsg);
 						synchronized (this.lock) {
 							this.serverWindow.updateArea(formatter.format(date) + " : " + client + " : " + answer);

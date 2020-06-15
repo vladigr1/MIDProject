@@ -81,6 +81,7 @@ public class ServerWindow {
 	 * user clicked on connect button
 	 */
 	public void connectedBtnClicked() {
+		this.taConsole.clear();
 		boolean flag = true;
 		this.lblStatus.setVisible(true);
 

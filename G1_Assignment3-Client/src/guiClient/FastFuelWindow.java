@@ -10,11 +10,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -30,27 +30,32 @@ public class FastFuelWindow extends AFXML {
 	@FXML
 	private AnchorPane emuPane;
 	@FXML
+	private AnchorPane step1f;
+	@FXML
+	private Button btnEmulate;
+	@FXML
 	private TextField tfRegPlate;
 	@FXML
 	private TextField tfFuelStation;
 	@FXML
+	private AnchorPane step2f;
+	@FXML
 	private TextField tfAmount;
 	@FXML
-	private Button btnEmulate;
+	private TextField tfAmount1;
 	@FXML
-	private Label lblPrice;
+	private Button btnEmulate1;
 	@FXML
-	private Label lblFuelType;
+	private AnchorPane titleBar;
 	@FXML
-	private Label lblFuelCompanyNameRes;
+	private Button btnExit;
 	@FXML
-	private Label lblSaleIDRes;
+	private Button btnMini;
 	@FXML
-	private Label lblCustomerIDRes;
-	@FXML
-	private Label lblFuelTimeRes;
+	private TextArea simulationData;
 
 	private static FastFuel currentEmulation;
+	private double pricePerLiter;
 
 	@FXML
 	void initialize() {
@@ -59,7 +64,7 @@ public class FastFuelWindow extends AFXML {
 	}
 
 	private Window getWindow() {
-		return this.lblFuelType.getScene().getWindow();
+		return this.btnEmulate.getScene().getWindow();
 	}
 
 	public static FastFuel getCurrentEmulation() {
@@ -70,11 +75,12 @@ public class FastFuelWindow extends AFXML {
 
 	@FXML
 	void btnEmulatePressed(ActionEvent event) {
+		this.tfAmount.clear();
+		this.tfAmount1.clear();
 		String regPlate = this.tfRegPlate.getText();
 		String fuelStationID = this.tfFuelStation.getText();
-		String amount = this.tfAmount.getText();
 
-		if (regPlate.isEmpty() || fuelStationID.isEmpty() || amount.isEmpty()) {
+		if (regPlate.isEmpty() || fuelStationID.isEmpty()) {
 			openErrorAlert("Error", "Missing Required Fields");
 			return;
 		}
@@ -87,12 +93,32 @@ public class FastFuelWindow extends AFXML {
 			openErrorAlert("Error", "Fuel Station ID Not Valid");
 			return;
 		}
+
+		this.controller.handleMessageFromClientUI("getdiscount " + regPlate + " " + fuelStationID);
+	}
+
+	@FXML
+	void btnEmulatePressed2(ActionEvent event) {
+		String amount = this.tfAmount.getText();
+		String fuelPump = this.tfAmount1.getText();
+
+		if (fuelPump.isEmpty() || amount.isEmpty()) {
+			openErrorAlert("Error", "Missing Required Fields");
+			return;
+		}
 		if (amount.matches(".*[ -/].*") || amount.matches(".*[:-~].*")) {
 			openErrorAlert("Error", "Amount Not Valid");
 			return;
 		}
+		if (fuelPump.matches(".*[ -/].*") || fuelPump.matches(".*[:-~].*") || Integer.parseInt(fuelPump) < 1
+				|| Integer.parseInt(fuelPump) > 8) {
+			openErrorAlert("Error", "Fuel Pump Number Not Valid");
+			return;
+		}
 
-		this.controller.handleMessageFromClientUI("getdiscount " + regPlate + " " + fuelStationID + " " + amount);
+		currentEmulation.setAmountBought(Double.parseDouble(amount));
+		this.controller.handleMessageFromClientUI("saveFastFuel");
+		this.step2f.setDisable(true);
 	}
 
 	@FXML
@@ -102,10 +128,8 @@ public class FastFuelWindow extends AFXML {
 			loader.setLocation(getClass().getResource("/windows/LoginWindow.fxml"));
 			Scene newScene = new Scene(loader.load());
 			Stage newStage = new Stage();
-
 			LoginWindow loginWindow = (LoginWindow) loader.getController();
 			loginWindow.setVisibleNow(true);
-
 			newStage.setResizable(false);
 			newStage.setScene(newScene);
 			newStage.setTitle("MyFuel Login");
@@ -136,37 +160,55 @@ public class FastFuelWindow extends AFXML {
 		System.out.println(result);
 
 		if (result.equals("save fast fuel success")) {
-			openConfirmationAlert("Success", "Fast Fuel Saved Successfully");
-			this.emuPane.setDisable(false);
+			openConfirmationAlert("Success", "Fast Fuel Saved");
+			this.simulationData.appendText(
+					"\n\nFinal Price = " + fastFuel.getAmountBought().toString() + " * " + this.pricePerLiter);
+			this.simulationData.appendText("\nFinal Price = " + fastFuel.getFinalPrice().toString() + " $");
+			this.simulationData.appendText("\nPayment Sent To External System");
+			this.simulationData.appendText("\nUpdated CustomerBoughtFromCompany Table");
+			if (fastFuel.getSaleID() != -1)
+				this.simulationData.appendText("\nUpdated CustomerBoughtInSale Table");
+			this.step1f.setDisable(false);
+			this.step2f.setDisable(false);
 
 		} else if (result.contains("doesn't") || result.contains("fail")) {
 			openErrorAlert("Error", result);
-			this.emuPane.setDisable(false);
 
 		} else if (result.equals("getFuelTypeAndPricePerLiter success")) {
-			this.lblFuelType.setText(fastFuel.getFuelType().toString());
-			this.lblPrice.setText(fastFuel.getFinalPrice().toString());
+			this.simulationData.clear();
+			this.simulationData.appendText("Fuel Type = " + fastFuel.getFuelType().toString());
+			this.simulationData.appendText(
+					"\nFuel Type Price = " + fastFuel.getCurrentPrice().toString() + " $ (before discounts)");
 			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-			this.lblFuelTimeRes.setText("Time = " + formatter.format(fastFuel.getFastFuelTime()));
-			this.lblCustomerIDRes.setText("Customer ID = " + fastFuel.getCustomerID());
-			this.lblFuelCompanyNameRes.setText("Fuel Company = " + fastFuel.getFuelCompanyName().toString());
-			this.lblSaleIDRes.setText("Sale ID = " + fastFuel.getSaleID().toString());
-			this.emuPane.setDisable(true);
+			this.simulationData.appendText("\nTime = " + formatter.format(fastFuel.getFastFuelTime()));
+			this.simulationData.appendText("\nFuel Company = " + fastFuel.getFuelCompanyName().toString());
+			this.simulationData.appendText("\nCustomer ID = " + fastFuel.getCustomerID());
+			this.simulationData.appendText("\nPurchasing Program = " + fastFuel.getPurchasingProgramName().toString());
+			this.simulationData.appendText("\nPricing Model = " + fastFuel.getPricingModelName().toString());
+			this.simulationData
+					.appendText("\nPricing Model Discount = " + fastFuel.getPricingModelDiscount().toString() + " %");
+			this.simulationData
+					.appendText("\nActive Sale ID = " + fastFuel.getSaleID().toString() + " (-1 if no active sale)");
+			this.simulationData.appendText("\nSale Discount = " + fastFuel.getSalesDiscount().toString() + " $");
+			this.simulationData.appendText("\nPrice Per Liter = (" + fastFuel.getCurrentPrice().toString() + " - "
+					+ fastFuel.getSalesDiscount().toString() + ") * (1 - "
+					+ fastFuel.getPricingModelDiscount().toString() + ")");
+			this.pricePerLiter = fastFuel.getFinalPrice();
+			this.simulationData.appendText("\nPrice Per Liter = " + pricePerLiter + " $ (after discounts)");
+			this.step1f.setDisable(true);
 
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Please Continue");
-			ButtonType buttonTypeOne = new ButtonType("Continue To Fueling");
+			ButtonType buttonTypeOne = new ButtonType("Enter Fuel Amount And Fuel Pump Number\nAnd\nContinue Fueling");
 			alert.show();
 			alert.getButtonTypes().setAll(buttonTypeOne);
 			final Button btn = (Button) alert.getDialogPane().lookupButton(buttonTypeOne);
 			btn.setOnAction(event -> {
 				alert.hide();
 				currentEmulation = fastFuel;
-				this.controller.handleMessageFromClientUI("saveFastFuel");
+				this.step2f.setDisable(false);
 			});
-
 		}
-
 	}
 
 }
