@@ -14,3 +14,12 @@
   -fx-border-color: #000000;
   -fx-border-width:2px;
 }
+
+.notify
+{
+  -fx-background-color:#73beff9c;
+  -fx-border-color: #ff4b4b;
+  -fx-border-width:3px;
+  -fx-background-radius: 90px;
+  -fx-border-radius: 90px;
+}

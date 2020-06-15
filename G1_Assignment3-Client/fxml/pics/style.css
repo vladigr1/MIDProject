@@ -17,6 +17,10 @@
   -fx-border-radius: 2px 2px 2px 2px;
 }
 
+.confirmation-button:hover {
+  -fx-background-color: #46a046c0;
+}
+
 .cancel-button {
   -fx-background-color: #d9534f;
   -fx-font-family: Calibri;
@@ -29,6 +33,10 @@
   -fx-border-color: #2b80d4;
   -fx-border-width: 1px 1px 1px 1px;
   -fx-border-radius: 2px 2px 2px 2px;
+}
+
+.cancel-button:hover {
+  -fx-background-color: #d1332ec0;
 }
 
 .task-button {
@@ -44,6 +52,11 @@
   -fx-border-width: 1px 1px 1px 1px;
   -fx-border-radius: 2px 2px 2px 2px;
 }
+
+.task-button:hover {
+  -fx-background-color: #2d6a9fc0;
+}
+
 
 .return-button {
   -fx-background-color: #5bc0de;
