@@ -302,6 +302,17 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 
 	/*********************** button listeners ***********************/
 
+	/**
+	 * click on side button Home
+	 * 
+	 * @param event
+	 */
+	@Override
+	void openHome(ActionEvent event) {
+		super.openHome(event);
+		sidebar_btn0.setSelected(true);
+	}
+
 	@FXML
 	void openAddEditCustomer(ActionEvent event) {
 		this.sidebar_btn1.setSelected(true);
@@ -834,8 +845,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 					alert.setHeaderText("Would you like to add another car?");
 					ButtonType buttonTypeOne = new ButtonType("Yes");
 					ButtonType buttonTypeTwo = new ButtonType("No");
-					alert.show();
 					alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
+					alert.show();
 
 					final Button btn = (Button) alert.getDialogPane().lookupButton(buttonTypeOne);
 					btn.setOnAction(event -> {
@@ -1133,8 +1144,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 					alert.setTitle("Pricing Model");
 					alert.setHeaderText("Your Pricing Model May Be Outdated\nRerouting to 'Set Pricing Model'");
 					ButtonType buttonTypeOne = new ButtonType("OK");
-					alert.show();
 					alert.getButtonTypes().setAll(buttonTypeOne);
+					alert.show();
 
 					final Button btn = (Button) alert.getDialogPane().lookupButton(buttonTypeOne);
 					btn.setOnAction(event -> {
@@ -1172,8 +1183,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 					alert.setTitle("Pricing Model");
 					alert.setHeaderText("Your Pricing Model May Be Outdated\nRerouting to 'Set Pricing Model'");
 					ButtonType buttonTypeOne = new ButtonType("OK");
-					alert.show();
 					alert.getButtonTypes().setAll(buttonTypeOne);
+					alert.show();
 
 					final Button btn = (Button) alert.getDialogPane().lookupButton(buttonTypeOne);
 					btn.setOnAction(event -> {

@@ -23,5 +23,11 @@ public enum ProductName {
 		public String toString() {
 			return "Home Fuel";
 		}
+	},
+
+	Nan {
+		public String toString() {
+			return "Nan";
+		}
 	};
 }

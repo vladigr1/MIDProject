@@ -173,6 +173,8 @@ public class FastFuelWindow extends AFXML {
 
 		} else if (result.contains("doesn't") || result.contains("fail")) {
 			openErrorAlert("Error", result);
+			this.step1f.setDisable(false);
+			this.step2f.setDisable(false);
 
 		} else if (result.equals("getFuelTypeAndPricePerLiter success")) {
 			this.simulationData.clear();
@@ -200,8 +202,8 @@ public class FastFuelWindow extends AFXML {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Please Continue");
 			ButtonType buttonTypeOne = new ButtonType("Enter Fuel Amount And Fuel Pump Number\nAnd\nContinue Fueling");
-			alert.show();
 			alert.getButtonTypes().setAll(buttonTypeOne);
+			alert.show();
 			final Button btn = (Button) alert.getDialogPane().lookupButton(buttonTypeOne);
 			btn.setOnAction(event -> {
 				alert.hide();

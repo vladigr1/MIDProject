@@ -68,7 +68,7 @@ public abstract class UserWindow extends AFXML {
 	public void setUserComponents(String username) {
 		this.username = username;
 		this.lblHelloUser.setText("Hello, " + username);
-		this.lblHomeUserName.setText(username + " !");
+		this.lblHomeUserName.setText(username + "!");
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new java.util.Date());
