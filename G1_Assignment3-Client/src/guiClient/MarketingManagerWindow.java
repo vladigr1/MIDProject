@@ -405,7 +405,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 			} else if (message.startsWith("failed to create sale pattern")) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Creating Sale Pattern");
-				alert.setContentText("There was a technical probel in creating 'Sale Pattern' , Contact Technician");
+				alert.setContentText("There was a technical problem in creating 'Sale Pattern' , Contact developers");
 				alert.show();
 
 			} else if (message.startsWith("created sale pattern")) {
@@ -421,7 +421,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Update Prodcut Rate");
 				alert.setHeaderText("Update Prodcut Rate Failed");
-				alert.setContentText("There was a technical problem in 'Update Prodcut Rate' , Contact Technician");
+				alert.setContentText("There was a technical problem in 'Update Prodcut Rate' , Contact developers");
 				alert.show();
 
 			} else if (message.startsWith("success PRUR")) {

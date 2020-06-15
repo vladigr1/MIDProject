@@ -894,6 +894,16 @@
                                     <Label fx:id="lblSPMModel4Discount" layoutX="116.0" layoutY="193.0" text="0.17" />
                                  </children>
                               </AnchorPane>
+                              <Label layoutX="583.0" layoutY="12.0" text="Number of Cars:">
+                                 <font>
+                                    <Font name="Arial" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lblSPMNumOfCars" layoutX="686.0" layoutY="12.0" underline="true">
+                                 <font>
+                                    <Font name="Arial" size="12.0" />
+                                 </font>
+                              </Label>
                            </children>
                         </AnchorPane>
                         <GridPane fx:id="gpSPM" layoutX="55.0" layoutY="18.0" prefHeight="58.0" prefWidth="578.0">
