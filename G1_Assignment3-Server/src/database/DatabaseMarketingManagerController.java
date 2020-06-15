@@ -237,18 +237,22 @@ public class DatabaseMarketingManagerController {
 		List<RankingSheet> list = new ArrayList<>();
 		RankingSheetList rankingSheetList = new RankingSheetList(new ArrayList<>());
 		Statement stmt = null;
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
 			stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM ranking_sheet");
 			while (rs.next()) {
+				Date updatedForDate = formatter.parse(rs.getString(5));
 				RankingSheet rankingSheet = new RankingSheet(rs.getString(1), rs.getDouble(2), rs.getDouble(3),
-						rs.getDouble(4), rs.getDate(5));
+						rs.getDouble(4), updatedForDate);
 				list.add(rankingSheet);
 			}
 			rankingSheetList.setList(list);
 			rs.close();
 		} catch (SQLException e) {
-
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
 		}
 		return rankingSheetList;
 	}

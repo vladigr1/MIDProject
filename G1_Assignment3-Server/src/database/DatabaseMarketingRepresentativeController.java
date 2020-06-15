@@ -209,6 +209,7 @@ public class DatabaseMarketingRepresentativeController {
 			ResultSet rs2 = pStmt.executeQuery();
 
 			if (!rs2.next()) { // username doesn't exist
+				username = user.getUsername();
 				// "username", "password", "connected", "email", "firstName", "surname"
 				Object[] values1 = { user.getUsername(), "1234", false, user.getEmail(), user.getFirstName(),
 						user.getSurname() };
@@ -228,7 +229,7 @@ public class DatabaseMarketingRepresentativeController {
 
 			pStmt = this.connection.prepareStatement(
 					"UPDATE customer SET FK_username = ?, creditCard = ?, customerType = ?, deleted = 0 WHERE customerID = ?");
-			pStmt.setString(1, user.getUsername());
+			pStmt.setString(1, username);
 			pStmt.setString(2, customer.getCreditCard());
 			pStmt.setString(3, customer.getCustomerType().toString());
 			pStmt.setString(4, customerID);
@@ -475,7 +476,6 @@ public class DatabaseMarketingRepresentativeController {
 			pStmt.setString(1, customerID);
 			ResultSet rs2 = pStmt.executeQuery();
 			if (!rs2.next()) {
-				System.out.println("getCustomerCars nocars");
 				return carList;
 			}
 

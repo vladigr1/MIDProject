@@ -33,7 +33,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <TextArea fx:id="taConsole" layoutX="33.0" layoutY="357.0" prefHeight="270.0" prefWidth="458.0" />
+      <TextArea fx:id="taConsole" editable="false" layoutX="33.0" layoutY="357.0" prefHeight="270.0" prefWidth="458.0" />
       <Label layoutX="31.0" layoutY="325.0" text="Server Console">
          <font>
             <Font size="14.0" />

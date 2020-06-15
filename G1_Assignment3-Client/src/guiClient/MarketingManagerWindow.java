@@ -293,7 +293,6 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 				updateCustomersTableInCommonReportTable(report.getList());
 				if (report.isGenerated())
 					addActivity("Generated New Common Report For Sale = " + saleReport.getSaleID());
-				// continue for filling customer table
 			}
 		}
 
@@ -308,7 +307,6 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 				tfSCRNumberOf.setText(report.getNumberOfCustomersBoughtInSale() + "");
 				tfSCRSumPurchase.setText(report.getSumOfPurchases() + "");
 				lblSCRDateCreated.setText(report.getDateCreated().toString());
-				// continue for filling customer table
 			}
 		}
 
@@ -348,6 +346,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 				rankingSheetList = list;
 				updateRankingSheetListInTable();
 			}
+
 		} else if (lastMsgFromServer instanceof SalesPatternList) {
 			SalesPatternList list = (SalesPatternList) lastMsgFromServer;
 			if (list.getList().isEmpty()) {
@@ -358,10 +357,12 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 			} else {
 				salesPatternList = list;
 			}
+
 		} else if (lastMsgFromServer instanceof ProductInSalePatternList) {
 			ProductInSalePatternList list = (ProductInSalePatternList) lastMsgFromServer;
 			productInSalesPatternList = list;
 			updateSalesListInTable();
+
 		} else if (lastMsgFromServer instanceof String) {
 			String message = (String) lastMsgFromServer;
 			if (message.startsWith("active sale")) {
@@ -376,31 +377,37 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 				Alert alert = new Alert(Alert.AlertType.ERROR);
 				alert.setHeaderText("Software error , call of technician");
 				alert.show();
+
 			} else if (message.equals("sale is in range")) {
 				dpISDate.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 				Alert alert = new Alert(Alert.AlertType.ERROR);
 				alert.setHeaderText("There is a sale already in such range of days");
 				alert.show();
+
 			} else if (message.equals("sale not in range")) { // elro
 				dpISDate.setStyle("-fx-border-style: none;");
 				checkForActiveSales();
 			}
 
 			else if (message.equals("inactive sale")) {
-				initiateNewSale(); // build method
+				initiateNewSale();
+
 			} else if (message.equals("sale failed")) {
 				Alert a = new Alert(AlertType.ERROR);
 				a.setTitle("Initaite Sale Failed");
 				a.setContentText("there is a problem in saving the new sale");
 				a.show();
+
 			} else if (message.startsWith("new sale")) {
 				openConfirmationAlert("Sale", "Initiate Sale Success");
-				addActivity("Initialzing Sale"); // add activity
+				addActivity("Initialzing Sale");
+
 			} else if (message.startsWith("failed to create sale pattern")) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Creating Sale Pattern");
-				alert.setContentText("There was a technical probel in creating 'Sale Pattern' , Contact Technician");
+				alert.setContentText("There was a technical problem in creating 'Sale Pattern' , Contact developers");
 				alert.show();
+
 			} else if (message.startsWith("created sale pattern")) {
 				String[] str = message.split(" ");
 				Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -408,17 +415,19 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 				alert.setHeaderText("Creation Successful!");
 				alert.setContentText("the id is: " + str[3]);
 				alert.show();
-				addActivity("Created A Sale Pattern With ID= " + str[3]); // add activity
+				addActivity("Created A Sale Pattern With ID= " + str[3]);
+
 			} else if (message.startsWith("failed PRUR")) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Update Prodcut Rate");
 				alert.setHeaderText("Update Prodcut Rate Failed");
-				alert.setContentText("There was a technical problem in 'Update Prodcut Rate' , Contact Technician");
+				alert.setContentText("There was a technical problem in 'Update Prodcut Rate' , Contact developers");
 				alert.show();
+
 			} else if (message.startsWith("success PRUR")) {
 				openConfirmationAlert("Product Rates Update Request", "Request Sent To Network Manager");
 				String[] str = message.split(" ");
-				addActivity("Update Prodcut Rate Reuest ID= " + str[2]); // add activity
+				addActivity("Update Prodcut Rate Reuest ID= " + str[2]);
 			}
 		}
 		super.callAfterMessage(lastMsgFromServer);
@@ -443,6 +452,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 
 	public void tbInitiateSaleClicked() {
 		this.tbInitiateSale.setSelected(true);
+		this.topbar_window_label.setText("Initiate Sale");
 		removeAllPanesVisiblity();
 		initiateSalePane.setVisible(true);
 		clearFields();
@@ -504,6 +514,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 
 	public void tbGenerateReportClicked() {
 		this.tbGenerateReport.setSelected(true);
+		this.topbar_window_label.setText("Generate Marketing Report");
 		removeAllPanesVisiblity();
 		generateReportPane.setVisible(true);
 		clearFields();
@@ -544,8 +555,9 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 			tfSCREndTime.setText(row.getEndTime().toString());
 //			tfSCRSaleID.setText(row.getSaleID() + "");
 			this.sendToClientController("generate SaleCommentReport " + row.getSaleID());
-			generateReportPane.setVisible(false);
+//			generateReportPane.setVisible(false);
 			saleCommentReportPane.setVisible(true);
+			this.mainBorderPane.setDisable(true);
 		}
 
 	}
@@ -593,7 +605,8 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 							+ " " + calendar1.get(Calendar.DAY_OF_MONTH) + " " + calendar2.get(Calendar.YEAR) + " "
 							+ calendar2.get(Calendar.MONTH) + " " + calendar2.get(Calendar.DAY_OF_MONTH));
 			periodicReportPane.setVisible(true);
-			generateReportPane.setVisible(false);
+			this.mainBorderPane.setDisable(true);
+//			generateReportPane.setVisible(false);
 		}
 
 	}
@@ -607,8 +620,9 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	}
 
 	public void btnSCRCloseClicked() {
-		generateReportPane.setVisible(true);
+//		generateReportPane.setVisible(true);
 		saleCommentReportPane.setVisible(false);
+		this.mainBorderPane.setDisable(false);
 		this.sendToClientController("pull common data for common tableView");
 
 	}
@@ -624,7 +638,8 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	public void btnPCRCloseClicked() {
 		// do stuff
 		periodicReportPane.setVisible(false);
-		generateReportPane.setVisible(true);
+		this.mainBorderPane.setDisable(false);
+//		generateReportPane.setVisible(true);
 	}
 
 	public void btnPCRCloseHover() {
@@ -641,6 +656,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 
 	public void tbRequestProductRateUpdateClicked() {
 		this.tbRequestProductRateUpdate.setSelected(true);
+		this.topbar_window_label.setText("Request Product Rates Update");
 		removeAllPanesVisiblity();
 		requestRateUpdatePane.setVisible(true);
 		clearFields();
@@ -651,18 +667,17 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		if (checkRPRUCheckBoxes() && checkRPRUCheckFields()) {
 			createNewPRUR();
 		}
-
 	}
 
-	public void btnRPRUSendHover() {// *
+	public void btnRPRUSendHover() {
 		btnRPRUSend.setOpacity(0.85);
 	}
 
-	public void btnRPRUSendExit() {// *
+	public void btnRPRUSendExit() {
 		btnRPRUSend.setOpacity(1);
 	}
 
-	public void cbRPRUDieselClicked() {// *
+	public void cbRPRUDieselClicked() {
 		tfRPRUDiesel2.setDisable(!tfRPRUDiesel2.isDisable());
 		if (tfRPRUDiesel2.isDisable()) {
 			this.lblDieselERR2.setVisible(false);
@@ -671,7 +686,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		}
 	}
 
-	public void cbRPRUGasolineClicked() {// *
+	public void cbRPRUGasolineClicked() {
 		tfRPRUGasoline2.setDisable(!tfRPRUGasoline2.isDisable());
 		if (tfRPRUGasoline2.isDisable()) {
 			this.lblGasolineERR2.setVisible(false);
@@ -680,7 +695,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		}
 	}
 
-	public void cbRPRUMotorbikeClicked() {// *
+	public void cbRPRUMotorbikeClicked() {
 		tfRPRUMotorbike2.setDisable(!tfRPRUMotorbike2.isDisable());
 		if (tfRPRUMotorbike2.isDisable()) {
 			this.lblMotorERR2.setVisible(false);
@@ -689,7 +704,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		}
 	}
 
-	public void cbRPRUHomeFuelClicked() {// *
+	public void cbRPRUHomeFuelClicked() {
 		tfRPRUHomeFuel2.setDisable(!tfRPRUHomeFuel2.isDisable());
 		if (tfRPRUHomeFuel2.isDisable()) {
 			this.lblHomeERR2.setVisible(false);
@@ -707,7 +722,6 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	 * 
 	 * @return
 	 */
-
 	private boolean checkSaleInDates() { // elro2
 		String message = "check sale range";
 		RowForSalesPatternTable item = tvISSalesPattern.getSelectionModel().getSelectedItem();
@@ -781,6 +795,11 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 			return false;
 		}
 		String[] str = tf.getText().split(":");
+		if (str[0].length() != 2 || str[1].length() != 2) {
+			openErrorAlert("Error", "Time Not Valid");
+			return false;
+		}
+
 		if (this.checkValidTextField(str[0], "digits", "Time is only digits") == false
 				|| this.checkValidTextField(str[1], "digits", "Time is only digits") == false) {
 			return false;
@@ -1361,6 +1380,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	 */
 	@Override
 	public void clearFields() {
+		this.mainBorderPane.setDisable(false);
 		saleCommentReportPane.setVisible(false);
 		periodicReportPane.setVisible(false);
 		dpGMRStartDate.setValue(null);

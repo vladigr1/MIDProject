@@ -71,7 +71,7 @@
                               <ToggleGroup fx:id="one" />
                            </toggleGroup>
                         </ToggleButton>
-                        <ToggleButton fx:id="tbRequestProductRateUpdate" alignment="CENTER_LEFT" mnemonicParsing="false" onMouseClicked="#tbRequestProductRateUpdateClicked" prefHeight="60.0" prefWidth="294.0" styleClass="side-bar-toggle-button" stylesheets="@../pics/style.css" text="Request Product Rate Update" textFill="WHITE" toggleGroup="$one" wrapText="true" GridPane.rowIndex="4">
+                        <ToggleButton fx:id="tbRequestProductRateUpdate" alignment="CENTER_LEFT" mnemonicParsing="false" onMouseClicked="#tbRequestProductRateUpdateClicked" prefHeight="60.0" prefWidth="294.0" styleClass="side-bar-toggle-button" stylesheets="@../pics/style.css" text="Request Product Rates Update" textFill="WHITE" toggleGroup="$one" wrapText="true" GridPane.rowIndex="4">
                            <font>
                               <Font name="Calibri" size="18.0" />
                            </font>
@@ -226,6 +226,17 @@
                               </Label>
                            </children>
                         </Pane>
+                        <Label fx:id="topbar_window_label" alignment="TOP_LEFT" minHeight="-Infinity" prefHeight="25.0" prefWidth="259.0" text="Home ">
+                           <font>
+                              <Font name="Arial" size="26.0" />
+                           </font>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </Label>
                      </children>
                   </HBox>
                </children>
@@ -274,7 +285,7 @@
                                     <Font name="Arial" size="16.0" />
                                  </font>
                               </Label>
-                              <Button fx:id="btnHomeGenerateAnalysis" layoutX="275.0" layoutY="559.0" mnemonicParsing="false" onAction="#btnHomeGenerateAnalysisPressed" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Generate This Week's Analysis">
+                              <Button fx:id="btnHomeGenerateAnalysis" layoutX="275.0" layoutY="559.0" mnemonicParsing="false" onAction="#btnHomeGenerateAnalysisPressed" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Generate This Week's Analytics">
                                  <graphic>
                                     <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -317,11 +328,6 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <Label fx:id="topbar_window_label" alignment="TOP_LEFT" minHeight="-Infinity" prefHeight="25.0" prefWidth="259.0" text="Home ">
-                           <font>
-                              <Font name="Arial" size="26.0" />
-                           </font>
-                        </Label>
                      </children>
                   </AnchorPane>
                   <AnchorPane fx:id="initiateSalePane" layoutX="12.0" layoutY="14.0" prefHeight="505.0" prefWidth="813.0" visible="false">
@@ -504,7 +510,7 @@
                                     <Font name="Arial" size="16.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="23.0" layoutY="266.0" text="Sales Analysis:" textFill="#144465" underline="true">
+                              <Label layoutX="23.0" layoutY="266.0" text="Sales Analytics Review:" textFill="#144465" underline="true">
                                  <font>
                                     <Font name="Arial" size="16.0" />
                                  </font>
@@ -512,6 +518,16 @@
                               <Label fx:id="lblDieselDiscERR" layoutX="384.0" layoutY="91.0" text="must" textFill="#f50b0b" visible="false" />
                               <Label fx:id="lblGasolineDiscERR" layoutX="385.0" layoutY="136.0" text="must" textFill="#f50b0b" visible="false" />
                               <Label fx:id="lblMotorDiscERR" layoutX="384.0" layoutY="178.0" text="must" textFill="#f50b0b" visible="false" />
+                              <Label layoutX="398.0" layoutY="271.0" text="Update to Date:">
+                                 <font>
+                                    <Font name="Arial" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lblCSPUpdateToDate" layoutX="492.0" layoutY="270.0" text="00/00/00">
+                                 <font>
+                                    <Font name="Arial" size="12.0" />
+                                 </font>
+                              </Label>
                            </children>
                         </AnchorPane>
                         <Label layoutY="-10.0" prefHeight="21.0" prefWidth="215.0" text="Sale Pattern Information:">
@@ -644,167 +660,6 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane fx:id="saleCommentReportPane" layoutX="57.0" layoutY="49.0" prefHeight="526.0" prefWidth="725.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css" visible="false">
-                     <children>
-                        <Label layoutX="14.0" layoutY="10.0" text="Sale Comments Report" underline="true">
-                           <font>
-                              <Font name="Arial Bold Italic" size="20.0" />
-                           </font>
-                        </Label>
-                        <GridPane alignment="TOP_RIGHT" layoutX="14.0" layoutY="44.0" prefHeight="172.0" prefWidth="667.0">
-                           <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="189.0" minWidth="10.0" prefWidth="120.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="287.0" minWidth="10.0" prefWidth="199.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="263.0" minWidth="10.0" prefWidth="120.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="263.0" minWidth="10.0" prefWidth="185.0" />
-                           </columnConstraints>
-                           <rowConstraints>
-                              <RowConstraints maxHeight="48.0" minHeight="10.0" prefHeight="48.0" valignment="BOTTOM" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="79.0" minHeight="6.0" prefHeight="55.0" valignment="BOTTOM" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="76.0" minHeight="10.0" prefHeight="64.0" valignment="BOTTOM" vgrow="SOMETIMES" />
-                           </rowConstraints>
-                           <children>
-                              <Label text="Start time:" GridPane.rowIndex="1">
-                                 <font>
-                                    <Font name="Arial" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label text="End time:" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                                 <font>
-                                    <Font name="Arial" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label text="Sale ID:">
-                                 <font>
-                                    <Font name="Arial" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label prefHeight="75.0" prefWidth="111.0" text="Number of participants:" wrapText="true" GridPane.rowIndex="2">
-                                 <font>
-                                    <Font name="Arial" size="18.0" />
-                                 </font>
-                                 <padding>
-                                    <Insets top="10.0" />
-                                 </padding>
-                              </Label>
-                              <TextField fx:id="tfSCRSaleID" prefHeight="30.0" GridPane.columnIndex="1">
-                                 <GridPane.margin>
-                                    <Insets right="20.0" />
-                                 </GridPane.margin>
-                              </TextField>
-                              <TextField fx:id="tfSCRNumberOf" prefHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                 <GridPane.margin>
-                                    <Insets right="20.0" />
-                                 </GridPane.margin>
-                              </TextField>
-                              <TextField fx:id="tfSCREndTime" prefHeight="30.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </TextField>
-                              <TextField fx:id="tfSCRStartTime" prefHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                 <GridPane.margin>
-                                    <Insets right="20.0" />
-                                 </GridPane.margin>
-                              </TextField>
-                              <Label text="Sum of Purchases:" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                                 <font>
-                                    <Font name="Arial" size="18.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="tfSCRSumPurchase" prefHeight="30.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                           </children>
-                        </GridPane>
-                        <Label layoutX="285.0" layoutY="15.0" text="Date Created:">
-                           <font>
-                              <Font name="Arial" size="16.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="lblSCRDateCreated" layoutX="388.0" layoutY="15.0" text="00/00/0000">
-                           <font>
-                              <Font name="Arial" size="16.0" />
-                           </font>
-                        </Label>
-                        <Button fx:id="btnSCRClose" layoutX="691.0" layoutY="7.0" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#btnSCRCloseClicked" onMouseEntered="#btnSCRCloseHover" onMouseExited="#btnSCRCloseExit" prefHeight="13.0" prefWidth="25.0" style="-fx-background-radius: 50; -fx-background-color: #cc0000;">
-                           <graphic>
-                              <ImageView fitHeight="15.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../pics/close.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <Label layoutX="40.0" layoutY="260.0" text="Details:" underline="true">
-                           <font>
-                              <Font name="Arial" size="18.0" />
-                           </font>
-                        </Label>
-                        <TableView fx:id="tvSCRDetails" layoutX="70.0" layoutY="295.0" prefHeight="208.0" prefWidth="251.0">
-                           <columns>
-                              <TableColumn prefWidth="132.0" text="Customer ID" />
-                              <TableColumn prefWidth="118.0" text="Paid" />
-                           </columns>
-                        </TableView>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane fx:id="periodicReportPane" layoutX="56.0" layoutY="63.0" prefHeight="483.0" prefWidth="725.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css" visible="false">
-                     <children>
-                        <Label layoutX="14.0" layoutY="10.0" text="Periodic Customers Report:" underline="true">
-                           <font>
-                              <Font name="Arial Bold Italic" size="20.0" />
-                           </font>
-                        </Label>
-                        <GridPane layoutX="22.0" layoutY="69.0" prefHeight="83.0" prefWidth="273.0">
-                           <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="60.0" minWidth="10.0" prefWidth="60.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="207.0" minWidth="10.0" prefWidth="201.0" />
-                           </columnConstraints>
-                           <rowConstraints>
-                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                           </rowConstraints>
-                           <children>
-                              <Label text="From:">
-                                 <font>
-                                    <Font name="Arial" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label text="To:" GridPane.rowIndex="1">
-                                 <font>
-                                    <Font name="Arial" size="18.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="tfPCRTo" prefHeight="30.0" prefWidth="211.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <TextField fx:id="tfPCRFrom" prefHeight="30.0" GridPane.columnIndex="1" />
-                           </children>
-                        </GridPane>
-                        <Label layoutX="307.0" layoutY="15.0" text="Date Created:">
-                           <font>
-                              <Font name="Arial" size="16.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="lblPCRDateCreated" layoutX="410.0" layoutY="15.0" text="00/00/0000">
-                           <font>
-                              <Font name="Arial" size="16.0" />
-                           </font>
-                        </Label>
-                        <Button fx:id="btnPCRClose" layoutX="691.0" layoutY="7.0" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#btnPCRCloseClicked" onMouseEntered="#btnPCRCloseHover" onMouseExited="#btnPCRCloseExit" prefHeight="13.0" prefWidth="25.0" style="-fx-background-radius: 50; -fx-background-color: #cc0000;">
-                           <graphic>
-                              <ImageView fitHeight="15.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../pics/close.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <Label layoutX="22.0" layoutY="171.0" text="Details:" underline="true">
-                           <font>
-                              <Font name="Arial" size="18.0" />
-                           </font>
-                        </Label>
-                        <TableView fx:id="tvPCRDetails" layoutX="111.0" layoutY="203.0" prefHeight="268.0" prefWidth="497.0" />
                      </children>
                   </AnchorPane>
                   <AnchorPane fx:id="requestRateUpdatePane" layoutX="14.0" layoutY="14.0" prefHeight="581.0" prefWidth="498.0" visible="false">
@@ -1055,5 +910,166 @@
             </AnchorPane>
          </center>
       </BorderPane>
+      <AnchorPane fx:id="saleCommentReportPane" layoutX="356.0" layoutY="109.0" prefHeight="526.0" prefWidth="725.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css" visible="false">
+         <children>
+            <Label layoutX="14.0" layoutY="10.0" text="Sale Comments Report" underline="true">
+               <font>
+                  <Font name="Arial Bold Italic" size="20.0" />
+               </font>
+            </Label>
+            <GridPane alignment="TOP_RIGHT" layoutX="14.0" layoutY="44.0" prefHeight="172.0" prefWidth="667.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="189.0" minWidth="10.0" prefWidth="120.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="287.0" minWidth="10.0" prefWidth="199.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="263.0" minWidth="10.0" prefWidth="120.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="263.0" minWidth="10.0" prefWidth="185.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="48.0" minHeight="10.0" prefHeight="48.0" valignment="BOTTOM" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="79.0" minHeight="6.0" prefHeight="55.0" valignment="BOTTOM" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="76.0" minHeight="10.0" prefHeight="64.0" valignment="BOTTOM" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="Start time:" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Arial" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label text="End time:" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Arial" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label text="Sale ID:">
+                     <font>
+                        <Font name="Arial" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="75.0" prefWidth="111.0" text="Number of participants:" wrapText="true" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Arial" size="18.0" />
+                     </font>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </Label>
+                  <TextField fx:id="tfSCRSaleID" editable="false" prefHeight="30.0" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <TextField fx:id="tfSCRNumberOf" editable="false" prefHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <TextField fx:id="tfSCREndTime" editable="false" prefHeight="30.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </TextField>
+                  <TextField fx:id="tfSCRStartTime" editable="false" prefHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Label text="Sum of Purchases:" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Arial" size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="tfSCRSumPurchase" editable="false" prefHeight="30.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+               </children>
+            </GridPane>
+            <Label layoutX="285.0" layoutY="15.0" text="Date Created:">
+               <font>
+                  <Font name="Arial" size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblSCRDateCreated" layoutX="388.0" layoutY="15.0" text="00/00/0000">
+               <font>
+                  <Font name="Arial" size="16.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnSCRClose" layoutX="691.0" layoutY="7.0" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#btnSCRCloseClicked" onMouseEntered="#btnSCRCloseHover" onMouseExited="#btnSCRCloseExit" prefHeight="13.0" prefWidth="25.0" style="-fx-background-radius: 50; -fx-background-color: #cc0000;">
+               <graphic>
+                  <ImageView fitHeight="15.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../pics/close.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Label layoutX="40.0" layoutY="260.0" text="Details:" underline="true">
+               <font>
+                  <Font name="Arial" size="18.0" />
+               </font>
+            </Label>
+            <TableView fx:id="tvSCRDetails" layoutX="70.0" layoutY="295.0" prefHeight="208.0" prefWidth="251.0">
+               <columns>
+                  <TableColumn prefWidth="132.0" text="Customer ID" />
+                  <TableColumn prefWidth="118.0" text="Paid" />
+               </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="periodicReportPane" layoutX="347.0" layoutY="152.0" prefHeight="483.0" prefWidth="725.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css" visible="false">
+         <children>
+            <Label layoutX="14.0" layoutY="10.0" text="Periodic Customers Report:" underline="true">
+               <font>
+                  <Font name="Arial Bold Italic" size="20.0" />
+               </font>
+            </Label>
+            <GridPane layoutX="22.0" layoutY="69.0" prefHeight="83.0" prefWidth="273.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="60.0" minWidth="10.0" prefWidth="60.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="207.0" minWidth="10.0" prefWidth="201.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="From:">
+                     <font>
+                        <Font name="Arial" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label text="To:" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Arial" size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="tfPCRTo" editable="false" prefHeight="30.0" prefWidth="211.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="tfPCRFrom" editable="false" prefHeight="30.0" GridPane.columnIndex="1" />
+               </children>
+            </GridPane>
+            <Label layoutX="307.0" layoutY="15.0" text="Date Created:">
+               <font>
+                  <Font name="Arial" size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblPCRDateCreated" layoutX="410.0" layoutY="15.0" text="00/00/0000">
+               <font>
+                  <Font name="Arial" size="16.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnPCRClose" layoutX="691.0" layoutY="7.0" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#btnPCRCloseClicked" onMouseEntered="#btnPCRCloseHover" onMouseExited="#btnPCRCloseExit" prefHeight="13.0" prefWidth="25.0" style="-fx-background-radius: 50; -fx-background-color: #cc0000;">
+               <graphic>
+                  <ImageView fitHeight="15.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../pics/close.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Label layoutX="22.0" layoutY="171.0" text="Details:" underline="true">
+               <font>
+                  <Font name="Arial" size="18.0" />
+               </font>
+            </Label>
+            <TableView fx:id="tvPCRDetails" layoutX="111.0" layoutY="203.0" prefHeight="268.0" prefWidth="497.0" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

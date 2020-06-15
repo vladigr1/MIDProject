@@ -68,12 +68,10 @@ public abstract class EmployeeWindow extends UserWindow {
 		final TableColumn<Activity, Date> timeColumn = (TableColumn<Activity, Date>) new TableColumn("Date");
 		timeColumn.setCellValueFactory((Callback) new PropertyValueFactory("time"));
 		timeColumn.setMinWidth(170);
-		timeColumn.setMaxWidth(170);
 		this.tvHomeActivity.getColumns().add(timeColumn);
 		final TableColumn<Activity, String> actionColumn = (TableColumn<Activity, String>) new TableColumn("Action");
 		actionColumn.setCellValueFactory((Callback) new PropertyValueFactory("action"));
-		actionColumn.setMinWidth(472);
-		actionColumn.setMaxWidth(472);
+		actionColumn.setMinWidth(450);
 		this.tvHomeActivity.getColumns().add(actionColumn);
 
 		Calendar calendar = Calendar.getInstance();

@@ -278,7 +278,6 @@ public class CustomerWindow extends UserWindow {
 		final TableColumn<FastFuel, Date> timeColumn = (TableColumn<FastFuel, Date>) new TableColumn("Time");
 		timeColumn.setCellValueFactory((Callback) new PropertyValueFactory("fastFuelTime"));
 		timeColumn.setMinWidth(170);
-		timeColumn.setMaxWidth(170);
 		this.tvHomeFastFuel.getColumns().add(timeColumn);
 		final TableColumn<FastFuel, String> regPlateColumn = (TableColumn<FastFuel, String>) new TableColumn(
 				"Registration Plate");
@@ -306,7 +305,6 @@ public class CustomerWindow extends UserWindow {
 		final TableColumn<HomeFuelOrder, Date> orderTimeColumn = (TableColumn<HomeFuelOrder, Date>) new TableColumn(
 				"Time Bought");
 		orderIDColumn.setMinWidth(170);
-		orderIDColumn.setMaxWidth(170);
 		orderTimeColumn.setCellValueFactory((Callback) new PropertyValueFactory("orderTime"));
 		this.tvVODetails.getColumns().add(orderTimeColumn);
 		final TableColumn<HomeFuelOrder, String> orderAddress = (TableColumn<HomeFuelOrder, String>) new TableColumn(
@@ -324,7 +322,6 @@ public class CustomerWindow extends UserWindow {
 		final TableColumn<HomeFuelOrder, Date> orderDueTimeColumn = (TableColumn<HomeFuelOrder, Date>) new TableColumn(
 				"Due Time");
 		orderDueTimeColumn.setMinWidth(170);
-		orderDueTimeColumn.setMaxWidth(170);
 		orderDueTimeColumn.setCellValueFactory((Callback) new PropertyValueFactory("dueTime"));
 		this.tvVODetails.getColumns().add(orderDueTimeColumn);
 		final TableColumn<HomeFuelOrder, Double> orderPrice = (TableColumn<HomeFuelOrder, Double>) new TableColumn(

@@ -72,8 +72,11 @@ public class ServerController extends AbstractServer {
 
 			if (object instanceof User) {
 				User user = (User) object;
-				this.serverWindow.updateArea(formatter.format(date) + " : " + client
-						+ " : request : login with username " + user.getUsername());
+				synchronized (this.lock) {
+					this.serverWindow.updateArea(formatter.format(date) + " : " + client
+							+ " : request : login with username " + user.getUsername());
+					this.lock.notifyAll();
+				}
 				String function = user.getFunction();
 				if (function.startsWith("login") || function.startsWith("sign out")) {
 					ServerUserController.getInstance(serverWindow, databaseController, lock)
@@ -85,8 +88,11 @@ public class ServerController extends AbstractServer {
 
 			} else if (object instanceof HomeFuelOrder) {
 				HomeFuelOrder homeFuelOrder = (HomeFuelOrder) object;
-				this.serverWindow
-						.updateArea(formatter.format(date) + " : " + client + " : request : save homefuel order");
+				synchronized (this.lock) {
+					this.serverWindow
+							.updateArea(formatter.format(date) + " : " + client + " : request : save homefuel order");
+					this.lock.notifyAll();
+				}
 				ServerCustomerController.getInstance(databaseController).handleMessageFromClient(homeFuelOrder, client);
 
 			} else if (object instanceof Car) {
@@ -106,7 +112,10 @@ public class ServerController extends AbstractServer {
 
 			} else if (object instanceof String) {
 				String str = (String) object;
-				this.serverWindow.updateArea(formatter.format(date) + " : " + client + " : request : " + str);
+				synchronized (this.lock) {
+					this.serverWindow.updateArea(formatter.format(date) + " : " + client + " : request : " + str);
+					this.lock.notifyAll();
+				}
 				if (str.startsWith("ack")) {
 					client.sendToClient("ack");
 
@@ -139,8 +148,11 @@ public class ServerController extends AbstractServer {
 			} else if (object instanceof MarketingManager) {
 				System.out.println(client + " requested MarketingManager ");
 				MarketingManager manager = (MarketingManager) object;
-				this.serverWindow.updateArea(formatter.format(date) + " : " + client
-						+ " : requested MarketingManager operation : " + manager.getUserName());
+				synchronized (this.lock) {
+					this.serverWindow.updateArea(formatter.format(date) + " : " + client
+							+ " : requested MarketingManager operation : " + manager.getUserName());
+					this.lock.notifyAll();
+				}
 				ServerMarketingManagerController.getInstance(serverWindow, databaseController, lock)
 						.handleMessageFromClient(manager, client);
 				System.out.println(client + " end MarketingManager ");
@@ -148,7 +160,10 @@ public class ServerController extends AbstractServer {
 
 		} catch (IOException e) {
 			e.printStackTrace();
-			this.serverWindow.updateArea(formatter.format(date) + " : " + e.getMessage());
+			synchronized (this.lock) {
+				this.serverWindow.updateArea(formatter.format(date) + " : " + e.getMessage());
+				this.lock.notifyAll();
+			}
 		}
 	}
 
