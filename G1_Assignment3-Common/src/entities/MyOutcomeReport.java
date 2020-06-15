@@ -29,14 +29,18 @@ public class MyOutcomeReport extends QuarterlyReport {
 	public MyOutcomeReport(int repQuarter, String repYear, int fuelStationID, Date dateCreated,
 			double totalAmountBoughtFromSupplier, Map<ProductInStation, Double> amountBoughtPerProduct) {
 		super(repQuarter, repYear, fuelStationID, dateCreated);
-		this.totalAmountBoughtFromSupplier=totalAmountBoughtFromSupplier;
-		this.amountBoughtPerProduct=amountBoughtPerProduct;
+		this.totalAmountBoughtFromSupplier = totalAmountBoughtFromSupplier;
+		this.amountBoughtPerProduct = amountBoughtPerProduct;
 	}
 
 	public double getTotalAmountBoughtFromSupplier() {
 		return totalAmountBoughtFromSupplier;
 	}
 
+	/**
+	 * 
+	 * @param totalAmountBoughtFromSupplier
+	 */
 	public void setTotalAmountBoughtFromSupplier(double totalAmountBoughtFromSupplier) {
 		this.totalAmountBoughtFromSupplier = totalAmountBoughtFromSupplier;
 	}
@@ -45,13 +49,18 @@ public class MyOutcomeReport extends QuarterlyReport {
 		return amountBoughtPerProduct;
 	}
 
+	/**
+	 * 
+	 * @param amountBoughtPerProduct
+	 */
 	public void setAmountProductBought(Map<ProductInStation, Double> amountBoughtPerProduct) {
 		this.amountBoughtPerProduct = amountBoughtPerProduct;
 	}
 
 	@Override
 	public String toString() {
-		return "OutcomeReport [" + super.toString() + "]";
+		return "OutcomeReport [" + super.toString() + ", totalAmountBoughtFromSupplier=" + totalAmountBoughtFromSupplier
+				+ "]";
 	}
 
 	@Override

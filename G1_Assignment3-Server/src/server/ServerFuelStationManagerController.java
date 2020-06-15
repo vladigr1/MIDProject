@@ -40,13 +40,6 @@ public class ServerFuelStationManagerController {
 		return instance;
 	}
 
-	/**
-	 * handles client request and sends it to the database controller sends result
-	 * got from database controller back to the client
-	 * 
-	 * @param user   entity or string
-	 * @param client
-	 */
 
 	///////////////////////////////////// functions////////////////////////////////////////////////////////////
 	/**
@@ -64,9 +57,7 @@ public class ServerFuelStationManagerController {
 			if (object instanceof myFuelStationManager) {
 				myFuelStationManager fuelStationManager = (myFuelStationManager) object;
 				String func = fuelStationManager.getFunction();
-				///// my functions////
-				// if(func.startWith()...)
-
+				///// my functions /////
 				if (func.startsWith("get unassesedOrdersID")) {
 					synchronized (this.lock) {
 						this.serverWindow.updateArea(formatter.format(date) + " : " + client + " : request "
@@ -115,17 +106,7 @@ public class ServerFuelStationManagerController {
 					result = this.databaseController.updateOrderDoneAssesmentbyOrderID(fuelStationManager.getUserName(),
 							fuelStationManager.getParams());
 				}
-
-//				else if (func.startsWith("get existQuarterlyReportYears")) {
-//					synchronized (this.lock) {
-//						this.serverWindow.updateArea(formatter.format(date) + " : " + client + " : request "
-//								+ fuelStationManager.getFunction() + " of user: " + fuelStationManager.getUserName());
-//						this.lock.notifyAll();
-//					}
-//					result = this.databaseController
-//							.getExistQuarterlyReportYearsbyUsername(fuelStationManager.getUserName());
-//
-//				}
+				
 				else if (func.startsWith("generate QuarterReport")) {
 					synchronized (this.lock) {
 						this.serverWindow.updateArea(formatter.format(date) + " : " + client + " : request "
@@ -134,6 +115,23 @@ public class ServerFuelStationManagerController {
 					}
 					result = this.databaseController.getQuarterlyReportDataByUsernameYearQuarter(
 							fuelStationManager.getUserName(), fuelStationManager.getParams());
+				}
+				
+				else if (func.startsWith("get undismissedNotifications")) {
+					synchronized (this.lock) {
+						this.serverWindow.updateArea(formatter.format(date) + " : " + client + " : request "
+								+ fuelStationManager.getFunction() + " of user: " + fuelStationManager.getUserName());
+						this.lock.notifyAll();
+					}
+					result = this.databaseController.getUndismissNotificationsByUsername(fuelStationManager.getUserName());
+				}
+				else if (func.startsWith("updated dismissNotifications")) {
+					synchronized (this.lock) {
+						this.serverWindow.updateArea(formatter.format(date) + " : " + client + " : request "
+								+ fuelStationManager.getFunction() + " of user: " + fuelStationManager.getUserName());
+						this.lock.notifyAll();
+					}
+					result = this.databaseController.dismissNotificationsByNotificationID(fuelStationManager.getParams());
 				}
 
 				synchronized (this.lock) {

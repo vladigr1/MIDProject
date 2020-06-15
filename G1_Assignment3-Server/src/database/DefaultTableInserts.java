@@ -388,7 +388,7 @@ public class DefaultTableInserts {
 		TableInserts.insertProductInIncomeReport(con, values6);
 		Object[] values7 = { "7", 2, "2019", 1113 / 3, 3.5 };
 		TableInserts.insertProductInIncomeReport(con, values7);
-		Object[] values8 = { "8", 2, "2019", 1113 / 3, 3 };
+		Object[] values8 = { "8", 2, "2019", 1113 / 3, 3.02 };
 		TableInserts.insertProductInIncomeReport(con, values8);
 		Object[] values9 = { "9", 2, "2019", 1113 / 3, 6.5 };
 		TableInserts.insertProductInIncomeReport(con, values9);
@@ -403,7 +403,7 @@ public class DefaultTableInserts {
 		TableInserts.insertOutcomeReport(con, values1);
 		Object[] values2 = { 2, "2019", "2", 225.43 };
 		TableInserts.insertOutcomeReport(con, values2);
-		Object[] values3 = { 2, "2019", "3", 286.74 };
+		Object[] values3 = { 2, "2019", "3", 1113.00 };
 		TableInserts.insertOutcomeReport(con, values3);
 	}
 

@@ -61,10 +61,9 @@ public abstract class AFXML {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle(title);
 		alert.setHeaderText(msg);
-		alert.show();
 		ButtonType buttonTypeOne = new ButtonType("OK");
 		alert.getButtonTypes().setAll(buttonTypeOne);
-
+		alert.show();
 		final Button btn = (Button) alert.getDialogPane().lookupButton(buttonTypeOne);
 		btn.setOnAction(event -> {
 			alert.hide();

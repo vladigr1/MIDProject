@@ -43,7 +43,7 @@ public class FuelStationManagerController extends UserController {
 				awaitResponse = true;
 
 				myFuelStationManager manager = new myFuelStationManager();
-				String[] splitMsg = message.split("_");//message <command> <mathodName>_<username>_<params>
+				String[] splitMsg = message.split("_");//message: <command> <mathodName>_<username>_<params>{param1 param2 ...}
 				manager.setFunction(splitMsg[0]);
 				manager.setUserName(splitMsg[1]);
 				if(splitMsg.length>2)

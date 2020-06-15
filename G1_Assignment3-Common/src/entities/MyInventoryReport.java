@@ -27,16 +27,20 @@ public class MyInventoryReport extends QuarterlyReport {
 	 * @param amountsPerProduct
 	 */
 	public MyInventoryReport(int repQuarter, String repYear, int fuelStationID, Date dateCreated,
-			Map<ProductInStation, Double> amountsPerProduct,double totalAmountSold) {
+			Map<ProductInStation, Double> amountsPerProduct, double totalAmountSold) {
 		super(repQuarter, repYear, fuelStationID, dateCreated);
 		this.amountsPerProduct = amountsPerProduct;
-		this.totalAmountSold=totalAmountSold;
+		this.totalAmountSold = totalAmountSold;
 	}
 
 	public double getTotalAmountSold() {
 		return totalAmountSold;
 	}
 
+	/**
+	 * 
+	 * @param totalAmountSold
+	 */
 	public void setTotalAmountSold(double totalAmountSold) {
 		this.totalAmountSold = totalAmountSold;
 	}
@@ -45,13 +49,17 @@ public class MyInventoryReport extends QuarterlyReport {
 		return amountsPerProduct;
 	}
 
+	/**
+	 * 
+	 * @param amountsPerProduct
+	 */
 	public void setAmountsPerProduct(Map<ProductInStation, Double> amountsPerProduct) {
 		this.amountsPerProduct = amountsPerProduct;
 	}
 
 	@Override
 	public String toString() {
-		return "InventoryReport [" + super.toString() + "]";
+		return "InventoryReport [" + super.toString() + "totalAmountSold:" + totalAmountSold + "]";
 	}
 
 	@Override

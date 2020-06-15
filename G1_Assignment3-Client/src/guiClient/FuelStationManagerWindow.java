@@ -6,30 +6,27 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeSet;
 import client.FuelStationManagerController;
-import entities.Activity;
 import entities.FuelStationOrder;
 import entities.MyIncomeReport;
 import entities.MyInventoryReport;
 import entities.MyOutcomeReport;
+import entities.Notification;
 import entities.ProductInStation;
 import entities.QuarterlyReport;
-import entities.UnassessedOrderIDList;
+import entities.RowForQuarterlyReports;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -37,15 +34,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
 public class FuelStationManagerWindow extends EmployeeWindow {
 	@FXML
 	private ToggleButton sidebar_btn0;
-	@FXML
-	private ToggleGroup one;
 	@FXML
 	private ToggleButton sidebar_btn1;
 	@FXML
@@ -86,108 +80,68 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 	private TextField tfASOName;
 	@FXML
 	private TextField tfASOAmount;
-
 	@FXML
 	private TextField tfASOTime;
-
 	@FXML
 	private TextField tfASOAddress;
-
 	@FXML
 	private Button btnASOShowOrder;
-
 	@FXML
 	private TextField tfASOThreshold;
-
 	@FXML
 	private TextField tfASOInStock;
-
 	@FXML
 	private AnchorPane notificationPane;
-
 	@FXML
 	private Button btnNotifyClose;
-
 	@FXML
-	private TableView<?> tvNotifytable;
-
+	private TableView<Notification> tvHomeNotifytable;
 	@FXML
 	private AnchorPane quarterlyReportPane;
-
 	@FXML
 	private ComboBox<String> cobGQRYear;
-
 	@FXML
 	private ComboBox<Integer> cobGQRQuarter;
-
 	@FXML
 	private Button btnGQRView;
-
 	@FXML
 	private AnchorPane declineOrderPane;
-
 	@FXML
 	private TextArea taDOResons;
-
 	@FXML
 	private Button btnDOOk;
-
 	@FXML
 	private Button btnDOCancel;
-
 	@FXML
 	private AnchorPane quarterReportPane;
-
 	@FXML
-	private Label lblQRDateCreated;
-
+	private TableView<RowForQuarterlyReports> tvQRDetails1;
 	@FXML
-	private Label lblQRYear;
-
+	private TableView<RowForQuarterlyReports> tvQRDetails2;
 	@FXML
-	private Label lblQRQuarter;
-
-	@FXML
-	private TableView<QuarterlyReport> tvQRDetails1;
-
-	@FXML
-	private TableView<QuarterlyReport> tvQRDetails2;
-
-	@FXML
-	private TableView<QuarterlyReport> tvQRDetails3;
-
+	private TableView<RowForQuarterlyReports> tvQRDetails3;
 	@FXML
 	private Button btnQRClose;
-
-	@FXML
-	private Tab tabQRIncomeReport;
-
-	@FXML
-	private Tab tabQROutcomeReport;
-
-	@FXML
-	private Tab tabQRInventoryReport;
-
-	@FXML
-	private ImageView imgHomeNotify;
 	@FXML
 	private Button btnHomeNotification;
 	@FXML
-	private Label lblQRFuelStationID;
-	@FXML
 	private TextField tfQRTotalIncome;
 	@FXML
-	private TextField tfQRTotalOutcome;
-
+	private TextField tfQRTotalAmountSold;
 	@FXML
-	void initialize() {
-		this.visibleNow = this.homePane;
-		this.controller = FuelStationManagerController.getInstance();
-		this.controller.setCurrentWindow(this);
-		initiallizeQuarterReportTables();
-		fillQuarterlyReportComboBox();
-	}
+	private TextField tfQRTotalAmountBought;
+	@FXML
+	private TextField tflQRDateCreated;
+	@FXML
+	private TextField tflQRQuarter;
+	@FXML
+	private TextField tflQRYear;
+	@FXML
+	private TextField tflQRFuelStationID;
+	@FXML
+	private Button btnNotifyDissmiss;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void callAfterMessage(Object lastMsgFromServer) {
 		super.callAfterMessage(lastMsgFromServer);
@@ -196,38 +150,41 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 			Object[] objArr = (Object[]) lastMsgFromServer;
 			if (objArr.length == 0) {
 				System.out.println("callAfterMessage: object[] empty");
-				return;
 			} else if (objArr[0] instanceof String) {
 				String str = (String) objArr[0];
 				if (str.equals("Unassesd Order IDs")) {
 					TreeSet<Integer> unassedOrderList = (TreeSet<Integer>) objArr[1];
 					fillUnassessedOrderToComboBox(unassedOrderList);
+				} else if (str.equals("No Unassessd Orders")) {
+					this.cobASOOrderId.getItems().removeAll((Collection<?>) this.cobASOOrderId.getItems());
+					this.openCONFIRMATIONAlert("Information",
+							"There are no orders waiting for assessment in your station.");
 				} else if (str.equals("Quarter Report")) {
-					MyIncomeReport incomeReport = (MyIncomeReport) objArr[1];
-					MyOutcomeReport outcomeReport = (MyOutcomeReport) objArr[2];
-					MyInventoryReport inventoryReport = (MyInventoryReport) objArr[3];
-					openQuarterReport(incomeReport, outcomeReport, inventoryReport);
+					openQuarterlyReport2(objArr);
+					requestToLogActivity("Genarated generated quarter report Year: " + cobGQRYear.getValue()
+							+ " Quarter: " + cobGQRQuarter.getValue() + ".");
+				} else if (str.equals("Undismissed Notifications")) {
+					ArrayList<Notification> notificationsList = (ArrayList<Notification>) objArr[1];
+					fillNotificationsTable(notificationsList);
+				} else if (str.equals("No Undismissed Notifications")) {
+					for (int i = 0; i < tvHomeNotifytable.getItems().size(); i++) {
+						tvHomeNotifytable.getItems().clear();
+					}
+					this.openCONFIRMATIONAlert("Information", "There are no new notifications.");
+				} else if (str.equals("Station Products In Orders")) {
+					ProductInStation productInStation = (ProductInStation) objArr[1];
+					FuelStationOrder fuelStationOrder = (FuelStationOrder) objArr[2];
+					fillUnassessedOrderData(productInStation, fuelStationOrder);
+				} else if (str.equals("products In Station")) {
+					ArrayList<ProductInStation> productInStationList = (ArrayList<ProductInStation>) objArr[1];
+					fillUpdateThreshold(productInStationList);
+				} else if (str.equals("No Product In Station")) {
+					this.openCONFIRMATIONAlert("Information", "There is no products in your station.");
 				}
-			}
-
-			else if (objArr[0] instanceof ProductInStation && objArr[1] instanceof FuelStationOrder) {
-				// תבדוק תקינות
-				ProductInStation productInStation = (ProductInStation) objArr[0];
-				FuelStationOrder fuelStationOrder = (FuelStationOrder) objArr[1];
-				fillUnassessedOrderData(productInStation, fuelStationOrder);
 			}
 		}
 
-		else if (lastMsgFromServer instanceof ArrayList<?>) {
-			ArrayList<?> list = (ArrayList<?>) lastMsgFromServer;
-			if (list.isEmpty()) {
-				return;
-			} else if (list.get(0) instanceof ProductInStation) {
-				ArrayList<ProductInStation> productInStationList = (ArrayList<ProductInStation>) lastMsgFromServer;
-				fillUpdateThreshold(productInStationList);
-			}
-
-		} else if (lastMsgFromServer instanceof Boolean) {
+		else if (lastMsgFromServer instanceof Boolean) {
 			if (visibleNow == thresholdPane) {
 				requestToLogActivity("Updated Threshold");
 				this.openCONFIRMATIONAlert("Success", "Threshold updated successfully");
@@ -245,6 +202,10 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 				this.openCONFIRMATIONAlert("Success", "Order: " + orderID + " Declined, Assessment completed!");
 				visibleNow = assessPane;
 				initializeAssessPane();
+			} else if (visibleNow == notificationPane) {
+				requestToLogActivity("Notification Dismissed");
+				this.openCONFIRMATIONAlert("Success", "Notification Dismissed");
+				getNotifications();
 			}
 		}
 	}
@@ -254,12 +215,26 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 		return this.assessPane.getScene().getWindow();
 	}
 
+	/**********************************************************************
+	 * open methods
+	 **********************************************************************/
+
+	/**
+	 * click on side button Home
+	 * 
+	 * @param event
+	 */
 	@Override
 	void openHome(ActionEvent event) {
 		super.openHome(event);
 		sidebar_btn0.setSelected(true);
 	}
 
+	/**
+	 * click notifications in Home
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void openNotification(ActionEvent event) {
 		mainBorderPane.setDisable(true);
@@ -272,8 +247,14 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 				visibleNow = homePane;
 			}
 		});
+		getNotifications();
 	}
 
+	/**
+	 * click on side button Update Threshold
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void openUpdateThreshold(ActionEvent event) {
 		initializeThresholdPane();
@@ -281,7 +262,6 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 		thresholdPane.setVisible(true);
 		visibleNow = thresholdPane;
 		topbar_window_label.setText("Update Threshold");
-
 		// click on check boxes
 		cbUTGasoline.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -315,6 +295,11 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 		});
 	}
 
+	/**
+	 * click on side button Assess Station Orders
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void openAssessStationOrders(ActionEvent event) {
 		initializeAssessPane();
@@ -322,7 +307,6 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 		assessPane.setVisible(true);
 		visibleNow = assessPane;
 		topbar_window_label.setText("Assess Station Orders");
-
 		// Decline order,secondary window pop up
 		btnASODecline.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -345,7 +329,8 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 						int orderID = cobASOOrderId.getValue();
 						String declineReson = taDOResons.getText();
 						if (declineReson.isEmpty()) {
-							openErrorAlert("Input incomplete", "Please write reson for decline");
+							openErrorAlert("Input incomplete",
+									"Please write the reason you wish to decline your order.");
 							return;
 						} else {
 							String message = "update doneAssessmentOrder" + "_" + username + "_" + orderID + " "
@@ -356,7 +341,6 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 				});
 			}
 		});
-
 		// Order approval,alert pop up
 		btnASOConfirm.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -367,7 +351,6 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 				controller.handleMessageFromClientUI(message);
 			}
 		});
-
 		btnASOShowOrder.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -384,6 +367,11 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 		});
 	}
 
+	/**
+	 * click on side button Generate Quarterly Report
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void openGenerateQuarterlyReport(ActionEvent event) {
 		visibleNow.setVisible(false);
@@ -393,16 +381,57 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 		sidebar_btn3.setSelected(true);
 	}
 
-	void openQuarterReport(MyIncomeReport incomeReport, MyOutcomeReport outcomeReport,
-			MyInventoryReport inventoryReport) {
+	/**
+	 * click on View button in Generate Quarterly Report
+	 * 
+	 * @param event
+	 */
+	@FXML
+	void openQuarterlyReport(ActionEvent event) { // click on view report
+		int currYear = Calendar.getInstance().get(Calendar.YEAR);
+		int currMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
+		int selectedYear = Integer.parseInt(cobGQRYear.getValue());
+		int selectedQuarter = cobGQRQuarter.getValue();
+		if (selectedYear == currYear) {
+			if (selectedQuarter == 1 && currMonth < 3) {
+				openErrorAlert("Wrong Input",
+						"Year: " + selectedYear + "\nQuarter: " + selectedQuarter + "\nNot exsit yet!");
+				return;
+			} else if (selectedQuarter == 2 && currMonth < 6) {
+				openErrorAlert("Wrong Input",
+						"Year: " + selectedYear + "\nQuarter: " + selectedQuarter + "\nNot exsit yet!");
+				return;
+			} else if (selectedQuarter == 3 && currMonth < 9) {
+				openErrorAlert("Wrong Input",
+						"Year: " + selectedYear + "\nQuarter: " + selectedQuarter + "\nNot exsit yet!");
+				return;
+			}
+
+			else if (selectedQuarter == 4 && currMonth < 12) {
+				openErrorAlert("Wrong Input",
+						"Year: " + selectedYear + "\nQuarter: " + selectedQuarter + "\nNot exsit yet!");
+				return;
+			}
+		}
+		String message = "generate QuarterReport" + "_" + this.username + "_" + selectedYear + " " + selectedQuarter;
+		controller.handleMessageFromClientUI(message);
+
+	}
+
+	/**
+	 * continue of openQuarterlyReport after handleMessageFromClientUI
+	 * 
+	 * @param event
+	 */
+	void openQuarterlyReport2(Object[] reports) {
+		// reports[0] have string
+		MyIncomeReport incomeReport = (MyIncomeReport) reports[1];
+		MyOutcomeReport outcomeReport = (MyOutcomeReport) reports[2];
+		MyInventoryReport inventoryReport = (MyInventoryReport) reports[3];
+		fillQuarterReport(incomeReport, outcomeReport, inventoryReport);
 		mainBorderPane.setDisable(true);
 		quarterReportPane.setVisible(true);
 		visibleNow = quarterReportPane;
-		String[] dateCreated = converDateToFormattedString(incomeReport.getDateCreated()).split(" ");
-		lblQRDateCreated.setText(dateCreated[0]);
-		lblQRYear.setText(incomeReport.getRepYear());
-		lblQRQuarter.setText(incomeReport.getRepQuarter() + "");
-		lblQRFuelStationID.setText(incomeReport.getFuelStationID() + "");
 
 		btnQRClose.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -412,10 +441,15 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 				visibleNow = quarterlyReportPane;
 			}
 		});
-		// clear tables
-		// fill tables with data
 	}
 
+	/***************************************************
+	 * fill data methods
+	 ****************************************************/
+
+	/**
+	 * fill Generate Quarterly Report comobo boxes
+	 */
 	private void fillQuarterlyReportComboBox() {
 		this.cobGQRYear.getItems().addAll(new String[] { "2019", "2020" });
 		this.cobGQRQuarter.getItems().addAll(new Integer[] { 1, 2, 3, 4 });
@@ -423,14 +457,23 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 		this.cobGQRQuarter.setValue(1);
 	}
 
+	/**
+	 * fill Assess Station Orders combo box with orderID
+	 * 
+	 * @param list
+	 */
 	private void fillUnassessedOrderToComboBox(TreeSet<Integer> list) {
 		this.cobASOOrderId.getItems().removeAll((Collection<?>) this.cobASOOrderId.getItems());
-		if (list.isEmpty())
-			return;
 		this.cobASOOrderId.getItems().addAll(list);
 		this.cobASOOrderId.setValue(list.pollFirst());
 	}
 
+	/**
+	 * when click on View Order button fill Assess Station Orders textfields with
+	 * orderID data
+	 * 
+	 * @param list
+	 */
 	private void fillUnassessedOrderData(ProductInStation productInStation, FuelStationOrder fuelStationOrder) {
 		tfASOName.setText(productInStation.getProductName().toString());
 		tfASOThreshold.setText(String.valueOf(productInStation.getThreshold()));
@@ -440,6 +483,11 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 		tfASOTime.setText(converDateToFormattedString(fuelStationOrder.getOrderTime()));
 	}
 
+	/**
+	 * fill UpdateThreshold textfields with threshold data
+	 * 
+	 * @param list
+	 */
 	private void fillUpdateThreshold(ArrayList<ProductInStation> productList) {
 		for (ProductInStation product : productList) {
 			if (product.getProductName().toString().equals("Gasoline"))
@@ -449,6 +497,101 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 			else if (product.getProductName().toString().equals("Motorbike Fuel"))
 				tfUTMotorbike1.setText(product.getThreshold() + "");
 		}
+	}
+
+	/**
+	 * fill Notification tableview with notifications data
+	 * 
+	 * @param list
+	 */
+	private void fillNotificationsTable(ArrayList<Notification> list) {
+		for (int i = 0; i < tvHomeNotifytable.getItems().size(); i++) {
+			tvHomeNotifytable.getItems().clear();
+		}
+		ObservableList<Notification> rowsList = FXCollections.observableArrayList();
+		for (Notification notif : list) {
+			rowsList.add(notif);
+		}
+		tvHomeNotifytable.setItems(rowsList);
+	}
+
+	/**
+	 * fill QuarterReport tableviews with reports data
+	 * 
+	 * @param list
+	 */
+	private void fillQuarterReport(MyIncomeReport incomeReport, MyOutcomeReport outcomeReport,
+			MyInventoryReport inventoryReport) {
+		String[] dateCreated = converDateToFormattedString(incomeReport.getDateCreated()).split(" ");
+		tflQRDateCreated.setText(dateCreated[0]);
+		tflQRYear.setText(incomeReport.getRepYear());
+		tflQRQuarter.setText(incomeReport.getRepQuarter() + "");
+		tflQRFuelStationID.setText(incomeReport.getFuelStationID() + "");
+		for (int i = 0; i < tvQRDetails1.getItems().size(); i++) {
+			tvQRDetails1.getItems().clear();
+		}
+		for (int i = 0; i < tvQRDetails2.getItems().size(); i++) {
+			tvQRDetails2.getItems().clear();
+		}
+		for (int i = 0; i < tvQRDetails3.getItems().size(); i++) {
+			tvQRDetails3.getItems().clear();
+		}
+		ObservableList<RowForQuarterlyReports> rowsList = FXCollections.observableArrayList();
+		for (Entry<ProductInStation, Double> entry : incomeReport.getIncomePerProduct().entrySet()) {
+			ProductInStation p = entry.getKey();
+			int pID = p.getProductInStationID();
+			String pName = p.getProductName().toString();
+			Double incomePer = entry.getValue();
+			RowForQuarterlyReports row = new RowForQuarterlyReports(pID, pName, incomePer);
+			rowsList.add(row);
+
+		}
+		tvQRDetails1.setItems(rowsList);
+
+		ObservableList<RowForQuarterlyReports> rowsList2 = FXCollections.observableArrayList();
+		for (Entry<ProductInStation, Double> entry : outcomeReport.getAmountBoughtPerProduct().entrySet()) {
+			ProductInStation p = entry.getKey();
+			int pID = p.getProductInStationID();
+			String pName = p.getProductName().toString();
+			Double outputPer = entry.getValue();
+			RowForQuarterlyReports row = new RowForQuarterlyReports(pID, pName, outputPer);
+			rowsList2.add(row);
+		}
+		tvQRDetails2.setItems(rowsList2);
+
+		ObservableList<RowForQuarterlyReports> rowsList3 = FXCollections.observableArrayList();
+		for (Entry<ProductInStation, Double> entry : inventoryReport.getAmountsPerProduct().entrySet()) {
+			ProductInStation p = entry.getKey();
+			int pID = p.getProductInStationID();
+			String pName = p.getProductName().toString();
+			Double invPer = entry.getValue();
+			RowForQuarterlyReports row = new RowForQuarterlyReports(pID, pName, invPer);
+			rowsList3.add(row);
+		}
+		tvQRDetails3.setItems(rowsList3);
+
+		tvQRDetails1.refresh();
+		tvQRDetails2.refresh();
+		tvQRDetails3.refresh();
+		tfQRTotalIncome.setText(incomeReport.getTotalIncome() + "");
+		tfQRTotalAmountBought.setText(outcomeReport.getTotalAmountBoughtFromSupplier() + "");
+		tfQRTotalAmountSold.setText(inventoryReport.getTotalAmountSold() + "");
+	}
+
+	/**********************************************************************
+	 * initialize methods
+	 **********************************************************************/
+	@FXML
+	void initialize() {
+		this.visibleNow = this.homePane;
+		this.controller = FuelStationManagerController.getInstance();
+		this.controller.setCurrentWindow(this);
+		initiallizeNotificationTable();
+		initiallizeIncomeReportTables();
+		initiallizeOutcomeReportTables();
+		initiallizeInventoryReportTables();
+		fillQuarterlyReportComboBox();
+		sidebar_btn0.setSelected(true);
 	}
 
 	private void initializeThresholdPane() {
@@ -486,44 +629,103 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 		controller.handleMessageFromClientUI(message);
 	}
 
+	/**
+	 * Initialize table view columns
+	 */
 	@SuppressWarnings("unchecked")
-	private void initiallizeQuarterReportTables() {
-		final TableColumn<QuarterlyReport, Integer> productIDColumn = (TableColumn<QuarterlyReport, Integer>) new TableColumn(
+	private void initiallizeIncomeReportTables() {
+		tvQRDetails1.getColumns().clear();
+		TableColumn<RowForQuarterlyReports, Integer> productIDColumn = new TableColumn<RowForQuarterlyReports, Integer>(
 				"Product ID");
-		productIDColumn.setCellValueFactory((Callback) new PropertyValueFactory("productID"));
-		productIDColumn.setPrefWidth(80);
+		productIDColumn.setCellValueFactory(new PropertyValueFactory<>("productID"));
+		productIDColumn.setPrefWidth(120);
 		this.tvQRDetails1.getColumns().add(productIDColumn);
-		this.tvQRDetails2.getColumns().add(productIDColumn);
-		this.tvQRDetails3.getColumns().add(productIDColumn);
-
-		final TableColumn<QuarterlyReport, String> productNameColumn = (TableColumn<QuarterlyReport, String>) new TableColumn(
+		TableColumn<RowForQuarterlyReports, String> productNameColumn = new TableColumn<RowForQuarterlyReports, String>(
 				"Product Name");
-		productNameColumn.setCellValueFactory((Callback) new PropertyValueFactory("productName"));
-		productNameColumn.setPrefWidth(150);
+		productNameColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
+		productNameColumn.setPrefWidth(250);
 		this.tvQRDetails1.getColumns().add(productNameColumn);
-		this.tvQRDetails2.getColumns().add(productNameColumn);
-		this.tvQRDetails3.getColumns().add(productNameColumn);
-
-		final TableColumn<QuarterlyReport, Double> incomePerProductColumn = (TableColumn<QuarterlyReport, Double>) new TableColumn(
+		TableColumn<RowForQuarterlyReports, Double> incomePerProductColumn = new TableColumn<RowForQuarterlyReports, Double>(
 				"Product Income");
-		productNameColumn.setCellValueFactory((Callback) new PropertyValueFactory("income"));
-		incomePerProductColumn.setPrefWidth(120);
+		incomePerProductColumn.setCellValueFactory(new PropertyValueFactory<>("x"));
+		incomePerProductColumn.setPrefWidth(200);
 		this.tvQRDetails1.getColumns().add(incomePerProductColumn);
-
-		final TableColumn<QuarterlyReport, Double> outcomePerProductColumn = (TableColumn<QuarterlyReport, Double>) new TableColumn(
-				"Product Outcome");
-		productNameColumn.setCellValueFactory((Callback) new PropertyValueFactory("outcome"));
-		outcomePerProductColumn.setPrefWidth(120);
-		this.tvQRDetails2.getColumns().add(outcomePerProductColumn);
-
-		final TableColumn<QuarterlyReport, Double> amountSoldColumn = (TableColumn<QuarterlyReport, Double>) new TableColumn(
-				"Amount Sold");
-		productNameColumn.setCellValueFactory((Callback) new PropertyValueFactory("amountSold"));
-		amountSoldColumn.setPrefWidth(115);
-		this.tvQRDetails3.getColumns().add(amountSoldColumn);
-
 	}
 
+	/**
+	 * Initialize table view columns
+	 */
+	private void initiallizeOutcomeReportTables() {
+		tvQRDetails2.getColumns().clear();
+		TableColumn<RowForQuarterlyReports, Integer> productIDColumn = new TableColumn<RowForQuarterlyReports, Integer>(
+				"Product ID");
+		productIDColumn.setCellValueFactory(new PropertyValueFactory<>("productID"));
+		productIDColumn.setPrefWidth(120);
+		this.tvQRDetails2.getColumns().add(productIDColumn);
+		TableColumn<RowForQuarterlyReports, String> productNameColumn = new TableColumn<RowForQuarterlyReports, String>(
+				"Product Name");
+		productNameColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
+		productNameColumn.setPrefWidth(250);
+		this.tvQRDetails2.getColumns().add(productNameColumn);
+		TableColumn<RowForQuarterlyReports, Double> outcomePerProductColumn = new TableColumn<RowForQuarterlyReports, Double>(
+				"Product Outcome");
+		outcomePerProductColumn.setCellValueFactory(new PropertyValueFactory<>("x"));
+		outcomePerProductColumn.setPrefWidth(200);
+		this.tvQRDetails2.getColumns().add(outcomePerProductColumn);
+	}
+
+	/**
+	 * Initialize table view columns
+	 */
+	private void initiallizeInventoryReportTables() {
+		tvQRDetails3.getColumns().clear();
+		TableColumn<RowForQuarterlyReports, Integer> productIDColumn = new TableColumn<RowForQuarterlyReports, Integer>(
+				"Product ID");
+		productIDColumn.setCellValueFactory(new PropertyValueFactory<>("productID"));
+		productIDColumn.setPrefWidth(120);
+		this.tvQRDetails3.getColumns().add(productIDColumn);
+		TableColumn<RowForQuarterlyReports, String> productNameColumn = new TableColumn<RowForQuarterlyReports, String>(
+				"Product Name");
+		productNameColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
+		productNameColumn.setPrefWidth(250);
+		this.tvQRDetails3.getColumns().add(productNameColumn);
+		TableColumn<RowForQuarterlyReports, Double> amountSoldColumn = new TableColumn<RowForQuarterlyReports, Double>(
+				"Amount Sold");
+		amountSoldColumn.setCellValueFactory(new PropertyValueFactory<>("x"));
+		amountSoldColumn.setPrefWidth(200);
+		this.tvQRDetails3.getColumns().add(amountSoldColumn);
+	}
+
+	/**
+	 * Initialize table view columns
+	 */
+	@SuppressWarnings({ "unchecked" })
+	private void initiallizeNotificationTable() {
+		final TableColumn<Notification, Integer> notificationIDColumn = (TableColumn<Notification, Integer>) new TableColumn(
+				"Notification ID");
+		notificationIDColumn.setCellValueFactory((Callback) new PropertyValueFactory("notificationID"));
+		notificationIDColumn.setPrefWidth(0);
+		final TableColumn<Notification, Date> timeColumn = (TableColumn<Notification, Date>) new TableColumn("Time");
+		timeColumn.setCellValueFactory((Callback) new PropertyValueFactory("dateCreated"));
+		timeColumn.setPrefWidth(170);
+		this.tvHomeNotifytable.getColumns().add(timeColumn);
+		final TableColumn<Notification, String> messageColumn = (TableColumn<Notification, String>) new TableColumn(
+				"Message");
+		messageColumn.setCellValueFactory((Callback) new PropertyValueFactory("message"));
+		messageColumn.setPrefWidth(250);
+		this.tvHomeNotifytable.getColumns().add(messageColumn);
+	}
+
+	/**********************************************************************
+	 * update/refresh methods
+	 **********************************************************************/
+
+	/**
+	 * method check if the numbers in updateThreshold textfield is ok and send
+	 * update to server
+	 * 
+	 * @param event
+	 */
 	@FXML
 	private void updateThresholdData(ActionEvent event) {
 		Double newGasoline, newDiesel, newMotorbike;
@@ -551,6 +753,7 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 			}
 		} catch (java.lang.NumberFormatException e) {
 			this.openErrorAlert("Worng input", "Please enter only positive number.");
+			return;
 		}
 		if (func.isEmpty())
 			return;
@@ -558,6 +761,29 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 		controller.handleMessageFromClientUI(message);
 	}
 
+	/**
+	 * get notification id from the selected row in the table and dismiss it
+	 * 
+	 * @param event
+	 */
+	@FXML
+	private void updateNotificationData(ActionEvent event) {
+		Notification notification = tvHomeNotifytable.getSelectionModel().getSelectedItem();
+		if (notification == null)
+			return;
+		int notificationID = notification.getNotificationID();
+		// get notificationID from selected line in notification table
+		String message = "updated dismissNotifications" + "_" + this.username + "_" + notificationID;
+		controller.handleMessageFromClientUI(message);
+	}
+
+	/**********************************************************************
+	 * others/helpers methods
+	 **********************************************************************/
+
+	/**
+	 * if all of the checkboxes is not selected disable update button
+	 */
 	private void checkOtherCheckBoxes() {// linked to threshold
 		if (!cbUTMotorbike.isSelected() && !cbUTDiesel.isSelected() && !cbUTGasoline.isSelected())
 			btnUTUpdate.setDisable(true);
@@ -565,48 +791,59 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 			btnUTUpdate.setDisable(false);
 	}
 
-	@FXML
-	void viewQuarterlyReport(ActionEvent event) {
-		int currYear = Calendar.getInstance().get(Calendar.YEAR);
-		int currMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
-		int selectedYear = Integer.parseInt(cobGQRYear.getValue());
-		int selectedQuarter = cobGQRQuarter.getValue();
-		if (selectedYear == currYear) {
-
-			if (selectedQuarter == 1 && currMonth < 3) {
-				openErrorAlert("Wrong Input",
-						"Year: " + selectedYear + "\nQuarter: " + selectedQuarter + "\nNot exsit yet!");
-				return;
-			} else if (selectedQuarter == 2 && currMonth < 6) {
-				openErrorAlert("Wrong Input",
-						"Year: " + selectedYear + "\nQuarter: " + selectedQuarter + "\nNot exsit yet!");
-				return;
-			} else if (selectedQuarter == 3 && currMonth < 9) {
-				openErrorAlert("Wrong Input",
-						"Year: " + selectedYear + "\nQuarter: " + selectedQuarter + "\nNot exsit yet!");
-				return;
-			}
-
-			else if (selectedQuarter == 4 && currMonth < 12) {
-				openErrorAlert("Wrong Input",
-						"Year: " + selectedYear + "\nQuarter: " + selectedQuarter + "\nNot exsit yet!");
-				return;
-			}
-		}
-		String message = "generate QuarterReport" + "_" + this.username + "_" + selectedYear + " " + selectedQuarter;
-		controller.handleMessageFromClientUI(message);
-
-	}
-	
-	public String converDateToFormattedString(Date date) {
+	/**
+	 * convert date to string
+	 */
+	private String converDateToFormattedString(Date date) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy  HH:mm");
 		String dateFormatted = dateFormat.format(date);
 		return dateFormatted;
 	}
 
+	/**
+	 * send to server to get notifications
+	 */
+	private void getNotifications() {
+		String message = "get undismissedNotifications" + "_" + username;
+		controller.handleMessageFromClientUI(message);
+	}
+
 	@Override
 	public void clearFields() {
-		// לא יודע
+		cbUTGasoline.setSelected(false);
+		cbUTDiesel.setSelected(false);
+		cbUTMotorbike.setSelected(false);
+		tfUTGasoline2.clear();
+		tfUTDiesel2.clear();
+		tfUTMotorbike2.clear();
+		tfASOName.clear();
+		tfUTGasoline1.clear();
+		tfUTDiesel1.clear();
+		tfUTMotorbike1.clear();
+		cobASOOrderId.getItems().removeAll((Collection<?>) this.cobASOOrderId.getItems());
+		tfASOTime.clear();
+		tfASOAmount.clear();
+		tfASOAddress.clear();
+		tfASOInStock.clear();
+		tfASOThreshold.clear();
+		cobGQRYear.getItems().removeAll((Collection<?>) this.cobGQRYear.getItems());
+		cobGQRQuarter.getItems().removeAll((Collection<?>) this.cobGQRQuarter.getItems());
+		for (int i = 0; i < tvHomeNotifytable.getItems().size(); i++)
+			tvHomeNotifytable.getItems().clear();
+		for (int j = 0; j < tvQRDetails1.getItems().size(); j++)
+			tvQRDetails1.getItems().clear();
+		for (int k = 0; k < tvQRDetails2.getItems().size(); k++)
+			tvQRDetails2.getItems().clear();
+		for (int p = 0; p < tvQRDetails3.getItems().size(); p++)
+			tvQRDetails3.getItems().clear();
+		taDOResons.clear();
+		tfQRTotalIncome.clear();
+		tfQRTotalAmountSold.clear();
+		tfQRTotalAmountBought.clear();
+		tflQRDateCreated.clear();
+		tflQRQuarter.clear();
+		tflQRYear.clear();
+		tflQRFuelStationID.clear();
 	}
 
 }

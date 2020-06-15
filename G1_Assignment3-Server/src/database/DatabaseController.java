@@ -181,7 +181,7 @@ public class DatabaseController {
 			return DatabaseFuelStationManagerController.getInstance(connection).getStationProductInOrderbyOrderID(orderID);
 	}
 	
-	public ArrayList<ProductInStation>getStationProductThresholdOrderbyUsername(String username) {
+	public Object[] getStationProductThresholdOrderbyUsername(String username) {
 		return DatabaseFuelStationManagerController.getInstance(connection).getStationProductThresholdOrderbyUsername(username);
 	}
 	
@@ -193,14 +193,17 @@ public class DatabaseController {
 		return DatabaseFuelStationManagerController.getInstance(connection).updateOrderDoneAssesmentbyOrderID(username, params);
 	}
 	
-
-//	public Object[] getExistQuarterlyReportYearsbyUsername(String username) {
-//		return DatabaseFuelStationManagerController.getInstance(connection).getExistQuarterlyReportYearsbyUsername(username);
-//	}
-	
+	public Object[] getUndismissNotificationsByUsername(String username) {
+		return DatabaseFuelStationManagerController.getInstance(connection).getUndismissNotificationsByUsername(username);
+	}
+		
 	public Object[] getQuarterlyReportDataByUsernameYearQuarter(String username, String params) {
 		return DatabaseFuelStationManagerController.getInstance(connection).getQuarterlyReportDataByUsernameYearQuarter(username, params);
 
+	}
+	
+	public Boolean dismissNotificationsByNotificationID(String params) {
+		return DatabaseFuelStationManagerController.getInstance(connection).dismissNotificationsByNotificationID(params);
 	}
 
 	

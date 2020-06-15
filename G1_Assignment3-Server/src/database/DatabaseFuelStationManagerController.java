@@ -16,6 +16,7 @@ import entities.FuelStationOrder;
 import entities.MyIncomeReport;
 import entities.MyInventoryReport;
 import entities.MyOutcomeReport;
+import entities.Notification;
 import entities.Orders;
 import entities.ProductInStation;
 import entities.QuarterlyReport;
@@ -54,6 +55,7 @@ public class DatabaseFuelStationManagerController {
 	 * @throws MyFuelException
 	 */
 	public Object[] getUnassesdOrderID(String username) {
+		Object[] result;
 		int employeeID = getEmployeeID(username);
 		if (employeeID == -1)
 			return null;
@@ -66,7 +68,11 @@ public class DatabaseFuelStationManagerController {
 		TreeSet<Integer> fuelStationOrdersID = new TreeSet<Integer>();
 		for (Integer productID : productInStationID)
 			fuelStationOrdersID.addAll(getUnassessedFuelStationOrdersID(productID));
-		Object[] result = new Object[] { "Unassesd Order IDs", fuelStationOrdersID };
+		if (fuelStationOrdersID.isEmpty()) {
+			result = new Object[] { "No Unassessd Orders" };
+			return result;
+		}
+		result = new Object[] { "Unassesd Order IDs", fuelStationOrdersID };
 		return result;
 	}
 
@@ -75,26 +81,56 @@ public class DatabaseFuelStationManagerController {
 	 * ProductInStation object with the product in the order
 	 * 
 	 * @param orderID
-	 * @return Object[productInStation,order]
+	 * @return Object[string,productInStation,order]
 	 * @throws ParseException
 	 */
 	public Object[] getStationProductInOrderbyOrderID(int orderID) {
 		ProductInStation productInStation = getProductInStationByOrderID(orderID);
+		if (productInStation.getFuelStationID() == -1 || productInStation == null)
+			return null;
 		Orders order = getFuelStationOrderByID(orderID);
-		Object[] result = new Object[] { productInStation, order };
+		if (order.getOrdersID() == -1 || order == null)
+			return null;
+		Object[] result = new Object[] { "Station Products In Orders", productInStation, order };
 		return result;
 	}
 
-	public ArrayList<ProductInStation> getStationProductThresholdOrderbyUsername(String username) {
+	/**
+	 * function gets Thresholds by username
+	 * 
+	 * @param username
+	 * @return Object[string] |Object[string, ArrayList]
+	 */
+	public Object[] getStationProductThresholdOrderbyUsername(String username) {
+		Object[] result;
 		int employeeID = getEmployeeID(username);
+		if (employeeID == -1)
+			return null;
 		int fuelStationID = getFuelStationID(employeeID);
-		ArrayList<ProductInStation> result = getProductInStationByfuelStationID(fuelStationID);
+		if (fuelStationID == -1)
+			return null;
+		ArrayList<ProductInStation> productInStationList = getProductInStationByfuelStationID(fuelStationID);
+		if (productInStationList.isEmpty()) {
+			return result = new Object[] { "No Product In Station" };
+		}
+		result = new Object[] { "products In Station", productInStationList };
 		return result;
 	}
 
+	/**
+	 * function update threshold by username and newThreshold
+	 * 
+	 * @param username
+	 * @param newThresholds
+	 * @return
+	 */
 	public Boolean updateProductInStationThresholdbyUsername(String username, String newThresholds) {
 		int employeeID = getEmployeeID(username);
+		if (employeeID == -1)
+			return null;
 		int fuelStationID = getFuelStationID(employeeID);
+		if (fuelStationID == -1)
+			return null;
 		String[] params = newThresholds.split(" ");
 		Boolean result = updateProductInStationThresholdbyfuelStationID(fuelStationID, params);
 		if (!result)
@@ -102,6 +138,13 @@ public class DatabaseFuelStationManagerController {
 		return result;
 	}
 
+	/**
+	 * function update fuel station order assesment
+	 * 
+	 * @param username
+	 * @param params
+	 * @return
+	 */
 	public Boolean updateOrderDoneAssesmentbyOrderID(String username, String params) {
 		String[] parameters = params.split(" ");
 		int orderID = Integer.parseInt(parameters[0]);
@@ -128,6 +171,13 @@ public class DatabaseFuelStationManagerController {
 		return true;
 	}
 
+	/**
+	 * function gets QuarterlyReport by username RepYear and RepQuarter
+	 * 
+	 * @param username
+	 * @param params
+	 * @return null |Object[string, report1,report2,report3]
+	 */
 	public Object[] getQuarterlyReportDataByUsernameYearQuarter(String username, String params) {
 		String[] paramSplit = params.split(" ");
 		String year = paramSplit[0];
@@ -135,11 +185,13 @@ public class DatabaseFuelStationManagerController {
 		boolean reportExist = false;
 		Date dateCreated = new Date();
 		int employeeID = getEmployeeID(username);
+		if (employeeID == -1)
+			return null;
 		int fuelStationID = getFuelStationID(employeeID);
+		if (fuelStationID == -1)
+			return null;
 		ArrayList<ProductInStation> productInStationList = getProductInStationByfuelStationID(fuelStationID);
-		
 		ArrayList<QuarterlyReport> quarterlyReportlist = getQuarterlyReportbyFuelStationID(fuelStationID);
-		
 		for (QuarterlyReport qr : quarterlyReportlist) {
 			if (qr.getRepYear().equals(year) && qr.getRepQuarter() == quarter) {
 				dateCreated = qr.getDateCreated();
@@ -148,34 +200,92 @@ public class DatabaseFuelStationManagerController {
 		}
 		if (reportExist == false) {
 			if (createQuarterReport(fuelStationID, year, quarter, productInStationList) == false) {
-				System.out.println("failed to create");
 				return null;
 			}
 		}
 		MyIncomeReport incomeReport = getExistIncomeReport(fuelStationID, dateCreated, year, quarter,
 				productInStationList);
 		if (incomeReport == null) {
-			System.out.println("failed income");
 			return null;
 		}
 
 		MyOutcomeReport outcomeReport = getExistOutcomeReport(fuelStationID, dateCreated, year, quarter,
 				productInStationList);
 		if (outcomeReport == null) {
-			System.out.println("failed outcomeReport");
 			return null;
 		}
 		MyInventoryReport inventoryReport = getExistInventoryReport(fuelStationID, dateCreated, year, quarter,
 				productInStationList);
 		if (inventoryReport == null) {
-			System.out.println("failed inventoryReport");
 			return null;
 		}
 		Object[] result = new Object[] { "Quarter Report", incomeReport, outcomeReport, inventoryReport };
 		return result;
 	}
 
-	private boolean createQuarterReport(int fuelStationID, String repYear, int repQuarter,
+	/**
+	 * function gets Undismissed Notifications by username
+	 * 
+	 * @param username
+	 * @return null | Object[string, ArrayList] | Object[string]
+	 */
+	public Object[] getUndismissNotificationsByUsername(String username) {
+		ArrayList<Notification> notificationsList = new ArrayList<>();
+		int employeeID = getEmployeeID(username);
+		if (employeeID == -1)
+			return null;
+		Object[] result;
+		PreparedStatement pStmt;
+		try {
+			pStmt = this.connection
+					.prepareStatement("SELECT * FROM notification WHERE FK_employeeID = ? AND dismissed = 0");
+			pStmt.setInt(1, employeeID);
+			ResultSet rs = pStmt.executeQuery();
+			if (!rs.next())
+				return result = new Object[] { "No Undismissed Notifications" };
+			do {
+				int notificationID = rs.getInt(1);
+				String message = rs.getString(3);
+				Date dateCreated = formatter.parse(rs.getString(5));
+				notificationsList.add(new Notification(notificationID, employeeID, message, false, dateCreated));
+			} while (rs.next());
+
+		} catch (SQLException e) {
+			return null;
+		} catch (ParseException e) {
+			return null;
+		}
+		result = new Object[] { "Undismissed Notifications", notificationsList };
+		return result;
+	}
+
+	/**
+	 * function update notification and dismiss by notificationID
+	 * 
+	 * @param notificationID
+	 * @return
+	 */
+	public Boolean dismissNotificationsByNotificationID(String notificationID) {
+		PreparedStatement pStmt;
+		try {
+			pStmt = this.connection.prepareStatement("UPDATE notification SET dismissed = 1 WHERE notificationID = ?");
+			pStmt.setString(1, notificationID);
+			pStmt.executeUpdate();
+		} catch (SQLException e) {
+			return null;
+		}
+		return true;
+	}
+
+	/**
+	 * 
+	 * @param fuelStationID
+	 * @param repYear
+	 * @param repQuarter
+	 * @param productInStationList
+	 * @return
+	 */
+	private Boolean createQuarterReport(int fuelStationID, String repYear, int repQuarter,
 			ArrayList<ProductInStation> productInStationList) {
 		int startMonth = -1;
 		switch (repQuarter) {
@@ -192,7 +302,7 @@ public class DatabaseFuelStationManagerController {
 			startMonth = 10;
 			break;
 		default:
-			return false;
+			return null;
 		}
 		Calendar cal = Calendar.getInstance();
 		Date now = new Date();
@@ -205,17 +315,13 @@ public class DatabaseFuelStationManagerController {
 			// "DateCreated"
 			Object[] values = { repQuarter, repYear, fuelStationID, now };
 			TableInserts.insertQuarterlyReport(connection, values);
-			System.out.println("TableInserts.insertQuarterlyReport");
 			// insert IncomeReport "FK_repQuarter", "FK_repYear", "FK_fuelStationID",
 			// "totalIncome"
 			values = new Object[] { repQuarter, repYear, fuelStationID, 0 };
 			TableInserts.insertIncomeReport(connection, values);
-			System.out.println("TableInserts.insertIncomeReport");
 			TableInserts.insertInventoryReport(connection, values);
-			System.out.println("insertInventoryReport");
 			TableInserts.insertOutcomeReport(connection, values);
-			System.out.println("TableInserts.insertOutcomeReport");
-			
+
 			double totalIncome = 0;
 			double totalAmountBoughtFromSupllier = 0;
 			double totalAmountSold = 0;
@@ -225,7 +331,6 @@ public class DatabaseFuelStationManagerController {
 				double avgPerProduct = 0;
 				double amountBoughtFromSupplier = 0;
 				double amountSold = 0;
-				// income Report
 				PreparedStatement pStmt = this.connection.prepareStatement(
 						"SELECT SUM(finalPrice),AVG(finalPrice/amountBought),SUM(amountBought) FROM fast_fuel WHERE FK_productInStationID = ? AND YEAR(fastFuelTime)=? AND MONTH(fastFuelTime) >= ? AND MONTH(fastFuelTime) <= ? ");
 				pStmt.setInt(1, productID);
@@ -233,7 +338,6 @@ public class DatabaseFuelStationManagerController {
 				pStmt.setInt(3, startMonth);
 				pStmt.setInt(4, startMonth + 2);
 				ResultSet rs1 = pStmt.executeQuery();
-				System.out.println("pStmt1");
 				if (rs1.next()) {
 					incomePerProduct = rs1.getDouble(1);
 					avgPerProduct = rs1.getDouble(2);
@@ -242,7 +346,6 @@ public class DatabaseFuelStationManagerController {
 					totalAmountSold += amountSold;
 				}
 				rs1.close();
-				// outcome Report
 				pStmt = this.connection.prepareStatement(
 						"SELECT SUM(amountBought) FROM orders WHERE ordersID IN( SELECT FK_ordersID  FROM fuel_station_order WHERE FK_productInStationID = ? AND supplied = 1 AND YEAR(timeSupplied)= ? AND MONTH(timeSupplied) >= ?  AND MONTH(timeSupplied) <= ? )");
 				pStmt.setInt(1, productID);
@@ -250,7 +353,6 @@ public class DatabaseFuelStationManagerController {
 				pStmt.setInt(3, startMonth);
 				pStmt.setInt(4, startMonth + 2);
 				rs1 = pStmt.executeQuery();
-				System.out.println("pStmt2");
 				if (rs1.next()) {
 					amountBoughtFromSupplier = rs1.getDouble(1);
 					totalAmountBoughtFromSupllier += amountBoughtFromSupplier;
@@ -260,17 +362,14 @@ public class DatabaseFuelStationManagerController {
 				// "FK_repYear_IncomeReport", "incomePerProduct", "avgPrice"
 				values = new Object[] { productID, repQuarter, repYear, incomePerProduct, avgPerProduct };
 				TableInserts.insertProductInIncomeReport(connection, values);
-				System.out.println("TableInserts.insertProductInIncomeReport");
 				// "FK_productInStationID", "FK_repQuarter_outcomeReport",
 				// "FK_repYear_outcomeReport", "amountBoughtFromSupplier"
 				values = new Object[] { productID, repQuarter, repYear, amountBoughtFromSupplier };
 				TableInserts.insertProductInOutcomeReport(connection, values);
-				System.out.println("TableInserts.insertProductInOutcomeReport");
 				// "FK_productInStationID", "FK_repQuarter_inventoryReport",
 				// "FK_repYear_inventoryReport", "amountSold"
 				values = new Object[] { productID, repQuarter, repYear, amountSold };
 				TableInserts.insertProductInInventoryReport(connection, values);
-				System.out.println("TableInserts.insertProductInInventoryReport");
 			}
 
 			PreparedStatement pStmt;
@@ -281,8 +380,7 @@ public class DatabaseFuelStationManagerController {
 			pStmt.setString(3, repYear);
 			pStmt.setInt(4, fuelStationID);
 			pStmt.executeUpdate();
-			System.out.println("update 1");
-			
+
 			pStmt = this.connection.prepareStatement(
 					"UPDATE outcome_report SET totalAmountBoughtFromSupplier = ? WHERE FK_repQuarter = ? AND FK_repYear = ? AND FK_fuelStationID = ?");
 			pStmt.setDouble(1, totalAmountBoughtFromSupllier);
@@ -290,8 +388,7 @@ public class DatabaseFuelStationManagerController {
 			pStmt.setString(3, repYear);
 			pStmt.setInt(4, fuelStationID);
 			pStmt.executeUpdate();
-			System.out.println("update 2");
-			
+
 			pStmt = this.connection.prepareStatement(
 					"UPDATE inventory_report SET totalAmountSold = ? WHERE FK_repQuarter = ? AND FK_repYear = ? AND FK_fuelStationID = ?");
 			pStmt.setDouble(1, totalAmountSold);
@@ -299,13 +396,21 @@ public class DatabaseFuelStationManagerController {
 			pStmt.setString(3, repYear);
 			pStmt.setInt(4, fuelStationID);
 			pStmt.executeUpdate();
-			System.out.println("update 3");
 		} catch (SQLException e) {
-			return false;
+			return null;
 		}
 		return true;
 	}
 
+	/**
+	 * 
+	 * @param fuelStationID
+	 * @param dateCreated
+	 * @param repYear
+	 * @param repQuarter
+	 * @param productInStationList
+	 * @return
+	 */
 	private MyInventoryReport getExistInventoryReport(int fuelStationID, Date dateCreated, String repYear,
 			int repQuarter, ArrayList<ProductInStation> productInStationList) {
 		HashMap<ProductInStation, Double> amountsPerProduct = new HashMap<>();
@@ -334,6 +439,15 @@ public class DatabaseFuelStationManagerController {
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param fuelStationID
+	 * @param dateCreated
+	 * @param repYear
+	 * @param repQuarter
+	 * @param productInStationList
+	 * @return
+	 */
 	private MyOutcomeReport getExistOutcomeReport(int fuelStationID, Date dateCreated, String repYear, int repQuarter,
 			ArrayList<ProductInStation> productInStationList) {
 		double totalAmountBoughtFromSupplier = 0;
@@ -362,6 +476,15 @@ public class DatabaseFuelStationManagerController {
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param fuelStationID
+	 * @param dateCreated
+	 * @param repYear
+	 * @param repQuarter
+	 * @param productInStationList
+	 * @return
+	 */
 	private MyIncomeReport getExistIncomeReport(int fuelStationID, Date dateCreated, String repYear, int repQuarter,
 			ArrayList<ProductInStation> productInStationList) {
 		double totalIncome = 0;
@@ -390,6 +513,11 @@ public class DatabaseFuelStationManagerController {
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param fuelStationID
+	 * @return
+	 */
 	private ArrayList<QuarterlyReport> getQuarterlyReportbyFuelStationID(int fuelStationID) {
 		int repQuarter = -1;
 		String repYear = "";
@@ -419,6 +547,12 @@ public class DatabaseFuelStationManagerController {
 
 	}
 
+	/**
+	 * 
+	 * @param fuelStationID
+	 * @param newThresholds
+	 * @return
+	 */
 	private Boolean updateProductInStationThresholdbyfuelStationID(int fuelStationID, String[] newThresholds) {
 		int amountOfProduct = newThresholds.length / 2;
 		try {
@@ -439,12 +573,17 @@ public class DatabaseFuelStationManagerController {
 			return null;
 		}
 		if (amountOfProduct == 0) {
-			return true;
+			return new Boolean(true);
 		}
 
-		return false;
+		return null;
 	}
 
+	/**
+	 * 
+	 * @param fuelStationID
+	 * @return
+	 */
 	private ArrayList<ProductInStation> getProductInStationByfuelStationID(int fuelStationID) {
 		ArrayList<ProductInStation> result = new ArrayList<>();
 		int productInStationID = -1;
@@ -460,7 +599,7 @@ public class DatabaseFuelStationManagerController {
 			pStmt.setInt(1, fuelStationID);
 			ResultSet rs = pStmt.executeQuery();
 			if (!rs.next())
-				return null;
+				return result;// returns empty list
 			do {
 				productInStationID = rs.getInt(1);
 				productNameStr = rs.getString(2).replaceAll("\\s", "");
@@ -523,7 +662,7 @@ public class DatabaseFuelStationManagerController {
 					}
 					if (rs.getInt(6) == 1) {// supplied==1
 						supplied = true;
-						timeSupplied =formatter.parse(rs.getString(7));
+						timeSupplied = formatter.parse(rs.getString(7));
 					}
 				}
 			}
@@ -547,6 +686,11 @@ public class DatabaseFuelStationManagerController {
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param orderID
+	 * @return
+	 */
 	private ProductInStation getProductInStationByOrderID(int orderID) {
 		int productInStationID = -1;
 		ProductName productName = ProductName.Nan;
@@ -599,6 +743,11 @@ public class DatabaseFuelStationManagerController {
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param username
+	 * @return
+	 */
 	private int getEmployeeID(String username) {
 		int result = -1;
 		try {
@@ -616,6 +765,11 @@ public class DatabaseFuelStationManagerController {
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param employeeID
+	 * @return
+	 */
 	private int getFuelStationID(int employeeID) {
 		int result = -1;
 		try {
@@ -633,6 +787,11 @@ public class DatabaseFuelStationManagerController {
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param fuelStationID
+	 * @return
+	 */
 	private List<Integer> getProductInStationIDs(int fuelStationID) {
 		List<Integer> result = new ArrayList<Integer>();
 		try {
@@ -650,6 +809,11 @@ public class DatabaseFuelStationManagerController {
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param productInStationID
+	 * @return
+	 */
 	private List<Integer> getUnassessedFuelStationOrdersID(int productInStationID) {
 		List<Integer> result = new ArrayList<Integer>();
 		try {

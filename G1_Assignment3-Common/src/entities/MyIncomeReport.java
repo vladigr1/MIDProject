@@ -18,7 +18,7 @@ public class MyIncomeReport extends QuarterlyReport {
 	private double totalIncome;
 	private Map<ProductInStation, Double> incomePerProduct;
 
-	/**	
+	/**
 	 * 
 	 * @param repQuarter
 	 * @param repYear
@@ -26,10 +26,11 @@ public class MyIncomeReport extends QuarterlyReport {
 	 * @param dateCreated
 	 * @param totalIncome
 	 */
-	public MyIncomeReport(int repQuarter, String repYear, int fuelStationID, Date dateCreated, double totalIncome,Map<ProductInStation, Double> incomePerProduct) {
+	public MyIncomeReport(int repQuarter, String repYear, int fuelStationID, Date dateCreated, double totalIncome,
+			Map<ProductInStation, Double> incomePerProduct) {
 		super(repQuarter, repYear, fuelStationID, dateCreated);
 		this.totalIncome = totalIncome;
-		this.incomePerProduct=incomePerProduct;
+		this.incomePerProduct = incomePerProduct;
 	}
 
 	public double getTotalIncome() {
@@ -40,10 +41,18 @@ public class MyIncomeReport extends QuarterlyReport {
 		return incomePerProduct;
 	}
 
+	/**
+	 * 
+	 * @param incomePerProduct
+	 */
 	public void setIncomePerProduct(Map<ProductInStation, Double> incomePerProduct) {
 		this.incomePerProduct = incomePerProduct;
 	}
 
+	/**
+	 * 
+	 * @param totalIncome
+	 */
 	public void setTotalIncome(double totalIncome) {
 		this.totalIncome = totalIncome;
 	}
