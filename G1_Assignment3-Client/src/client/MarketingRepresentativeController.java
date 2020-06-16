@@ -109,11 +109,12 @@ public class MarketingRepresentativeController extends MarketingDepWorkerControl
 					this.sendToServer(new Object[] { user, customer });
 
 				} else if (splitMsg[0].equals("getcustomerdetails") || splitMsg[0].equals("deletecustomer")
-						|| splitMsg[0].equals("checkcustomer")) {
+						|| splitMsg[0].equals("checkcustomer") || splitMsg[0].equals("getAllPricingModelDiscounts")) {
 					System.out.println("sending to server : " + message);
 					this.sendToServer(message);
 
 				} else {
+
 					flag = false;
 					awaitResponse = false;
 				}

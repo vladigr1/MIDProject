@@ -133,7 +133,7 @@ public class ServerController extends AbstractServer {
 
 				} else if (str.startsWith("getcustomerdetails") || str.startsWith("deletecustomer")
 						|| str.startsWith("checkcustomer") || str.startsWith("getcustomercars")
-						|| str.startsWith("deletecar")) {
+						|| str.startsWith("deletecar") || str.startsWith("getAllPricingModelDiscounts")) {
 					ServerMarketingRepresentativeController.getInstance(databaseController).handleMessageFromClient(str,
 							client);
 				} else if (str.startsWith("updatepassword")) {

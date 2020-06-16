@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import entities.Car;
 import entities.CarList;
@@ -648,16 +650,19 @@ public class DatabaseMarketingRepresentativeController {
 		try {
 			String customerID = pricingModel.getCustomerID();
 			PricingModelName model = pricingModel.getPricingModelName();
-			double discount = pricingModel.getCurrentDiscount();
-			int numOfCars = 1;
-
-			if (model.equals(PricingModelName.MonthlyProgramMultipleCars)
-					|| model.equals(PricingModelName.FullProgramSingleCar)) {
-				discount += numOfCars * 0.04;
-			}
 
 			PreparedStatement pStmt = this.connection
-					.prepareStatement("SELECT * FROM pricing_model WHERE FK_customerID = ?");
+					.prepareStatement("SELECT defaultDiscount FROM pricing_model_type WHERE pricingModelName = ?");
+			pStmt.setString(1, model.toString());
+			ResultSet rs = pStmt.executeQuery();
+			if (!rs.next()) {
+				return null;
+			}
+			double discount = rs.getDouble(1);
+			rs.close();
+
+			pStmt = this.connection.prepareStatement(
+					"SELECT FK_pricingModelName, lastMonthUtillization FROM pricing_model WHERE FK_customerID = ?");
 			pStmt.setString(1, customerID);
 			ResultSet rs1 = pStmt.executeQuery();
 
@@ -677,6 +682,9 @@ public class DatabaseMarketingRepresentativeController {
 
 				return "set pricing model success";
 			}
+			String currentPricingModelName = rs1.getString(1);
+			double lastMonthUtillization = rs1.getDouble(2);
+			rs1.close();
 
 			// already exists - update
 			pStmt = this.connection.prepareStatement(
@@ -688,8 +696,13 @@ public class DatabaseMarketingRepresentativeController {
 
 			if (model.equals(PricingModelName.FullProgramSingleCar)) {
 				pStmt = this.connection
-						.prepareStatement("UPDATE pricing_model SET lastMonthUtillization = 0 WHERE FK_customerID = ?");
-				pStmt.setString(1, customerID);
+						.prepareStatement("UPDATE pricing_model SET lastMonthUtillization = ? WHERE FK_customerID = ?");
+				if (!currentPricingModelName.equals(PricingModelName.FullProgramSingleCar.toString())) {
+					pStmt.setDouble(1, 0);
+				} else {
+					pStmt.setDouble(1, lastMonthUtillization);
+				}
+				pStmt.setString(2, customerID);
 				pStmt.executeUpdate();
 			}
 
@@ -701,6 +714,34 @@ public class DatabaseMarketingRepresentativeController {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return "set pricing model fail";
+		}
+	}
+
+	public Map<PricingModelName, Double> getAllPricingModelDiscounts() {
+		try {
+			Map<PricingModelName, Double> pricingModelDiscounts = new HashMap<>();
+
+			PreparedStatement pStmt = this.connection
+					.prepareStatement("SELECT pricingModelName, defaultDiscount FROM pricing_model_type");
+			ResultSet rs = pStmt.executeQuery();
+			if (!rs.next()) {
+				return null;
+			}
+
+			do {
+				String pricingModelName = rs.getString(1).replaceAll("\\s", "");
+				pricingModelDiscounts.put(PricingModelName.valueOf(pricingModelName), rs.getDouble(2));
+			} while (rs.next());
+			rs.close();
+
+			return pricingModelDiscounts;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return null;
 		}
 	}
 

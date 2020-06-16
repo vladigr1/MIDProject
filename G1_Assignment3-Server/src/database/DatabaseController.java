@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
+import java.util.Map;
 
 import entities.ActivityList;
 import entities.Car;
@@ -28,6 +29,7 @@ import entities.SalesList;
 import entities.SalesPatternList;
 import entities.SupplierItemInTable;
 import entities.User;
+import enums.PricingModelName;
 import guiServer.ServerWindow;
 
 /**
@@ -303,6 +305,10 @@ public class DatabaseController {
 	 */
 	public String setPricingModel(PricingModel pricingModel) {
 		return DatabaseMarketingRepresentativeController.getInstance(connection).setPricingModel(pricingModel);
+	}
+
+	public Map<PricingModelName, Double> getAllPricingModelDiscounts() {
+		return DatabaseMarketingRepresentativeController.getInstance(connection).getAllPricingModelDiscounts();
 	}
 
 	/************* fast fuel controller methods **************/

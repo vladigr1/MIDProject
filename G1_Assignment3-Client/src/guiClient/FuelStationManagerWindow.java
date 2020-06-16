@@ -155,7 +155,7 @@ public class FuelStationManagerWindow extends QuarterlyReportWindow {
 					this.openConfirmationAlert("Success", "Threshold updated successfully");
 					initializeThresholdPane();
 				} else {
-					this.openErrorAlert("Error", "Threshold must be more than capacity");
+					this.openErrorAlert("Error", "Threshold must be less than capacity");
 				}
 
 			} else if (visibleNow == assessPane) {
@@ -447,6 +447,12 @@ public class FuelStationManagerWindow extends QuarterlyReportWindow {
 		initiallizeInventoryReportTables();
 		fillQuarterlyReportComboBox();
 		sidebar_btn0.setSelected(true);
+		tfUTDiesel1.setFocusTraversable(false);
+		tfUTDiesel11.setFocusTraversable(false);
+		tfUTGasoline1.setFocusTraversable(false);
+		tfUTGasoline11.setFocusTraversable(false);
+		tfUTMotorbike1.setFocusTraversable(false);
+		tfUTMotorbike11.setFocusTraversable(false);
 	}
 
 	private void initializeThresholdPane() {

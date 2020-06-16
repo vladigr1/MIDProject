@@ -830,7 +830,7 @@
                                                 <ToggleGroup fx:id="three" />
                                              </toggleGroup>
                                           </ToggleButton>
-                                          <Label fx:id="lblSPMModel1Discount" layoutX="110.0" layoutY="205.0" text="0.0" />
+                                          <Label fx:id="lblSPMModel1Discount" layoutX="110.0" layoutY="205.0" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane layoutX="200.0" layoutY="43.0" prefHeight="270.0" prefWidth="179.0" style="-fx-background-color: #d8dce0;">
@@ -851,7 +851,7 @@
                                           </Text>
                                           <ToggleButton fx:id="btnSPMChoose2" layoutX="41.0" layoutY="226.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="98.0" styleClass="task-toggle-button" stylesheets="@../pics/style.css" text="Choose" toggleGroup="$three" />
                                           <Label layoutX="50.0" layoutY="200.0" prefHeight="27.0" prefWidth="50.0" text="discount:" />
-                                          <Label fx:id="lblSPMModel2Discount" layoutX="110.0" layoutY="205.0" text="0.04" />
+                                          <Label fx:id="lblSPMModel2Discount" layoutX="110.0" layoutY="205.0" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane layoutX="401.0" layoutY="43.0" prefHeight="270.0" prefWidth="179.0" style="-fx-background-color: #d8dce0;">
@@ -872,7 +872,7 @@
                                           </Text>
                                           <ToggleButton fx:id="btnSPMChoose3" layoutX="42.0" layoutY="226.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="98.0" styleClass="task-toggle-button" stylesheets="@../pics/style.css" text="Choose" toggleGroup="$three" />
                                           <Label layoutX="50.0" layoutY="200.0" prefHeight="27.0" prefWidth="50.0" text="discount:" />
-                                          <Label fx:id="lblSPMModel3Discount" layoutX="110.0" layoutY="205.0" text="0.14" />
+                                          <Label fx:id="lblSPMModel3Discount" layoutX="110.0" layoutY="205.0" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane layoutX="604.0" layoutY="43.0" prefHeight="270.0" prefWidth="179.0" style="-fx-background-color: #d8dce0;">
@@ -893,7 +893,7 @@
                                           </Text>
                                           <ToggleButton fx:id="btnSPMChoose4" layoutX="41.0" layoutY="226.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="98.0" styleClass="task-toggle-button" stylesheets="@../pics/style.css" text="Choose" toggleGroup="$three" />
                                           <Label layoutX="50.0" layoutY="200.0" prefHeight="27.0" prefWidth="50.0" text="discount:" />
-                                          <Label fx:id="lblSPMModel4Discount" layoutX="110.0" layoutY="205.0" text="0.17" />
+                                          <Label fx:id="lblSPMModel4Discount" layoutX="110.0" layoutY="205.0" />
                                        </children>
                                     </AnchorPane>
                                     <Label layoutX="604.0" layoutY="13.0" text="Number of Cars:">
