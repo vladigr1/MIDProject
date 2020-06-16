@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
@@ -25,7 +24,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guiClient.FuelStationManagerWindow">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guiClient.NetworkManagerWindow">
    <children>
       <BorderPane fx:id="mainBorderPane" minHeight="700.0" prefHeight="650.0" styleClass="main-pane" stylesheets="@../pics/style.css">
          <left>
@@ -71,25 +70,9 @@
                               <ToggleGroup fx:id="one" />
                            </toggleGroup>
                         </ToggleButton>
-                        <ToggleButton fx:id="sidebar_btn1" alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#openUpdateThreshold" prefHeight="188.0" prefWidth="347.0" styleClass="side-bar-toggle-button" stylesheets="@../pics/style.css" text="Update Threshold" textFill="WHITE" toggleGroup="$one" GridPane.rowIndex="1">
+                        <ToggleButton fx:id="sidebar_btn1" alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#openAssessPane" prefHeight="63.0" prefWidth="260.0" styleClass="side-bar-toggle-button" stylesheets="@../pics/style.css" text="Assess Pricing Model Update Request" textFill="WHITE" toggleGroup="$one" wrapText="true" GridPane.rowIndex="1">
                            <font>
-                              <Font name="Calibri" size="18.0" />
-                           </font>
-                           <graphic>
-                              <Pane>
-                                 <children>
-                                    <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="-4.0">
-                                       <image>
-                                          <Image url="@../pics/updatethreshold.png" />
-                                       </image>
-                                    </ImageView>
-                                 </children>
-                              </Pane>
-                           </graphic>
-                        </ToggleButton>
-                        <ToggleButton fx:id="sidebar_btn2" alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#openAssessStationOrders" prefHeight="188.0" prefWidth="347.0" styleClass="side-bar-toggle-button" stylesheets="@../pics/style.css" text="Assess Station Orders" textFill="WHITE" toggleGroup="$one" GridPane.rowIndex="2">
-                           <font>
-                              <Font name="Calibri" size="18.0" />
+                              <Font name="Calibri" size="16.0" />
                            </font>
                            <graphic>
                               <Pane>
@@ -106,9 +89,9 @@
                               <Insets />
                            </GridPane.margin>
                         </ToggleButton>
-                        <ToggleButton fx:id="sidebar_btn3" alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#openGenerateQuarterlyReport" prefHeight="188.0" prefWidth="347.0" styleClass="side-bar-toggle-button" stylesheets="@../pics/style.css" text="Generate Quarterly Report" textFill="WHITE" toggleGroup="$one" GridPane.rowIndex="3">
+                        <ToggleButton fx:id="sidebar_btn2" alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#openGenerateQuarterlyReport" prefHeight="188.0" prefWidth="347.0" styleClass="side-bar-toggle-button" stylesheets="@../pics/style.css" text="View Quarterly Report" textFill="WHITE" toggleGroup="$one" GridPane.rowIndex="2">
                            <font>
-                              <Font name="Calibri" size="18.0" />
+                              <Font name="Calibri" size="16.0" />
                            </font>
                            <graphic>
                               <Pane>
@@ -206,7 +189,7 @@
                      <children>
                         <Pane prefWidth="260.0" style="-fx-background-color: #1e262c;">
                            <children>
-                              <Label layoutX="11.0" layoutY="7.0" text="Fuel Station Manager" textFill="WHITE" underline="true">
+                              <Label layoutX="11.0" layoutY="7.0" text="Network Manager" textFill="WHITE" underline="true">
                                  <font>
                                     <Font name="Leelawadee UI" size="14.0" />
                                  </font>
@@ -307,204 +290,75 @@
                                     </GridPane>
                                  </children>
                               </AnchorPane>
-                              <Button fx:id="btnHomeNotification" layoutX="757.0" mnemonicParsing="false" onAction="#openNotification" prefHeight="70.0" prefWidth="67.0" styleClass="home" stylesheets="@../pics/gridPaneStyle.css">
-                                 <graphic>
-                                    <ImageView fx:id="imgHomeNotify" fitHeight="60.0" fitWidth="60.0">
-                                       <image>
-                                          <Image url="@../pics/notify0.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </Button>
-                           </children>
-                        </AnchorPane>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane fx:id="thresholdPane" layoutX="13.0" layoutY="14.0" prefHeight="549.0" prefWidth="755.0" visible="false">
-                     <children>
-                        <Label layoutX="2.0" layoutY="-1.0" text="Threshold Information:">
-                           <font>
-                              <Font name="Arial Bold" size="18.0" />
-                           </font>
-                        </Label>
-                        <AnchorPane layoutX="3.0" layoutY="18.0" prefHeight="525.0" prefWidth="742.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css">
-                           <children>
-                              <GridPane layoutX="14.0" layoutY="239.0" prefHeight="195.0" prefWidth="462.0">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="42.0" minWidth="10.0" prefWidth="17.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="251.0" minWidth="10.0" prefWidth="245.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="210.0" minWidth="10.0" prefWidth="61.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                                 <children>
-                                    <CheckBox fx:id="cbUTGasoline" mnemonicParsing="false" GridPane.columnIndex="1" />
-                                    <CheckBox fx:id="cbUTDiesel" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <CheckBox fx:id="cbUTMotorbike" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <TextField fx:id="tfUTGasoline2" disable="true" prefHeight="30.0" GridPane.columnIndex="2" />
-                                    <TextField fx:id="tfUTDiesel2" disable="true" prefHeight="30.0" prefWidth="243.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                    <TextField fx:id="tfUTMotorbike2" disable="true" prefHeight="30.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                                    <Label text="Gasoline" underline="true">
-                                       <font>
-                                          <Font name="Arial" size="16.0" />
-                                       </font>
-                                    </Label>
-                                    <Label text="Diesel" underline="true" GridPane.rowIndex="1">
-                                       <font>
-                                          <Font name="Arial" size="16.0" />
-                                       </font>
-                                    </Label>
-                                    <Label text="Motorbike Fuel" underline="true" GridPane.rowIndex="2">
-                                       <font>
-                                          <Font name="Arial" size="16.0" />
-                                       </font>
-                                    </Label>
-                                    <Label text="Liter" GridPane.columnIndex="3">
-                                       <font>
-                                          <Font size="13.0" />
-                                       </font>
-                                       <padding>
-                                          <Insets left="3.0" />
-                                       </padding>
-                                    </Label>
-                                    <Label text="Liter" GridPane.columnIndex="3" GridPane.rowIndex="2">
-                                       <font>
-                                          <Font size="13.0" />
-                                       </font>
-                                       <padding>
-                                          <Insets left="3.0" />
-                                       </padding>
-                                    </Label>
-                                    <Label text="Liter" GridPane.columnIndex="3" GridPane.rowIndex="1">
-                                       <font>
-                                          <Font size="13.0" />
-                                       </font>
-                                       <padding>
-                                          <Insets left="3.0" />
-                                       </padding>
-                                    </Label>
-                                 </children>
-                              </GridPane>
-                              <AnchorPane layoutX="14.0" layoutY="59.0" prefHeight="145.0" prefWidth="311.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css">
-                                 <children>
-                                    <Label layoutX="15.0" layoutY="22.0" text="Gasoline:" underline="true">
-                                       <font>
-                                          <Font name="Arial" size="16.0" />
-                                       </font>
-                                    </Label>
-                                    <Label layoutX="15.0" layoutY="62.0" text="Diesel:" underline="true">
-                                       <font>
-                                          <Font name="Arial" size="16.0" />
-                                       </font>
-                                    </Label>
-                                    <Label layoutX="15.0" layoutY="100.0" text="Motorbike Fuel:" underline="true">
-                                       <font>
-                                          <Font name="Arial" size="16.0" />
-                                       </font>
-                                    </Label>
-                                    <TextField fx:id="tfUTGasoline1" editable="false" layoutX="168.0" layoutY="17.0" prefHeight="30.0" prefWidth="90.0" />
-                                    <TextField fx:id="tfUTMotorbike1" editable="false" layoutX="168.0" layoutY="95.0" prefHeight="30.0" prefWidth="90.0" />
-                                    <TextField fx:id="tfUTDiesel1" editable="false" layoutX="168.0" layoutY="56.0" prefHeight="30.0" prefWidth="90.0" />
-                                    <Label layoutX="264.0" layoutY="24.0" text="Liter" />
-                                    <Label layoutX="264.0" layoutY="64.0" text="Liter" />
-                                    <Label layoutX="264.0" layoutY="102.0" text="Liter" />
-                                 </children>
-                              </AnchorPane>
-                              <Label layoutX="14.0" layoutY="29.0" text="Current Thresholds:">
-                                 <font>
-                                    <Font name="Arial" size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label layoutX="14.0" layoutY="220.0" text="Please Select Fuel Thresholds to Update:" textFill="#144465" underline="true">
-                                 <font>
-                                    <Font name="Arial" size="16.0" />
-                                 </font>
-                              </Label>
-                              <Button fx:id="btnUTUpdate" layoutX="268.0" layoutY="462.0" mnemonicParsing="false" onAction="#updateThresholdData" prefHeight="37.0" prefWidth="222.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Update Threshold">
-                                 <graphic>
-                                    <ImageView fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../pics/v.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </Button>
-                              <AnchorPane layoutX="362.0" layoutY="59.0" prefHeight="145.0" prefWidth="311.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css">
-                                 <children>
-                                    <Label layoutX="15.0" layoutY="22.0" text="Gasoline:" underline="true">
-                                       <font>
-                                          <Font name="Arial" size="16.0" />
-                                       </font>
-                                    </Label>
-                                    <Label layoutX="15.0" layoutY="62.0" text="Diesel:" underline="true">
-                                       <font>
-                                          <Font name="Arial" size="16.0" />
-                                       </font>
-                                    </Label>
-                                    <Label layoutX="15.0" layoutY="100.0" text="Motorbike Fuel:" underline="true">
-                                       <font>
-                                          <Font name="Arial" size="16.0" />
-                                       </font>
-                                    </Label>
-                                    <TextField fx:id="tfUTGasoline11" editable="false" layoutX="168.0" layoutY="17.0" prefHeight="30.0" prefWidth="90.0" />
-                                    <TextField fx:id="tfUTMotorbike11" editable="false" layoutX="168.0" layoutY="95.0" prefHeight="30.0" prefWidth="90.0" />
-                                    <TextField fx:id="tfUTDiesel11" editable="false" layoutX="168.0" layoutY="56.0" prefHeight="30.0" prefWidth="90.0" />
-                                    <Label layoutX="264.0" layoutY="24.0" text="Liter" />
-                                    <Label layoutX="264.0" layoutY="64.0" text="Liter" />
-                                    <Label layoutX="264.0" layoutY="102.0" text="Liter" />
-                                 </children>
-                              </AnchorPane>
-                              <Label layoutX="362.0" layoutY="29.0" text="Current Capacities:">
-                                 <font>
-                                    <Font name="Arial" size="16.0" />
-                                 </font>
-                              </Label>
                            </children>
                         </AnchorPane>
                      </children>
                   </AnchorPane>
                   <AnchorPane fx:id="assessPane" layoutX="13.0" layoutY="13.0" prefHeight="543.0" prefWidth="639.0" visible="false">
                      <children>
-                        <AnchorPane layoutX="1.0" layoutY="17.0" prefHeight="529.0" prefWidth="638.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css">
+                        <AnchorPane layoutX="1.0" layoutY="17.0" prefHeight="529.0" prefWidth="545.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css">
                            <children>
-                              <HBox layoutX="164.0" layoutY="454.0" prefHeight="47.0" prefWidth="310.0">
+                              <AnchorPane layoutX="20.0" layoutY="116.0" prefHeight="382.0" prefWidth="497.0">
                                  <children>
-                                    <Button fx:id="btnASODecline" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Decline" textFill="WHITE">
-                                       <graphic>
-                                          <ImageView fitHeight="19.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../pics/x.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                       <HBox.margin>
-                                          <Insets right="30.0" />
-                                       </HBox.margin>
-                                    </Button>
-                                    <Button fx:id="btnASOConfirm" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Confirm ">
-                                       <HBox.margin>
-                                          <Insets />
-                                       </HBox.margin>
-                                       <graphic>
-                                          <ImageView fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../pics/v.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                    </Button>
+                                    <AnchorPane fx:id="apAPM" disable="true" layoutX="114.0" layoutY="335.0">
+                                       <children>
+                                          <Button fx:id="btnASODecline" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Decline" textFill="WHITE">
+                                             <graphic>
+                                                <ImageView fitHeight="19.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../pics/x.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                          <Button fx:id="btnASOConfirm" layoutX="160.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Confirm ">
+                                             <graphic>
+                                                <ImageView fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../pics/v.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </AnchorPane>
+                                    <Label text="Pricing Model Name">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="tfAPMPricingName" editable="false" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" />
+                                    <Label layoutY="60.0" text="Description">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="322.0" text="Time">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="tfAPMTime" editable="false" layoutX="322.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" />
+                                    <Label layoutX="1.0" layoutY="166.0" text="Current Discount">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="tfAPMcurDiscount" editable="false" layoutX="1.0" layoutY="186.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" />
+                                    <Label layoutX="322.0" layoutY="166.0" text="New Discount">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="tfAPMnewDiscount" editable="false" layoutX="322.0" layoutY="186.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" />
+                                    <TextArea fx:id="taAPMdescription" editable="false" layoutY="81.0" prefHeight="69.0" prefWidth="474.0" />
+                                    <Label layoutX="1.0" layoutY="236.0" prefHeight="25.0" prefWidth="322.0" text="Warning - This Will Change The Following Pricing Models :" textFill="#ff0707" />
+                                    <TextArea fx:id="taAPMwarning" editable="false" layoutX="322.0" layoutY="236.0" prefHeight="87.0" prefWidth="150.0" />
                                  </children>
-                              </HBox>
+                              </AnchorPane>
                               <VBox layoutX="20.0" layoutY="46.0" prefHeight="51.0" prefWidth="159.0">
                                  <children>
-                                    <Label prefHeight="21.0" prefWidth="129.0" text="Station Order ID:">
+                                    <Label prefHeight="21.0" prefWidth="129.0" text="Request ID:">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -515,58 +369,11 @@
                                           <Insets bottom="5.0" />
                                        </padding>
                                     </Label>
-                                    <ComboBox fx:id="cobASOOrderId" prefHeight="30.0" prefWidth="150.0" promptText="Select ID" />
+                                    <ComboBox fx:id="cobAPMRequestID" prefHeight="30.0" prefWidth="150.0" promptText="Select ID" />
                                  </children>
-                              </VBox>
-                              <VBox layoutX="18.0" layoutY="122.0" prefHeight="308.0" prefWidth="158.0">
-                                 <children>
-                                    <Label text="Product Name">
-                                       <font>
-                                          <Font name="Arial" size="16.0" />
-                                       </font>
-                                    </Label>
-                                    <TextField fx:id="tfASOName" editable="false" prefHeight="30.0" prefWidth="103.0">
-                                       <VBox.margin>
-                                          <Insets bottom="10.0" />
-                                       </VBox.margin>
-                                    </TextField>
-                                    <Label text="Quantity Purchased">
-                                       <font>
-                                          <Font name="Arial" size="16.0" />
-                                       </font>
-                                    </Label>
-                                    <TextField fx:id="tfASOAmount" editable="false" prefHeight="30.0" prefWidth="103.0">
-                                       <VBox.margin>
-                                          <Insets bottom="10.0" />
-                                       </VBox.margin>
-                                    </TextField>
-                                    <Label text="Time">
-                                       <font>
-                                          <Font name="Arial" size="16.0" />
-                                       </font>
-                                    </Label>
-                                    <TextField fx:id="tfASOTime" editable="false" prefHeight="30.0" prefWidth="103.0">
-                                       <VBox.margin>
-                                          <Insets bottom="10.0" />
-                                       </VBox.margin>
-                                    </TextField>
-                                    <Label text="Address">
-                                       <font>
-                                          <Font name="Arial" size="16.0" />
-                                       </font>
-                                    </Label>
-                                    <TextField fx:id="tfASOAddress" editable="false" prefHeight="30.0" prefWidth="103.0">
-                                       <VBox.margin>
-                                          <Insets bottom="10.0" />
-                                       </VBox.margin>
-                                    </TextField>
-                                 </children>
-                                 <padding>
-                                    <Insets left="5.0" right="5.0" top="5.0" />
-                                 </padding>
                               </VBox>
                               <Label layoutX="207.0" layoutY="23.0" text="No Station Orders To Assess" textFill="RED" visible="false" />
-                              <Button fx:id="btnASOShowOrder" layoutX="225.0" layoutY="66.0" mnemonicParsing="false" styleClass="task-button" stylesheets="@../pics/style.css" text="Show Order">
+                              <Button fx:id="btnASOShowOrder" layoutX="208.0" layoutY="65.0" mnemonicParsing="false" styleClass="task-button" stylesheets="@../pics/style.css" text="Show Request">
                                  <graphic>
                                     <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -575,37 +382,14 @@
                                     </ImageView>
                                  </graphic>
                               </Button>
-                              <VBox layoutX="202.0" layoutY="122.0" prefHeight="200.0" prefWidth="150.0">
-                                 <children>
-                                    <Label text="Threshold">
-                                       <font>
-                                          <Font name="Arial" size="16.0" />
-                                       </font>
-                                    </Label>
-                                    <TextField fx:id="tfASOThreshold" editable="false" prefHeight="30.0" prefWidth="103.0">
-                                       <VBox.margin>
-                                          <Insets bottom="10.0" />
-                                       </VBox.margin>
-                                    </TextField>
-                                    <Label text="In Stock">
-                                       <font>
-                                          <Font name="Arial" size="16.0" />
-                                       </font>
-                                    </Label>
-                                    <TextField fx:id="tfASOInStock" editable="false" prefHeight="30.0" prefWidth="103.0" />
-                                 </children>
-                                 <padding>
-                                    <Insets left="5.0" right="5.0" top="5.0" />
-                                 </padding>
-                              </VBox>
                            </children>
                         </AnchorPane>
-                        <Label layoutY="-1.0" text="Orders Information:">
+                        <Label layoutY="-1.0" text="Request Information:">
                            <font>
                               <Font name="Arial Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label layoutX="13.0" layoutY="31.0" text="Please Choose an Order and Press Show Order for Assessment:" textFill="#144465" underline="true">
+                        <Label layoutX="20.0" layoutY="31.0" text="Please Choose a Request and Press Show Request for Assessment:" textFill="#144465" underline="true">
                            <font>
                               <Font name="Arial" size="16.0" />
                            </font>
@@ -619,26 +403,26 @@
                               <Font name="Arial Bold" size="18.0" />
                            </font>
                         </Label>
-                        <AnchorPane layoutX="14.0" layoutY="18.0" prefHeight="269.0" prefWidth="316.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css">
+                        <AnchorPane layoutX="14.0" layoutY="18.0" prefHeight="298.0" prefWidth="316.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css">
                            <children>
                               <Label layoutX="14.0" layoutY="23.0" text="Please Choose the Following:" textFill="#144465" underline="true">
                                  <font>
                                     <Font name="Arial" size="16.0" />
                                  </font>
                               </Label>
-                              <ComboBox fx:id="cobGQRYear" layoutX="92.0" layoutY="67.0" prefHeight="30.0" prefWidth="150.0" />
-                              <ComboBox fx:id="cobGQRQuarter" layoutX="92.0" layoutY="119.0" prefHeight="30.0" prefWidth="150.0" />
-                              <Label layoutX="14.0" layoutY="72.0" text="Year:">
+                              <ComboBox fx:id="cobGQRYear" layoutX="138.0" layoutY="111.0" prefHeight="30.0" prefWidth="150.0" />
+                              <ComboBox fx:id="cobGQRQuarter" layoutX="138.0" layoutY="155.0" prefHeight="30.0" prefWidth="150.0" />
+                              <Label layoutX="14.0" layoutY="114.0" text="Year:">
                                  <font>
                                     <Font name="Arial" size="16.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="14.0" layoutY="124.0" text="Quarter:">
+                              <Label layoutX="14.0" layoutY="158.0" text="Quarter:">
                                  <font>
                                     <Font name="Arial" size="16.0" />
                                  </font>
                               </Label>
-                              <Button fx:id="btnGQRView" layoutX="88.0" layoutY="192.0" mnemonicParsing="false" onAction="#openQuarterlyReport" prefHeight="32.0" prefWidth="140.0" styleClass="task-button" stylesheets="@../pics/style.css" text="View Report">
+                              <Button fx:id="btnGQRView" layoutX="88.0" layoutY="226.0" mnemonicParsing="false" onAction="#openQuarterlyReport" prefHeight="32.0" prefWidth="140.0" styleClass="task-button" stylesheets="@../pics/style.css" text="View Report">
                                  <font>
                                     <Font size="36.0" />
                                  </font>
@@ -650,6 +434,12 @@
                                     </ImageView>
                                  </graphic>
                               </Button>
+                              <ComboBox fx:id="cobGQRFuelStationID" layoutX="138.0" layoutY="64.0" prefHeight="30.0" prefWidth="150.0" />
+                              <Label layoutX="14.0" layoutY="67.0" text="Fuel Station ID:">
+                                 <font>
+                                    <Font name="Arial" size="16.0" />
+                                 </font>
+                              </Label>
                            </children>
                         </AnchorPane>
                      </children>
@@ -660,7 +450,7 @@
       </BorderPane>
       <AnchorPane fx:id="declineOrderPane" layoutX="439.0" layoutY="234.0" prefHeight="232.0" prefWidth="385.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css" visible="false">
          <children>
-            <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="211.0" text="Decline Order" textFill="RED" underline="true">
+            <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="211.0" text="Decline Request" textFill="RED" underline="true">
                <font>
                   <Font name="Calibri" size="20.0" />
                </font>
@@ -784,36 +574,6 @@
                   <Insets left="15.0" />
                </padding>
             </TextField>
-         </children>
-      </AnchorPane>
-      <AnchorPane fx:id="notificationPane" layoutX="427.0" layoutY="249.0" prefHeight="372.0" prefWidth="527.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css" visible="false">
-         <children>
-            <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="211.0" text="Notifications" underline="true">
-               <font>
-                  <Font name="Calibri" size="23.0" />
-               </font>
-            </Label>
-            <TableView fx:id="tvHomeNotifytable" layoutX="12.0" layoutY="60.0" prefHeight="232.0" prefWidth="502.0" />
-            <Button fx:id="btnNotifyClose" layoutX="492.0" layoutY="10.0" minWidth="-Infinity" mnemonicParsing="false" prefHeight="13.0" prefWidth="25.0" style="-fx-background-radius: 50; -fx-background-color: #cc0000;">
-               <graphic>
-                  <ImageView fitHeight="15.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../pics/close.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button fx:id="btnNotifyDissmiss" layoutX="424.0" layoutY="321.0" mnemonicParsing="false" onAction="#updateNotificationData" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Dismiss" />
-            <Label layoutX="27.0" layoutY="313.0" prefHeight="49.0" prefWidth="369.0" text="For dismissing a notification, please choose one and press the dismiss button." textFill="#144465" wrapText="true">
-               <font>
-                  <Font name="Arial" size="16.0" />
-               </font>
-            </Label>
-            <Label layoutX="16.0" layoutY="316.0" prefHeight="25.0" prefWidth="6.0" text="*" textFill="#144465" wrapText="true">
-               <font>
-                  <Font name="Arial" size="16.0" />
-               </font>
-            </Label>
          </children>
       </AnchorPane>
    </children>

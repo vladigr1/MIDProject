@@ -15,6 +15,7 @@ import entities.FastFuel;
 import entities.FastFuelList;
 import entities.HomeFuelOrder;
 import entities.HomeFuelOrderList;
+import entities.MyNetManager;
 import entities.PeriodicReportList;
 import entities.PricingModel;
 import entities.ProductInSalePatternList;
@@ -522,6 +523,12 @@ public class DatabaseController {
 
 	public Integer[] getFuelStationWithOrder(String username) {
 		return DatabaseSupplierController.getInstance(connection).getFuelStationWithOrder(username);
+	}
+
+	/****************** network manager controller methods *****************/
+
+	public MyNetManager getAllFuelStationIDs(MyNetManager netManager) {
+		return DatabaseNetworkManagerController.getInstance(connection).getAllFuelStationIDs(netManager);
 	}
 
 }

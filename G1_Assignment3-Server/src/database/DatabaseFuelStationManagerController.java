@@ -188,12 +188,22 @@ public class DatabaseFuelStationManagerController {
 		int quarter = Integer.parseInt(paramSplit[1]);
 		boolean reportExist = false;
 		Date dateCreated = new Date();
-		int employeeID = getEmployeeID(username);
-		if (employeeID == -1)
-			return null;
-		int fuelStationID = getFuelStationID(employeeID);
-		if (fuelStationID == -1)
-			return null;
+		int fuelStationID;
+
+		// added for NetworkManager
+		if (paramSplit.length > 2 && paramSplit[2].equals("network")) {
+			fuelStationID = Integer.parseInt(username);
+
+		} else {
+			int employeeID = getEmployeeID(username);
+			if (employeeID == -1)
+				return null;
+
+			fuelStationID = getFuelStationID(employeeID);
+			if (fuelStationID == -1)
+				return null;
+		}
+
 		ArrayList<ProductInStation> productInStationList = getProductInStationByfuelStationID(fuelStationID);
 		ArrayList<QuarterlyReport> quarterlyReportlist = getQuarterlyReportbyFuelStationID(fuelStationID);
 		for (QuarterlyReport qr : quarterlyReportlist) {
@@ -203,10 +213,15 @@ public class DatabaseFuelStationManagerController {
 			}
 		}
 		if (reportExist == false) {
-			if (createQuarterReport(fuelStationID, year, quarter, productInStationList) == false) {
+			// added for NetworkManager
+			if (paramSplit.length > 2 && paramSplit[2].equals("network")) {
+				return new Object[] { "NonExist Quarter Report" };
+
+			} else if (createQuarterReport(fuelStationID, year, quarter, productInStationList) == false) {
 				return null;
 			}
 		}
+
 		MyIncomeReport incomeReport = getExistIncomeReport(fuelStationID, dateCreated, year, quarter,
 				productInStationList);
 		if (incomeReport == null) {
