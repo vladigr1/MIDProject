@@ -35,7 +35,7 @@
                <children>
                   <Pane prefHeight="52.0" prefWidth="260.0">
                      <children>
-                        <Label fx:id="lblHelloUser" layoutX="14.0" layoutY="4.0" prefHeight="35.0" prefWidth="233.0" text="Hello, Julia" textFill="WHITE">
+                        <Label fx:id="lblHelloUser" layoutX="14.0" layoutY="4.0" prefHeight="48.0" prefWidth="233.0" text="Hello, Julia" textFill="WHITE" wrapText="true">
                            <font>
                               <Font name="Leelawadee UI" size="14.0" />
                            </font>
@@ -532,7 +532,7 @@
                                           <Font name="Arial" size="16.0" />
                                        </font>
                                     </Label>
-                                    <Button fx:id="btnAECASave" layoutX="296.0" layoutY="240.0" mnemonicParsing="false" onAction="#btnAECASavePressed" prefHeight="40.0" prefWidth="200.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Save Car" textFill="WHITE" wrapText="true">
+                                    <Button fx:id="btnAECASave" layoutX="282.0" layoutY="240.0" mnemonicParsing="false" onAction="#btnAECASavePressed" prefHeight="40.0" prefWidth="200.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Save Car" textFill="WHITE" wrapText="true">
                                        <font>
                                           <Font name="Calibri" size="20.0" />
                                        </font>
@@ -540,6 +540,18 @@
                                           <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
                                                 <Image url="@../pics/v.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                    <Button fx:id="btnAECACancelReg" layoutX="38.0" layoutY="240.0" mnemonicParsing="false" onAction="#btnAECACancelRegPressed" prefHeight="40.0" prefWidth="215.0" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Cancel Registration" textFill="WHITE">
+                                       <font>
+                                          <Font name="Calibri" size="20.0" />
+                                       </font>
+                                       <graphic>
+                                          <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../pics/x.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
@@ -604,18 +616,6 @@
                                     </Button>
                                  </children>
                               </HBox>
-                              <Button fx:id="btnAECACancelReg" layoutX="568.0" layoutY="327.0" mnemonicParsing="false" onAction="#btnAECACancelRegPressed" prefHeight="40.0" prefWidth="215.0" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Cancel Registration" textFill="WHITE">
-                                 <font>
-                                    <Font name="Calibri" size="20.0" />
-                                 </font>
-                                 <graphic>
-                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../pics/x.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </Button>
                            </children>
                         </AnchorPane>
                      </children>
@@ -723,7 +723,7 @@
                                           <ComboBox fx:id="cobSPPFuelCompany3" prefWidth="150.0" promptText="#3" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                                        </children>
                                     </GridPane>
-                                    <Button fx:id="btnSPPSave" layoutX="260.0" layoutY="510.0" mnemonicParsing="false" onAction="#btnSPPSavePressed" prefHeight="44.0" prefWidth="264.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Save Purchasing Program" textFill="WHITE">
+                                    <Button fx:id="btnSPPSave" layoutX="287.0" layoutY="510.0" mnemonicParsing="false" onAction="#btnSPPSavePressed" prefHeight="44.0" prefWidth="264.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Save Purchasing Program" textFill="WHITE">
                                        <font>
                                           <Font name="Calibri" size="20.0" />
                                        </font>
@@ -761,7 +761,7 @@
                                           <Font name="Arial" size="16.0" />
                                        </font>
                                     </Label>
-                                    <Button fx:id="btnSPPCancelReg" layoutX="548.0" layoutY="510.0" mnemonicParsing="false" onAction="#btnSPPCancelRegPressed" prefHeight="45.0" prefWidth="215.0" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Cancel Registration" textFill="WHITE">
+                                    <Button fx:id="btnSPPCancelReg" layoutX="43.0" layoutY="510.0" mnemonicParsing="false" onAction="#btnSPPCancelRegPressed" prefHeight="45.0" prefWidth="215.0" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Cancel Registration" textFill="WHITE">
                                        <font>
                                           <Font name="Calibri" size="20.0" />
                                        </font>
@@ -791,7 +791,7 @@
                            <children>
                               <AnchorPane fx:id="apSPM" disable="true" layoutX="22.0" layoutY="87.0">
                                  <children>
-                                    <Button fx:id="btnSPMSet" layoutX="292.0" layoutY="370.0" mnemonicParsing="false" onAction="#btnSPMSetPressed" prefHeight="40.0" prefWidth="200.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Set Model" textFill="WHITE">
+                                    <Button fx:id="btnSPMSet" layoutX="308.0" layoutY="370.0" mnemonicParsing="false" onAction="#btnSPMSetPressed" prefHeight="40.0" prefWidth="200.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Set Model" textFill="WHITE">
                                        <font>
                                           <Font name="Calibri" size="20.0" />
                                        </font>
@@ -906,7 +906,7 @@
                                           <Font name="Arial" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Button fx:id="btnSPMCancelReg" layoutX="527.0" layoutY="370.0" mnemonicParsing="false" onAction="#btnSPMCancelRegPressed" prefHeight="40.0" prefWidth="224.0" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Cancel Registration" textFill="WHITE">
+                                    <Button fx:id="btnSPMCancelReg" layoutX="54.0" layoutY="370.0" mnemonicParsing="false" onAction="#btnSPMCancelRegPressed" prefHeight="40.0" prefWidth="224.0" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Cancel Registration" textFill="WHITE">
                                        <font>
                                           <Font name="Calibri" size="20.0" />
                                        </font>
@@ -1107,7 +1107,7 @@
                                     <Font name="Arial" size="12.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lblCSPUpdateToDate" layoutX="503.0" layoutY="269.0" text="00/00/00">
+                              <Label fx:id="lblCSPUpdateToDate" layoutX="503.0" layoutY="272.0" text="00/00/00">
                                  <font>
                                     <Font name="Arial" size="12.0" />
                                  </font>
