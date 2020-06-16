@@ -1,6 +1,7 @@
 package guiClient;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -195,7 +196,10 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 		List<RankingSheet> RSList = this.rankingSheetList.getList();
 		ObservableList<RowForRankingSheetTable> rowsList = FXCollections.observableArrayList();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		this.lblCSPUpdateToDate.setText(formatter.format(RSList.get(0).getUpdatedForDate()));
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(RSList.get(0).getUpdatedForDate());
+		cal.add(Calendar.DAY_OF_MONTH, -1);
+		this.lblCSPUpdateToDate.setText(formatter.format(cal.getTime()));
 
 		for (int i = 0; i < tvCSPAnalysis.getItems().size(); i++) {
 			tvCSPAnalysis.getItems().clear();
