@@ -17,7 +17,7 @@ import enums.PurchasingProgramName;
 /**
  * controller for fast fuel
  * 
- * @version Basic
+ * @version Final
  * @author Lior
  */
 public class DatabaseFastFuelController {

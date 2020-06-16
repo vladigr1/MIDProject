@@ -40,7 +40,7 @@ import javafx.util.Callback;
 /**
  * boundary for marketing representative window
  * 
- * @version Almost Final
+ * @version Final
  * @author Elroy, Lior
  */
 public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
@@ -1234,7 +1234,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			if (list.getList().isEmpty()) {
 				Alert a = new Alert(AlertType.CONFIRMATION);
 				a.setTitle("Ranking Sheet:");
-				a.setContentText("there are no ranking sheets");
+				a.setContentText("There Are No Ranking Sheets");
 				a.show();
 			} else {
 				rankingSheetList = list;

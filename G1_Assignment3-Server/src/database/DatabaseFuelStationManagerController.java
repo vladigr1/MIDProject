@@ -23,6 +23,11 @@ import entities.ProductInStation;
 import entities.QuarterlyReport;
 import enums.ProductName;
 
+/**
+ * @version Final
+ * @author Liad
+ *
+ */
 public class DatabaseFuelStationManagerController {
 
 	private static DatabaseFuelStationManagerController instance;

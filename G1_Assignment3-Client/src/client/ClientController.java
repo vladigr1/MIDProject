@@ -58,6 +58,9 @@ public abstract class ClientController extends AbstractClient {
 	@Override
 	public void handleMessageFromServer(Object object) {
 		System.out.println("got message from server");
+		if (object instanceof String) {
+			System.out.println("the message is : " + (String) object);
+		}
 		awaitResponse = false;
 		this.lastMsgFromServer = object;
 	}

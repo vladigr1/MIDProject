@@ -23,7 +23,7 @@ import ocsf.server.ConnectionToClient;
  * 
  * @version 1 Method To Final
  * @see handleMessageFromClient()
- * @author Elroy, Lior
+ * @author Elroy, Lior, Vlad, Liad
  */
 public class ServerController extends AbstractServer {
 
@@ -137,6 +137,9 @@ public class ServerController extends AbstractServer {
 							client);
 				} else if (str.startsWith("updatepassword")) {
 					ServerCustomerController.getInstance(databaseController).handleMessageFromClient(str, client);
+
+				} else if (str.startsWith("fuel_station_order")) {
+					ServerSupplierController.getInstance(databaseController).handleMessageFromClient(str, client);
 				}
 
 			} else if (object instanceof Object[]) {

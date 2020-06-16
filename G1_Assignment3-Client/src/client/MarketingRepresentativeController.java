@@ -17,7 +17,7 @@ import enums.PurchasingProgramName;
 /**
  * logic controller for marketing representative
  * 
- * @version Almost Final
+ * @version Final
  * @author Lior
  */
 public class MarketingRepresentativeController extends MarketingDepWorkerController {

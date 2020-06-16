@@ -22,7 +22,7 @@ import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 
 /**
- * @version Basic
+ * @version Final
  * @author Lior
  */
 public class FastFuelWindow extends AFXML {

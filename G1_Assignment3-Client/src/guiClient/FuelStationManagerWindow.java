@@ -35,7 +35,8 @@ import javafx.stage.Window;
 import javafx.util.Callback;
 
 /**
- * @author LiadVax
+ * @version Final
+ * @author Liad
  */
 public class FuelStationManagerWindow extends EmployeeWindow {
 
@@ -247,7 +248,6 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 	 * 
 	 * @param event
 	 */
-	@Override
 	void openHome(ActionEvent event) {
 		super.openHome(event);
 		sidebar_btn0.setSelected(true);
@@ -515,11 +515,11 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 			if (product.getProductName().toString().equals("Gasoline")) {
 				tfUTGasoline1.setText(product.getThreshold() + "");
 				tfUTGasoline11.setText(product.getCapacity() + "");
-				
+
 			} else if (product.getProductName().toString().equals("Diesel")) {
 				tfUTDiesel1.setText(product.getThreshold() + "");
 				tfUTDiesel11.setText(product.getCapacity() + "");
-				
+
 			} else if (product.getProductName().toString().equals("Motorbike Fuel")) {
 				tfUTMotorbike1.setText(product.getThreshold() + "");
 				tfUTMotorbike11.setText(product.getCapacity() + "");
@@ -698,7 +698,7 @@ public class FuelStationManagerWindow extends EmployeeWindow {
 		productNameColumn.setPrefWidth(250);
 		this.tvQRDetails2.getColumns().add(productNameColumn);
 		TableColumn<RowForQuarterlyReports, Double> outcomePerProductColumn = new TableColumn<RowForQuarterlyReports, Double>(
-				"Product Outcome");
+				"Amount Bought");
 		outcomePerProductColumn.setCellValueFactory(new PropertyValueFactory<>("x"));
 		outcomePerProductColumn.setPrefWidth(200);
 		this.tvQRDetails2.getColumns().add(outcomePerProductColumn);

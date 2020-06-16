@@ -17,6 +17,7 @@ import enums.ShipmentType;
 /**
  * fills the database with predetermined "true" information
  * 
+ * @version never enough
  * @author Elroy, Lior, Vlad
  */
 public class DefaultTableInserts {
