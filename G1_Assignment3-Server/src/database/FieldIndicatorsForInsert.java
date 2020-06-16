@@ -124,9 +124,9 @@ public class FieldIndicatorsForInsert {
 				"amountBoughtFromSupplier" };
 	}
 
-	public static String[] ProductInRequest() {
-		return new String[] { "FK_updateRateRequestID", "FK_productName", "requestedRate" };
-	}
+//	public static String[] ProductInRequest() {
+//		return new String[] { "FK_updateRateRequestID", "FK_productName", "requestedRate" };
+//	}
 
 	public static String[] ProductInSalesPattern() {
 		return new String[] { "FK_salesPatternID", "FK_productName", "salesDiscount" };
@@ -136,13 +136,13 @@ public class FieldIndicatorsForInsert {
 		return new String[] { "FK_productName", "FK_fuelStationID", "capacity", "threshold" };
 	}
 
-	public static String[] ProductRatesUpdateRequest1() {
-		return new String[] { "requestDate", "assessed" };
-	}
+//	public static String[] ProductRatesUpdateRequest1() {
+//		return new String[] { "requestDate", "assessed" };
+//	}
 
-	public static String[] ProductRatesUpdateRequest2() {
-		return new String[] { "requestDate", "assessed", "approved" };
-	}
+//	public static String[] ProductRatesUpdateRequest2() {
+//		return new String[] { "requestDate", "assessed", "approved" };
+//	}
 
 	public static String[] PurchasingProgram1() {
 		return new String[] { "FK_customerID", "FK_purchasingProgramName", "FK_fuelCompanyName1" };
@@ -189,6 +189,15 @@ public class FieldIndicatorsForInsert {
 
 	public static String[] User() {
 		return new String[] { "username", "password", "connected", "email", "firstName", "surname" };
+	}
+
+	public static String[] PricingModelUpdateRequest1() {
+		return new String[] { "FK_pricingModelName", "requestDate", "requestedDiscount", "assessed" };
+	}
+
+	public static String[] PricingModelUpdateRequest2() {
+		return new String[] { "FK_pricingModelName", "requestDate", "requestedDiscount", "assessed", "approved",
+				"reasonDismissal" };
 	}
 
 }

@@ -7,7 +7,7 @@ import entities.MyNetManager;
 import ocsf.server.ConnectionToClient;
 
 /**
- * @version Basic
+ * @version Final
  * @author Lior
  *
  */
@@ -47,6 +47,22 @@ public class ServerNetworkManagerController {
 
 			if (func.equals("getAllFuelStationIDs")) {
 				MyNetManager resultNetManager = this.databaseController.getAllFuelStationIDs(netManager);
+				client.sendToClient(resultNetManager);
+
+			} else if (func.equals("getAllUnAssessedRequests")) {
+				MyNetManager resultNetManager = this.databaseController.getAllUnAssessedRequests(netManager);
+				client.sendToClient(resultNetManager);
+
+			} else if (func.startsWith("setRequestApproved")) {
+				MyNetManager resultNetManager = this.databaseController.setRequestApproved(netManager);
+				client.sendToClient(resultNetManager);
+
+			} else if (func.startsWith("setRequestDeclined")) {
+				MyNetManager resultNetManager = this.databaseController.setRequestDeclined(netManager);
+				client.sendToClient(resultNetManager);
+
+			} else if (func.startsWith("getRequestDetails")) {
+				MyNetManager resultNetManager = this.databaseController.getRequestDetails(netManager);
 				client.sendToClient(resultNetManager);
 			}
 

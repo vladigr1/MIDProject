@@ -62,7 +62,7 @@ public class DatabaseSupplierController {
 		List<SupplierItemInTable> siitList = new ArrayList<>();
 		try {
 			String sql = "SELECT fs.fuelStationID, o.ordersID, o.orderTime, p.productName, o.amountBought, fs.address "
-					+ "FROM  fuel_station fs, product_in_station pis ,fuel_station_order fso, fuel_company fc, orders o , product p "
+					+ "FROM  fuel_station fs, product_in_station pis ,fuel_station_order fso, fuel_company fc, orders o, product p "
 					+ "WHERE fs.fuelStationID = ? AND fso.approved = 1 AND fso.supplied = 0 AND pis.FK_productName = p.productName "
 					+ "AND fc.fuelCompanyName = fs.FK_fuelCompanyName AND pis.FK_fuelStationID = fs.fuelStationID "
 					+ "AND pis.productInStationID = fso.FK_productInStationID AND fso.FK_ordersID = o.ordersID;";

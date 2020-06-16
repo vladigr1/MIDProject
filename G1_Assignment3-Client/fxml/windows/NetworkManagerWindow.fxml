@@ -70,7 +70,7 @@
                               <ToggleGroup fx:id="one" />
                            </toggleGroup>
                         </ToggleButton>
-                        <ToggleButton fx:id="sidebar_btn1" alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#openAssessPane" prefHeight="63.0" prefWidth="260.0" styleClass="side-bar-toggle-button" stylesheets="@../pics/style.css" text="Assess Pricing Model Update Request" textFill="WHITE" toggleGroup="$one" wrapText="true" GridPane.rowIndex="1">
+                        <ToggleButton fx:id="sidebar_btn1" alignment="CENTER_LEFT" mnemonicParsing="false" onAction="#openAssessPane" prefHeight="63.0" prefWidth="260.0" styleClass="side-bar-toggle-button" stylesheets="@../pics/style.css" text="Assess Pending Pricing Model Update Requests" textFill="WHITE" toggleGroup="$one" wrapText="true" GridPane.rowIndex="1">
                            <font>
                               <Font name="Calibri" size="16.0" />
                            </font>
@@ -300,7 +300,7 @@
                            <children>
                               <AnchorPane layoutX="20.0" layoutY="116.0" prefHeight="382.0" prefWidth="497.0">
                                  <children>
-                                    <AnchorPane fx:id="apAPM" disable="true" layoutX="114.0" layoutY="335.0">
+                                    <AnchorPane fx:id="apAPM" disable="true" layoutX="104.0" layoutY="309.0">
                                        <children>
                                           <Button fx:id="btnASODecline" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Decline" textFill="WHITE">
                                              <graphic>
@@ -322,41 +322,39 @@
                                           </Button>
                                        </children>
                                     </AnchorPane>
-                                    <Label text="Pricing Model Name">
+                                    <Label layoutY="47.0" text="Pricing Model Name">
                                        <font>
                                           <Font name="Arial" size="16.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="tfAPMPricingName" editable="false" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" />
-                                    <Label layoutY="60.0" text="Description">
+                                    <TextField fx:id="tfAPMPricingName" editable="false" layoutY="67.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" />
+                                    <Label layoutY="107.0" text="Description">
                                        <font>
                                           <Font name="Arial" size="16.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="322.0" text="Time">
+                                    <Label layoutX="322.0" layoutY="47.0" text="Time">
                                        <font>
                                           <Font name="Arial" size="16.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="tfAPMTime" editable="false" layoutX="322.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" />
-                                    <Label layoutX="1.0" layoutY="166.0" text="Current Discount">
+                                    <TextField fx:id="tfAPMTime" editable="false" layoutX="322.0" layoutY="67.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" />
+                                    <Label layoutX="1.0" layoutY="226.0" text="Current Discount">
                                        <font>
                                           <Font name="Arial" size="16.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="tfAPMcurDiscount" editable="false" layoutX="1.0" layoutY="186.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" />
-                                    <Label layoutX="322.0" layoutY="166.0" text="New Discount">
+                                    <TextField fx:id="tfAPMcurDiscount" editable="false" layoutX="1.0" layoutY="246.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" />
+                                    <Label layoutX="322.0" layoutY="226.0" text="New Discount">
                                        <font>
                                           <Font name="Arial" size="16.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="tfAPMnewDiscount" editable="false" layoutX="322.0" layoutY="186.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" />
-                                    <TextArea fx:id="taAPMdescription" editable="false" layoutY="81.0" prefHeight="69.0" prefWidth="474.0" />
-                                    <Label layoutX="1.0" layoutY="236.0" prefHeight="25.0" prefWidth="322.0" text="Warning - This Will Change The Following Pricing Models :" textFill="#ff0707" />
-                                    <TextArea fx:id="taAPMwarning" editable="false" layoutX="322.0" layoutY="236.0" prefHeight="87.0" prefWidth="150.0" />
+                                    <TextField fx:id="tfAPMnewDiscount" editable="false" layoutX="322.0" layoutY="246.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" />
+                                    <TextArea fx:id="taAPMdescription" editable="false" layoutY="128.0" prefHeight="87.0" prefWidth="474.0" wrapText="true" />
                                  </children>
                               </AnchorPane>
-                              <VBox layoutX="20.0" layoutY="46.0" prefHeight="51.0" prefWidth="159.0">
+                              <VBox layoutX="20.0" layoutY="72.0" prefHeight="51.0" prefWidth="159.0">
                                  <children>
                                     <Label prefHeight="21.0" prefWidth="129.0" text="Request ID:">
                                        <opaqueInsets>
@@ -373,7 +371,7 @@
                                  </children>
                               </VBox>
                               <Label layoutX="207.0" layoutY="23.0" text="No Station Orders To Assess" textFill="RED" visible="false" />
-                              <Button fx:id="btnASOShowOrder" layoutX="208.0" layoutY="65.0" mnemonicParsing="false" styleClass="task-button" stylesheets="@../pics/style.css" text="Show Request">
+                              <Button fx:id="btnASOShowOrder" layoutX="208.0" layoutY="91.0" mnemonicParsing="false" styleClass="task-button" stylesheets="@../pics/style.css" text="Show Request">
                                  <graphic>
                                     <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -382,16 +380,16 @@
                                     </ImageView>
                                  </graphic>
                               </Button>
+                              <Label layoutX="20.0" layoutY="30.0" text="Please Choose a Request and Press Show Request for Assessment:" textFill="#144465" underline="true">
+                                 <font>
+                                    <Font name="Arial" size="16.0" />
+                                 </font>
+                              </Label>
                            </children>
                         </AnchorPane>
                         <Label layoutY="-1.0" text="Request Information:">
                            <font>
                               <Font name="Arial Bold" size="18.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="20.0" layoutY="31.0" text="Please Choose a Request and Press Show Request for Assessment:" textFill="#144465" underline="true">
-                           <font>
-                              <Font name="Arial" size="16.0" />
                            </font>
                         </Label>
                      </children>
