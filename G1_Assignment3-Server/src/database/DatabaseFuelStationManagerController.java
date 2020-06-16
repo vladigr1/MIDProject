@@ -161,8 +161,7 @@ public class DatabaseFuelStationManagerController {
 			reasonDismissal += parameters[i] + " ";
 		}
 		try {
-			PreparedStatement pStmt;
-			pStmt = this.connection.prepareStatement(
+			PreparedStatement pStmt = this.connection.prepareStatement(
 					"UPDATE fuel_station_order SET assessed = ? , approved = ? , reasonDismissal = ? WHERE FK_ordersID = ? ");
 			pStmt.setInt(1, assessed);
 			pStmt.setInt(2, approved);

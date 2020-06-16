@@ -40,7 +40,7 @@ public class SupplierController extends UserController {
 		super.handleMessageFromClientUI(message);
 	}
 
-	public void getFuelStationWithOrder(String username) {
+	public void getFuelStationsWithOrdersPending(String username) {
 		try {
 			openConnection();
 			awaitResponse = true;

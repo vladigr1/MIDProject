@@ -531,4 +531,20 @@ public class DatabaseController {
 		return DatabaseNetworkManagerController.getInstance(connection).getAllFuelStationIDs(netManager);
 	}
 
+	public MyNetManager setRequestDeclined(MyNetManager netManager) {
+		return DatabaseNetworkManagerController.getInstance(connection).setRequestDeclined(netManager);
+	}
+
+	public MyNetManager getAllUnAssessedRequests(MyNetManager netManager) {
+		return DatabaseNetworkManagerController.getInstance(connection).getAllUnAssessedRequests(netManager);
+	}
+
+	public MyNetManager setRequestApproved(MyNetManager netManager) {
+		return DatabaseNetworkManagerController.getInstance(connection).setRequestApproved(netManager);
+	}
+
+	public MyNetManager getRequestDetails(MyNetManager netManager) {
+		return DatabaseNetworkManagerController.getInstance(connection).getRequestDetails(netManager);
+	}
+
 }

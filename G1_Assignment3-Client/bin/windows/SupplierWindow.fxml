@@ -265,9 +265,9 @@
                <children>
                   <AnchorPane layoutX="1.0" layoutY="17.0" prefHeight="454.0" prefWidth="731.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css">
                      <children>
-                        <AnchorPane fx:id="apASFSO" disable="true" layoutX="11.0" layoutY="132.0">
+                        <AnchorPane fx:id="apASFSO" disable="true" layoutX="301.0" layoutY="379.0">
                            <children>
-                              <Button fx:id="btnASFSOApprove" layoutX="290.0" layoutY="247.0" mnemonicParsing="false" onAction="#btnASFSOApproveSPressed" prefHeight="30.0" prefWidth="130.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Approve">
+                              <Button fx:id="btnASFSOApprove" mnemonicParsing="false" onAction="#btnASFSOApproveSPressed" prefHeight="30.0" prefWidth="130.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Approve">
                                  <graphic>
                                     <ImageView fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -276,9 +276,9 @@
                                     </ImageView>
                                  </graphic>
                               </Button>
-                              <TableView fx:id="tvASFSODetails" prefHeight="221.0" prefWidth="709.0" />
                            </children>
                         </AnchorPane>
+                        <TableView fx:id="tvASFSODetails" layoutX="11.0" layoutY="132.0" prefHeight="221.0" prefWidth="709.0" />
                         <AnchorPane fx:id="gpASFSO" layoutX="13.0" layoutY="50.0">
                            <children>
                               <VBox prefHeight="66.0" prefWidth="159.0">

@@ -7,7 +7,7 @@ import entities.MyFuelStationManager;
 import entities.MyNetManager;
 
 /**
- * @version Basic
+ * @version Final
  * @author Lior
  *
  */
@@ -62,7 +62,7 @@ public class NetworkManagerController extends UserController {
 				while (awaitResponse) {
 					try {
 						Thread.sleep(100);
-						System.out.println("Fuel station manager is waiting");
+						System.out.println("Network manager is waiting");
 					} catch (InterruptedException ie) {
 						ie.printStackTrace();
 					}

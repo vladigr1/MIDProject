@@ -34,9 +34,9 @@ import javafx.stage.Window;
 public class SupplierWindow extends EmployeeWindow {
 
 	@FXML
-	private ToggleButton sidebar_btn0;
-	@FXML
 	private ToggleGroup one;
+	@FXML
+	private ToggleButton sidebar_btn0;
 	@FXML
 	private ToggleButton sidebar_btn1;
 
@@ -135,11 +135,11 @@ public class SupplierWindow extends EmployeeWindow {
 	 */
 	@FXML
 	void openApproveSupplied(ActionEvent event) {
-		clearFields();
 		this.homePane.setVisible(false);
 		approveSuppliedPane.setVisible(true);
 		visibleNow = approveSuppliedPane;
 		sidebar_btn1.setSelected(true);
+		clearFields();
 	}
 
 	/**
@@ -151,7 +151,6 @@ public class SupplierWindow extends EmployeeWindow {
 	void btnASFSOShowPressed(ActionEvent event) {
 		Integer cur = cobASFSOFuelStationID.getValue();
 		if (cur != null) {
-			cobASFSOFuelStationID.setStyle("-fx-border-style: none;");
 			SupplierController.getInstance().getSupplierItemInTable(cur);
 			gpASFSO.setDisable(true);
 			apASFSO.setDisable(false);
@@ -165,7 +164,6 @@ public class SupplierWindow extends EmployeeWindow {
 
 		} else {
 			openErrorAlert("Error", "No Fuel Station ID Chosen");
-			cobASFSOFuelStationID.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 		}
 	}
 
@@ -178,7 +176,6 @@ public class SupplierWindow extends EmployeeWindow {
 	void btnASFSOApproveSPressed(ActionEvent event) {
 		SupplierItemInTable selectedItem = tvASFSODetails.getSelectionModel().getSelectedItem();
 		if (selectedItem != null) {
-			tvASFSODetails.setStyle("-fx-border-style: none;");
 			int approvedId = selectedItem.getOrderID();
 			double amount = selectedItem.getAmount();
 			tvASFSODetails.getItems().remove(tvASFSODetails.getSelectionModel().getSelectedItem());
@@ -191,7 +188,6 @@ public class SupplierWindow extends EmployeeWindow {
 
 		} else {
 			openErrorAlert("Error", "No Order Selected From The Table");
-			tvASFSODetails.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 		}
 	}
 
@@ -203,12 +199,10 @@ public class SupplierWindow extends EmployeeWindow {
 	@Override
 	public void clearFields() {
 		cobASFSOFuelStationID.getItems().clear();
-		SupplierController.getInstance().getFuelStationWithOrder(this.username);
+		SupplierController.getInstance().getFuelStationsWithOrdersPending(this.username);
 		if (fuelStationIDs.length != 0) {
 			List<Integer> fsList = Arrays.asList(fuelStationIDs);
 			cobASFSOFuelStationID.getItems().addAll(fsList);
-			cobASFSOFuelStationID.setStyle("-fx-border-style: none;");
-			tvASFSODetails.setStyle("-fx-border-style: none;");
 
 		} else {
 			openConfirmationAlert("Station orders", "There Are No Orders");
@@ -234,6 +228,7 @@ public class SupplierWindow extends EmployeeWindow {
 		final TableColumn<SupplierItemInTable, Date> orderTimeColumn = new TableColumn<SupplierItemInTable, Date>(
 				"Order Time");
 		orderTimeColumn.setCellValueFactory(new PropertyValueFactory("orderTime"));
+		orderTimeColumn.setPrefWidth(200);
 		orderTimeColumn.setMinWidth(orderTimeColumn.getPrefWidth());
 		final TableColumn<SupplierItemInTable, Integer> productNameColumn = new TableColumn<SupplierItemInTable, Integer>(
 				"Product Name");
@@ -244,13 +239,14 @@ public class SupplierWindow extends EmployeeWindow {
 				"Amount");
 		amountColumn.setCellValueFactory(new PropertyValueFactory("amount"));
 		amountColumn.setMinWidth(amountColumn.getPrefWidth());
-		final TableColumn<SupplierItemInTable, String> AddressColumn = new TableColumn<SupplierItemInTable, String>(
+		final TableColumn<SupplierItemInTable, String> addressColumn = new TableColumn<SupplierItemInTable, String>(
 				"Address");
-		AddressColumn.setCellValueFactory(new PropertyValueFactory("address"));
-		AddressColumn.setMinWidth(AddressColumn.getPrefWidth());
+		addressColumn.setCellValueFactory(new PropertyValueFactory("address"));
+		addressColumn.setPrefWidth(200);
+		addressColumn.setMinWidth(addressColumn.getPrefWidth());
 
 		tvASFSODetails.getColumns().setAll(orderIDColumn, orderTimeColumn, productNameColumn, amountColumn,
-				AddressColumn);
+				addressColumn);
 	}
 
 }

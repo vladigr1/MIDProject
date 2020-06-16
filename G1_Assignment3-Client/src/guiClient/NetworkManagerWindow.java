@@ -1,11 +1,15 @@
 package guiClient;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import client.NetworkManagerController;
 import entities.MyNetManager;
+import entities.PricingModelUpdateRequest;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
@@ -17,7 +21,7 @@ import javafx.stage.Window;
 
 /**
  * 
- * @version Basic
+ * @version Final
  * @author Lior
  *
  */
@@ -48,8 +52,6 @@ public class NetworkManagerWindow extends QuarterlyReportWindow {
 	@FXML
 	private TextArea taAPMdescription;
 	@FXML
-	private TextArea taAPMwarning;
-	@FXML
 	private ComboBox<Integer> cobAPMRequestID;
 
 	@FXML
@@ -62,9 +64,7 @@ public class NetworkManagerWindow extends QuarterlyReportWindow {
 		initiallizeInventoryReportTables();
 		fillQuarterlyReportComboBox();
 		sidebar_btn0.setSelected(true);
-		/*
-		 * send to server to get fuelstationids and fill cb
-		 */
+		// send to server to get fuelstationids and fill cb
 		controller.handleMessageFromClientUI("getAllFuelStationIDs");
 	}
 
@@ -85,9 +85,6 @@ public class NetworkManagerWindow extends QuarterlyReportWindow {
 		tfAPMcurDiscount.clear();
 		tfAPMnewDiscount.clear();
 		taAPMdescription.clear();
-		taAPMwarning.clear();
-//		controller.handleMessageFromClientUI("");
-//		cobAPMRequestID.setValue("");
 	}
 
 	@Override
@@ -114,10 +111,55 @@ public class NetworkManagerWindow extends QuarterlyReportWindow {
 		} else if (lastMsgFromServer instanceof MyNetManager) {
 			Object[] objArr = ((MyNetManager) lastMsgFromServer).getParams();
 			if (objArr[0] instanceof ArrayList<?>) {
-				ArrayList<Integer> fuelStationIDs = (ArrayList<Integer>) objArr[0];
-				this.cobGQRFuelStationID.getItems().removeAll((Collection<?>) this.cobGQRFuelStationID.getItems());
-				this.cobGQRFuelStationID.getItems().addAll(fuelStationIDs);
-				this.cobGQRFuelStationID.setValue(fuelStationIDs.get(0));
+				String func = (String) objArr[1];
+				if (func.equals("fuelStationIDs")) {
+					ArrayList<Integer> fuelStationIDs = (ArrayList<Integer>) objArr[0];
+					this.cobGQRFuelStationID.getItems().removeAll((Collection<?>) this.cobGQRFuelStationID.getItems());
+					this.cobGQRFuelStationID.getItems().addAll(fuelStationIDs);
+					if (fuelStationIDs.size() != 0)
+						this.cobGQRFuelStationID.setValue(fuelStationIDs.get(0));
+
+				} else if (func.equals("requestIDs")) {
+					ArrayList<Integer> requestIDs = (ArrayList<Integer>) objArr[0];
+					this.cobAPMRequestID.getItems().removeAll((Collection<?>) this.cobAPMRequestID.getItems());
+					this.cobAPMRequestID.getItems().addAll(requestIDs);
+					if (requestIDs.size() != 0)
+						this.cobAPMRequestID.setValue(requestIDs.get(0));
+				}
+
+			} else if (objArr[0] instanceof String) {
+				String str = (String) objArr[0];
+				if (str.equals("Request Decline Success")) {
+					this.openConfirmationAlert("Success", "Request Declined Successfully");
+					this.requestToLogActivity(
+							"declined pricing model update request " + this.cobAPMRequestID.getValue());
+					clearFields();
+					this.controller.handleMessageFromClientUI("getAllUnAssessedRequests");
+					declineOrderPane.setVisible(false);
+					mainBorderPane.setDisable(false);
+					visibleNow = assessPane;
+
+				} else if (str.equals("Request Approve Success")) {
+					this.openConfirmationAlert("Success", "Request Approved\nDiscount Updated");
+					this.requestToLogActivity(
+							"approved pricing model update request " + this.cobAPMRequestID.getValue());
+					clearFields();
+					this.controller.handleMessageFromClientUI("getAllUnAssessedRequests");
+				}
+
+			} else if (objArr[0] instanceof PricingModelUpdateRequest) {
+				PricingModelUpdateRequest pmur = (PricingModelUpdateRequest) objArr[0];
+				double defaultDiscount = (Double) objArr[1];
+				String description = (String) objArr[2];
+				tfAPMPricingName.setText(pmur.getPricingModelName().toString());
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				tfAPMTime.setText(formatter.format(pmur.getRequestDate()));
+				taAPMdescription.setText(description);
+
+				DecimalFormat dec = new DecimalFormat("#0.00");
+				tfAPMcurDiscount.setText("" + dec.format(defaultDiscount * 100));
+				tfAPMnewDiscount.setText(pmur.getRequestedDiscount().toString());
+				this.apAPM.setDisable(false);
 			}
 		}
 	}
@@ -127,50 +169,68 @@ public class NetworkManagerWindow extends QuarterlyReportWindow {
 	@FXML
 	void openAssessPane(ActionEvent event) {
 		clearFields();
+
+		this.controller.handleMessageFromClientUI("getAllUnAssessedRequests");
 		visibleNow.setVisible(false);
 		assessPane.setVisible(true);
 		visibleNow = assessPane;
 		topbar_window_label.setText("Assess Pricing Model Update Request");
 		sidebar_btn1.setSelected(true);
 
-		/*
-		 * // Decline order, secondary window pop up btnASODecline.setOnAction(new
-		 * EventHandler<ActionEvent>() {
-		 * 
-		 * @Override public void handle(ActionEvent event) {
-		 * mainBorderPane.setDisable(true); declineOrderPane.setVisible(true);
-		 * visibleNow = declineOrderPane; taDOReasons.clear();
-		 * btnDOCancel.setOnAction(new EventHandler<ActionEvent>() {
-		 * 
-		 * @Override public void handle(ActionEvent event) {
-		 * declineOrderPane.setVisible(false); mainBorderPane.setDisable(false);
-		 * visibleNow = assessPane; } }); btnDOOk.setOnAction(new
-		 * EventHandler<ActionEvent>() {
-		 * 
-		 * @Override public void handle(ActionEvent event) { int orderID =
-		 * cobASOOrderId.getValue(); String declineReson = taDOReasons.getText(); if
-		 * (declineReson.isEmpty()) { openErrorAlert("Input incomplete",
-		 * "Please write the reason you wish to decline your order."); return; } else {
-		 * String message = "update doneAssessmentOrder" + "_" + username + "_" +
-		 * orderID + " " + "false" + " " + declineReson;
-		 * controller.handleMessageFromClientUI(message); } } }); } }); // Order
-		 * approval,alert pop up btnASOConfirm.setOnAction(new
-		 * EventHandler<ActionEvent>() {
-		 * 
-		 * @Override public void handle(ActionEvent event) {
-		 * System.out.println("aprroved"); int orderID = cobASOOrderId.getValue();
-		 * String message = "update doneAssessmentOrder" + "_" + username + "_" +
-		 * orderID + " " + "true" + " Nan";
-		 * controller.handleMessageFromClientUI(message); } });
-		 * btnASOShowOrder.setOnAction(new EventHandler<ActionEvent>() {
-		 * 
-		 * @Override public void handle(ActionEvent event) { if
-		 * (cobASOOrderId.getItems().size() <= 0) return; else {
-		 * btnASOConfirm.setDisable(false); btnASODecline.setDisable(false); int orderID
-		 * = cobASOOrderId.getValue(); String message = "get StationProductInOrder" +
-		 * "_" + username + "_" + orderID;
-		 * controller.handleMessageFromClientUI(message); } } });
-		 */
+		btnASODecline.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				mainBorderPane.setDisable(true);
+				declineOrderPane.setVisible(true);
+				visibleNow = declineOrderPane;
+				taDOReasons.clear();
+				btnDOCancel.setOnAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent event) {
+						declineOrderPane.setVisible(false);
+						mainBorderPane.setDisable(false);
+						visibleNow = assessPane;
+					}
+				});
+				btnDOOk.setOnAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent event) {
+						int requestID = cobAPMRequestID.getValue();
+						String declineReason = taDOReasons.getText();
+						if (declineReason.isEmpty()) {
+							openErrorAlert("Input incomplete",
+									"Please write the reason you wish to decline the request.");
+							return;
+						} else {
+							controller
+									.handleMessageFromClientUI("setRequestDeclined " + requestID + " " + declineReason);
+						}
+					}
+				});
+			}
+		});
+
+		btnASOConfirm.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				int requestID = cobAPMRequestID.getValue();
+				controller.handleMessageFromClientUI("setRequestApproved " + requestID);
+			}
+		});
+
+		btnASOShowOrder.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				if (cobAPMRequestID.getItems().size() <= 0) {
+					openErrorAlert("Error", "No Request Chosen");
+					return;
+
+				} else {
+					int requestID = cobAPMRequestID.getValue();
+					controller.handleMessageFromClientUI("getRequestDetails " + requestID);
+				}
+			}
+		});
 	}
 
 	@FXML

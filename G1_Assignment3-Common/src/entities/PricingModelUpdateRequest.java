@@ -14,7 +14,7 @@ public class PricingModelUpdateRequest implements Serializable {
 	private int requestID;
 	private PricingModelName pricingModelName;
 	private Date requestDate;
-	private double requestedDiscount;
+	private Double requestedDiscount;
 	private boolean assessed;
 	private boolean approved;
 	private String reasonDismissal;
@@ -36,7 +36,7 @@ public class PricingModelUpdateRequest implements Serializable {
 		this.pricingModelName = pricingModelName;
 	}
 
-	public double getRequestedDiscount() {
+	public Double getRequestedDiscount() {
 		return requestedDiscount;
 	}
 

@@ -175,7 +175,7 @@ public class ServerController extends AbstractServer {
 				System.out.println(client + " requested NetworkManager ");
 				MyNetManager netManager = (MyNetManager) object;
 				this.serverWindow.updateArea(formatter.format(date) + " : " + client
-						+ " : requesterd FuelStationManager operation : " + netManager.getFunction());
+						+ " : requested NetworkManager operation : " + netManager.getFunction());
 				ServerNetworkManagerController.getInstance(databaseController).handleMessageFromClient(netManager,
 						client);
 				System.out.println(client + " end NetworkManager ");
