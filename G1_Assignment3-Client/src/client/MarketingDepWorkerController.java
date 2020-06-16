@@ -6,7 +6,7 @@ import java.net.ConnectException;
 import entities.MarketingManager;
 
 /**
- * @version Basic
+ * @version Final
  * @author Lior, Elroy
  */
 public abstract class MarketingDepWorkerController extends UserController {

@@ -9,6 +9,11 @@ import entities.myFuelStationManager;
 import guiServer.ServerWindow;
 import ocsf.server.ConnectionToClient;
 
+/**
+ * @version Final
+ * @author Liad
+ *
+ */
 public class ServerFuelStationManagerController {
 
 	private static ServerFuelStationManagerController instance;

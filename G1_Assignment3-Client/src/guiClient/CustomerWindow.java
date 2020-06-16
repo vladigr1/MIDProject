@@ -103,6 +103,7 @@ public class CustomerWindow extends UserWindow {
 		this.homePane.setVisible(true);
 		this.viewOrderPane.setVisible(false);
 		this.orderHomeFuelPane.setVisible(false);
+		this.topbar_window_label.setText("Home");
 		this.visibleNow = this.homePane;
 		this.controller = CustomerController.getInstance();
 		this.controller.setCurrentWindow(this);
@@ -120,7 +121,7 @@ public class CustomerWindow extends UserWindow {
 		this.sidebar_btn0.setSelected(true);
 		this.visibleNow.setVisible(false);
 		this.homePane.setVisible(true);
-		this.visibleNow = homePane;
+		this.visibleNow = this.homePane;
 		this.topbar_window_label.setText("Home");
 		clearFields();
 	}

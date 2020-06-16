@@ -29,7 +29,7 @@ import javafx.scene.layout.AnchorPane;
 /**
  * boundary for marketing department workers' windows
  * 
- * @version Almost Final
+ * @version Final
  * @author Lior, Elroy
  */
 public abstract class MarketingDepWorkerWindow extends EmployeeWindow {

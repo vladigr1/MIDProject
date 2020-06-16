@@ -14,7 +14,7 @@ import ocsf.server.ConnectionToClient;
 /**
  * controller for client login and signout on server
  * 
- * @version Final
+ * @version NEED FIX
  * @author Elroy, Lior
  */
 public class ServerMarketingManagerController {

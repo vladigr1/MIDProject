@@ -7,7 +7,7 @@ import entities.FastFuel;
 import guiClient.FastFuelWindow;
 
 /**
- * @version Basic
+ * @version Final
  * @author Lior
  */
 public class FastFuelController extends ClientController {

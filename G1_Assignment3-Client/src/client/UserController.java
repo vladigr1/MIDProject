@@ -8,7 +8,7 @@ import entities.User;
 /**
  * all logic controllers except login extend this
  * 
- * @version Almost Final
+ * @version Final
  * @author Elroy, Lior
  */
 public abstract class UserController extends ClientController {

@@ -25,6 +25,7 @@ import entities.RankingSheetList;
 import entities.SaleCommentsReportList;
 import entities.SalesList;
 import entities.SalesPatternList;
+import entities.SupplierItemInTable;
 import entities.User;
 import guiServer.ServerWindow;
 
@@ -33,7 +34,7 @@ import guiServer.ServerWindow;
  * 
  * @version N Methods To Final
  * @see methods of other database controllers
- * @author Elroy, Lior
+ * @author Elroy, Lior, Vlad, Liad
  */
 public class DatabaseController {
 
@@ -507,6 +508,20 @@ public class DatabaseController {
 	public Boolean dismissNotificationsByNotificationID(String params) {
 		return DatabaseFuelStationManagerController.getInstance(connection)
 				.dismissNotificationsByNotificationID(params);
+	}
+
+	/****************** supplier controller methods *****************/
+
+	public SupplierItemInTable[] getFuelStationOrder(int fuelStationIDs) {
+		return DatabaseSupplierController.getInstance(connection).getSupplierItemInTable(fuelStationIDs);
+	}
+
+	public String approveFuelStationOrder(int ordersID, double amount) {
+		return DatabaseSupplierController.getInstance(connection).approveFuelStationOrder(ordersID, amount);
+	}
+
+	public Integer[] getFuelStationWithOrder(String username) {
+		return DatabaseSupplierController.getInstance(connection).getFuelStationWithOrder(username);
 	}
 
 }

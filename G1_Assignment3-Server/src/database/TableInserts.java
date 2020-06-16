@@ -11,6 +11,7 @@ import database.FieldIndicatorsForInsert;
 /**
  * executes insert queries by predetermined values and indication
  * 
+ * @version Final
  * @author Elroy, Lior, Vlad
  */
 public class TableInserts {

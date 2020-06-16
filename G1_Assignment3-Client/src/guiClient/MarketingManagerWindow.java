@@ -50,7 +50,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Window;
 
 /**
- * 
+ * @version NEED FIX!
  * @author Elroy, Lior
  *
  */
@@ -230,14 +230,11 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		tfSCREndTime.setFocusTraversable(false);
 		tfSCRSumPurchase.setMouseTransparent(true);
 		tfSCRSumPurchase.setFocusTraversable(false);
-		tvSCRDetails.setMouseTransparent(true);
-		tvSCRDetails.setFocusTraversable(false);
+		
 		tfPCRFrom.setMouseTransparent(true);
 		tfPCRFrom.setFocusTraversable(false);
 		tfPCRTo.setMouseTransparent(true);
 		tfPCRTo.setFocusTraversable(false);
-		tvPCRDetails.setMouseTransparent(true);
-		tvPCRDetails.setFocusTraversable(false);
 	}
 
 	@Override

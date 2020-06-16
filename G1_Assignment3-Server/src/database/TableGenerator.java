@@ -7,6 +7,7 @@ import java.sql.SQLException;
 /**
  * generates all tables in database that don't exist
  * 
+ * @version Final
  * @author Vlad, Elroy, Lior
  */
 public class TableGenerator { // creating the tables if they are not exists

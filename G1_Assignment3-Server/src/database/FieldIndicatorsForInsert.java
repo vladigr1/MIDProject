@@ -3,6 +3,7 @@ package database;
 /**
  * indicates the values of input of a query
  * 
+ * @version Final
  * @author Lior, Vlad, Elroy
  */
 public class FieldIndicatorsForInsert {
