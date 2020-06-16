@@ -3,7 +3,7 @@ package client;
 import java.io.IOException;
 import java.net.ConnectException;
 
-import entities.myFuelStationManager;
+import entities.MyFuelStationManager;
 
 /**
  * @version Final
@@ -47,7 +47,7 @@ public class FuelStationManagerController extends UserController {
 				this.openConnection();
 				awaitResponse = true;
 
-				myFuelStationManager manager = new myFuelStationManager();
+				MyFuelStationManager manager = new MyFuelStationManager();
 				String[] splitMsg = message.split("_");// message: <command> <mathodName>_<username>_<params>{param1
 														// param2 ...}
 				manager.setFunction(splitMsg[0]);

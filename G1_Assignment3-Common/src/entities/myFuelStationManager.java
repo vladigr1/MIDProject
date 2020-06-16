@@ -8,7 +8,7 @@ import java.io.Serializable;
  *
  */
 @SuppressWarnings("serial")
-public class myFuelStationManager implements Serializable {
+public class MyFuelStationManager implements Serializable {
 	private String func;
 	private String params;
 	private String userName;
@@ -29,7 +29,7 @@ public class myFuelStationManager implements Serializable {
 		this.userName = userName;
 	}
 
-	public myFuelStationManager() {
+	public MyFuelStationManager() {
 		super();
 	}
 

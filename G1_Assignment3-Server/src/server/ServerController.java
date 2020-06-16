@@ -13,7 +13,8 @@ import entities.MarketingManager;
 import entities.PricingModel;
 import entities.PurchasingProgram;
 import entities.User;
-import entities.myFuelStationManager;
+import entities.MyFuelStationManager;
+import entities.MyNetManager;
 import guiServer.ServerWindow;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
@@ -161,14 +162,23 @@ public class ServerController extends AbstractServer {
 						.handleMessageFromClient(manager, client);
 				System.out.println(client + " end MarketingManager ");
 
-			} else if (object instanceof myFuelStationManager) {
-				System.out.println(client + " requesterd FuelStationManager ");
-				myFuelStationManager manager = (myFuelStationManager) object;
+			} else if (object instanceof MyFuelStationManager) {
+				System.out.println(client + " requested FuelStationManager ");
+				MyFuelStationManager manager = (MyFuelStationManager) object;
 				this.serverWindow.updateArea(formatter.format(date) + " : " + client
 						+ " : requesterd FuelStationManager operation : " + manager.getUserName());
 				ServerFuelStationManagerController.getInstance(serverWindow, databaseController, lock)
 						.handleMessageFromClient(manager, client);
 				System.out.println(client + " end FuelStationManager ");
+
+			} else if (object instanceof MyNetManager) {
+				System.out.println(client + " requested NetworkManager ");
+				MyNetManager netManager = (MyNetManager) object;
+				this.serverWindow.updateArea(formatter.format(date) + " : " + client
+						+ " : requesterd FuelStationManager operation : " + netManager.getFunction());
+				ServerNetworkManagerController.getInstance(databaseController).handleMessageFromClient(netManager,
+						client);
+				System.out.println(client + " end NetworkManager ");
 			}
 
 		} catch (IOException e) {

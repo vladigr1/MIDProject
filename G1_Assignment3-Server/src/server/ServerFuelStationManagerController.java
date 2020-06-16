@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import database.DatabaseController;
-import entities.myFuelStationManager;
+import entities.MyFuelStationManager;
 import guiServer.ServerWindow;
 import ocsf.server.ConnectionToClient;
 
@@ -56,8 +56,8 @@ public class ServerFuelStationManagerController {
 			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 			Date date = new Date();
 			Object result = null;
-			if (object instanceof myFuelStationManager) {
-				myFuelStationManager fuelStationManager = (myFuelStationManager) object;
+			if (object instanceof MyFuelStationManager) {
+				MyFuelStationManager fuelStationManager = (MyFuelStationManager) object;
 				String func = fuelStationManager.getFunction();
 				///// my functions /////
 				if (func.startsWith("get unassesedOrdersID")) {
@@ -110,6 +110,16 @@ public class ServerFuelStationManagerController {
 				}
 
 				else if (func.startsWith("generate QuarterReport")) {
+					synchronized (this.lock) {
+						this.serverWindow.updateArea(formatter.format(date) + " : " + client + " : request "
+								+ fuelStationManager.getFunction() + " of user: " + fuelStationManager.getUserName());
+						this.lock.notifyAll();
+					}
+					result = this.databaseController.getQuarterlyReportDataByUsernameYearQuarter(
+							fuelStationManager.getUserName(), fuelStationManager.getParams());
+				}
+
+				else if (func.startsWith("view QuarterReport")) {
 					synchronized (this.lock) {
 						this.serverWindow.updateArea(formatter.format(date) + " : " + client + " : request "
 								+ fuelStationManager.getFunction() + " of user: " + fuelStationManager.getUserName());
