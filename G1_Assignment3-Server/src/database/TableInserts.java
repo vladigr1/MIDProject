@@ -16,7 +16,7 @@ import database.FieldIndicatorsForInsert;
  */
 public class TableInserts {
 
-	/******************* genral insert table *******************/
+	/******************* general insert table *******************/
 
 	/**
 	 * 
@@ -189,9 +189,9 @@ public class TableInserts {
 				FieldIndicatorsForInsert.ProductInOutcomeReport(), values);
 	}
 
-	public static int insertProductInRequest(Connection con, Object[] values) throws SQLException {
-		return TableInserts.insertRow(con, "product_in_request", FieldIndicatorsForInsert.ProductInRequest(), values);
-	}
+//	public static int insertProductInRequest(Connection con, Object[] values) throws SQLException {
+//		return TableInserts.insertRow(con, "product_in_request", FieldIndicatorsForInsert.ProductInRequest(), values);
+//	}
 
 	public static int insertProductInSalesPattern(Connection con, Object[] values) throws SQLException {
 		return TableInserts.insertRow(con, "product_in_sales_pattern", FieldIndicatorsForInsert.ProductInSalesPattern(),
@@ -202,15 +202,15 @@ public class TableInserts {
 		return TableInserts.insertRow(con, "product_in_station", FieldIndicatorsForInsert.ProductInStation(), values);
 	}
 
-	public static int insertProductRatesUpdateRequest1(Connection con, Object[] values) throws SQLException {
-		return TableInserts.insertRow(con, "product_rates_update_request",
-				FieldIndicatorsForInsert.ProductRatesUpdateRequest1(), values);
-	}
-
-	public static int insertProductRatesUpdateRequest2(Connection con, Object[] values) throws SQLException {
-		return TableInserts.insertRow(con, "product_rates_update_request",
-				FieldIndicatorsForInsert.ProductRatesUpdateRequest2(), values);
-	}
+//	public static int insertProductRatesUpdateRequest1(Connection con, Object[] values) throws SQLException {
+//		return TableInserts.insertRow(con, "product_rates_update_request",
+//				FieldIndicatorsForInsert.ProductRatesUpdateRequest1(), values);
+//	}
+//
+//	public static int insertProductRatesUpdateRequest2(Connection con, Object[] values) throws SQLException {
+//		return TableInserts.insertRow(con, "product_rates_update_request",
+//				FieldIndicatorsForInsert.ProductRatesUpdateRequest2(), values);
+//	}
 
 	public static int insertPurchasingProgram1(Connection con, Object[] values) throws SQLException {
 		return TableInserts.insertRow(con, "purchasing_program", FieldIndicatorsForInsert.PurchasingProgram1(), values);
@@ -256,6 +256,16 @@ public class TableInserts {
 
 	public static int insertUser(Connection con, Object[] values) throws SQLException {
 		return TableInserts.insertRow(con, "user", FieldIndicatorsForInsert.User(), values);
+	}
+
+	public static int insertPricingModelUpdateRequest1(Connection con, Object[] values) throws SQLException {
+		return TableInserts.insertRow(con, "pricing_model_update_request",
+				FieldIndicatorsForInsert.PricingModelUpdateRequest1(), values);
+	}
+
+	public static int insertPricingModelUpdateRequest2(Connection con, Object[] values) throws SQLException {
+		return TableInserts.insertRow(con, "pricing_model_update_request",
+				FieldIndicatorsForInsert.PricingModelUpdateRequest2(), values);
 	}
 
 }

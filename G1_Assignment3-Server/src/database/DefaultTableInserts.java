@@ -38,8 +38,8 @@ public class DefaultTableInserts {
 			insertDefaultProduct(con);
 			insertDefaultProductInSalesPattern(con);
 			insertDefaultSale(con);
-			insertDefaultProductRatesUpdateRequest(con);
-			insertDefaultProductInRequest(con);
+//			insertDefaultProductRatesUpdateRequest(con);
+//			insertDefaultProductInRequest(con);
 			insertDefaultFuelCompany(con);
 			insertDefaultFuelStation(con);
 			insertDefaultProductInStation(con);
@@ -67,6 +67,7 @@ public class DefaultTableInserts {
 			insertDefaultPeriodicCustomersReport(con);
 			insertDefaultActivity(con);
 			insertDefaultFastFuel(con);
+			insertDefaultPricingModelUpdateRequest(con);
 		} catch (Exception e) {
 			throw new SQLException(e.getMessage());
 		}
@@ -251,48 +252,48 @@ public class DefaultTableInserts {
 		TableInserts.insertSale(con, values2);
 	}
 
-	private static void insertDefaultProductRatesUpdateRequest(Connection con) throws SQLException {
-		if (checkTableEmpty(con, "product_rates_update_request") == false)
-			return;
-		// 1 - "requestDate", "assessed"
-		// 2 - "requestDate", "assessed", "approved"
-		Calendar calendar1 = Calendar.getInstance();
-		calendar1.set(Calendar.YEAR, 2019);
-		calendar1.set(Calendar.MONTH, 5 - 1);
-		calendar1.set(Calendar.DAY_OF_MONTH, 16 - 1);
-		Object[] values1 = { calendar1.getTime(), false };
-		TableInserts.insertProductRatesUpdateRequest1(con, values1);
-		calendar1.set(Calendar.YEAR, 2019);
-		calendar1.set(Calendar.MONTH, 5 - 1);
-		calendar1.set(Calendar.DAY_OF_MONTH, 13 - 1);
-		Object[] values2 = { calendar1.getTime(), true, false };
-		TableInserts.insertProductRatesUpdateRequest2(con, values2);
-		calendar1.set(Calendar.YEAR, 2019);
-		calendar1.set(Calendar.MONTH, 5 - 1);
-		calendar1.set(Calendar.DAY_OF_MONTH, 5 - 1);
-		Object[] values3 = { calendar1.getTime(), true, true };
-		TableInserts.insertProductRatesUpdateRequest2(con, values3);
-	}
-
-	private static void insertDefaultProductInRequest(Connection con) throws SQLException {
-		if (checkTableEmpty(con, "product_in_request") == false)
-			return;
-		// "FK_updateRateRequestID", "FK_productName", "requestedRate"
-		Object[] values1 = { "1", ProductName.Diesel.toString(), 7 };
-		TableInserts.insertProductInRequest(con, values1);
-		Object[] values2 = { "1", ProductName.MotorbikeFuel.toString(), 6.5 };
-		TableInserts.insertProductInRequest(con, values2);
-		Object[] values3 = { "2", ProductName.Gasoline.toString(), 9 };
-		TableInserts.insertProductInRequest(con, values3);
-		Object[] values4 = { "3", ProductName.Gasoline.toString(), 5 };
-		TableInserts.insertProductInRequest(con, values4);
-		Object[] values5 = { "3", ProductName.Diesel.toString(), 4 };
-		TableInserts.insertProductInRequest(con, values5);
-		Object[] values6 = { "3", ProductName.MotorbikeFuel.toString(), 7.5 };
-		TableInserts.insertProductInRequest(con, values6);
-		Object[] values7 = { "3", ProductName.HomeFuel.toString(), 3 };
-		TableInserts.insertProductInRequest(con, values7);
-	}
+//	private static void insertDefaultProductRatesUpdateRequest(Connection con) throws SQLException {
+//		if (checkTableEmpty(con, "product_rates_update_request") == false)
+//			return;
+//		// 1 - "requestDate", "assessed"
+//		// 2 - "requestDate", "assessed", "approved"
+//		Calendar calendar1 = Calendar.getInstance();
+//		calendar1.set(Calendar.YEAR, 2019);
+//		calendar1.set(Calendar.MONTH, 5 - 1);
+//		calendar1.set(Calendar.DAY_OF_MONTH, 16 - 1);
+//		Object[] values1 = { calendar1.getTime(), false };
+//		TableInserts.insertProductRatesUpdateRequest1(con, values1);
+//		calendar1.set(Calendar.YEAR, 2019);
+//		calendar1.set(Calendar.MONTH, 5 - 1);
+//		calendar1.set(Calendar.DAY_OF_MONTH, 13 - 1);
+//		Object[] values2 = { calendar1.getTime(), true, false };
+//		TableInserts.insertProductRatesUpdateRequest2(con, values2);
+//		calendar1.set(Calendar.YEAR, 2019);
+//		calendar1.set(Calendar.MONTH, 5 - 1);
+//		calendar1.set(Calendar.DAY_OF_MONTH, 5 - 1);
+//		Object[] values3 = { calendar1.getTime(), true, true };
+//		TableInserts.insertProductRatesUpdateRequest2(con, values3);
+//	}
+//
+//	private static void insertDefaultProductInRequest(Connection con) throws SQLException {
+//		if (checkTableEmpty(con, "product_in_request") == false)
+//			return;
+//		// "FK_updateRateRequestID", "FK_productName", "requestedRate"
+//		Object[] values1 = { "1", ProductName.Diesel.toString(), 7 };
+//		TableInserts.insertProductInRequest(con, values1);
+//		Object[] values2 = { "1", ProductName.MotorbikeFuel.toString(), 6.5 };
+//		TableInserts.insertProductInRequest(con, values2);
+//		Object[] values3 = { "2", ProductName.Gasoline.toString(), 9 };
+//		TableInserts.insertProductInRequest(con, values3);
+//		Object[] values4 = { "3", ProductName.Gasoline.toString(), 5 };
+//		TableInserts.insertProductInRequest(con, values4);
+//		Object[] values5 = { "3", ProductName.Diesel.toString(), 4 };
+//		TableInserts.insertProductInRequest(con, values5);
+//		Object[] values6 = { "3", ProductName.MotorbikeFuel.toString(), 7.5 };
+//		TableInserts.insertProductInRequest(con, values6);
+//		Object[] values7 = { "3", ProductName.HomeFuel.toString(), 3 };
+//		TableInserts.insertProductInRequest(con, values7);
+//	}
 
 	private static void insertDefaultFuelCompany(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "fuel_company") == false)
@@ -809,6 +810,26 @@ public class DefaultTableInserts {
 		calendar3.set(Calendar.DAY_OF_MONTH, 28 - 1);
 		Object[] values1 = { calendar1.getTime(), calendar2.getTime(), calendar3.getTime() };
 		TableInserts.insertPeriodicCustomersReport(con, values1);
+	}
+
+	private static void insertDefaultPricingModelUpdateRequest(Connection con) throws SQLException {
+		if (checkTableEmpty(con, "pricing_model_update_request") == false)
+			return;
+		// 1 - "FK_pricingModelName", "requestDate", "requestedDiscount", "assessed"
+		// 2 - "FK_pricingModelName", "requestDate", "requestedDiscount", "assessed",
+		// "approved", "reasonDismissal"
+		Calendar calendar1 = Calendar.getInstance();
+		calendar1.set(Calendar.YEAR, 2019);
+		calendar1.set(Calendar.MONTH, 5 - 1);
+		calendar1.set(Calendar.DAY_OF_MONTH, 16 - 1);
+		Object[] values1 = { PricingModelName.MonthlyProgramSingleCar.toString(), calendar1.getTime(), 10, false };
+		TableInserts.insertPricingModelUpdateRequest1(con, values1);
+		calendar1.set(Calendar.YEAR, 2019);
+		calendar1.set(Calendar.MONTH, 5 - 1);
+		calendar1.set(Calendar.DAY_OF_MONTH, 13 - 1);
+		Object[] values2 = { PricingModelName.FullProgramSingleCar.toString(), calendar1.getTime(), 2, true, false,
+				"No Bueno" };
+		TableInserts.insertPricingModelUpdateRequest2(con, values2);
 	}
 
 	private static void insertDefaultActivity(Connection con) throws SQLException {

@@ -65,8 +65,7 @@ public class NetworkManagerWindow extends QuarterlyReportWindow {
 		/*
 		 * send to server to get fuelstationids and fill cb
 		 */
-		String message = "getAllFuelStationIDs";
-		controller.handleMessageFromClientUI(message);
+		controller.handleMessageFromClientUI("getAllFuelStationIDs");
 	}
 
 	@Override
@@ -127,12 +126,14 @@ public class NetworkManagerWindow extends QuarterlyReportWindow {
 
 	@FXML
 	void openAssessPane(ActionEvent event) {
+		clearFields();
+		visibleNow.setVisible(false);
+		assessPane.setVisible(true);
+		visibleNow = assessPane;
+		topbar_window_label.setText("Assess Pricing Model Update Request");
+		sidebar_btn1.setSelected(true);
+
 		/*
-		 * clearFields(); visibleNow.setVisible(false); assessPane.setVisible(true);
-		 * visibleNow = assessPane;
-		 * topbar_window_label.setText("Assess Pricing Model Update Request");
-		 * sidebar_btn1.setSelected(true);
-		 * 
 		 * // Decline order, secondary window pop up btnASODecline.setOnAction(new
 		 * EventHandler<ActionEvent>() {
 		 * 

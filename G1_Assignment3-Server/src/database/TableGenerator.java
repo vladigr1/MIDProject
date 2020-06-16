@@ -27,8 +27,8 @@ public class TableGenerator { // creating the tables if they are not exists
 			generateProduct(con);
 			generateProductInSalesPattern(con);
 			generateSale(con);
-			generateProductRatesUpdateRequest(con);
-			generateProductInRequest(con);
+//			generateProductRatesUpdateRequest(con);
+//			generateProductInRequest(con);
 			generateFuelCompany(con);
 			generateFuelStation(con);
 			generateProductInStation(con);
@@ -56,6 +56,7 @@ public class TableGenerator { // creating the tables if they are not exists
 			generatePeriodicCustomersReport(con);
 			generateActivity(con);
 			generateFastFuel(con);
+			generatePricingModelUpdateRequest(con);
 		} catch (Exception e) {
 			throw new SQLException(e.getMessage());
 		}
@@ -219,7 +220,7 @@ public class TableGenerator { // creating the tables if they are not exists
 	private static void generateFuelStationOrder(Connection con) throws SQLException {
 		String tableName = "fuel_station_order";
 		String values = "( " + "FK_ordersID INT NOT NULL ," + "FK_productInStationID INT NOT NULL ,"
-				+ "assessed varchar(1) NOT NULL ," + "approved varchar(1) ," + "reasonDismissal varchar(64) ,"
+				+ "assessed varchar(1) NOT NULL ," + "approved varchar(1) ," + "reasonDismissal varchar(128) ,"
 				+ "supplied varchar(1) NOT NULL ," + "timeSupplied TIMESTAMP ," + " PRIMARY KEY (fk_ordersID) ,"
 				// fk1
 				+ " KEY fuel_station_order_ibfk_1 (FK_productInStationID) ,"
@@ -400,21 +401,21 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " REFERENCES outcome_report (FK_repQuarter,FK_repYear) ON DELETE CASCADE ON UPDATE CASCADE )";
 		generateTable(con, tableName, values);
 	}
-
-	private static void generateProductInRequest(Connection con) throws SQLException {
-		String tableName = "product_in_request";
-		String values = "( " + " FK_updateRateRequestID INT NOT NULL ," + " FK_productName varchar(32) NOT NULL ,"
-				+ " requestedRate DOUBLE(32,2) NOT NULL ," + " PRIMARY KEY (FK_productName,FK_updateRateRequestID) ,"
-				// fk1
-				+ " KEY product_in_request_ibfk_1 (FK_updateRateRequestID) ,"
-				+ " CONSTRAINT product_in_request_ibfk_1 FOREIGN KEY (FK_updateRateRequestID) "
-				+ " REFERENCES product_rates_update_request (updateRateRequestID) ON DELETE CASCADE ON UPDATE CASCADE ,"
-				// fk2
-				+ " KEY product_in_request_ibfk_2 (FK_productName) ,"
-				+ " CONSTRAINT product_in_request_ibfk_2 FOREIGN KEY (FK_productName) "
-				+ " REFERENCES product (productName) ON DELETE CASCADE ON UPDATE CASCADE )";
-		generateTable(con, tableName, values);
-	}
+//
+//	private static void generateProductInRequest(Connection con) throws SQLException {
+//		String tableName = "product_in_request";
+//		String values = "( " + " FK_updateRateRequestID INT NOT NULL ," + " FK_productName varchar(32) NOT NULL ,"
+//				+ " requestedRate DOUBLE(32,2) NOT NULL ," + " PRIMARY KEY (FK_productName,FK_updateRateRequestID) ,"
+//				// fk1
+//				+ " KEY product_in_request_ibfk_1 (FK_updateRateRequestID) ,"
+//				+ " CONSTRAINT product_in_request_ibfk_1 FOREIGN KEY (FK_updateRateRequestID) "
+//				+ " REFERENCES product_rates_update_request (updateRateRequestID) ON DELETE CASCADE ON UPDATE CASCADE ,"
+//				// fk2
+//				+ " KEY product_in_request_ibfk_2 (FK_productName) ,"
+//				+ " CONSTRAINT product_in_request_ibfk_2 FOREIGN KEY (FK_productName) "
+//				+ " REFERENCES product (productName) ON DELETE CASCADE ON UPDATE CASCADE )";
+//		generateTable(con, tableName, values);
+//	}
 
 	private static void generateProductInSalesPattern(Connection con) throws SQLException {
 		String tableName = "product_in_sales_pattern";
@@ -448,13 +449,13 @@ public class TableGenerator { // creating the tables if they are not exists
 		generateTable(con, tableName, values);
 	}
 
-	private static void generateProductRatesUpdateRequest(Connection con) throws SQLException {
-		String tableName = "product_rates_update_request";
-		String values = "( " + " updateRateRequestID INT NOT NULL AUTO_INCREMENT ,"
-				+ " requestDate TIMESTAMP NOT NULL ," + " assessed varchar(1) NOT NULL ," + " approved varchar(1) ,"
-				+ " PRIMARY KEY (updateRateRequestID) )";
-		generateTable(con, tableName, values);
-	}
+//	private static void generateProductRatesUpdateRequest(Connection con) throws SQLException {
+//		String tableName = "product_rates_update_request";
+//		String values = "( " + " updateRateRequestID INT NOT NULL AUTO_INCREMENT ,"
+//				+ " requestDate TIMESTAMP NOT NULL ," + " assessed varchar(1) NOT NULL ," + " approved varchar(1) ,"
+//				+ " PRIMARY KEY (updateRateRequestID) )";
+//		generateTable(con, tableName, values);
+//	}
 
 	private static void generatePurchasingProgram(Connection con) throws SQLException {
 		String tableName = "purchasing_program";
@@ -558,6 +559,19 @@ public class TableGenerator { // creating the tables if they are not exists
 		String values = "( " + " username varchar(32) NOT NULL ," + " password varchar(32) NOT NULL ,"
 				+ " connected varchar(1) NOT NULL ," + " email varchar(64) NOT NULL ,"
 				+ " firstName varchar(32) NOT NULL ," + " surname varchar(32) NOT NULL ," + " PRIMARY KEY (username) )";
+		generateTable(con, tableName, values);
+	}
+
+	private static void generatePricingModelUpdateRequest(Connection con) throws SQLException {
+		String tableName = "pricing_model_update_request";
+		String values = "( " + " requestID INT NOT NULL AUTO_INCREMENT ," + " FK_pricingModelName varchar(32) ,"
+				+ " requestDate TIMESTAMP NOT NULL ," + " requestedDiscount DOUBLE(32,2) NOT NULL ,"
+				+ " assessed varchar(1) NOT NULL ," + " approved varchar(1) ," + " reasonDismissal varchar(128) ,"
+				+ "PRIMARY KEY (requestID) ,"
+				// fk1
+				+ " KEY pricing_model_ibfk_5 (FK_pricingModelName) ,"
+				+ " CONSTRAINT pricing_model_ibfk_5 FOREIGN KEY (FK_pricingModelName) "
+				+ " REFERENCES pricing_model_type (pricingModelName) ON DELETE CASCADE ON UPDATE CASCADE )";
 		generateTable(con, tableName, values);
 	}
 

@@ -51,6 +51,10 @@ public class DatabaseNetworkManagerController {
 			} while (rs1.next());
 			rs1.close();
 
+			for (int a : fuelStationIDs)
+				System.out.print(a);
+			System.out.println();
+
 			netManager.setParams(new Object[] { fuelStationIDs });
 			return netManager;
 
