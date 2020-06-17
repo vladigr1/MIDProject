@@ -16,6 +16,7 @@ import entities.CustomerBoughtFromCompany;
 import entities.CustomerBoughtInSale;
 import entities.PeriodicCustomersReport;
 import entities.PeriodicReportList;
+import entities.PricingModelType;
 import entities.Product;
 import entities.ProductInSalePatternList;
 import entities.ProductInSalesPattern;
@@ -30,6 +31,7 @@ import entities.SalesPattern;
 import entities.SalesPatternList;
 import enums.CustomerType;
 import enums.FuelCompanyName;
+import enums.PricingModelName;
 import enums.ProductName;
 
 /**
@@ -318,55 +320,55 @@ public class DatabaseMarketingManagerController {
 		return productRateList;
 	}
 
-	/**
-	 * method that create a new Product Rate Update Request
-	 * 
-	 * @param dieselRank
-	 * @param gasolineRank
-	 * @param motorRank
-	 * @param homeRank
-	 * @return String
-	 */
-	public String createNewPRUR(double dieselRank, double gasolineRank, double motorRank, double homeRank) {
-		int updateRateRequestID;
-		try {
-			Calendar calendar3 = Calendar.getInstance();
-			Date now = new Date();
-			calendar3.setTime(now);
-			calendar3.add(Calendar.HOUR, -2);
-			calendar3.add(Calendar.MINUTE, -30);
-			now = calendar3.getTime();
-
-			Object[] values1 = { now, false, false };
-			System.out.println("Create new PRUR");
-			updateRateRequestID = TableInserts.insertProductRatesUpdateRequest2(connection, values1);
-			System.out.println("new ID= " + updateRateRequestID);
-			if (dieselRank != 0) {
-				Object[] values2 = { updateRateRequestID + "", ProductName.Diesel.toString(), dieselRank };
-				TableInserts.insertProductInRequest(connection, values2);
-			}
-			if (gasolineRank != 0) {
-				Object[] values2 = { updateRateRequestID + "", ProductName.Gasoline.toString(), gasolineRank };
-				TableInserts.insertProductInRequest(connection, values2);
-			}
-
-			if (motorRank != 0) {
-				Object[] values2 = { updateRateRequestID + "", ProductName.MotorbikeFuel.toString(), motorRank };
-				TableInserts.insertProductInRequest(connection, values2);
-			}
-
-			if (homeRank != 0) {
-				Object[] values2 = { updateRateRequestID + "", ProductName.HomeFuel.toString(), homeRank };
-				TableInserts.insertProductInRequest(connection, values2);
-			}
-
-		} catch (Exception e) {
-			return "failed PRUR";
-		}
-
-		return "success PRUR " + updateRateRequestID;
-
-	}
+//	/**
+//	 * method that create a new Product Rate Update Request
+//	 * 
+//	 * @param dieselRank
+//	 * @param gasolineRank
+//	 * @param motorRank
+//	 * @param homeRank
+//	 * @return String
+//	 */
+//	public String createNewPRUR(double dieselRank, double gasolineRank, double motorRank, double homeRank) {
+//		int updateRateRequestID;
+//		try {
+//			Calendar calendar3 = Calendar.getInstance();
+//			Date now = new Date();
+//			calendar3.setTime(now);
+//			calendar3.add(Calendar.HOUR, -2);
+//			calendar3.add(Calendar.MINUTE, -30);
+//			now = calendar3.getTime();
+//
+//			Object[] values1 = { now, false, false };
+//			System.out.println("Create new PRUR");
+//			updateRateRequestID = TableInserts.insertProductRatesUpdateRequest2(connection, values1);
+//			System.out.println("new ID= " + updateRateRequestID);
+//			if (dieselRank != 0) {
+//				Object[] values2 = { updateRateRequestID + "", ProductName.Diesel.toString(), dieselRank };
+//				TableInserts.insertProductInRequest(connection, values2);
+//			}
+//			if (gasolineRank != 0) {
+//				Object[] values2 = { updateRateRequestID + "", ProductName.Gasoline.toString(), gasolineRank };
+//				TableInserts.insertProductInRequest(connection, values2);
+//			}
+//
+//			if (motorRank != 0) {
+//				Object[] values2 = { updateRateRequestID + "", ProductName.MotorbikeFuel.toString(), motorRank };
+//				TableInserts.insertProductInRequest(connection, values2);
+//			}
+//
+//			if (homeRank != 0) {
+//				Object[] values2 = { updateRateRequestID + "", ProductName.HomeFuel.toString(), homeRank };
+//				TableInserts.insertProductInRequest(connection, values2);
+//			}
+//
+//		} catch (Exception e) {
+//			return "failed PRUR";
+//		}
+//
+//		return "success PRUR " + updateRateRequestID;
+//
+//	}
 
 	/**
 	 * method that pulls sale products data from sql
@@ -693,6 +695,63 @@ public class DatabaseMarketingManagerController {
 			ex.printStackTrace();
 			return "genAnalysis fail";
 		}
+	}
+
+	/**
+	 * method that return all pricing model types
+	 * 
+	 * @return
+	 */
+	public List<PricingModelType> getPricingModelTypeDiscounts() {
+		List<PricingModelType> list = new ArrayList<>();
+		Statement stmt = null;
+		try {
+			stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM pricing_model_type ");
+			while (rs.next()) {
+				String str = rs.getString(1).replaceAll("\\s", "");
+
+				PricingModelType model = new PricingModelType(PricingModelName.valueOf(str), rs.getString(2),
+						rs.getDouble(3));
+				list.add(model);
+			}
+			rs.close();
+		} catch (SQLException e) {
+			return new ArrayList<>();
+		}
+		return list;
+	}
+
+	/**
+	 * method that create a new request of pricing model
+	 * 
+	 * @param modelType
+	 * @param discount
+	 * @return
+	 */
+
+	public String createNewPricingModelRequest(String modelType, double discount) {
+
+		try {
+			Calendar calendar1 = Calendar.getInstance();
+			calendar1.setTime(new Date());
+			calendar1.add(Calendar.HOUR, -2);
+			calendar1.add(Calendar.MINUTE, -30);
+			String modelName = "";
+			if (modelType.equals("MSS"))
+				modelName = PricingModelName.MonthlyProgramSingleCar.toString();
+			if (modelType.equals("MMS"))
+				modelName = PricingModelName.MonthlyProgramMultipleCars.toString();
+			if (modelType.equals("FSS"))
+				modelName = PricingModelName.FullProgramSingleCar.toString();
+
+			Object[] values1 = { modelName, calendar1.getTime(), discount, false };
+			TableInserts.insertPricingModelUpdateRequest1(connection, values1);
+		} catch (Exception e) {
+			return "failed to create new pricing model request";
+		}
+
+		return "success creation of new pricing model request";
 	}
 
 	////////// private functions ///////////

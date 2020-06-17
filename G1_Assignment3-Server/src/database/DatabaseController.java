@@ -413,19 +413,19 @@ public class DatabaseController {
 		return DatabaseMarketingManagerController.getInstance(connection).getAllProductRanks();
 	}
 
-	/**
-	 * method that create a new Product Rate Update Request
-	 * 
-	 * @param dieselRank
-	 * @param gasolineRank
-	 * @param motorRank
-	 * @param homeRank
-	 * @return String
-	 */
-	public String createNewPRUR(double dieselRank, double gasolineRank, double motorRank, double homeRank) {
-		return DatabaseMarketingManagerController.getInstance(connection).createNewPRUR(dieselRank, gasolineRank,
-				motorRank, homeRank);
-	}
+//	/**
+//	 * method that create a new Product Rate Update Request
+//	 * 
+//	 * @param dieselRank
+//	 * @param gasolineRank
+//	 * @param motorRank
+//	 * @param homeRank
+//	 * @return String
+//	 */
+//	public String createNewPRUR(double dieselRank, double gasolineRank, double motorRank, double homeRank) {
+//		return DatabaseMarketingManagerController.getInstance(connection).createNewPRUR(dieselRank, gasolineRank,
+//				motorRank, homeRank);
+//	}
 
 	/**
 	 * method that pulls sale products data from sql
@@ -477,13 +477,14 @@ public class DatabaseController {
 	public String generateAnalysis() {
 		return DatabaseMarketingManagerController.getInstance(connection).generateAnalysis();
 	}
-	
+
 	public List<PricingModelType> getPricingModelTypeDiscounts() {
 		return DatabaseMarketingManagerController.getInstance(connection).getPricingModelTypeDiscounts();
 	}
-	
+
 	public String createNewPricingModelRequest(String modelType, double discount) {
-		return DatabaseMarketingManagerController.getInstance(connection).createNewPricingModelRequest(modelType,discount);
+		return DatabaseMarketingManagerController.getInstance(connection).createNewPricingModelRequest(modelType,
+				discount);
 	}
 
 	/****************** fuelstation manager controller methods *****************/

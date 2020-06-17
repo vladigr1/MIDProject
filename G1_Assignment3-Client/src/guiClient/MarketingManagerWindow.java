@@ -1,5 +1,6 @@
 package guiClient;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -14,6 +15,7 @@ import entities.CustomerBoughtFromCompany;
 import entities.CustomerBoughtInSale;
 import entities.PeriodicCustomersReport;
 import entities.PeriodicReportList;
+import entities.PricingModelType;
 import entities.Product;
 import entities.ProductInSalePatternList;
 import entities.ProductInSalesPattern;
@@ -21,8 +23,8 @@ import entities.ProductRateList;
 import entities.RankingSheetList;
 import entities.RowForSalesPatternTable;
 import entities.RowInSaleCommentsReportTable;
-import entities.SaleCommentsReportList;
 import entities.SaleCommentsReport;
+import entities.SaleCommentsReportList;
 import entities.SalesList;
 import entities.SalesPattern;
 import entities.SalesPatternList;
@@ -58,13 +60,13 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	@FXML
 	private AnchorPane paneChooseReportType;
 	@FXML
-	private Label lblDieselERR2;
+	private Label lblPayInPlaceERR;
 	@FXML
-	private Label lblGasolineERR2;
+	private Label lblMonthlySingleERR;
 	@FXML
-	private Label lblMotorERR2;
+	private Label lblFullSingleERR;
 	@FXML
-	private Label lblHomeERR2;
+	private Label lblMonthMultipleERR;
 
 	@FXML
 	private ToggleGroup one;
@@ -77,7 +79,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	@FXML
 	private ToggleButton tbGenerateReport;
 	@FXML
-	private ToggleButton tbRequestProductRateUpdate;
+	private ToggleButton tbRequestPricingModelUpdate;
 
 	@FXML
 	private ToggleGroup one1;
@@ -157,31 +159,31 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	@FXML
 	private AnchorPane requestRateUpdatePane; // request page
 	@FXML
-	private CheckBox cbRPRUDiesel;
+	private CheckBox cbPayInPlaceSet;
 	@FXML
-	private CheckBox cbRPRUGasoline;
+	private CheckBox cbMonthSingleSet;
 	@FXML
-	private CheckBox cbRPRUMotorbike;
+	private CheckBox cbMonthMultipleSet;
 	@FXML
-	private CheckBox cbRPRUHomeFuel;
+	private CheckBox cbFullSingleSet;
 	@FXML
-	private TextField tfRPRUDiesel2;
+	private TextField tfPayInPlaceSet;
 	@FXML
-	private TextField tfRPRUGasoline2;
+	private TextField tfMonthSingleSet;
 	@FXML
-	private TextField tfRPRUHomeFuel2;
+	private TextField tfFullSingleSet;
 	@FXML
-	private TextField tfRPRUMotorbike2;
+	private TextField tfMultipleSet;
 	@FXML
-	private TextField tfRPRUDiesel1;
+	private TextField tfPayInPlaceGet;
 	@FXML
-	private TextField tfRPRUGasoline1;
+	private TextField tfMonthSingleGet;
 	@FXML
-	private TextField tfRPRUMotorbike1;
+	private TextField tfMonthMultipleGet;
 	@FXML
-	private TextField tfRPRUHomeFuel1;
+	private TextField tfFullSingleGet;
 	@FXML
-	private Button btnRPRUSend;
+	private Button btnRPMU;
 
 	@FXML
 	private TableColumn<RowForSalesPatternTable, Integer> idColumn;
@@ -211,14 +213,14 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		initiateCustomersTableInCommonReport();
 		initiateCustomersTableInPeriodicReport();
 
-		tfRPRUDiesel1.setMouseTransparent(true);
-		tfRPRUDiesel1.setFocusTraversable(false);
-		tfRPRUGasoline1.setMouseTransparent(true);
-		tfRPRUGasoline1.setFocusTraversable(false);
-		tfRPRUMotorbike1.setMouseTransparent(true);
-		tfRPRUMotorbike1.setFocusTraversable(false);
-		tfRPRUHomeFuel1.setMouseTransparent(true);
-		tfRPRUHomeFuel1.setFocusTraversable(false);
+		tfPayInPlaceGet.setMouseTransparent(true);
+		tfPayInPlaceGet.setFocusTraversable(false);
+		tfMonthSingleGet.setMouseTransparent(true);
+		tfMonthSingleGet.setFocusTraversable(false);
+		tfMonthMultipleGet.setMouseTransparent(true);
+		tfMonthMultipleGet.setFocusTraversable(false);
+		tfFullSingleGet.setMouseTransparent(true);
+		tfFullSingleGet.setFocusTraversable(false);
 
 		tfSCRSaleID.setMouseTransparent(true);
 		tfSCRSaleID.setFocusTraversable(false);
@@ -230,7 +232,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		tfSCREndTime.setFocusTraversable(false);
 		tfSCRSumPurchase.setMouseTransparent(true);
 		tfSCRSumPurchase.setFocusTraversable(false);
-		
+
 		tfPCRFrom.setMouseTransparent(true);
 		tfPCRFrom.setFocusTraversable(false);
 		tfPCRTo.setMouseTransparent(true);
@@ -270,9 +272,29 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 							+ " , To Date = " + dateTo.toString());
 				}
 			}
-		}
+		} else if (lastMsgFromServer instanceof List<?>) {
+			if (((List<?>) lastMsgFromServer).isEmpty()) {
+				this.openErrorAlert("List Empty", "ERROR of getting information from server");
+			}
+			if (((List<?>) lastMsgFromServer).get(0) instanceof PricingModelType) {
+				@SuppressWarnings("unchecked")
+				List<PricingModelType> list = (List<PricingModelType>) lastMsgFromServer;
+				for (PricingModelType model : list) {
 
-		else if (lastMsgFromServer instanceof SaleCommentsReportList) {
+					double no = model.getDefaultDiscount() * 100;
+					DecimalFormat dec = new DecimalFormat("#0.00");
+
+					if (model.getPricingModelName().toString().equals("Pay In Place"))
+						tfPayInPlaceGet.setText(dec.format(no) + "");
+					if (model.getPricingModelName().toString().equals("Monthly Program Single Car"))
+						tfMonthSingleGet.setText(dec.format(no) + "");
+					if (model.getPricingModelName().toString().equals("Monthly Program Multiple Cars"))
+						tfMonthMultipleGet.setText(dec.format(no) + "");
+					if (model.getPricingModelName().toString().equals("Full Program Single Car"))
+						tfFullSingleGet.setText(dec.format(no) + "");
+				}
+			}
+		} else if (lastMsgFromServer instanceof SaleCommentsReportList) {
 			SaleCommentsReportList report = (SaleCommentsReportList) lastMsgFromServer;
 			if (report.getReport() == null) {
 				Alert a = new Alert(AlertType.ERROR);
@@ -424,8 +446,15 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 			} else if (message.startsWith("success PRUR")) {
 				openConfirmationAlert("Product Rates Update Request", "Request Sent To Network Manager");
 				String[] str = message.split(" ");
-				addActivity("Update Prodcut Rate Reuest ID= " + str[2]);
+				addActivity("Update Prodcut Rate Request ID= " + str[2]);
+			} else if (message.startsWith("failed to create new pricing model request")) {
+				this.openErrorAlert("Creation Of Pricing Model Request",
+						"Server failed to add a new pricing model request");
+			} else if (message.startsWith("success creation of new pricing model request")) {
+				this.openConfirmationAlert("Creation Of Pricing Model Request", "Creation Succseeful!");
+				this.addActivity("Create A New Pricing Model Request");
 			}
+
 		}
 		super.callAfterMessage(lastMsgFromServer);
 	}
@@ -650,68 +679,170 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 
 ///////// Generate Marketing Report End //////////////
 
-///////// Request Product Rate Update Start: //////////////
+///////// Request Pricing Model Start //////////////
 
-	public void tbRequestProductRateUpdateClicked() {
-		this.tbRequestProductRateUpdate.setSelected(true);
-		this.topbar_window_label.setText("Request Product Rates Update");
-		removeAllPanesVisiblity();
+	public void tbRequestPricingModelUpdateClicked() {
+		this.clearFields();
+		homePane.setVisible(false);
+		initiateSalePane.setVisible(false);
+		createSalePatternPane.setVisible(false);
+		generateReportPane.setVisible(false);
+		this.sendToClientController("get pricing model type discounts");
 		requestRateUpdatePane.setVisible(true);
-		clearFields();
-		getAllProductRanks();
+		this.tbRequestPricingModelUpdate.setSelected(true);
 	}
 
-	public void btnRPRUSendClicked() {
+	public void cbPayInPlaceSetClicked() {
+		if (!cbPayInPlaceSet.isSelected()) {
+			tfPayInPlaceSet.clear();
+			lblPayInPlaceERR.setVisible(false);
+			tfPayInPlaceSet.setStyle("-fx-border-style: none;");
+			tfPayInPlaceSet.setDisable(true);
+
+		} else {
+			tfPayInPlaceSet.setDisable(false);
+		}
+
+		tfMonthSingleSet.setDisable(true);
+		tfMultipleSet.setDisable(true);
+		tfFullSingleSet.setDisable(true);
+
+		tfMonthSingleSet.setStyle("-fx-border-style: none;");
+		tfMultipleSet.setStyle("-fx-border-style: none;");
+		tfFullSingleSet.setStyle("-fx-border-style: none;");
+
+		lblMonthlySingleERR.setVisible(false);
+		lblMonthMultipleERR.setVisible(false);
+		lblFullSingleERR.setVisible(false);
+		lblPayInPlaceERR.setVisible(false);
+
+		tfMonthSingleSet.clear();
+		tfMultipleSet.clear();
+		tfFullSingleSet.clear();
+
+		cbMonthSingleSet.setSelected(false);
+		cbMonthMultipleSet.setSelected(false);
+		cbFullSingleSet.setSelected(false);
+
+	}
+
+	public void cbMonthSingleSetClicked() {
+		if (!cbMonthSingleSet.isSelected()) {
+			tfMonthSingleSet.clear();
+			lblMonthlySingleERR.setVisible(false);
+			tfMonthSingleSet.setStyle("-fx-border-style: none;");
+			tfMonthSingleSet.setDisable(true);
+		} else {
+			tfMonthSingleSet.setDisable(false);
+		}
+
+		tfPayInPlaceSet.setDisable(true);
+		tfMultipleSet.setDisable(true);
+		tfFullSingleSet.setDisable(true);
+
+		tfPayInPlaceSet.setStyle("-fx-border-style: none;");
+		tfMultipleSet.setStyle("-fx-border-style: none;");
+		tfFullSingleSet.setStyle("-fx-border-style: none;");
+		tfPayInPlaceSet.clear();
+		tfMultipleSet.clear();
+		tfFullSingleSet.clear();
+
+		lblMonthlySingleERR.setVisible(false);
+		lblMonthMultipleERR.setVisible(false);
+		lblFullSingleERR.setVisible(false);
+		lblPayInPlaceERR.setVisible(false);
+
+		cbPayInPlaceSet.setSelected(false);
+		cbMonthMultipleSet.setSelected(false);
+		cbFullSingleSet.setSelected(false);
+
+	}
+
+	public void cbMonthMultipleSetClicked() {
+		if (!cbMonthMultipleSet.isSelected()) {
+			tfMultipleSet.clear();
+			lblMonthMultipleERR.setVisible(false);
+			tfMultipleSet.setStyle("-fx-border-style: none;");
+			tfMultipleSet.setDisable(true);
+		} else {
+			tfMultipleSet.setDisable(false);
+		}
+
+		tfPayInPlaceSet.setDisable(true);
+		tfMonthSingleSet.setDisable(true);
+		tfFullSingleSet.setDisable(true);
+
+		tfMonthSingleSet.setStyle("-fx-border-style: none;");
+		tfPayInPlaceSet.setStyle("-fx-border-style: none;");
+		tfFullSingleSet.setStyle("-fx-border-style: none;");
+
+		tfMonthSingleSet.clear();
+		tfPayInPlaceSet.clear();
+		tfFullSingleSet.clear();
+
+		lblMonthlySingleERR.setVisible(false);
+		lblMonthMultipleERR.setVisible(false);
+		lblFullSingleERR.setVisible(false);
+		lblPayInPlaceERR.setVisible(false);
+
+		cbMonthSingleSet.setSelected(false);
+		cbPayInPlaceSet.setSelected(false);
+		cbFullSingleSet.setSelected(false);
+
+	}
+
+	public void cbFullSingleSetClicked() {
+		if (!cbFullSingleSet.isSelected()) {
+			tfFullSingleSet.clear();
+			lblFullSingleERR.setVisible(false);
+			tfFullSingleSet.setStyle("-fx-border-style: none;");
+			tfFullSingleSet.setDisable(true);
+		} else {
+			tfFullSingleSet.setDisable(false);
+		}
+
+		tfPayInPlaceSet.setDisable(true);
+		tfMonthSingleSet.setDisable(true);
+		tfMultipleSet.setDisable(true);
+
+		tfMonthSingleSet.setStyle("-fx-border-style: none;");
+		tfMultipleSet.setStyle("-fx-border-style: none;");
+		tfPayInPlaceSet.setStyle("-fx-border-style: none;");
+
+		tfMonthSingleSet.clear();
+		tfMultipleSet.clear();
+		tfPayInPlaceSet.clear();
+
+		lblMonthlySingleERR.setVisible(false);
+		lblMonthMultipleERR.setVisible(false);
+		lblFullSingleERR.setVisible(false);
+		lblPayInPlaceERR.setVisible(false);
+
+		cbMonthSingleSet.setSelected(false);
+		cbMonthMultipleSet.setSelected(false);
+		cbPayInPlaceSet.setSelected(false);
+
+	}
+
+	public void btnRPMUClicked() {
 		if (checkRPRUCheckBoxes() && checkRPRUCheckFields()) {
-			createNewPRUR();
+
+			String message = "create pricing model request ";
+			if (cbMonthSingleSet.isSelected())
+				message += "MSS " + tfMonthSingleSet.getText();
+
+			if (cbMonthMultipleSet.isSelected())
+				message += "MMS " + tfMultipleSet.getText();
+
+			if (cbFullSingleSet.isSelected())
+				message += "FSS " + tfFullSingleSet.getText();
+
+			this.sendToClientController(message);
+
 		}
 	}
 
-	public void btnRPRUSendHover() {
-		btnRPRUSend.setOpacity(0.85);
-	}
-
-	public void btnRPRUSendExit() {
-		btnRPRUSend.setOpacity(1);
-	}
-
-	public void cbRPRUDieselClicked() {
-		tfRPRUDiesel2.setDisable(!tfRPRUDiesel2.isDisable());
-		if (tfRPRUDiesel2.isDisable()) {
-			this.lblDieselERR2.setVisible(false);
-			tfRPRUDiesel2.setStyle("-fx-border-style: none;");
-			tfRPRUDiesel2.clear();
-		}
-	}
-
-	public void cbRPRUGasolineClicked() {
-		tfRPRUGasoline2.setDisable(!tfRPRUGasoline2.isDisable());
-		if (tfRPRUGasoline2.isDisable()) {
-			this.lblGasolineERR2.setVisible(false);
-			tfRPRUGasoline2.setStyle("-fx-border-style: none;");
-			tfRPRUGasoline2.clear();
-		}
-	}
-
-	public void cbRPRUMotorbikeClicked() {
-		tfRPRUMotorbike2.setDisable(!tfRPRUMotorbike2.isDisable());
-		if (tfRPRUMotorbike2.isDisable()) {
-			this.lblMotorERR2.setVisible(false);
-			tfRPRUMotorbike2.setStyle("-fx-border-style: none;");
-			tfRPRUMotorbike2.clear();
-		}
-	}
-
-	public void cbRPRUHomeFuelClicked() {
-		tfRPRUHomeFuel2.setDisable(!tfRPRUHomeFuel2.isDisable());
-		if (tfRPRUHomeFuel2.isDisable()) {
-			this.lblHomeERR2.setVisible(false);
-			tfRPRUHomeFuel2.setStyle("-fx-border-style: none;");
-			tfRPRUHomeFuel2.clear();
-		}
-	}
-
-///////// Request Product Rate Update End //////////////
+///////// Request Pricing Model End //////////////
 
 /////////////////// private functions //////////////////////
 
@@ -813,8 +944,8 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		if ((calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR)
 				&& calendar1.get(Calendar.MONTH) == calendar2.get(Calendar.MONTH)
 				&& calendar1.get(Calendar.DAY_OF_MONTH) == calendar2.get(Calendar.DAY_OF_MONTH))) {
-			if (Integer.parseInt(str[0]) < calendar1.get(Calendar.HOUR) + 12
-					|| (Integer.parseInt(str[0]) == calendar1.get(Calendar.HOUR) + 12
+			if (Integer.parseInt(str[0]) < calendar1.get(Calendar.HOUR)
+					|| (Integer.parseInt(str[0]) == calendar1.get(Calendar.HOUR)
 							&& Integer.parseInt(str[1]) < calendar1.get(Calendar.MINUTE))) {
 				openErrorAlert("Error", "Time must be now or after now");
 				tf.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
@@ -910,35 +1041,35 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		return true;
 	}
 
-	/**
-	 * method that create a new Product Rate Update Request
-	 */
-	private void createNewPRUR() {
-		StringBuilder message = new StringBuilder();
-		message.append("create new PRUR ");
-		if (!cbRPRUDiesel.isSelected())
-			message.append("0 ");
-		else
-			message.append(tfRPRUDiesel2.getText() + " ");
-
-		if (!cbRPRUGasoline.isSelected())
-			message.append("0 ");
-		else
-			message.append(tfRPRUGasoline2.getText() + " ");
-
-		if (!cbRPRUMotorbike.isSelected())
-			message.append("0 ");
-		else
-			message.append(tfRPRUMotorbike2.getText() + " ");
-
-		if (!cbRPRUHomeFuel.isSelected())
-			message.append("0 ");
-		else
-			message.append(tfRPRUHomeFuel2.getText() + " ");
-
-		System.out.println(message.toString());
-		this.sendToClientController(message.toString());
-	}
+//	/**
+//	 * method that create a new Product Rate Update Request
+//	 */
+//	private void createNewPRUR() {
+//		StringBuilder message = new StringBuilder();
+//		message.append("create new PRUR ");
+//		if (!cbPayInPlaceSet.isSelected())
+//			message.append("0 ");
+//		else
+//			message.append(tfPayInPlaceSet.getText() + " ");
+//
+//		if (!cbMonthSingleSet.isSelected())
+//			message.append("0 ");
+//		else
+//			message.append(tfMonthSingleSet.getText() + " ");
+//
+//		if (!cbMonthMultipleSet.isSelected())
+//			message.append("0 ");
+//		else
+//			message.append(tfMultipleSet.getText() + " ");
+//
+//		if (!cbFullSingleSet.isSelected())
+//			message.append("0 ");
+//		else
+//			message.append(tfFullSingleSet.getText() + " ");
+//
+//		System.out.println(message.toString());
+//		this.sendToClientController(message.toString());
+//	}
 
 	/**
 	 * method that check that if at least one check box is selected
@@ -946,18 +1077,30 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	 * @return
 	 */
 	private boolean checkRPRUCheckBoxes() {
-		if (!cbRPRUDiesel.isSelected() && !cbRPRUGasoline.isSelected() && !cbRPRUMotorbike.isSelected()
-				&& !cbRPRUHomeFuel.isSelected()) {
+		if (!cbPayInPlaceSet.isSelected() && !cbMonthSingleSet.isSelected() && !cbMonthMultipleSet.isSelected()
+				&& !cbFullSingleSet.isSelected()) {
 //			cbRPRUDiesel.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 //			cbRPRUGasoline.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 //			cbRPRUMotorbike.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 //			cbRPRUHomeFuel.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setHeaderText("You must enter at least one rate");
+			alert.setHeaderText("You must enter at least one discount");
 			alert.setContentText("");
 			alert.show();
 			return false;
 		}
+		return true;
+	}
+
+	private boolean checkDoubleInTextField(TextField tf) {
+		try {
+			Double number = Double.parseDouble(tf.getText());
+			if (number <= 0)
+				return false;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+
 		return true;
 	}
 
@@ -968,42 +1111,42 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	 */
 	private boolean checkRPRUCheckFields() {// *
 
-		cbRPRUDiesel.setStyle("-fx-border-style: none;");
-		cbRPRUGasoline.setStyle("-fx-border-style: none;");
-		cbRPRUMotorbike.setStyle("-fx-border-style: none;");
-		cbRPRUHomeFuel.setStyle("-fx-border-style: none;");
+		cbPayInPlaceSet.setStyle("-fx-border-style: none;");
+		cbMonthSingleSet.setStyle("-fx-border-style: none;");
+		cbMonthMultipleSet.setStyle("-fx-border-style: none;");
+		cbFullSingleSet.setStyle("-fx-border-style: none;");
 
-		if (cbRPRUDiesel.isSelected() && tfRPRUDiesel2.getText().trim().isEmpty()
-				|| this.checkValidTextField(tfRPRUDiesel2.getText(), "digits", "Rate is only digits") == false) {
-			tfRPRUDiesel2.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+		if (cbPayInPlaceSet.isSelected() && (tfPayInPlaceSet.getText().trim().isEmpty()
+				|| this.checkDoubleInTextField(tfPayInPlaceSet) == false)) {
+			tfPayInPlaceSet.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			return false;
 		}
 
-		if (cbRPRUDiesel.isSelected() && !tfRPRUDiesel2.getText().trim().isEmpty()
-				|| this.checkValidTextField(tfRPRUDiesel2.getText(), "digits", "Rate is only digits") == true) {
-			tfRPRUDiesel2.setStyle("-fx-border-style: none;");
+		if (cbPayInPlaceSet.isSelected() && (!tfPayInPlaceSet.getText().trim().isEmpty()
+				|| this.checkDoubleInTextField(tfPayInPlaceSet) == true)) {
+			tfPayInPlaceSet.setStyle("-fx-border-style: none;");
 		}
-		if (cbRPRUGasoline.isSelected() && tfRPRUGasoline2.getText().trim().isEmpty()
-				|| this.checkValidTextField(tfRPRUGasoline2.getText(), "digits", "Rate is only digits") == false) {
-			tfRPRUGasoline2.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+		if (cbMonthSingleSet.isSelected() && (tfMonthSingleSet.getText().trim().isEmpty()
+				|| this.checkDoubleInTextField(tfMonthSingleSet) == false)) {
+			tfMonthSingleSet.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			return false;
 		}
-		if (cbRPRUGasoline.isSelected() && !tfRPRUGasoline2.getText().trim().isEmpty()
-				|| this.checkValidTextField(tfRPRUGasoline2.getText(), "digits", "Rate is only digits") == true) {
-			tfRPRUGasoline2.setStyle("-fx-border-style: none;");
+		if (cbMonthSingleSet.isSelected() && (!tfMonthSingleSet.getText().trim().isEmpty()
+				|| this.checkDoubleInTextField(tfMonthSingleSet) == true)) {
+			tfMonthSingleSet.setStyle("-fx-border-style: none;");
 		}
-		if (cbRPRUMotorbike.isSelected() && tfRPRUMotorbike2.getText().trim().isEmpty()
-				|| this.checkValidTextField(tfRPRUMotorbike2.getText(), "digits", "Rate is only digits") == false) {
-			tfRPRUMotorbike2.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+		if (cbMonthMultipleSet.isSelected()
+				&& (tfMultipleSet.getText().trim().isEmpty() || this.checkDoubleInTextField(tfMultipleSet) == false)) {
+			tfMultipleSet.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			return false;
 		}
-		if (cbRPRUMotorbike.isSelected() && !tfRPRUMotorbike2.getText().trim().isEmpty()
-				|| this.checkValidTextField(tfRPRUMotorbike2.getText(), "digits", "Rate is only digits") == true) {
-			tfRPRUMotorbike2.setStyle("-fx-border-style: none;");
+		if (cbMonthMultipleSet.isSelected()
+				&& (!tfMultipleSet.getText().trim().isEmpty() || this.checkDoubleInTextField(tfMultipleSet) == true)) {
+			tfMultipleSet.setStyle("-fx-border-style: none;");
 		}
-		if (cbRPRUHomeFuel.isSelected() && tfRPRUHomeFuel2.getText().trim().isEmpty()
-				|| this.checkValidTextField(tfRPRUHomeFuel2.getText(), "digits", "Rate is only digits") == false) {
-			tfRPRUHomeFuel2.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+		if (cbFullSingleSet.isSelected() && (tfFullSingleSet.getText().trim().isEmpty()
+				|| this.checkDoubleInTextField(tfFullSingleSet) == false)) {
+			tfFullSingleSet.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			return false;
 		}
 
@@ -1011,69 +1154,82 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		boolean flagGasoline = true;
 		boolean flagMotorbikeFuel = true;
 		boolean flagHomeFuel = true;
-		for (Product product : productRateList.getList()) {
-			if (product.getProductName().equals(ProductName.Diesel)) {
-				if (!tfRPRUDiesel2.getText().trim().isEmpty() && Double.parseDouble(tfRPRUDiesel2.getText()) > 0
-						&& Double.parseDouble(tfRPRUDiesel2.getText()) < product.getMaxPrice()) {
-					tfRPRUDiesel2.setStyle("-fx-border-style: none;");
-					this.lblDieselERR2.setVisible(false);
-					flagDiesel = true;
-				}
-				if (!tfRPRUDiesel2.getText().trim().isEmpty() && (Double.parseDouble(tfRPRUDiesel2.getText()) <= 0
-						|| Double.parseDouble(tfRPRUDiesel2.getText()) >= product.getMaxPrice())) {
-					lblDieselERR2.setVisible(true);
-					lblDieselERR2.setText(">= " + product.getMaxPrice() + " or 0");
-					tfRPRUDiesel2.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
-					flagDiesel = false;
-				}
-			}
-			if (product.getProductName().equals(ProductName.Gasoline)) {
-				if (!tfRPRUGasoline2.getText().trim().isEmpty() && Double.parseDouble(tfRPRUGasoline2.getText()) > 0
-						&& Double.parseDouble(tfRPRUGasoline2.getText()) < product.getMaxPrice()) {
-					tfRPRUGasoline2.setStyle("-fx-border-style: none;");
-					lblGasolineERR2.setVisible(false);
-					flagGasoline = true;
-				}
-				if (!tfRPRUGasoline2.getText().trim().isEmpty() && (Double.parseDouble(tfRPRUGasoline2.getText()) <= 0
-						|| Double.parseDouble(tfRPRUGasoline2.getText()) >= product.getMaxPrice())) {
-					this.lblGasolineERR2.setVisible(true);
-					lblGasolineERR2.setText(">= " + product.getMaxPrice() + " or 0");
-					tfRPRUGasoline2.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
-					flagGasoline = false;
-				}
-			}
-			if (product.getProductName().equals(ProductName.MotorbikeFuel)) {
-				if (!tfRPRUMotorbike2.getText().trim().isEmpty() && Double.parseDouble(tfRPRUMotorbike2.getText()) > 0
-						&& Double.parseDouble(tfRPRUMotorbike2.getText()) < product.getMaxPrice()) {
-					tfRPRUMotorbike2.setStyle("-fx-border-style: none;");
-					lblMotorERR2.setVisible(false);
-					flagMotorbikeFuel = true;
-				}
-				if (!tfRPRUMotorbike2.getText().trim().isEmpty() && (Double.parseDouble(tfRPRUMotorbike2.getText()) <= 0
-						|| Double.parseDouble(tfRPRUMotorbike2.getText()) >= product.getMaxPrice())) {
-					this.lblMotorERR2.setVisible(true);
-					lblMotorERR2.setText(">= " + product.getMaxPrice() + " or 0");
-					tfRPRUMotorbike2.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
-					flagMotorbikeFuel = false;
-				}
-			}
-			if (product.getProductName().equals(ProductName.HomeFuel)) {
-				if (!tfRPRUHomeFuel2.getText().trim().isEmpty() && Double.parseDouble(tfRPRUHomeFuel2.getText()) > 0
-						&& Double.parseDouble(tfRPRUHomeFuel2.getText()) < product.getMaxPrice()) {
-					tfRPRUHomeFuel2.setStyle("-fx-border-style: none;");
-					lblHomeERR2.setVisible(false);
-					flagHomeFuel = true;
-				}
-				if (!tfRPRUHomeFuel2.getText().trim().isEmpty() && (Double.parseDouble(tfRPRUHomeFuel2.getText()) <= 0
-						|| Double.parseDouble(tfRPRUHomeFuel2.getText()) >= product.getMaxPrice())) {
-					this.lblHomeERR2.setVisible(true);
-					lblHomeERR2.setText(">= " + product.getMaxPrice() + " or 0");
-					tfRPRUHomeFuel2.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
-					flagHomeFuel = false;
-				}
-			}
 
+		/// get rid of all product things
+		if (!tfPayInPlaceSet.getText().trim().isEmpty() && Double.parseDouble(tfPayInPlaceSet.getText()) > 0
+				&& Double.parseDouble(tfPayInPlaceSet.getText()) < 50) {
+			tfPayInPlaceSet.setStyle("-fx-border-style: none;");
+			this.lblPayInPlaceERR.setVisible(false);
+			flagDiesel = true;
 		}
+		if (!tfPayInPlaceSet.getText().trim().isEmpty() && (Double.parseDouble(tfPayInPlaceSet.getText()) <= 0
+				|| Double.parseDouble(tfPayInPlaceSet.getText()) >= 50)) {
+			lblPayInPlaceERR.setVisible(true);
+			lblPayInPlaceERR.setText(">= 50 or 0");
+			tfPayInPlaceSet.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+			flagDiesel = false;
+		}
+
+		if (!tfMonthSingleSet.getText().trim().isEmpty() && Double.parseDouble(tfMonthSingleSet.getText()) > 0
+				&& Double.parseDouble(tfMonthSingleSet.getText()) < Double.parseDouble(tfMonthMultipleGet.getText())) {
+			tfMonthSingleSet.setStyle("-fx-border-style: none;");
+			lblMonthlySingleERR.setVisible(false);
+			flagGasoline = true;
+		}
+		if (!tfMonthSingleSet.getText().trim().isEmpty()
+				&& (Double.parseDouble(tfMonthSingleSet.getText()) <= 0 || Double
+						.parseDouble(tfMonthSingleSet.getText()) >= Double.parseDouble(tfMonthMultipleGet.getText()))) {
+			this.lblMonthlySingleERR.setVisible(true);
+
+			double no = Double.parseDouble(tfMonthMultipleGet.getText());
+			DecimalFormat dec = new DecimalFormat("#0.00");
+			lblMonthlySingleERR.setText("not: 0 < x < " + dec.format(no));
+
+			tfMonthSingleSet.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+			flagGasoline = false;
+		}
+
+		if (!tfMultipleSet.getText().trim().isEmpty()
+				&& Double.parseDouble(tfMultipleSet.getText()) > Double.parseDouble(tfMonthSingleGet.getText())
+				&& Double.parseDouble(tfMultipleSet.getText()) < Double.parseDouble(tfFullSingleGet.getText())) {
+			tfMultipleSet.setStyle("-fx-border-style: none;");
+			lblFullSingleERR.setVisible(false);
+			flagMotorbikeFuel = true;
+		}
+		if (!tfMultipleSet.getText().trim().isEmpty() && (Double.parseDouble(tfMultipleSet.getText()) <= Double
+				.parseDouble(tfMonthSingleGet.getText())
+				|| Double.parseDouble(tfMultipleSet.getText()) >= Double.parseDouble(tfFullSingleGet.getText()))) {
+			this.lblFullSingleERR.setVisible(true);
+
+			double no1 = Double.parseDouble(tfMonthSingleGet.getText());
+			double no2 = Double.parseDouble(tfFullSingleGet.getText());
+			DecimalFormat dec = new DecimalFormat("#0.00");
+
+			lblFullSingleERR.setText("not: " + dec.format(no1) + "< x < " + dec.format(no2));
+			tfMultipleSet.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+			flagMotorbikeFuel = false;
+		}
+
+		if (!tfFullSingleSet.getText().trim().isEmpty()
+				&& Double.parseDouble(tfFullSingleSet.getText()) > Double.parseDouble(tfMonthMultipleGet.getText())
+				&& Double.parseDouble(tfFullSingleSet.getText()) < 50) {
+			tfFullSingleSet.setStyle("-fx-border-style: none;");
+			lblMonthMultipleERR.setVisible(false);
+			flagHomeFuel = true;
+		}
+		if (!tfFullSingleSet.getText().trim().isEmpty()
+				&& (Double.parseDouble(tfFullSingleSet.getText()) <= Double.parseDouble(tfMonthMultipleGet.getText())
+						|| Double.parseDouble(tfFullSingleSet.getText()) >= 50)) {
+			this.lblMonthMultipleERR.setVisible(true);
+
+			double no = Double.parseDouble(tfMonthMultipleGet.getText());
+			DecimalFormat dec = new DecimalFormat("#0.00");
+
+			lblMonthMultipleERR.setText("not: " + dec.format(no) + "< x < 50");
+			tfFullSingleSet.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+			flagHomeFuel = false;
+		}
+
 		return flagDiesel && flagGasoline && flagMotorbikeFuel && flagHomeFuel;
 	}
 
@@ -1086,13 +1242,13 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 			System.out.println("product name: " + product.getProductName().toString());
 			rate = product.getMaxPrice() - product.getCurrentPrice();
 			if (product.getProductName().equals(ProductName.Diesel))
-				tfRPRUDiesel1.setText(rate + "");
+				tfPayInPlaceGet.setText(rate + "");
 			if (product.getProductName().equals(ProductName.Gasoline))
-				tfRPRUGasoline1.setText(rate + "");
+				tfMonthSingleGet.setText(rate + "");
 			if (product.getProductName().equals(ProductName.MotorbikeFuel))
-				tfRPRUMotorbike1.setText(rate + "");
+				tfMonthMultipleGet.setText(rate + "");
 			if (product.getProductName().equals(ProductName.HomeFuel))
-				tfRPRUHomeFuel1.setText(rate + "");
+				tfFullSingleGet.setText(rate + "");
 		}
 	}
 
@@ -1378,6 +1534,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	 */
 	@Override
 	public void clearFields() {
+
 		this.mainBorderPane.setDisable(false);
 		saleCommentReportPane.setVisible(false);
 		periodicReportPane.setVisible(false);
@@ -1385,39 +1542,79 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		dpGMREndDate.setValue(null);
 		paneGMRCommentNext.setVisible(false);
 		paneGMRPeriodicNext.setVisible(false);
-		this.lblDieselERR2.setVisible(false);
-		this.lblGasolineERR2.setVisible(false);
-		this.lblHomeERR2.setVisible(false);
-		this.lblMotorERR2.setVisible(false);
+		this.lblPayInPlaceERR.setVisible(false);
+		this.lblMonthlySingleERR.setVisible(false);
+		this.lblMonthMultipleERR.setVisible(false);
+		this.lblFullSingleERR.setVisible(false);
 		tvISSalesPattern.setStyle("-fx-border-style: none;");
 		tfISTime.clear();
 		tfISTime.setStyle("-fx-border-style: none;");
 		dpISDate.setValue(null);
 		dpISDate.setStyle("-fx-border-style: none;");
 		clearSalePatternPane();
-		cbRPRUDiesel.setSelected(false);
-		cbRPRUDiesel.setStyle("-fx-border-style: none;");
-		cbRPRUGasoline.setSelected(false);
-		cbRPRUGasoline.setStyle("-fx-border-style: none;");
-		cbRPRUMotorbike.setSelected(false);
-		cbRPRUMotorbike.setStyle("-fx-border-style: none;");
-		cbRPRUHomeFuel.setSelected(false);
-		cbRPRUHomeFuel.setStyle("-fx-border-style: none;");
-		tfRPRUDiesel2.setDisable(true);
-		tfRPRUDiesel2.setStyle("-fx-border-style: none;");
-		tfRPRUGasoline2.setDisable(true);
-		tfRPRUGasoline2.setStyle("-fx-border-style: none;");
-		tfRPRUMotorbike2.setDisable(true);
-		tfRPRUMotorbike2.setStyle("-fx-border-style: none;");
-		tfRPRUHomeFuel2.setDisable(true);
-		tfRPRUHomeFuel2.setStyle("-fx-border-style: none;");
-		tfRPRUDiesel2.clear();
-		tfRPRUDiesel2.setStyle("-fx-border-style: none;");
-		tfRPRUGasoline2.clear();
-		tfRPRUGasoline2.setStyle("-fx-border-style: none;");
-		tfRPRUMotorbike2.clear();
-		tfRPRUMotorbike2.setStyle("-fx-border-style: none;");
-		tfRPRUHomeFuel2.clear();
-		tfRPRUHomeFuel2.setStyle("-fx-border-style: none;");
+		cbPayInPlaceSet.setSelected(false);
+		cbPayInPlaceSet.setStyle("-fx-border-style: none;");
+		cbMonthSingleSet.setSelected(false);
+		cbMonthSingleSet.setStyle("-fx-border-style: none;");
+		cbMonthMultipleSet.setSelected(false);
+		cbMonthMultipleSet.setStyle("-fx-border-style: none;");
+		cbFullSingleSet.setSelected(false);
+		cbFullSingleSet.setStyle("-fx-border-style: none;");
+		tfPayInPlaceSet.setDisable(true);
+		tfPayInPlaceSet.setStyle("-fx-border-style: none;");
+		tfMonthSingleSet.setDisable(true);
+		tfMonthSingleSet.setStyle("-fx-border-style: none;");
+		tfMultipleSet.setDisable(true);
+		tfMultipleSet.setStyle("-fx-border-style: none;");
+		tfFullSingleSet.setDisable(true);
+		tfFullSingleSet.setStyle("-fx-border-style: none;");
+		tfPayInPlaceSet.clear();
+		tfMonthSingleSet.clear();
+		tfMonthSingleSet.setStyle("-fx-border-style: none;");
+		tfMultipleSet.clear();
+		tfMultipleSet.setStyle("-fx-border-style: none;");
+		tfFullSingleSet.clear();
+		tfFullSingleSet.setStyle("-fx-border-style: none;");
 	}
+
+///////// Request Product Rate Update Start: //////////////
+	/*
+	 * public void tbRequestProductRateUpdateClicked() {
+	 * this.tbRequestProductRateUpdate.setSelected(true);
+	 * this.topbar_window_label.setText("Request Product Rates Update");
+	 * removeAllPanesVisiblity(); requestRateUpdatePane.setVisible(true);
+	 * clearFields(); getAllProductRanks(); }
+	 * 
+	 * public void btnRPRUSendClicked() { if (checkRPRUCheckBoxes() &&
+	 * checkRPRUCheckFields()) { createNewPRUR(); } }
+	 * 
+	 * public void btnRPRUSendHover() { btnRPRUSend.setOpacity(0.85); }
+	 * 
+	 * public void btnRPRUSendExit() { btnRPRUSend.setOpacity(1); }
+	 * 
+	 * public void cbRPRUDieselClicked() {
+	 * tfRPRUDiesel2.setDisable(!tfRPRUDiesel2.isDisable()); if
+	 * (tfRPRUDiesel2.isDisable()) { this.lblDieselERR2.setVisible(false);
+	 * tfRPRUDiesel2.setStyle("-fx-border-style: none;"); tfRPRUDiesel2.clear(); } }
+	 * 
+	 * public void cbRPRUGasolineClicked() {
+	 * tfRPRUGasoline2.setDisable(!tfRPRUGasoline2.isDisable()); if
+	 * (tfRPRUGasoline2.isDisable()) { this.lblGasolineERR2.setVisible(false);
+	 * tfRPRUGasoline2.setStyle("-fx-border-style: none;"); tfRPRUGasoline2.clear();
+	 * } }
+	 * 
+	 * public void cbRPRUMotorbikeClicked() {
+	 * tfRPRUMotorbike2.setDisable(!tfRPRUMotorbike2.isDisable()); if
+	 * (tfRPRUMotorbike2.isDisable()) { this.lblMotorERR2.setVisible(false);
+	 * tfRPRUMotorbike2.setStyle("-fx-border-style: none;");
+	 * tfRPRUMotorbike2.clear(); } }
+	 * 
+	 * public void cbRPRUHomeFuelClicked() {
+	 * tfRPRUHomeFuel2.setDisable(!tfRPRUHomeFuel2.isDisable()); if
+	 * (tfRPRUHomeFuel2.isDisable()) { this.lblHomeERR2.setVisible(false);
+	 * tfRPRUHomeFuel2.setStyle("-fx-border-style: none;"); tfRPRUHomeFuel2.clear();
+	 * } }
+	 */
+
+///////// Request Product Rate Update End //////////////
 }
