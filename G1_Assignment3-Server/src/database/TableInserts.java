@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import database.FieldIndicatorsForInsert;
-
 /**
  * executes insert queries by predetermined values and indication
  * 
