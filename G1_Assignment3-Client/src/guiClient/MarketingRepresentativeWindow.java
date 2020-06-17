@@ -18,6 +18,7 @@ import enums.ProductName;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -271,6 +272,18 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	private Button btnSPMClear;
 	@FXML
 	private Button btnSPMCancelReg;
+	@FXML
+	private AnchorPane apSPPbuttons;
+	@FXML
+	private AnchorPane apAECbuttons;
+	@FXML
+	private AnchorPane apSPMbuttons;
+	@FXML
+	private Button btnSPPSave1;
+	@FXML
+	private Button btnAECASave1;
+	@FXML
+	private Button btnSPMSet1;
 
 	private boolean customerIsRegisteringFlag = false;
 	private boolean pricingModelOutdatedFlag = false;
@@ -871,13 +884,14 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	 */
 	@FXML
 	void rbSPPStandardPressed(ActionEvent event) {
-		this.purchProg_ExpenProgBox_SP1.setStyle("-fx-border-color: green ; -fx-border-width: 2px ;");
+		this.purchProg_ExpenProgBox_SP1
+				.setStyle("-fx-border-color: #75d65dd7 ; -fx-border-width: 4px ;-fx-border-radius: 2px ;");
 		this.purchProg_ExpenProgBox_SP.setStyle("-fx-border-style: none;");
 		this.cobSPPFuelCompany2.setDisable(true);
 		this.cobSPPFuelCompany3.setDisable(true);
 		this.cobSPPFuelCompany2.setValue("");
 		this.cobSPPFuelCompany3.setValue("");
-	}
+	}// liad
 
 	/**
 	 * setpurchasingprogrampane premium radiobutton chosen
@@ -886,7 +900,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	 */
 	@FXML
 	void rbSPPPremiumPressed(ActionEvent event) {
-		this.purchProg_ExpenProgBox_SP.setStyle("-fx-border-color: green ; -fx-border-width: 2px ;");
+		this.purchProg_ExpenProgBox_SP
+				.setStyle("-fx-border-color: #75d65dd7 ; -fx-border-width: 4px ;-fx-border-radius: 2px ;");
 		this.purchProg_ExpenProgBox_SP1.setStyle("-fx-border-style: none;");
 		this.cobSPPFuelCompany2.setDisable(false);
 		this.cobSPPFuelCompany3.setDisable(false);
@@ -966,6 +981,54 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.topbar_window_label.setText("Set Pricing Model");
 		clearFields();
 		this.controller.handleMessageFromClientUI("getAllPricingModelDiscounts");
+		// liad
+		btnSPMChoose1.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				pricingModelsPicked(1);
+			}
+		});
+		btnSPMChoose2.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				pricingModelsPicked(2);
+			}
+		});
+		btnSPMChoose3.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				pricingModelsPicked(3);
+			}
+		});
+		btnSPMChoose4.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				pricingModelsPicked(4);
+			}
+		});
+	}
+
+	private void pricingModelsPicked(int buttonSelected) {
+		lblSPMPriceModel1.setStyle("-fx-background-color: #337ab7;");
+		lblSPMPriceModel2.setStyle("-fx-background-color: #337ab7;");
+		lblSPMPriceModel3.setStyle("-fx-background-color: #337ab7;");
+		lblSPMPriceModel4.setStyle("-fx-background-color: #337ab7;");
+		switch (buttonSelected) {
+		case 1:
+			lblSPMPriceModel1.setStyle("-fx-background-color: #46a046;");
+			break;
+		case 2:
+			lblSPMPriceModel2.setStyle("-fx-background-color: #46a046;");
+			break;
+		case 3:
+			lblSPMPriceModel3.setStyle("-fx-background-color: #46a046;");
+			break;
+		case 4:
+			lblSPMPriceModel4.setStyle("-fx-background-color: #46a046;");
+			break;
+		default:
+			break;
+		}
 	}
 
 	/**
@@ -1017,7 +1080,6 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			openErrorAlert("Error", "Customer ID Not Valid");
 			return;
 		}
-
 		if (this.btnSPMChoose1.isSelected()) {
 			model = "PayInPlace";
 			defaultDiscount = "0";
@@ -1202,6 +1264,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 					this.btnSPMCancelReg.setVisible(true);
 					this.gpSPM.setDisable(true);
 					this.apSPM.setDisable(false);
+					this.apSPMbuttons.setVisible(false);
+					this.btnSPMSet1.setVisible(true);
 					this.btnSPMClear.setDisable(true);
 					this.vbox1.setDisable(true);
 					this.vbox2.setDisable(true);
@@ -1352,6 +1416,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 					if (this.visibleNow == this.addEditCarPane && editCarPane.isVisible() == false) {
 						this.gpAECACarDetails.setDisable(true);
 						this.apAECACarDetails.setDisable(false);
+						this.apAECbuttons.setVisible(false);
+						this.btnAECASave1.setVisible(true);
 
 					} else if (this.visibleNow == this.addEditCarPane && editCarPane.isVisible() == true) {
 						this.controller.handleMessageFromClientUI("getcustomercars " + this.tfECACustID.getText());
@@ -1359,10 +1425,13 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 					} else if (this.visibleNow == this.setPurchasingPane) {
 						this.gpSPP.setDisable(true);
 						this.apSPP.setDisable(false);
-						this.purchProg_ExpenProgBox_SP1.setStyle("-fx-border-color: green ; -fx-border-width: 2px ;");
+						this.purchProg_ExpenProgBox_SP1.setStyle(
+								"-fx-border-color: #75d65dd7 ; -fx-border-width: 4px ;-fx-border-radius: 2px ;");
 						this.purchProg_ExpenProgBox_SP.setStyle("-fx-border-style: none;");
 						this.cobSPPFuelCompany2.setDisable(true);
 						this.cobSPPFuelCompany3.setDisable(true);
+						this.apSPPbuttons.setVisible(false);
+						this.btnSPPSave1.setVisible(true);
 
 					} else if (this.visibleNow == this.pricingModelPane) {
 						this.controller.handleMessageFromClientUI("getcustomercars " + this.tfSPMCustID.getText());
@@ -1441,6 +1510,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 						this.btnSPMClear.setDisable(true);
 						this.gpSPM.setDisable(true);
 						this.apSPM.setDisable(false);
+						this.apSPMbuttons.setVisible(false);
+						this.btnSPMSet1.setVisible(true);
 						this.btnSPMChoose2.setDisable(false);
 						this.btnSPMChoose3.setDisable(true);
 						this.btnSPMChoose4.setDisable(false);
@@ -1478,6 +1549,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 						this.btnSPMClear.setDisable(true);
 						this.gpSPM.setDisable(true);
 						this.apSPM.setDisable(false);
+						this.apSPMbuttons.setVisible(false);
+						this.btnSPMSet1.setVisible(true);
 						this.btnSPMChoose2.setDisable(true);
 						this.btnSPMChoose3.setDisable(false);
 						this.btnSPMChoose4.setDisable(true);
@@ -1488,6 +1561,14 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			} else if (this.visibleNow == this.pricingModelPane) {
 				this.gpSPM.setDisable(true);
 				this.apSPM.setDisable(false);
+				if (this.customerIsRegisteringFlag == false) {
+					this.apSPMbuttons.setVisible(false);
+					this.btnSPMSet1.setVisible(true);
+				}
+				else {
+					this.apSPMbuttons.setVisible(true);
+					this.btnSPMSet1.setVisible(false);
+				}
 				int numOfCars = ((CarList) lastMsgFromServer).getCars().size();
 				if (numOfCars == 0) {
 					this.btnSPMChoose2.setDisable(true);
@@ -1649,7 +1730,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	private void clearSetPurchasingPane() {
 		this.tfSPPCustID.clear();
 		this.rbSPPStandard.setSelected(true);
-		this.purchProg_ExpenProgBox_SP1.setStyle("-fx-border-color: green ; -fx-border-width: 2px ;");
+		this.purchProg_ExpenProgBox_SP1
+				.setStyle("-fx-border-color: #75d65dd7 ; -fx-border-width: 4px ;-fx-border-radius: 2px ; ;");
 		this.purchProg_ExpenProgBox_SP.setStyle("-fx-border-style: none;");
 		this.cobSPPFuelCompany1.setValue("Sonol");
 		this.cobSPPFuelCompany2.setValue("");
@@ -1671,6 +1753,13 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.apSPM.setDisable(true);
 		this.step4.setVisible(false);
 		this.btnSPMCancelReg.setVisible(false);
+		// liad
+		lblSPMPriceModel1.setStyle("-fx-background-color: #46a046;");
+		lblSPMPriceModel2.setStyle("-fx-background-color: #337ab7;");
+		lblSPMPriceModel3.setStyle("-fx-background-color: #337ab7;");
+		lblSPMPriceModel4.setStyle("-fx-background-color: #337ab7;");
+		this.apSPMbuttons.setVisible(false);
+		this.btnSPMSet1.setVisible(true);
 	}
 
 	/**

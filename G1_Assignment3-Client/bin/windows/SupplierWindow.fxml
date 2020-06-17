@@ -20,15 +20,15 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainBorderPane" minHeight="598.0" prefHeight="658.0" prefWidth="866.0" styleClass="main-pane" stylesheets="@../pics/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guiClient.SupplierWindow">
+<BorderPane fx:id="mainBorderPane" minHeight="598.0" prefHeight="658.0" prefWidth="866.0" styleClass="main-pane" stylesheets="@../pics/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guiClient.SupplierWindow">
    <left>
-      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="602.0" minWidth="260.0" prefHeight="602.0" prefWidth="260.0" spacing="5.0" style="-fx-background-color: #1e262c;" BorderPane.alignment="CENTER">
+      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="590.0" minWidth="260.0" prefHeight="590.0" prefWidth="260.0" spacing="5.0" style="-fx-background-color: #1e262c;" BorderPane.alignment="CENTER">
          <children>
-            <Pane prefHeight="35.0" prefWidth="122.0">
+            <Pane prefHeight="52.0" prefWidth="122.0">
                <children>
-                  <Label fx:id="lblHelloUser" layoutX="15.0" prefHeight="42.0" prefWidth="232.0" text="Hello, Julia" textFill="WHITE" wrapText="true">
+                  <Label fx:id="lblHelloUser" layoutX="15.0" prefHeight="48.0" prefWidth="232.0" text="Hello, Julia" textFill="WHITE" wrapText="true">
                      <font>
-                        <Font name="Leelawadee UI" size="14.0" />
+                        <Font name="Leelawadee UI" size="16.0" />
                      </font>
                   </Label>
                </children>
@@ -104,7 +104,7 @@
             </Pane>
             <Pane>
                <VBox.margin>
-                  <Insets left="5.0" top="50.0" />
+                  <Insets left="5.0" top="30.0" />
                </VBox.margin>
                <children>
                   <Button fx:id="btnSignOut" layoutY="1.0" mnemonicParsing="false" onAction="#btnSignOutClicked" styleClass="disconnect-button" stylesheets="@../pics/style.css" text="Sign Out" textFill="WHITE">
@@ -194,7 +194,7 @@
                   </ImageView>
                   <AnchorPane layoutX="1.0" layoutY="4.0" prefHeight="585.0" prefWidth="802.0">
                      <children>
-                        <GridPane layoutX="302.0" layoutY="69.0">
+                        <GridPane layoutX="250.0" layoutY="44.0" prefHeight="94.0" prefWidth="333.0">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                            </columnConstraints>
@@ -208,14 +208,14 @@
                                     <Font name="Calibri" size="30.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lblHomeUserName" alignment="CENTER" contentDisplay="CENTER" text="&lt;userName&gt;!" underline="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                              <Label fx:id="lblHomeUserName" alignment="CENTER" contentDisplay="CENTER" prefHeight="48.0" prefWidth="334.0" text="&lt;userName&gt;!" underline="true" wrapText="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                  <font>
                                     <Font name="Calibri" size="30.0" />
                                  </font>
                               </Label>
                            </children>
                         </GridPane>
-                        <ImageView fitHeight="127.0" fitWidth="150.0" layoutX="166.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="127.0" fitWidth="150.0" layoutX="136.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../pics/avatar.png" />
                            </image>

@@ -25,7 +25,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guiClient.FuelStationManagerWindow">
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guiClient.FuelStationManagerWindow">
    <children>
       <BorderPane fx:id="mainBorderPane" minHeight="700.0" prefHeight="650.0" styleClass="main-pane" stylesheets="@../pics/style.css">
          <left>
@@ -33,9 +33,9 @@
                <children>
                   <Pane prefHeight="50.0" prefWidth="260.0">
                      <children>
-                        <Label fx:id="lblHelloUser" layoutX="12.0" prefHeight="49.0" prefWidth="231.0" text="Hello, Julia" textFill="WHITE" wrapText="true">
+                        <Label fx:id="lblHelloUser" layoutX="12.0" prefHeight="50.0" prefWidth="231.0" text="Hello, Julia" textFill="WHITE" wrapText="true">
                            <font>
-                              <Font name="Leelawadee UI" size="14.0" />
+                              <Font name="Leelawadee UI" size="16.0" />
                            </font>
                         </Label>
                      </children>

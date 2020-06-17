@@ -27,7 +27,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guiClient.MarketingRepresentativeWindow">
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guiClient.MarketingRepresentativeWindow">
    <children>
       <BorderPane fx:id="mainBorderPane" minHeight="700.0" prefHeight="764.0" prefWidth="1102.0" styleClass="main-pane" stylesheets="@../pics/style.css">
          <left>
@@ -37,7 +37,7 @@
                      <children>
                         <Label fx:id="lblHelloUser" layoutX="14.0" layoutY="4.0" prefHeight="48.0" prefWidth="233.0" text="Hello, Julia" textFill="WHITE" wrapText="true">
                            <font>
-                              <Font name="Leelawadee UI" size="14.0" />
+                              <Font name="Leelawadee UI" size="16.0" />
                            </font>
                         </Label>
                      </children>
@@ -273,13 +273,13 @@
                         </ImageView>
                         <AnchorPane layoutX="-20.0" layoutY="3.0" prefHeight="659.0" prefWidth="802.0">
                            <children>
-                              <GridPane layoutX="302.0" layoutY="77.0">
+                              <GridPane layoutX="259.0" layoutY="74.0" prefHeight="94.0" prefWidth="333.0">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                                  </columnConstraints>
                                  <rowConstraints>
-                                    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="42.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="56.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
                                     <Label alignment="CENTER" contentDisplay="CENTER" text="Welcome to MyFuel" underline="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
@@ -287,7 +287,7 @@
                                           <Font name="Calibri" size="30.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="lblHomeUserName" alignment="CENTER" contentDisplay="CENTER" text="&lt;userName&gt;!" underline="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                    <Label fx:id="lblHomeUserName" alignment="CENTER" contentDisplay="CENTER" prefHeight="50.0" prefWidth="333.0" text="&lt;userName&gt;!" underline="true" wrapText="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                        <font>
                                           <Font name="Calibri" size="30.0" />
                                        </font>
@@ -326,7 +326,7 @@
                                     </GridPane>
                                  </children>
                               </AnchorPane>
-                              <ImageView fitHeight="127.0" fitWidth="150.0" layoutX="166.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="127.0" fitWidth="150.0" layoutX="144.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../pics/avatar.png" />
                                  </image>
@@ -351,7 +351,7 @@
                   </AnchorPane>
                   <AnchorPane fx:id="addEditCustomerPane" layoutX="3.0" layoutY="12.0" prefHeight="600.0" prefWidth="830.0" visible="false">
                      <children>
-                        <Label layoutX="4.0" layoutY="-4.0" prefHeight="21.0" prefWidth="215.0" text="Add Customer:">
+                        <Label layoutX="4.0" layoutY="-4.0" prefHeight="21.0" prefWidth="215.0" text="Customer Information:">
                            <font>
                               <Font name="Arial Bold" size="18.0" />
                            </font>
@@ -461,7 +461,7 @@
                                     </Button>
                                  </children>
                               </AnchorPane>
-                              <Label text="Please Fill in the Following (new customer):" textFill="#144465" underline="true" GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                              <Label text="Please Fill in the Following For a New Customer:" textFill="#144465" underline="true" GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                                  <font>
                                     <Font name="Arial" size="16.0" />
                                  </font>
@@ -493,46 +493,74 @@
                         </GridPane>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="addEditCarPane" layoutX="1.0" layoutY="10.0" prefHeight="429.0" prefWidth="830.0" visible="false">
+                  <AnchorPane fx:id="addEditCarPane" layoutX="1.0" layoutY="10.0" prefHeight="429.0" prefWidth="830.0">
                      <children>
                         <Label fx:id="step2" layoutX="618.0" layoutY="2.0" text="Customer Registration Step 2/4" textFill="#0000ff">
                            <font>
                               <Font name="Calibri Italic" size="16.0" />
                            </font>
                         </Label>
-                        <Label layoutX="10.0" prefHeight="21.0" prefWidth="215.0" text="Add Car">
+                        <Label layoutX="10.0" prefHeight="21.0" prefWidth="215.0" text="Car Information:">
                            <font>
                               <Font name="Arial Bold" size="18.0" />
                            </font>
                         </Label>
-                        <AnchorPane layoutX="10.0" layoutY="20.0" prefHeight="407.0" prefWidth="816.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="20.0">
+                        <AnchorPane layoutX="10.0" layoutY="20.0" prefHeight="463.0" prefWidth="816.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="20.0">
                            <children>
-                              <Label layoutX="33.0" layoutY="110.0" text="Registration Plate:">
-                                 <font>
-                                    <Font name="Arial" size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label layoutX="33.0" layoutY="170.0" text="Owner Name:">
-                                 <font>
-                                    <Font name="Arial" size="16.0" />
-                                 </font>
-                              </Label>
-                              <AnchorPane fx:id="apAECACarDetails" disable="true" layoutX="33.0" layoutY="87.0">
+                              <AnchorPane fx:id="apAECACarDetails" disable="true" layoutX="33.0" layoutY="111.0" prefHeight="298.0" prefWidth="709.0">
                                  <children>
-                                    <Label layoutY="147.0" text="Fuel Type:">
+                                    <Label layoutY="153.0" text="Fuel Type:">
                                        <font>
                                           <Font name="Arial" size="16.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="tfAECARegistration" layoutY="47.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="373.0" promptText="*" />
-                                    <TextField fx:id="tfAECAOwner" layoutY="107.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="373.0" promptText="* (no spaces)" />
-                                    <ComboBox fx:id="cobAECAFuelType" layoutY="175.0" prefHeight="30.0" prefWidth="173.0" promptText="Type #1" visibleRowCount="5" />
+                                    <TextField fx:id="tfAECARegistration" layoutY="53.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="373.0" promptText="*" />
+                                    <TextField fx:id="tfAECAOwner" layoutY="113.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="373.0" promptText="* (no spaces)" />
+                                    <ComboBox fx:id="cobAECAFuelType" layoutY="181.0" prefHeight="30.0" prefWidth="173.0" promptText="Type #1" visibleRowCount="5" />
                                     <Label text="Please Fill in the Following:" textFill="#144465" underline="true">
                                        <font>
                                           <Font name="Arial" size="16.0" />
                                        </font>
                                     </Label>
-                                    <Button fx:id="btnAECASave" layoutX="282.0" layoutY="240.0" mnemonicParsing="false" onAction="#btnAECASavePressed" prefHeight="40.0" prefWidth="200.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Save Car" textFill="WHITE" wrapText="true">
+                                    <AnchorPane fx:id="apAECbuttons" layoutX="144.0" layoutY="251.0" visible="false">
+                                       <children>
+                                          <Button fx:id="btnAECASave" layoutX="244.0" mnemonicParsing="false" onAction="#btnAECASavePressed" prefHeight="30.0" prefWidth="215.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Save Car" textFill="WHITE" wrapText="true">
+                                             <font>
+                                                <Font name="Calibri" size="20.0" />
+                                             </font>
+                                             <graphic>
+                                                <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../pics/v.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                          <Button fx:id="btnAECACancelReg" mnemonicParsing="false" onAction="#btnAECACancelRegPressed" prefHeight="30.0" prefWidth="215.0" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Cancel Registration" textFill="WHITE">
+                                             <font>
+                                                <Font name="Calibri" size="20.0" />
+                                             </font>
+                                             <graphic>
+                                                <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../pics/x.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </AnchorPane>
+                                    <Label layoutY="29.0" text="Registration Plate:">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutY="91.0" text="Owner Name:">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Button fx:id="btnAECASave1" layoutX="265.0" layoutY="251.0" mnemonicParsing="false" onAction="#btnAECASavePressed" prefHeight="30.0" prefWidth="215.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Save Car" textFill="WHITE" wrapText="true">
                                        <font>
                                           <Font name="Calibri" size="20.0" />
                                        </font>
@@ -544,58 +572,55 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnAECACancelReg" layoutX="38.0" layoutY="240.0" mnemonicParsing="false" onAction="#btnAECACancelRegPressed" prefHeight="40.0" prefWidth="215.0" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Cancel Registration" textFill="WHITE">
-                                       <font>
-                                          <Font name="Calibri" size="20.0" />
-                                       </font>
-                                       <graphic>
-                                          <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../pics/x.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                    </Button>
                                  </children>
                               </AnchorPane>
-                              <GridPane fx:id="gpAECACarDetails" layoutX="33.0" layoutY="6.0" prefHeight="81.0" prefWidth="591.0">
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="284.0" minWidth="10.0" prefWidth="161.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="453.0" minWidth="10.0" prefWidth="227.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="453.0" minWidth="10.0" prefWidth="229.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
+                              <AnchorPane layoutX="33.0" layoutY="21.0">
                                  <children>
-                                    <Label text="Customer ID">
+                                    <GridPane fx:id="gpAECACarDetails" layoutY="8.0" prefHeight="81.0" prefWidth="591.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="284.0" minWidth="10.0" prefWidth="161.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="453.0" minWidth="10.0" prefWidth="227.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="453.0" minWidth="10.0" prefWidth="229.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <Label text="Customer ID">
+                                             <font>
+                                                <Font name="Arial" size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="tfAECACustID" prefHeight="30.0" promptText="*" GridPane.columnIndex="1">
+                                             <GridPane.margin>
+                                                <Insets />
+                                             </GridPane.margin>
+                                          </TextField>
+                                          <Button fx:id="btnAECACheck" mnemonicParsing="false" onAction="#btnAECACheckPressed" prefHeight="30.0" prefWidth="170.0" styleClass="task-button" stylesheets="@../pics/style.css" text="Check Customer" GridPane.columnIndex="2">
+                                             <GridPane.margin>
+                                                <Insets left="35.0" />
+                                             </GridPane.margin>
+                                             <font>
+                                                <Font name="Arial" size="18.0" />
+                                             </font>
+                                             <graphic>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../pics/eye.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </GridPane>
+                                    <Label text="Please Fill in the Customer ID (if necessary)" textFill="#144465" underline="true">
                                        <font>
                                           <Font name="Arial" size="16.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="tfAECACustID" prefHeight="30.0" promptText="*" GridPane.columnIndex="1">
-                                       <GridPane.margin>
-                                          <Insets />
-                                       </GridPane.margin>
-                                    </TextField>
-                                    <Button fx:id="btnAECACheck" mnemonicParsing="false" onAction="#btnAECACheckPressed" prefHeight="30.0" prefWidth="170.0" styleClass="task-button" stylesheets="@../pics/style.css" text="Check Customer" GridPane.columnIndex="2">
-                                       <GridPane.margin>
-                                          <Insets left="35.0" />
-                                       </GridPane.margin>
-                                       <font>
-                                          <Font name="Arial" size="18.0" />
-                                       </font>
-                                       <graphic>
-                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../pics/eye.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                    </Button>
                                  </children>
-                              </GridPane>
-                              <HBox alignment="CENTER_LEFT" layoutX="622.0" layoutY="31.0">
+                              </AnchorPane>
+                              <HBox alignment="CENTER_LEFT" layoutX="622.0" layoutY="54.0">
                                  <children>
                                     <Button fx:id="btnAECAEdit" mnemonicParsing="false" onAction="#btnAECAEditPressed" prefHeight="30.0" prefWidth="118.0" styleClass="task-button" stylesheets="@../pics/style.css" text="Edit Cars">
                                        <font>
@@ -620,11 +645,11 @@
                         </AnchorPane>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="setPurchasingPane" layoutX="6.0" layoutY="4.0" prefHeight="660.0" prefWidth="827.0" visible="false">
+                  <AnchorPane fx:id="setPurchasingPane" layoutX="6.0" layoutY="4.0" prefHeight="673.0" prefWidth="827.0" visible="false">
                      <children>
-                        <AnchorPane layoutY="23.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="636.0" prefWidth="827.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css">
+                        <AnchorPane layoutY="23.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="646.0" prefWidth="827.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css">
                            <children>
-                              <GridPane fx:id="gpSPP" layoutX="28.0" layoutY="11.0" prefHeight="45.0" prefWidth="616.0">
+                              <GridPane fx:id="gpSPP" layoutX="28.0" layoutY="29.0" prefHeight="45.0" prefWidth="616.0">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="284.0" minWidth="10.0" prefWidth="124.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="453.0" minWidth="10.0" prefWidth="235.0" />
@@ -661,7 +686,7 @@
                                     </Button>
                                  </children>
                               </GridPane>
-                              <AnchorPane fx:id="apSPP" disable="true" layoutX="21.0" layoutY="59.0">
+                              <AnchorPane fx:id="apSPP" disable="true" layoutX="21.0" layoutY="75.0">
                                  <children>
                                     <Label text="Please Choose a Program:" textFill="#144465" underline="true">
                                        <font>
@@ -674,7 +699,7 @@
                                              <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0">
                                                    <children>
-                                                      <TextArea fx:id="taSPPExpensiveDetails" editable="false" maxHeight="1.7976931348623157E308" prefHeight="193.0" prefWidth="358.0" text="&#10;" />
+                                                      <TextArea fx:id="taSPPExpensiveDetails" editable="false" maxHeight="1.7976931348623157E308" prefHeight="310.0" prefWidth="320.0" text="&#10;" />
                                                    </children>
                                                 </AnchorPane>
                                              </content>
@@ -723,30 +748,46 @@
                                           <ComboBox fx:id="cobSPPFuelCompany3" prefWidth="150.0" promptText="#3" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                                        </children>
                                     </GridPane>
-                                    <Button fx:id="btnSPPSave" layoutX="287.0" layoutY="510.0" mnemonicParsing="false" onAction="#btnSPPSavePressed" prefHeight="44.0" prefWidth="264.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Save Purchasing Program" textFill="WHITE">
-                                       <font>
-                                          <Font name="Calibri" size="20.0" />
-                                       </font>
-                                       <graphic>
-                                          <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../pics/v.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                    </Button>
+                                    <AnchorPane fx:id="apSPPbuttons" layoutX="109.0" layoutY="510.0" visible="false">
+                                       <children>
+                                          <Button fx:id="btnSPPSave" layoutX="302.0" mnemonicParsing="false" onAction="#btnSPPSavePressed" prefHeight="30.0" prefWidth="264.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Save Purchasing Program" textFill="WHITE">
+                                             <font>
+                                                <Font name="Calibri" size="20.0" />
+                                             </font>
+                                             <graphic>
+                                                <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../pics/v.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                          <Button fx:id="btnSPPCancelReg" mnemonicParsing="false" onAction="#btnSPPCancelRegPressed" prefHeight="30.0" prefWidth="264.0" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Cancel Registration" textFill="WHITE">
+                                             <font>
+                                                <Font name="Calibri" size="20.0" />
+                                             </font>
+                                             <graphic>
+                                                <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../pics/x.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </AnchorPane>
                                     <VBox fx:id="vbSPPMagicbox1" alignment="TOP_CENTER" layoutY="29.0" prefHeight="340.0" prefWidth="340.0">
                                        <children>
                                           <ScrollPane fx:id="purchProg_ExpenProgBox_SP1" prefHeight="360.0" prefWidth="360.0">
                                              <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0">
                                                    <children>
-                                                      <TextArea fx:id="taSPPSingleDetails" editable="false" maxHeight="1.7976931348623157E308" prefWidth="358.0" />
+                                                      <TextArea fx:id="taSPPSingleDetails" editable="false" maxHeight="1.7976931348623157E308" prefHeight="310.0" prefWidth="320.0" />
                                                    </children>
                                                 </AnchorPane>
                                              </content>
                                           </ScrollPane>
-                                          <RadioButton fx:id="rbSPPStandard" mnemonicParsing="false" onAction="#rbSPPStandardPressed" selected="true" text="Standard Program" toggleGroup="$two">
+                                          <RadioButton fx:id="rbSPPStandard" mnemonicParsing="false" onAction="#rbSPPStandardPressed" text="Standard Program" toggleGroup="$two">
                                              <VBox.margin>
                                                 <Insets top="10.0" />
                                              </VBox.margin>
@@ -761,21 +802,26 @@
                                           <Font name="Arial" size="16.0" />
                                        </font>
                                     </Label>
-                                    <Button fx:id="btnSPPCancelReg" layoutX="43.0" layoutY="510.0" mnemonicParsing="false" onAction="#btnSPPCancelRegPressed" prefHeight="45.0" prefWidth="215.0" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Cancel Registration" textFill="WHITE">
+                                    <Button fx:id="btnSPPSave1" layoutX="265.0" layoutY="507.0" mnemonicParsing="false" onAction="#btnSPPSavePressed" prefHeight="30.0" prefWidth="264.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Save Purchasing Program" textFill="WHITE">
                                        <font>
                                           <Font name="Calibri" size="20.0" />
                                        </font>
                                        <graphic>
                                           <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../pics/x.png" />
+                                                <Image url="@../pics/v.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
                                     </Button>
                                  </children>
                               </AnchorPane>
-                              <Button fx:id="btnSPPClear" layoutX="641.0" layoutY="19.0" mnemonicParsing="false" onAction="#btnSPPClearPressed" prefHeight="32.0" styleClass="task-button" stylesheets="@../pics/style.css" text="Clear" />
+                              <Button fx:id="btnSPPClear" layoutX="641.0" layoutY="37.0" mnemonicParsing="false" onAction="#btnSPPClearPressed" prefHeight="32.0" styleClass="task-button" stylesheets="@../pics/style.css" text="Clear" />
+                              <Label layoutX="21.0" layoutY="10.0" text="Please Fill in the Customer ID (only if necessary)" textFill="#144465" underline="true">
+                                 <font>
+                                    <Font name="Arial" size="16.0" />
+                                 </font>
+                              </Label>
                            </children>
                         </AnchorPane>
                         <Label fx:id="step3" layoutX="622.0" layoutY="5.0" text="Customer Registration Step 3/4" textFill="#0000ff">
@@ -789,20 +835,36 @@
                      <children>
                         <AnchorPane layoutY="22.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="534.0" prefWidth="830.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css">
                            <children>
-                              <AnchorPane fx:id="apSPM" disable="true" layoutX="22.0" layoutY="87.0">
+                              <AnchorPane fx:id="apSPM" layoutX="22.0" layoutY="100.0">
                                  <children>
-                                    <Button fx:id="btnSPMSet" layoutX="308.0" layoutY="370.0" mnemonicParsing="false" onAction="#btnSPMSetPressed" prefHeight="40.0" prefWidth="200.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Set Model" textFill="WHITE">
-                                       <font>
-                                          <Font name="Calibri" size="20.0" />
-                                       </font>
-                                       <graphic>
-                                          <ImageView fitHeight="25.0" fitWidth="25.0">
-                                             <image>
-                                                <Image url="@../pics/v.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                    </Button>
+                                    <AnchorPane fx:id="apSPMbuttons" layoutX="151.0" layoutY="377.0">
+                                       <children>
+                                          <Button fx:id="btnSPMSet" layoutX="254.0" mnemonicParsing="false" onAction="#btnSPMSetPressed" prefHeight="30.0" prefWidth="220.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Set Model" textFill="WHITE">
+                                             <font>
+                                                <Font name="Calibri" size="20.0" />
+                                             </font>
+                                             <graphic>
+                                                <ImageView fitHeight="25.0" fitWidth="25.0">
+                                                   <image>
+                                                      <Image url="@../pics/v.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                          <Button fx:id="btnSPMCancelReg" mnemonicParsing="false" onAction="#btnSPMCancelRegPressed" prefHeight="30.0" prefWidth="219.0" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Cancel Registration" textFill="WHITE">
+                                             <font>
+                                                <Font name="Calibri" size="20.0" />
+                                             </font>
+                                             <graphic>
+                                                <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../pics/x.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </AnchorPane>
                                     <Label text="Please Choose a Pricing Model:" textFill="#144465" underline="true">
                                        <font>
                                           <Font name="Arial" size="16.0" />
@@ -812,7 +874,7 @@
                                        <children>
                                           <AnchorPane layoutX="4.0" layoutY="5.0">
                                              <children>
-                                                <Label fx:id="lblSPMPriceModel1" alignment="CENTER" layoutX="-3.0" layoutY="-4.0" prefHeight="50.0" prefWidth="177.0" style="-fx-background-color: #1e262c;" text="Pay In Place" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                                                <Label fx:id="lblSPMPriceModel1" alignment="CENTER" layoutX="-3.0" layoutY="-4.0" prefHeight="50.0" prefWidth="177.0" style="-fx-background-color: #337ab7;" text="Pay In Place" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                                                    <font>
                                                       <Font size="14.0" />
                                                    </font>
@@ -837,7 +899,7 @@
                                        <children>
                                           <AnchorPane layoutX="4.0" layoutY="5.0">
                                              <children>
-                                                <Label fx:id="lblSPMPriceModel2" alignment="CENTER" layoutX="-3.0" layoutY="-4.0" prefHeight="50.0" prefWidth="177.0" style="-fx-background-color: #1e262c;" text="Monthly Program Single Car" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                                                <Label fx:id="lblSPMPriceModel2" alignment="CENTER" layoutX="-3.0" layoutY="-4.0" prefHeight="50.0" prefWidth="177.0" style="-fx-background-color: #337ab7;" text="Monthly Program Single Car" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                                                    <font>
                                                       <Font size="14.0" />
                                                    </font>
@@ -858,7 +920,7 @@
                                        <children>
                                           <AnchorPane layoutX="4.0" layoutY="5.0">
                                              <children>
-                                                <Label fx:id="lblSPMPriceModel3" alignment="CENTER" layoutX="-3.0" layoutY="-4.0" prefHeight="50.0" prefWidth="177.0" style="-fx-background-color: #1e262c;" text="Monthly Program Multiple Cars" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                                                <Label fx:id="lblSPMPriceModel3" alignment="CENTER" layoutX="-3.0" layoutY="-4.0" prefHeight="50.0" prefWidth="177.0" style="-fx-background-color: #337ab7;" text="Monthly Program Multiple Cars" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                                                    <font>
                                                       <Font size="14.0" />
                                                    </font>
@@ -879,7 +941,7 @@
                                        <children>
                                           <AnchorPane layoutX="4.0" layoutY="5.0">
                                              <children>
-                                                <Label fx:id="lblSPMPriceModel4" alignment="CENTER" layoutX="-3.0" layoutY="-4.0" prefHeight="50.0" prefWidth="177.0" style="-fx-background-color: #1e262c;" text="Full Program Single Car" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                                                <Label fx:id="lblSPMPriceModel4" alignment="CENTER" layoutX="-3.0" layoutY="-4.0" prefHeight="50.0" prefWidth="177.0" style="-fx-background-color: #337ab7;" text="Full Program Single Car" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                                                    <font>
                                                       <Font size="14.0" />
                                                    </font>
@@ -906,21 +968,21 @@
                                           <Font name="Arial" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Button fx:id="btnSPMCancelReg" layoutX="54.0" layoutY="370.0" mnemonicParsing="false" onAction="#btnSPMCancelRegPressed" prefHeight="40.0" prefWidth="224.0" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Cancel Registration" textFill="WHITE">
+                                    <Button fx:id="btnSPMSet1" layoutX="282.0" layoutY="377.0" mnemonicParsing="false" onAction="#btnSPMSetPressed" prefHeight="30.0" prefWidth="220.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Set Model" textFill="WHITE" visible="false">
                                        <font>
                                           <Font name="Calibri" size="20.0" />
                                        </font>
                                        <graphic>
-                                          <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                          <ImageView fitHeight="25.0" fitWidth="25.0">
                                              <image>
-                                                <Image url="@../pics/x.png" />
+                                                <Image url="@../pics/v.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
                                     </Button>
                                  </children>
                               </AnchorPane>
-                              <GridPane fx:id="gpSPM" layoutX="55.0" layoutY="18.0" prefHeight="58.0" prefWidth="578.0">
+                              <GridPane fx:id="gpSPM" layoutX="54.0" layoutY="32.0" prefHeight="58.0" prefWidth="578.0">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="284.0" minWidth="10.0" prefWidth="121.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="453.0" minWidth="10.0" prefWidth="228.0" />
@@ -957,7 +1019,12 @@
                                     </Button>
                                  </children>
                               </GridPane>
-                              <Button fx:id="btnSPMClear" layoutX="633.0" layoutY="32.0" mnemonicParsing="false" onAction="#btnSPMClearPressed" prefHeight="32.0" styleClass="task-button" stylesheets="@../pics/style.css" text="Clear" />
+                              <Button fx:id="btnSPMClear" layoutX="632.0" layoutY="45.0" mnemonicParsing="false" onAction="#btnSPMClearPressed" prefHeight="32.0" styleClass="task-button" stylesheets="@../pics/style.css" text="Clear" />
+                              <Label layoutX="22.0" layoutY="13.0" text="Please Fill in the Customer ID (only if necessary)" textFill="#144465" underline="true">
+                                 <font>
+                                    <Font name="Arial" size="16.0" />
+                                 </font>
+                              </Label>
                            </children>
                         </AnchorPane>
                         <Label fx:id="step4" layoutX="620.0" text="Customer Registration Step 4/4" textFill="#0000ff">
@@ -965,9 +1032,14 @@
                               <Font name="Calibri Italic" size="16.0" />
                            </font>
                         </Label>
+                        <Label layoutX="1.0" layoutY="2.0" prefHeight="21.0" prefWidth="262.0" text="Pricing Models Information:">
+                           <font>
+                              <Font name="Arial Bold" size="18.0" />
+                           </font>
+                        </Label>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="createSalePatternPane" layoutX="13.0" layoutY="21.0" prefHeight="626.0" prefWidth="605.0" visible="false">
+                  <AnchorPane fx:id="createSalePatternPane" layoutX="4.0" layoutY="11.0" prefHeight="626.0" prefWidth="605.0" visible="false">
                      <children>
                         <AnchorPane layoutX="5.0" layoutY="14.0" prefHeight="605.0" prefWidth="591.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css">
                            <children>
@@ -1077,7 +1149,7 @@
                                     </HBox>
                                  </children>
                               </GridPane>
-                              <Button fx:id="btnCSPCreate" disable="true" layoutX="132.0" layoutY="216.0" mnemonicParsing="false" onMouseClicked="#btnCSPCreateClicked" onMouseEntered="#btnCSPCreateHover" onMouseExited="#btnCSPCreateExit" prefHeight="30.0" prefWidth="200.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Create Pattern" textFill="WHITE">
+                              <Button fx:id="btnCSPCreate" disable="true" layoutX="111.0" layoutY="216.0" mnemonicParsing="false" onMouseClicked="#btnCSPCreateClicked" onMouseEntered="#btnCSPCreateHover" onMouseExited="#btnCSPCreateExit" prefHeight="30.0" prefWidth="200.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Create Pattern" textFill="WHITE">
                                  <font>
                                     <Font name="Calibri" size="20.0" />
                                  </font>
@@ -1102,19 +1174,23 @@
                               <Label fx:id="lblDieselDiscERR" layoutX="384.0" layoutY="91.0" text="must" textFill="#f50b0b" visible="false" />
                               <Label fx:id="lblGasolineDiscERR" layoutX="385.0" layoutY="136.0" text="must" textFill="#f50b0b" visible="false" />
                               <Label fx:id="lblMotorDiscERR" layoutX="384.0" layoutY="178.0" text="must" textFill="#f50b0b" visible="false" />
-                              <Label layoutX="412.0" layoutY="271.0" text="Update to Date:">
-                                 <font>
-                                    <Font name="Arial" size="12.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="lblCSPUpdateToDate" layoutX="503.0" layoutY="272.0" text="00/00/00">
-                                 <font>
-                                    <Font name="Arial" size="12.0" />
-                                 </font>
-                              </Label>
+                              <HBox layoutX="451.0" layoutY="276.0" spacing="2.0">
+                                 <children>
+                                    <Label text="Updated to:">
+                                       <font>
+                                          <Font name="Arial" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lblCSPUpdateToDate" text="00/00/00">
+                                       <font>
+                                          <Font name="Arial" size="12.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
                            </children>
                         </AnchorPane>
-                        <Label layoutY="-10.0" prefHeight="21.0" prefWidth="215.0" text="Sale Pattern Information:">
+                        <Label layoutX="5.0" layoutY="-4.0" prefHeight="21.0" prefWidth="215.0" text="Sale Pattern Information:">
                            <font>
                               <Font name="Arial Bold" size="18.0" />
                            </font>

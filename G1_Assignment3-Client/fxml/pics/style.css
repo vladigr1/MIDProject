@@ -107,18 +107,25 @@
   -fx-font-size: 20px;
   -fx-text-fill: #ffffff;
 }
+.task-toggle-button:hover {
+  -fx-background-color:#3379b7c0;
+
+}
 
 .task-toggle-button:focused {
   -fx-background-color: #46a046;
 }
 
+
 .task-toggle-button:selected {
   -fx-background-color: #46a046;
 }
 
+
 .task-toggle-button:selected:focused {
   -fx-background-color: #46a046;
 }
+
 
 .disconnect-button {
   -fx-background-color: #1e262c;
@@ -154,3 +161,12 @@
 .minimize-button:hover {
   -fx-background-color: #2b7fd4b2;
 }
+
+.info-textFields{
+  -fx-background-color: #d1e4f58f;
+  -fx-border-color: #707070;
+  -fx-border-width: 1px;
+  -fx-border-radius: 3px;
+  -fx-background-radius: 3px;
+}
+
