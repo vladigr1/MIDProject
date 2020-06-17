@@ -54,6 +54,9 @@ public class NetworkManagerWindow extends QuarterlyReportWindow {
 	@FXML
 	private ComboBox<Integer> cobAPMRequestID;
 
+	/**
+	 * runs every time this windows goes live
+	 */
 	@FXML
 	void initialize() {
 		this.visibleNow = this.homePane;
@@ -68,11 +71,17 @@ public class NetworkManagerWindow extends QuarterlyReportWindow {
 		controller.handleMessageFromClientUI("getAllFuelStationIDs");
 	}
 
+	/**
+	 * returns the window entity of this boundary
+	 */
 	@Override
 	public Window getWindow() {
 		return this.assessPane.getScene().getWindow();
 	}
 
+	/**
+	 * clear fxml entities as if the window was just entered into
+	 */
 	@Override
 	public void clearFields() {
 		super.clearFields();
@@ -87,6 +96,9 @@ public class NetworkManagerWindow extends QuarterlyReportWindow {
 		taAPMdescription.clear();
 	}
 
+	/**
+	 * called after server returned a message/object to the client
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public void callAfterMessage(Object lastMsgFromServer) {
@@ -166,6 +178,11 @@ public class NetworkManagerWindow extends QuarterlyReportWindow {
 
 	/*********************** button listeners ***********************/
 
+	/**
+	 * assessrequestspane open
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void openAssessPane(ActionEvent event) {
 		clearFields();
@@ -233,6 +250,11 @@ public class NetworkManagerWindow extends QuarterlyReportWindow {
 		});
 	}
 
+	/**
+	 * generatequarterlyreportpane open
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void openGenerateQuarterlyReport(ActionEvent event) {
 		clearFields();
@@ -241,6 +263,11 @@ public class NetworkManagerWindow extends QuarterlyReportWindow {
 		topbar_window_label.setText("View Quarterly Report");
 	}
 
+	/**
+	 * generatequarterlyreportpane show quarterly report
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void openQuarterlyReport(ActionEvent event) {
 		int selectedYear = Integer.parseInt(cobGQRYear.getValue());

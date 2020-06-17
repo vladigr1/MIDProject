@@ -16,6 +16,9 @@ import java.net.ConnectException;
  */
 public class SupplierController extends UserController {
 
+	/**
+	 * singleton instance
+	 */
 	private static SupplierController instance;
 
 	/**
@@ -35,11 +38,28 @@ public class SupplierController extends UserController {
 		return instance;
 	}
 
+	/**
+	 * receives string from the window
+	 * <p>
+	 * opens connection to the server
+	 * <p>
+	 * sends the server a request accordingly
+	 * <p>
+	 * calls <code>callAfterMessage()</code> of <code>currentWindow</code>
+	 * 
+	 * @param message
+	 */
 	@Override
 	public void handleMessageFromClientUI(String message) {
 		super.handleMessageFromClientUI(message);
 	}
 
+	/**
+	 * sends requset to server to fetch all fuel stations that have orders that were
+	 * not supplied yet
+	 * 
+	 * @param username
+	 */
 	public void getFuelStationsWithOrdersPending(String username) {
 		try {
 			openConnection();
@@ -64,6 +84,12 @@ public class SupplierController extends UserController {
 		}
 	}
 
+	/**
+	 * send request to server to get all details of fuel station orders of a fuel
+	 * station
+	 * 
+	 * @param fuelStationIDs
+	 */
 	public void getSupplierItemInTable(int fuelStationIDs) {
 		try {
 			openConnection();
@@ -88,6 +114,12 @@ public class SupplierController extends UserController {
 		}
 	}
 
+	/**
+	 * sends request to the server to update a fuel station order as supplied
+	 * 
+	 * @param ordersID
+	 * @param amount
+	 */
 	public void approveFuelStationOrder(int ordersID, double amount) {
 		try {
 			openConnection();

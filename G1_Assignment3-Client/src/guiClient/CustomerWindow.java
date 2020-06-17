@@ -98,6 +98,9 @@ public class CustomerWindow extends UserWindow {
 	@FXML
 	private TableView<HomeFuelOrder> tvVODetails;
 
+	/**
+	 * runs every time this windows goes live
+	 */
 	@FXML
 	void initialize() {
 		this.homePane.setVisible(true);
@@ -109,6 +112,9 @@ public class CustomerWindow extends UserWindow {
 		this.controller.setCurrentWindow(this);
 	}
 
+	/**
+	 * returns the window entity of this boundary
+	 */
 	@Override
 	public Window getWindow() {
 		return this.orderHomeFuelPane.getScene().getWindow();
@@ -116,6 +122,11 @@ public class CustomerWindow extends UserWindow {
 
 	/*********************** button listeners ***********************/
 
+	/**
+	 * button listener for home sidebar button
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void openHome(ActionEvent event) {
 		this.sidebar_btn0.setSelected(true);
@@ -126,12 +137,22 @@ public class CustomerWindow extends UserWindow {
 		clearFields();
 	}
 
+	/**
+	 * button listener for home update button updates the activies tableview
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnHomeUpdatePressed(ActionEvent event) {
 		this.controller.handleMessageFromClientUI("fastfuel get " + username + " "
 				+ this.cobHomeYear.getValue().toString() + " " + this.cobHomeMonth.getValue().toString());
 	}
 
+	/**
+	 * button listener for updating customer password
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnHomeUpdatePassPressed(ActionEvent event) {
 		String pass = this.tfHomeNewPass.getText();
@@ -147,6 +168,11 @@ public class CustomerWindow extends UserWindow {
 		this.controller.handleMessageFromClientUI("updatepassword " + username + " " + pass);
 	}
 
+	/**
+	 * button listener for order home fuel sidebar button
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void openOrderHomeFuel(ActionEvent event) {
 		this.sidebar_btn1.setSelected(true);
@@ -160,6 +186,11 @@ public class CustomerWindow extends UserWindow {
 		clearFields();
 	}
 
+	/**
+	 * button listener for show home fuel order final price button
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnOHFShowPricePressed(ActionEvent event) {
 		String amount = this.tfOHFAmount1.getText();
@@ -186,6 +217,11 @@ public class CustomerWindow extends UserWindow {
 				("gethomefuelfinalprice " + amount + " " + tfOHFPrice1.getText() + " " + shipmentType.toString()));
 	}
 
+	/**
+	 * button listener for confirm home fuel order button
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnOHFConfirmPressed(ActionEvent event) {
 		ShipmentType shipmentType;
@@ -197,6 +233,11 @@ public class CustomerWindow extends UserWindow {
 				+ tfOHFFinalPrice.getText() + " " + tfOHFAmount1.getText() + " " + tfOHFAddress.getText()));
 	}
 
+	/**
+	 * button listener for show home fuel orders of customer sidebar button
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void openViewOrders(ActionEvent event) {
 		this.sidebar_btn2.setSelected(true);
@@ -210,6 +251,9 @@ public class CustomerWindow extends UserWindow {
 
 	/*************** boundary "logic" - window changes ***************/
 
+	/**
+	 * called after server returned a message/object to the client
+	 */
 	@Override
 	public void callAfterMessage(Object lastMsgFromServer) {
 		super.callAfterMessage(lastMsgFromServer);
@@ -362,6 +406,11 @@ public class CustomerWindow extends UserWindow {
 		this.tfHomeTotal.setText(df.format(total));
 	}
 
+	/**
+	 * fills the tableview in view home fuel orders pane
+	 * 
+	 * @param homeFuelOrderList
+	 */
 	private void handleGetHomeFuelOrderListFromServer(HomeFuelOrderList homeFuelOrderList) {
 		final ObservableList<HomeFuelOrder> list = FXCollections.observableArrayList();
 		for (int i = 0; i < this.tvVODetails.getItems().size(); ++i) {
@@ -375,6 +424,9 @@ public class CustomerWindow extends UserWindow {
 		this.tvVODetails.setItems(list);
 	}
 
+	/**
+	 * clear fxml entities as if the window was just entered into
+	 */
 	@Override
 	public void clearFields() {
 		this.tfOHFAmount1.clear();

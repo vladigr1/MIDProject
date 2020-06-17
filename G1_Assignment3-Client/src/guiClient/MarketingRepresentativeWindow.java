@@ -277,6 +277,9 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	private boolean deletedACarFlag = false;
 	private String deletedACarCustomerID;
 
+	/**
+	 * runs every time this windows goes live
+	 */
 	@FXML
 	void initialize() {
 		this.homePane.setVisible(true);
@@ -299,6 +302,9 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		initializeRankingSheetTable();
 	}
 
+	/**
+	 * returns the window entity of this boundary
+	 */
 	@Override
 	public Window getWindow() {
 		return this.addEditCustomerPane.getScene().getWindow();
@@ -307,7 +313,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	/*********************** button listeners ***********************/
 
 	/**
-	 * click on side button Home
+	 * button listener for home sidebar button
 	 * 
 	 * @param event
 	 */
@@ -317,6 +323,11 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		sidebar_btn0.setSelected(true);
 	}
 
+	/**
+	 * sidebar button to open addedit customer pane
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void openAddEditCustomer(ActionEvent event) {
 		this.sidebar_btn1.setSelected(true);
@@ -327,6 +338,11 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		clearFields();
 	}
 
+	/**
+	 * addeditcustomerpane save customer
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnAECUSavePressed(ActionEvent event) {
 		this.customerIsRegisteringFlag = true;
@@ -364,12 +380,22 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 				+ email + " " + creditCard + " " + customerType);
 	}
 
+	/**
+	 * addeditcustomerpane edit customer
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnAECUEditPressed(ActionEvent event) {
 		mainBorderPane.setDisable(true);
 		editCustomerPane.setVisible(true);
 	}
 
+	/**
+	 * editcustomerpane show customer details
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnECUShowPressed(ActionEvent event) {
 		String customerID = this.tfACUCustID.getText();
@@ -386,11 +412,21 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.controller.handleMessageFromClientUI("getcustomerdetails " + customerID);
 	}
 
+	/**
+	 * editcustomerpane clear customer details
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnECUClearPressed(ActionEvent event) {
 		clearEditCustomerPane();
 	}
 
+	/**
+	 * editcustomerpane close pane
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnECUClosePressed(ActionEvent event) {
 		this.mainBorderPane.setDisable(false);
@@ -398,6 +434,11 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		clearEditCustomerPane();
 	}
 
+	/**
+	 * editcustomerpane delete customer
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnECUDeletePressed(ActionEvent event) {
 		String customerID = this.tfACUCustID.getText();
@@ -412,6 +453,11 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.controller.handleMessageFromClientUI("deletecustomer " + customerID);
 	}
 
+	/**
+	 * editcustomerpane update customer details
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnECUUpdatePressed(ActionEvent event) {
 		String customerID = this.tfACUCustID.getText();
@@ -447,6 +493,11 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 				+ email + " " + creditCard + " " + customerType);
 	}
 
+	/**
+	 * addeditcarpane open
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void openAddEditCar(ActionEvent event) {
 		this.sidebar_btn2.setSelected(true);
@@ -457,6 +508,11 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		clearFields();
 	}
 
+	/**
+	 * addeditcarpane open
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnAECACheckPressed(ActionEvent event) {
 		String customerID = this.tfAECACustID.getText();
@@ -471,11 +527,21 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		checkCustomerExists(customerID);
 	}
 
+	/**
+	 * addeditcarpane clear car details
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnAECAClearPressed(ActionEvent event) {
 		clearAddEditCarPane();
 	}
 
+	/**
+	 * addeditcarpane open
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnAECASavePressed(ActionEvent event) {
 		String customerID = this.tfAECACustID.getText();
@@ -505,12 +571,22 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 				.handleMessageFromClientUI("savecar " + customerID + " " + regPlate + " " + owner + " " + fuelType);
 	}
 
+	/**
+	 * addeditcarpane edit car
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnAECAEditPressed(ActionEvent event) {
 		this.mainBorderPane.setDisable(true);
 		this.editCarPane.setVisible(true);
 	}
 
+	/**
+	 * addeditcarpane cancel registration
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnAECACancelRegPressed(ActionEvent event) {
 		String customerID = this.tfAECACustID.getText();
@@ -534,6 +610,11 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.controller.handleMessageFromClientUI("deletecustomer " + customerID);
 	}
 
+	/**
+	 * setpurchasingprogrampane cancel registration
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnSPPCancelRegPressed(ActionEvent event) {
 		String customerID = this.tfSPPCustID.getText();
@@ -559,6 +640,11 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.controller.handleMessageFromClientUI("deletecustomer " + customerID);
 	}
 
+	/**
+	 * setpricingmodelpane cancel registration
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnSPMCancelRegPressed(ActionEvent event) {
 		String customerID = this.tfSPMCustID.getText();
@@ -585,11 +671,21 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.controller.handleMessageFromClientUI("deletecustomer " + customerID);
 	}
 
+	/**
+	 * editcarpane clear car details
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnECAClearPressed(ActionEvent event) {
 		clearEditCarPane();
 	}
 
+	/**
+	 * editcarpane close pane
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnECAClosePressed(ActionEvent event) {
 		this.mainBorderPane.setDisable(false);
@@ -597,6 +693,11 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		clearEditCarPane();
 	}
 
+	/**
+	 * editcarpane clear car details
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnECAShowPressed(ActionEvent event) {
 		String customerID = this.tfECACustID.getText();
@@ -611,6 +712,11 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		checkCustomerExists(customerID);
 	}
 
+	/**
+	 * editcarpane delete car
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnECADeletePressed(ActionEvent event) {
 		String regPlate = this.tfECARegistration.getText();
@@ -626,6 +732,11 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.controller.handleMessageFromClientUI("deletecar " + regPlate);
 	}
 
+	/**
+	 * editcarpane update car details
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnECAUpdatePressed(ActionEvent event) {
 		String customerID = this.tfECACustID.getText();
@@ -655,6 +766,11 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 				.handleMessageFromClientUI("updatecar " + customerID + " " + regPlate + " " + owner + " " + fuelType);
 	}
 
+	/**
+	 * setpurchasingprogrampane open
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void openSetPurchasingProgram(ActionEvent event) {
 		this.sidebar_btn3.setSelected(true);
@@ -665,11 +781,21 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		clearFields();
 	}
 
+	/**
+	 * setpurchasingprogrampane clear
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnSPPClearPressed(ActionEvent event) {
 		clearSetPurchasingPane();
 	}
 
+	/**
+	 * setpurchasingprogrampane standard radiobutton chosen
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void rbSPPStandardPressed(ActionEvent event) {
 		this.purchProg_ExpenProgBox_SP1.setStyle("-fx-border-color: green ; -fx-border-width: 2px ;");
@@ -680,6 +806,11 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.cobSPPFuelCompany3.setValue("");
 	}
 
+	/**
+	 * setpurchasingprogrampane premium radiobutton chosen
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void rbSPPPremiumPressed(ActionEvent event) {
 		this.purchProg_ExpenProgBox_SP.setStyle("-fx-border-color: green ; -fx-border-width: 2px ;");
@@ -689,6 +820,11 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.cobSPPFuelCompany2.setValue("Paz");
 	}
 
+	/**
+	 * setpurchasingprogrampane check customer
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnSPPCheckPressed(ActionEvent event) {
 		String customerID = this.tfSPPCustID.getText();
@@ -703,6 +839,11 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		checkCustomerExists(customerID);
 	}
 
+	/**
+	 * setpurchasingprogrampane save purchasing program for customer
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnSPPSavePressed(ActionEvent event) {
 		String customerID = this.tfSPPCustID.getText();
@@ -738,6 +879,11 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 				"setprogram " + customerID + " " + program + " " + company1 + " " + company2 + " " + company3);
 	}
 
+	/**
+	 * setpricingmodelpane open
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void openSetPricingModel(ActionEvent event) {
 		this.sidebar_btn4.setSelected(true);
@@ -749,12 +895,22 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.controller.handleMessageFromClientUI("getAllPricingModelDiscounts");
 	}
 
+	/**
+	 * setpricingmodelpane clear
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnSPMClearPressed(ActionEvent event) {
 		clearPricingModelPane();
 		this.controller.handleMessageFromClientUI("getAllPricingModelDiscounts");
 	}
 
+	/**
+	 * setpricingmodelpane check customer
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnSPMCheckPressed(ActionEvent event) {
 		String customerID = this.tfSPMCustID.getText();
@@ -769,6 +925,11 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		checkCustomerExists(customerID);
 	}
 
+	/**
+	 * setpricingmodelpane save pricing model for customer
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnSPMSetPressed(ActionEvent event) {
 		String customerID = this.tfSPMCustID.getText();
@@ -805,6 +966,11 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 				.handleMessageFromClientUI("setpricingmodel " + customerID + " " + model + " " + defaultDiscount);
 	}
 
+	/**
+	 * createsalespattern open
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void openCreateSalesPattern(ActionEvent event) {
 		this.sidebar_btn5.setSelected(true);
@@ -819,6 +985,9 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 
 	/*************** boundary "logic" - window changes ***************/
 
+	/**
+	 * called after server returned a message/object to the client
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public void callAfterMessage(Object lastMsgFromServer) {
@@ -1340,6 +1509,9 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		clearFields();
 	}
 
+	/**
+	 * clear fxml entities as if the window was just entered into
+	 */
 	@Override
 	public void clearFields() {
 		this.tfAECUCredit.clear();
@@ -1356,6 +1528,9 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		clearSalePatternPane();
 	}
 
+	/**
+	 * editcustomerpane clear
+	 */
 	private void clearEditCustomerPane() {
 		this.tfACUCustID.clear();
 		this.tfECUFirstName.clear();
@@ -1367,6 +1542,9 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.apECUCustomer.setDisable(true);
 	}
 
+	/**
+	 * addeditcarpane clear
+	 */
 	private void clearAddEditCarPane() {
 		this.tfAECACustID.clear();
 		this.tfAECARegistration.clear();
@@ -1378,6 +1556,9 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.apAECACarDetails.setDisable(true);
 	}
 
+	/**
+	 * editcarpane clear
+	 */
 	private void clearEditCarPane() {
 		this.tfECACustID.clear();
 		this.tfECARegistration.clear();
@@ -1389,6 +1570,9 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.apECACar.setDisable(true);
 	}
 
+	/**
+	 * setpurchasingprogrampane clear
+	 */
 	private void clearSetPurchasingPane() {
 		this.tfSPPCustID.clear();
 		this.rbSPPStandard.setSelected(true);
@@ -1403,6 +1587,9 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.apSPP.setDisable(true);
 	}
 
+	/**
+	 * clearpricingmodelpane clear
+	 */
 	private void clearPricingModelPane() {
 		this.lblSPMNumOfCars.setText("");
 		this.tfSPMCustID.clear();
@@ -1413,10 +1600,18 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.btnSPMCancelReg.setVisible(false);
 	}
 
+	/**
+	 * request customer controller to check if customer exists
+	 * 
+	 * @param customerID
+	 */
 	private void checkCustomerExists(String customerID) {
 		this.controller.handleMessageFromClientUI("checkcustomer " + customerID);
 	}
 
+	/**
+	 * get selected row detials of editcarpane cars tableview
+	 */
 	private void tvECACarPressed() {
 		Car car = this.tvECACar.getSelectionModel().getSelectedItem();
 		this.tfECARegistration.setText(car.getRegistrationPlate());

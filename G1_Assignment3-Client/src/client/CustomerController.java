@@ -18,6 +18,9 @@ import enums.ShipmentType;
  */
 public class CustomerController extends UserController {
 
+	/**
+	 * singleton instance
+	 */
 	private static CustomerController instance;
 
 	/**
@@ -37,6 +40,17 @@ public class CustomerController extends UserController {
 		return instance;
 	}
 
+	/**
+	 * receives string from the window
+	 * <p>
+	 * opens connection to the server
+	 * <p>
+	 * sends the server a request accordingly
+	 * <p>
+	 * calls <code>callAfterMessage()</code> of <code>currentWindow</code>
+	 * 
+	 * @param message
+	 */
 	@Override
 	public void handleMessageFromClientUI(String message) {
 		super.handleMessageFromClientUI(message);
@@ -119,6 +133,13 @@ public class CustomerController extends UserController {
 		}
 	}
 
+	/**
+	 * calculates home fuel order price after shipment and amount muls
+	 * 
+	 * @param amount
+	 * @param price
+	 * @param shipmentType
+	 */
 	private void calculateHomeFuelOrderFinalPrice(String amount, String price, String shipmentType) {
 		double amountDiscount = 0;
 		double amountToBuy = Double.parseDouble(amount);

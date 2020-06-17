@@ -7,6 +7,7 @@ import java.net.ConnectException;
 import entities.MarketingManager;
 
 /**
+ * logic controller for marketing manager
  * 
  * @version Final
  * @author Elroy, Lior
@@ -14,6 +15,9 @@ import entities.MarketingManager;
  */
 public class MarketingManagerController extends MarketingDepWorkerController {
 
+	/**
+	 * singleton instance
+	 */
 	private static MarketingManagerController instance;
 
 	/**
@@ -35,6 +39,17 @@ public class MarketingManagerController extends MarketingDepWorkerController {
 		return instance;
 	}
 
+	/**
+	 * receives string from the window
+	 * <p>
+	 * opens connection to the server
+	 * <p>
+	 * sends the server a request accordingly
+	 * <p>
+	 * calls <code>callAfterMessage()</code> of <code>currentWindow</code>
+	 * 
+	 * @param message
+	 */
 	@Override
 	public void handleMessageFromClientUI(String message) {
 		if (logged == false || message.startsWith("signout") || message.startsWith("activity")) {

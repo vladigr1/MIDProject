@@ -17,6 +17,17 @@ public abstract class UserController extends ClientController {
 		super();
 	}
 
+	/**
+	 * receives string from the window
+	 * <p>
+	 * opens connection to the server
+	 * <p>
+	 * sends the server a request accordingly
+	 * <p>
+	 * calls <code>callAfterMessage()</code> of <code>currentWindow</code>
+	 * 
+	 * @param message
+	 */
 	@Override
 	public void handleMessageFromClientUI(String message) {
 		try {

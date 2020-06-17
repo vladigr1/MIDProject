@@ -13,9 +13,17 @@ import ocsf.client.AbstractClient;
  */
 public abstract class ClientController extends AbstractClient {
 
+	/**
+	 * singleton instance
+	 */
 	protected static boolean awaitResponse = false;
+
 	protected AFXML currentWindow;
 	protected Object lastMsgFromServer;
+
+	/**
+	 * host and port saved once for all client's controllers
+	 */
 	private static String m_host;
 	private static int m_port;
 

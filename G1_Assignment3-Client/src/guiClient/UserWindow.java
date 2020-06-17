@@ -58,6 +58,9 @@ public abstract class UserWindow extends AFXML {
 
 	public abstract Window getWindow();
 
+	/**
+	 * clear fxml entities as if the window was just entered into
+	 */
 	public abstract void clearFields();
 
 	/**
@@ -109,6 +112,11 @@ public abstract class UserWindow extends AFXML {
 
 	/*********************** button listeners ***********************/
 
+	/**
+	 * button listener for close button on topbar
+	 * 
+	 * @param event
+	 */
 	@FXML
 	public void closeTopBar(ActionEvent event) {
 		if (!this.signOutClicked(this.getWindow()))
@@ -148,6 +156,9 @@ public abstract class UserWindow extends AFXML {
 
 	/*************** boundary "logic" - window changes ***************/
 
+	/**
+	 * called after server returned a message/object to the client
+	 */
 	@Override
 	public void callAfterMessage(Object lastMsgFromServer) {
 		if (lastMsgFromServer == null) {

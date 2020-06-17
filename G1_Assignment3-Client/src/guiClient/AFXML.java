@@ -79,12 +79,22 @@ public abstract class AFXML {
 	private double x = 0;
 	private double y = 0;
 
+	/**
+	 * button listener for minimize button
+	 * 
+	 * @param event
+	 */
 	@FXML
 	public void minimizeTopBar(ActionEvent event) {
 		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		stage.setIconified(true);
 	}
 
+	/**
+	 * listener for topbar
+	 * 
+	 * @param event
+	 */
 	@FXML
 	public void clickOnTopBar(MouseEvent event) {
 		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -92,6 +102,11 @@ public abstract class AFXML {
 		y = stage.getY() - event.getScreenY();
 	}
 
+	/**
+	 * listener for topbar
+	 * 
+	 * @param event
+	 */
 	@FXML
 	public void dragTopBar(MouseEvent event) {
 		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

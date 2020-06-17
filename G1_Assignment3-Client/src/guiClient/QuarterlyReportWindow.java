@@ -28,7 +28,7 @@ import javafx.scene.layout.AnchorPane;
  * boundary for network manager's and fuel station manager's view quarterly
  * report window
  * 
- * @version Basic
+ * @version Final
  * @author Lior
  *
  */
@@ -88,12 +88,21 @@ public abstract class QuarterlyReportWindow extends EmployeeWindow {
 
 	/*********************** methods changing window ***********************/
 
+	/**
+	 * viewquarterlyreportpane open
+	 */
 	protected void openPaneOfViewQuarterlyReport() {
 		visibleNow.setVisible(false);
 		quarterlyReportPane.setVisible(true);
 		visibleNow = quarterlyReportPane;
 	}
 
+	/**
+	 * 
+	 * @param selectedYear
+	 * @param selectedQuarter
+	 * @return true if fields valid
+	 */
 	protected boolean openPaneOfQuarterlyReports(int selectedYear, int selectedQuarter) {
 		int currYear = Calendar.getInstance().get(Calendar.YEAR);
 		int currMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
@@ -302,6 +311,9 @@ public abstract class QuarterlyReportWindow extends EmployeeWindow {
 		this.cobGQRQuarter.setValue(1);
 	}
 
+	/**
+	 * clear fxml entities as if the window was just entered into
+	 */
 	@Override
 	public void clearFields() {
 		for (int j = 0; j < tvQRDetails1.getItems().size(); j++)

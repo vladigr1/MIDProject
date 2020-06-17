@@ -36,9 +36,7 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 
 	@FXML
 	protected Button btnHomeGenerateAnalysis;
-	
 
-	
 	@FXML
 	protected AnchorPane createSalePatternPane;
 	@FXML
@@ -67,11 +65,21 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 
 	/*********************** button listeners ***********************/
 
+	/**
+	 * button listener for generate analytics of customers
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnHomeGenerateAnalysisPressed(ActionEvent event) {
 		this.sendToClientController("genAnalysis");
 	}
 
+	/**
+	 * button listener for create sales pattern
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnCSPCreateClicked(MouseEvent event) {
 		if (checkOfCreateSalePatternFields() == true && checkDuration(tfCSPDuration) && checkPrecentageInCSP()) {
@@ -97,16 +105,31 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 		}
 	}
 
+	/**
+	 * fxml button css
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnCSPCreateHover(MouseEvent event) {
 		btnCSPCreate.setOpacity(0.85);
 	}
 
+	/**
+	 * fxml button css
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnCSPCreateExit(MouseEvent event) {
 		btnCSPCreate.setOpacity(1);
 	}
 
+	/**
+	 * buttong listener for diesel combobox in create sales pattern pane
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void cbCSPDieselClicked(MouseEvent event) {
 		checkBoxesOfCreateSalePattern();
@@ -117,6 +140,11 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 		}
 	}
 
+	/**
+	 * buttong listener for gasoline checkbox in create sales pattern pane
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void cbCSPGasolineClicked(MouseEvent event) {
 		checkBoxesOfCreateSalePattern();
@@ -127,6 +155,11 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 		}
 	}
 
+	/**
+	 * buttong listener for motorbike fuel checkbox in create sales pattern pane
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void cbCSPMotorbikeClicked(MouseEvent event) {
 		checkBoxesOfCreateSalePattern();
@@ -139,6 +172,9 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 
 	/*************** boundary "logic" - window changes ***************/
 
+	/**
+	 * called after server returned a message/object to the client
+	 */
 	@Override
 	public void callAfterMessage(Object lastMsgFromServer) {
 		super.callAfterMessage(lastMsgFromServer);
@@ -276,7 +312,7 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 	/**
 	 * method that check the values of precentages fields is correct
 	 * 
-	 * @return
+	 * @return true if create sales pattern fields are valid
 	 */
 	protected boolean checkPrecentageInCSP() {
 		boolean flagDiesel = true;
@@ -291,11 +327,8 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 				}
 				if (!tfCSPDieselDisc.getText().trim().isEmpty() && (Double.parseDouble(tfCSPDieselDisc.getText()) <= 0
 						|| Double.parseDouble(tfCSPDieselDisc.getText()) >= product.getCurrentPrice())) {
-//					lblDieselDiscERR.setVisible(true);
-//					lblDieselDiscERR.setText("must be lower than: " + product.getCurrentPrice() + " and not 0");
-					
-					
-					this.openErrorAlert("ERROR", "Please enter a number of Diesel Discount \n lower than "+product.getCurrentPrice()+" and not 0");
+					this.openErrorAlert("ERROR", "Please enter a number of Diesel Discount \n lower than "
+							+ product.getCurrentPrice() + " and not 0");
 //					tfCSPDieselDisc.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 					flagDiesel = false;
 				}
@@ -309,10 +342,8 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 				if (!tfCSPGasolineDisc.getText().trim().isEmpty()
 						&& (Double.parseDouble(tfCSPGasolineDisc.getText()) <= 0
 								|| Double.parseDouble(tfCSPGasolineDisc.getText()) >= product.getCurrentPrice())) {
-//					lblGasolineDiscERR.setVisible(true);
-//					lblGasolineDiscERR.setText("must be lower than: " + product.getCurrentPrice() + " and not 0");
-					
-					this.openErrorAlert("ERROR", "Please enter a number of Gasoline Discount \n lower than "+product.getCurrentPrice()+" and not 0");
+					this.openErrorAlert("ERROR", "Please enter a number of Gasoline Discount \n lower than "
+							+ product.getCurrentPrice() + " and not 0");
 //					tfCSPGasolineDisc.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 					flagGasoline = false;
 				}
@@ -327,9 +358,8 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 				if (!tfCSPMotorbikeDisc.getText().trim().isEmpty()
 						&& (Double.parseDouble(tfCSPMotorbikeDisc.getText()) <= 0
 								|| Double.parseDouble(tfCSPMotorbikeDisc.getText()) >= product.getCurrentPrice())) {
-//					lblMotorDiscERR.setVisible(true);
-//					lblMotorDiscERR.setText("must be lower than: " + product.getCurrentPrice() + " and not 0");
-					this.openErrorAlert("ERROR", "Please enter a number of Motor Bike Discount \n lower than "+product.getCurrentPrice()+" and not 0");
+					this.openErrorAlert("ERROR", "Please enter a number of Motor Bike Discount \n lower than "
+							+ product.getCurrentPrice() + " and not 0");
 //					tfCSPMotorbikeDisc.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 					flagMotorbikeFuel = false;
 				}
@@ -346,7 +376,6 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 			btnCSPCreate.setDisable(true);
 		else
 			btnCSPCreate.setDisable(false);
-
 	}
 
 	/**
@@ -381,6 +410,9 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 		this.sendToClientController("pull product rates");
 	}
 
+	/**
+	 * clear sale pattern pane
+	 */
 	protected void clearSalePatternPane() {
 		tfCSPDuration.clear();
 //		tfCSPDuration.setStyle("-fx-border-style: none;");

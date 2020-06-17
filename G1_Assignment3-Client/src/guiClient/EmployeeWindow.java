@@ -30,6 +30,12 @@ public abstract class EmployeeWindow extends UserWindow {
 
 	/*********************** button listeners ***********************/
 
+	/**
+	 * button listener for all employees' home sidebar button, initializes activity
+	 * tableview too
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void openHome(ActionEvent event) {
 		this.visibleNow.setVisible(false);
@@ -40,6 +46,11 @@ public abstract class EmployeeWindow extends UserWindow {
 				+ " " + cobHomeMonth.getValue().toString()));
 	}
 
+	/**
+	 * button listener for 'update' button in home for updating activites tableview
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnHomeUpdatePressed(ActionEvent event) {
 		this.controller.handleMessageFromClientUI(("activity get " + username + " " + cobHomeYear.getValue().toString()
@@ -48,6 +59,9 @@ public abstract class EmployeeWindow extends UserWindow {
 
 	/*************** boundary "logic" - window changes ***************/
 
+	/**
+	 * called after server returned a message/object to the client
+	 */
 	@Override
 	public void callAfterMessage(Object lastMsgFromServer) {
 		if (lastMsgFromServer instanceof ActivityList) {

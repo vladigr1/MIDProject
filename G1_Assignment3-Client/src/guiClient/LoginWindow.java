@@ -57,6 +57,9 @@ public class LoginWindow extends AFXML {
 	@FXML
 	private Button btnEmu;
 
+	/**
+	 * runs every time this windows goes live
+	 */
 	@FXML
 	void initialize() {
 		this.visibleNow = this.serverPane;
@@ -79,16 +82,31 @@ public class LoginWindow extends AFXML {
 
 	/*********************** button listeners ***********************/
 
+	/**
+	 * continue pressed, checks host and port validation
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnContinuePressed(ActionEvent event) {
 		myContinue();
 	}
 
+	/**
+	 * signin pressed, check credentials of user
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnSignInPressed(ActionEvent event) {
 		mySignIn();
 	}
 
+	/**
+	 * goes to simulation window of fastfuel
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnEmuPressed(ActionEvent event) {
 		try {
@@ -271,6 +289,11 @@ public class LoginWindow extends AFXML {
 
 	/*********************** key listeners ***********************/
 
+	/**
+	 * shortcut for sign in
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void enterKeyPressed(KeyEvent event) {
 		switch (event.getCode()) {
@@ -282,6 +305,11 @@ public class LoginWindow extends AFXML {
 		}
 	}
 
+	/**
+	 * shortcut for continue
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void enterKeyContinue(KeyEvent event) {
 		switch (event.getCode()) {
@@ -293,6 +321,11 @@ public class LoginWindow extends AFXML {
 		}
 	}
 
+	/**
+	 * tab shortcut
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void tabEmployeePressed(KeyEvent event) {
 		switch (event.getCode()) {
@@ -307,6 +340,11 @@ public class LoginWindow extends AFXML {
 		}
 	}
 
+	/**
+	 * tab shortcut
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void tabCustomerPressed(KeyEvent event) {
 		switch (event.getCode()) {
@@ -321,6 +359,11 @@ public class LoginWindow extends AFXML {
 		}
 	}
 
+	/**
+	 * button listener for close button on topbar
+	 * 
+	 * @param event
+	 */
 	@FXML
 	public void closeTopBar(ActionEvent event) {
 		System.exit(0);
