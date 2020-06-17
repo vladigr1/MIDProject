@@ -1,6 +1,7 @@
 package server;
 
 import java.io.IOException;
+import java.util.Map;
 
 import database.DatabaseController;
 import entities.Car;
@@ -9,6 +10,7 @@ import entities.Customer;
 import entities.PricingModel;
 import entities.PurchasingProgram;
 import entities.User;
+import enums.PricingModelName;
 import ocsf.server.ConnectionToClient;
 
 /**
@@ -111,6 +113,11 @@ public class ServerMarketingRepresentativeController {
 				} else if (splitMsg[0].equals("getcustomercars")) {
 					CarList carList = this.databaseController.getCustomerCars(splitMsg[1]);
 					client.sendToClient(carList);
+
+				} else if (splitMsg[0].equals("getAllPricingModelDiscounts")) {
+					Map<PricingModelName, Double> pricingModelDiscounts = this.databaseController
+							.getAllPricingModelDiscounts();
+					client.sendToClient(pricingModelDiscounts);
 				}
 			}
 

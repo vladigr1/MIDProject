@@ -2,6 +2,9 @@ package guiClient;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import client.MarketingRepresentativeController;
 import entities.Car;
@@ -10,6 +13,7 @@ import entities.Customer;
 import entities.ProductRateList;
 import entities.RankingSheetList;
 import entities.User;
+import enums.PricingModelName;
 import enums.ProductName;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -742,11 +746,13 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.visibleNow = this.pricingModelPane;
 		this.topbar_window_label.setText("Set Pricing Model");
 		clearFields();
+		this.controller.handleMessageFromClientUI("getAllPricingModelDiscounts");
 	}
 
 	@FXML
 	void btnSPMClearPressed(ActionEvent event) {
 		clearPricingModelPane();
+		this.controller.handleMessageFromClientUI("getAllPricingModelDiscounts");
 	}
 
 	@FXML
@@ -814,10 +820,37 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	/*************** boundary "logic" - window changes ***************/
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public void callAfterMessage(Object lastMsgFromServer) {
 		super.callAfterMessage(lastMsgFromServer);
 
-		if (lastMsgFromServer instanceof ProductRateList) {
+		if (lastMsgFromServer instanceof Map<?, ?>) {
+			HashMap<PricingModelName, Double> hm = (HashMap<PricingModelName, Double>) lastMsgFromServer;
+
+			for (Entry<PricingModelName, Double> entry : hm.entrySet()) {
+				switch (entry.getKey()) {
+				case PayInPlace:
+					System.out.println("PayInPlace = " + entry.getValue());
+					lblSPMModel1Discount.setText("" + entry.getValue());
+					break;
+				case MonthlyProgramSingleCar:
+					System.out.println("MonthlyProgramSingleCar = " + entry.getValue());
+					lblSPMModel2Discount.setText("" + entry.getValue());
+					break;
+				case MonthlyProgramMultipleCars:
+					System.out.println("MonthlyProgramMultipleCars = " + entry.getValue());
+					lblSPMModel3Discount.setText("" + entry.getValue());
+					break;
+				case FullProgramSingleCar:
+					System.out.println("FullProgramSingleCar = " + entry.getValue());
+					lblSPMModel4Discount.setText("" + entry.getValue());
+					break;
+				default:
+					break;
+				}
+			}
+
+		} else if (lastMsgFromServer instanceof ProductRateList) {
 			ProductRateList list = (ProductRateList) lastMsgFromServer;
 			if (list.getList().isEmpty()) {
 				Alert a = new Alert(AlertType.CONFIRMATION);
@@ -945,6 +978,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 						openConfirmationAlert("Success", "Customer Saved\nUsername: " + this.tfSPMCustID.getText()
 								+ "\nPassword: 1234\nThe Customer should login and change his password");
 					}
+					this.controller.handleMessageFromClientUI("getAllPricingModelDiscounts");
 				}
 
 				if (this.visibleNow == this.pricingModelPane) {

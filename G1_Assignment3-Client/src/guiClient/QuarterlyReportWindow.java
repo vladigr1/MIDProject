@@ -182,7 +182,6 @@ public abstract class QuarterlyReportWindow extends EmployeeWindow {
 			Double incomePer = entry.getValue();
 			RowForQuarterlyReports row = new RowForQuarterlyReports(pID, pName, incomePer);
 			rowsList.add(row);
-
 		}
 		tvQRDetails1.setItems(rowsList);
 
