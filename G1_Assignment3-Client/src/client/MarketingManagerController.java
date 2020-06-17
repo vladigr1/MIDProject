@@ -8,7 +8,7 @@ import entities.MarketingManager;
 
 /**
  * 
- * @version NEED FIX !
+ * @version Final
  * @author Elroy, Lior
  *
  */

@@ -493,7 +493,7 @@
                                     </HBox>
                                  </children>
                               </GridPane>
-                              <Button fx:id="btnCSPCreate" layoutX="132.0" layoutY="216.0" mnemonicParsing="false" onMouseClicked="#btnCSPCreateClicked" onMouseEntered="#btnCSPCreateHover" onMouseExited="#btnCSPCreateExit" prefHeight="30.0" prefWidth="200.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Create Pattern" textFill="WHITE">
+                              <Button fx:id="btnCSPCreate" disable="true" layoutX="132.0" layoutY="216.0" mnemonicParsing="false" onMouseClicked="#btnCSPCreateClicked" onMouseEntered="#btnCSPCreateHover" onMouseExited="#btnCSPCreateExit" prefHeight="30.0" prefWidth="200.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Create Pattern" textFill="WHITE">
                                  <font>
                                     <Font name="Calibri" size="20.0" />
                                  </font>

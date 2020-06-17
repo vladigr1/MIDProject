@@ -35,7 +35,7 @@ import enums.PricingModelName;
 import enums.ProductName;
 
 /**
- * @version NEED FIX!
+ * @version Final
  * @author Elroy, Lior
  *
  */

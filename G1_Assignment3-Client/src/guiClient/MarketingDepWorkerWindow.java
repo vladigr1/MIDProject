@@ -113,6 +113,7 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 
 	@FXML
 	void cbCSPDieselClicked(MouseEvent event) {
+		checkBoxesOfCreateSalePattern();
 		tfCSPDieselDisc.setDisable(!tfCSPDieselDisc.isDisable());
 		if (tfCSPDieselDisc.isDisable()) {
 			this.lblDieselDiscERR.setVisible(false);
@@ -123,6 +124,7 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 
 	@FXML
 	void cbCSPGasolineClicked(MouseEvent event) {
+		checkBoxesOfCreateSalePattern();
 		tfCSPGasolineDisc.setDisable(!tfCSPGasolineDisc.isDisable());
 		if (tfCSPGasolineDisc.isDisable()) {
 			this.lblGasolineDiscERR.setVisible(false);
@@ -133,6 +135,7 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 
 	@FXML
 	void cbCSPMotorbikeClicked(MouseEvent event) {
+		checkBoxesOfCreateSalePattern();
 		tfCSPMotorbikeDisc.setDisable(!tfCSPMotorbikeDisc.isDisable());
 		if (tfCSPMotorbikeDisc.isDisable()) {
 			this.lblMotorDiscERR.setVisible(false);
@@ -336,6 +339,17 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 	}
 
 	/**
+	 * method that check if boxes are selected
+	 */
+	private void checkBoxesOfCreateSalePattern() {
+		if (!cbCSPDiesel.isSelected() && !cbCSPGasoline.isSelected() && !cbCSPMotorbike.isSelected())
+			btnCSPCreate.setDisable(true);
+		else
+			btnCSPCreate.setDisable(false);
+
+	}
+
+	/**
 	 * @param tf
 	 * @return result check that the time field value is correct
 	 */
@@ -391,6 +405,7 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 		tfCSPGasolineDisc.setStyle("-fx-border-style: none;");
 		tfCSPMotorbikeDisc.setDisable(true);
 		tfCSPMotorbikeDisc.setStyle("-fx-border-style: none;");
+		btnCSPCreate.setDisable(true);
 	}
 
 	/**

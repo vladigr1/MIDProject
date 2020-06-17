@@ -52,7 +52,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Window;
 
 /**
- * @version NEED FIX!
+ * @version Final
  * @author Elroy, Lior
  *
  */
@@ -732,8 +732,10 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 			lblMonthlySingleERR.setVisible(false);
 			tfMonthSingleSet.setStyle("-fx-border-style: none;");
 			tfMonthSingleSet.setDisable(true);
+			btnRPMU.setDisable(true);
 		} else {
 			tfMonthSingleSet.setDisable(false);
+			btnRPMU.setDisable(false);
 		}
 
 		tfPayInPlaceSet.setDisable(true);
@@ -764,8 +766,10 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 			lblMonthMultipleERR.setVisible(false);
 			tfMultipleSet.setStyle("-fx-border-style: none;");
 			tfMultipleSet.setDisable(true);
+			btnRPMU.setDisable(true);
 		} else {
 			tfMultipleSet.setDisable(false);
+			btnRPMU.setDisable(false);
 		}
 
 		tfPayInPlaceSet.setDisable(true);
@@ -797,8 +801,10 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 			lblFullSingleERR.setVisible(false);
 			tfFullSingleSet.setStyle("-fx-border-style: none;");
 			tfFullSingleSet.setDisable(true);
+			btnRPMU.setDisable(true);
 		} else {
 			tfFullSingleSet.setDisable(false);
+			btnRPMU.setDisable(false);
 		}
 
 		tfPayInPlaceSet.setDisable(true);
@@ -1575,6 +1581,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		tfMultipleSet.setStyle("-fx-border-style: none;");
 		tfFullSingleSet.clear();
 		tfFullSingleSet.setStyle("-fx-border-style: none;");
+		btnRPMU.setDisable(true);
 	}
 
 ///////// Request Product Rate Update Start: //////////////
