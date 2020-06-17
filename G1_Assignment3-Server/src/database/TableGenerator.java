@@ -80,6 +80,11 @@ public class TableGenerator { // creating the tables if they are not exists
 	}
 
 	/******************* generate actual tables *******************/
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generateActivity(Connection con) throws SQLException {
 		String tableName = "activity";
@@ -90,6 +95,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " REFERENCES employee (employeeID) ON DELETE CASCADE ON UPDATE CASCADE )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generateCar(Connection con) throws SQLException {
 		String tableName = "car";
@@ -104,6 +114,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " REFERENCES customer (customerID) ON DELETE CASCADE ON UPDATE CASCADE )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generateCustomer(Connection con) throws SQLException {
 		String tableName = "customer";
@@ -112,6 +127,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " deleted varchar(1) NOT NULL ," + " PRIMARY KEY (customerID) )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generateCustomerBoughtFromCompany(Connection con) throws SQLException {
 		String tableName = "customer_bought_from_company";
@@ -129,6 +149,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " REFERENCES fuel_company (fuelCompanyName) ON DELETE CASCADE ON UPDATE CASCADE )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generateCustomerBoughtInSale(Connection con) throws SQLException {
 		String tableName = "customer_bought_in_sale";
@@ -144,6 +169,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " REFERENCES customer (customerID) ON DELETE CASCADE ON UPDATE CASCADE )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generateEmployee(Connection con) throws SQLException {
 		String tableName = "employee";
@@ -155,6 +185,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " REFERENCES user (username) ON DELETE CASCADE ON UPDATE CASCADE )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generateFastFuel(Connection con) throws SQLException {
 		String tableName = "fast_fuel";
@@ -177,6 +212,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " REFERENCES car (registrationPlate) ON DELETE CASCADE ON UPDATE CASCADE )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generateFuelCompany(Connection con) throws SQLException {
 		String tableName = "fuel_company";
@@ -188,6 +228,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " REFERENCES employee (employeeID) ON DELETE CASCADE ON UPDATE CASCADE )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generateFuelStation(Connection con) throws SQLException {
 		String tableName = "fuel_station";
@@ -205,6 +250,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " REFERENCES employee (employeeID) ON DELETE CASCADE ON UPDATE CASCADE )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generateFuelStationManager(Connection con) throws SQLException {
 		String tableName = "fuel_station_manager";
@@ -216,6 +266,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " REFERENCES employee (employeeID) ON DELETE CASCADE ON UPDATE CASCADE )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generateFuelStationOrder(Connection con) throws SQLException {
 		String tableName = "fuel_station_order";
@@ -232,6 +287,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " REFERENCES Orders (ordersID) ON DELETE CASCADE ON UPDATE CASCADE )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generateHomeFuelOrder(Connection con) throws SQLException {
 		String tableName = "home_fuel_order";
@@ -257,6 +317,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " REFERENCES shipment_method (shipmentType) ON DELETE CASCADE ON UPDATE CASCADE )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generateIncomeReport(Connection con) throws SQLException {
 		String tableName = "income_report";
@@ -269,6 +334,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " REFERENCES quarterly_report (repQuarter,repYear,FK_fuelStationID) ON DELETE CASCADE ON UPDATE CASCADE)";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generateInventoryReport(Connection con) throws SQLException {
 		String tableName = "inventory_report";
@@ -281,6 +351,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " REFERENCES quarterly_report (repQuarter,repYear,FK_fuelStationID) ON DELETE CASCADE ON UPDATE CASCADE )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generateNotification(Connection con) throws SQLException {
 		String tableName = "notification";
@@ -294,6 +369,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " REFERENCES fuel_station_manager (FK_employeeID) ON DELETE CASCADE ON UPDATE CASCADE )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generateOrders(Connection con) throws SQLException {
 		String tableName = "orders";
@@ -302,6 +382,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " PRIMARY KEY (ordersID) )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generateOutcomeReport(Connection con) throws SQLException {
 		String tableName = "outcome_report";
@@ -314,6 +399,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " REFERENCES quarterly_report (repQuarter,repYear,FK_fuelStationID) ON DELETE CASCADE ON UPDATE CASCADE )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generatePeriodicCustomersReport(Connection con) throws SQLException {
 		String tableName = "periodic_customers_report";
@@ -321,6 +411,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " dateCreated TIMESTAMP NOT NULL ," + " PRIMARY KEY (dateFrom,dateTo) )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generatePricingModel(Connection con) throws SQLException {
 		String tableName = "pricing_model";
@@ -337,6 +432,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " REFERENCES pricing_model_type (pricingModelName) ON DELETE CASCADE ON UPDATE CASCADE )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generatePricingModelType(Connection con) throws SQLException {
 		String tableName = "pricing_model_type";
@@ -344,6 +444,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " defaultDiscount DOUBLE(32,2) NOT NULL ," + " PRIMARY KEY (pricingModelName) )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generateProduct(Connection con) throws SQLException {
 		String tableName = "product";
@@ -351,6 +456,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " currentPrice DOUBLE(32,2) NOT NULL ," + " PRIMARY KEY (productName) )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generateProductInIncomeReport(Connection con) throws SQLException {
 		String tableName = "product_in_income_report";
@@ -368,6 +478,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " REFERENCES income_report (FK_repQuarter,FK_repYear) ON DELETE CASCADE ON UPDATE CASCADE )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generateProductInInventoryReport(Connection con) throws SQLException {
 		String tableName = "product_in_inventory_report";
@@ -384,6 +499,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " REFERENCES inventory_report (FK_repQuarter,FK_repYear) ON DELETE CASCADE ON UPDATE CASCADE )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generateProductInOutcomeReport(Connection con) throws SQLException {
 		String tableName = "product_in_outcome_report";
@@ -416,6 +536,11 @@ public class TableGenerator { // creating the tables if they are not exists
 //				+ " REFERENCES product (productName) ON DELETE CASCADE ON UPDATE CASCADE )";
 //		generateTable(con, tableName, values);
 //	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generateProductInSalesPattern(Connection con) throws SQLException {
 		String tableName = "product_in_sales_pattern";
@@ -431,6 +556,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " REFERENCES product (productName) ON DELETE CASCADE ON UPDATE CASCADE )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generateProductInStation(Connection con) throws SQLException {
 		String tableName = "product_in_station";
@@ -456,6 +586,11 @@ public class TableGenerator { // creating the tables if they are not exists
 //				+ " PRIMARY KEY (updateRateRequestID) )";
 //		generateTable(con, tableName, values);
 //	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generatePurchasingProgram(Connection con) throws SQLException {
 		String tableName = "purchasing_program";
@@ -485,6 +620,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " REFERENCES fuel_company (fuelCompanyName) ON DELETE CASCADE ON UPDATE CASCADE )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generatePurchasingProgramType(Connection con) throws SQLException {
 		String tableName = "purchasing_program_type";
@@ -492,6 +632,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " monthlyPrice DOUBLE(32,2) NOT NULL ," + " PRIMARY KEY (purchasingProgramName) )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generateQuarterlyReport(Connection con) throws SQLException {
 		String tableName = "quarterly_report";
@@ -504,6 +649,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " REFERENCES fuel_station (fuelStationID) ON DELETE CASCADE ON UPDATE CASCADE )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generateRankingSheet(Connection con) throws SQLException {
 		String tableName = "ranking_sheet";
@@ -516,6 +666,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " REFERENCES customer (customerID) ON DELETE CASCADE ON UPDATE CASCADE )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generateSale(Connection con) throws SQLException {
 		String tableName = "sale";
@@ -526,6 +681,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " REFERENCES sales_pattern (salesPatternID) ON DELETE CASCADE ON UPDATE CASCADE )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generateSaleCommentsReport(Connection con) throws SQLException {
 		String tableName = "sale_comments_report";
@@ -538,6 +698,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " REFERENCES sale (saleID) ON DELETE CASCADE ON UPDATE CASCADE )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generateSalesPattern(Connection con) throws SQLException {
 		String tableName = "sales_pattern";
@@ -545,7 +710,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " PRIMARY KEY (salesPatternID) )";
 		generateTable(con, tableName, values);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */	
 	private static void generateShipmentMethod(Connection con) throws SQLException {
 		String tableName = "shipment_method";
 		String values = "( " + " shipmentType varchar(1000) NOT NULL ," + " shipmentPrice DOUBLE(32,2) NOT NULL ,"
@@ -553,6 +722,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " PRIMARY KEY (shipmentType) )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generateUser(Connection con) throws SQLException {
 		String tableName = "user";
@@ -561,6 +735,11 @@ public class TableGenerator { // creating the tables if they are not exists
 				+ " firstName varchar(1000) NOT NULL ," + " surname varchar(1000) NOT NULL ," + " PRIMARY KEY (username) )";
 		generateTable(con, tableName, values);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void generatePricingModelUpdateRequest(Connection con) throws SQLException {
 		String tableName = "pricing_model_update_request";

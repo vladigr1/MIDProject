@@ -91,6 +91,12 @@ public class DefaultTableInserts {
 			return true;
 		return false;
 	}
+	
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void insertDefaultUser(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "user") == false)
@@ -130,7 +136,11 @@ public class DefaultTableInserts {
 				"IsraelTheDelekFuelStationManager@gmail.com", "Israel", "TheDelekFuelStationManager" };
 		TableInserts.insertUser(con, values11);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultEmployee(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "employee") == false)
 			return;
@@ -158,6 +168,11 @@ public class DefaultTableInserts {
 				Affiliation.FuelStation.toString() };
 		TableInserts.insertEmployee(con, values9);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void insertDefaultCustomer(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "customer") == false)
@@ -170,6 +185,11 @@ public class DefaultTableInserts {
 				CustomerType.Company.toString(), false };
 		TableInserts.insertCustomer(con, values2);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void insertDefaultSalesPattern(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "sales_pattern") == false)
@@ -181,6 +201,11 @@ public class DefaultTableInserts {
 		Object[] values2 = { 60 };
 		TableInserts.insertSalesPattern(con, values2);
 	}
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 
 	private static void insertDefaultFuelStationManager(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "fuel_station_manager") == false)
@@ -193,7 +218,11 @@ public class DefaultTableInserts {
 		Object[] values3 = { "9", "0509999999" };
 		TableInserts.insertFuelStationManager(con, values3);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultProduct(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "product") == false)
 			return;
@@ -207,7 +236,11 @@ public class DefaultTableInserts {
 		Object[] values4 = { ProductName.HomeFuel.toString(), 5, 2 };
 		TableInserts.insertProduct(con, values4);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultProductInSalesPattern(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "product_in_sales_pattern") == false)
 			return;
@@ -219,7 +252,11 @@ public class DefaultTableInserts {
 		Object[] values3 = { "2", ProductName.Gasoline.toString(), 1 };
 		TableInserts.insertProductInSalesPattern(con, values3);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultSale(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "sale") == false)
 			return;
@@ -294,7 +331,11 @@ public class DefaultTableInserts {
 //		Object[] values7 = { "3", ProductName.HomeFuel.toString(), 3 };
 //		TableInserts.insertProductInRequest(con, values7);
 //	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultFuelCompany(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "fuel_company") == false)
 			return;
@@ -306,7 +347,11 @@ public class DefaultTableInserts {
 		Object[] values3 = { FuelCompanyName.Delek.toString(), "8" };
 		TableInserts.insertFuelCompany(con, values3);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultFuelStation(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "fuel_station") == false)
 			return;
@@ -318,7 +363,11 @@ public class DefaultTableInserts {
 		Object[] values3 = { "Delek", "9", "Delek Dror", "Dror St, Karmiel" };
 		TableInserts.insertFuelStation(con, values3);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultProductInStation(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "product_in_station") == false)
 			return;
@@ -342,7 +391,11 @@ public class DefaultTableInserts {
 		Object[] values9 = { ProductName.MotorbikeFuel.toString(), "3", 5000 / 5, 1500 / 5 };
 		TableInserts.insertProductInStation(con, values9);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultQuarterlyReport(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "quarterly_report") == false)
 			return;
@@ -358,7 +411,11 @@ public class DefaultTableInserts {
 		Object[] values3 = { 2, "2019", "3", calendar1.getTime() };
 		TableInserts.insertQuarterlyReport(con, values3);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultIncomeReport(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "income_report") == false)
 			return;
@@ -370,7 +427,11 @@ public class DefaultTableInserts {
 		Object[] values3 = { 2, "2019", "3", 1113 };
 		TableInserts.insertIncomeReport(con, values3);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultProductInIncomeReport(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "product_in_income_report") == false)
 			return;
@@ -395,7 +456,11 @@ public class DefaultTableInserts {
 		Object[] values9 = { "9", 2, "2019", 1113 / 3, 6.5 };
 		TableInserts.insertProductInIncomeReport(con, values9);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultOutcomeReport(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "outcome_report") == false)
 			return;
@@ -408,7 +473,11 @@ public class DefaultTableInserts {
 		Object[] values3 = { 2, "2019", "3", 286.74 };
 		TableInserts.insertOutcomeReport(con, values3);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultProductInOutcomeReport(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "product_in_outcome_report") == false)
 			return;
@@ -433,7 +502,11 @@ public class DefaultTableInserts {
 		Object[] values9 = { "9", 2, "2019", 1113 / 3 / 6.5 };
 		TableInserts.insertProductInOutcomeReport(con, values9);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultInventoryReport(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "inventory_report") == false)
 			return;
@@ -445,7 +518,11 @@ public class DefaultTableInserts {
 		Object[] values3 = { 2, "2019", "3", 286.74 };
 		TableInserts.insertInventoryReport(con, values3);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultProductInInventoryReport(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "product_in_inventory_report") == false)
 			return;
@@ -470,7 +547,11 @@ public class DefaultTableInserts {
 		Object[] values9 = { "9", 2, "2019", 1113 / 3 / 6.5 };
 		TableInserts.insertProductInInventoryReport(con, values9);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultCustomerBoughtInSale(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "customer_bought_in_sale") == false)
 			return;
@@ -482,7 +563,11 @@ public class DefaultTableInserts {
 		Object[] values3 = { "2", "222222222", 188 };
 		TableInserts.insertCustomerBoughtInSale(con, values3);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultSaleCommentsReport(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "sale_comments_report") == false)
 			return;
@@ -496,7 +581,11 @@ public class DefaultTableInserts {
 		Object[] values2 = { "2", 1, 188, calendar1.getTime() };
 		TableInserts.insertSaleCommentsReport(con, values2);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultCar(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "car") == false)
 			return;
@@ -519,7 +608,11 @@ public class DefaultTableInserts {
 		Object[] values8 = { "9951599", "222222222", ProductName.MotorbikeFuel.toString(), "Israel Ltd", false };
 		TableInserts.insertCar(con, values8);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultRankingSheet(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "ranking_sheet") == false)
 			return;
@@ -534,7 +627,11 @@ public class DefaultTableInserts {
 		Object[] values2 = { "222222222", "10", "10", "9", calendar1.getTime() };
 		TableInserts.insertRankingSheet(con, values2);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultPricingModelType(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "pricing_model_type") == false)
 			return;
@@ -560,7 +657,11 @@ public class DefaultTableInserts {
 		Object[] values4 = { pricingModelType4, description4, defaultDiscount4 };
 		TableInserts.insertPricingModelType(con, values4);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultPricingModel(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "pricing_model") == false)
 			return;
@@ -572,7 +673,11 @@ public class DefaultTableInserts {
 		Object[] values2 = { "111111111", PricingModelName.FullProgramSingleCar.toString(), 0.17, 0.99 };
 		TableInserts.insertPricingModel2(con, values2);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultNotification(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "notification") == false)
 			return;
@@ -599,7 +704,11 @@ public class DefaultTableInserts {
 		Object[] values4 = { "1", "a station order is ready to be assessed", false, calendar1.getTime() };
 		TableInserts.insertNotification(con, values4);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultShipmentMethod(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "shipment_method") == false)
 			return;
@@ -609,7 +718,11 @@ public class DefaultTableInserts {
 		Object[] values2 = { ShipmentType.Urgent.toString(), 5.5, 1.02, "6 Hours" };
 		TableInserts.insertShipmentMethod(con, values2);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultOrders(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "orders") == false)
 			return;
@@ -677,7 +790,11 @@ public class DefaultTableInserts {
 		Object[] values13 = { calendar1.getTime(), 4275, "Peretz St, Kiryat Ata" }; // fsmanager1
 		TableInserts.insertOrders(con, values13);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultFuelStationOrder(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "fuel_station_order") == false)
 			return;
@@ -725,7 +842,11 @@ public class DefaultTableInserts {
 		Object[] values11 = { "13", "2", false, false };
 		TableInserts.insertFuelStationOrder1(con, values11);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultPurchasingProgramType(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "purchasing_program_type") == false)
 			return;
@@ -737,7 +858,11 @@ public class DefaultTableInserts {
 				"Fast fueling in fuel stations of 2-3 fuel companies", 20 };
 		TableInserts.insertPurchasingProgramType(con, values2);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultHomeFuelOrder(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "home_fuel_order") == false)
 			return;
@@ -761,7 +886,11 @@ public class DefaultTableInserts {
 				calendar1.getTime(), 821.5 };
 		TableInserts.insertHomeFuelOrder(con, values2);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultPurchasingProgram(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "purchasing_program") == false)
 			return;
@@ -774,7 +903,11 @@ public class DefaultTableInserts {
 				FuelCompanyName.Paz.toString(), FuelCompanyName.Delek.toString() };
 		TableInserts.insertPurchasingProgram3(con, values2);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertCustomerBoughtFromCompany(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "customer_bought_from_company") == false)
 			return;
@@ -791,7 +924,11 @@ public class DefaultTableInserts {
 		Object[] values3 = { "222222222", FuelCompanyName.Delek.toString(), calendar1.getTime(), 4823, 1113 };
 		TableInserts.insertCustomerBoughtFromCompany(con, values3);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultPeriodicCustomersReport(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "periodic_customers_report") == false)
 			return;
@@ -811,7 +948,11 @@ public class DefaultTableInserts {
 		Object[] values1 = { calendar1.getTime(), calendar2.getTime(), calendar3.getTime() };
 		TableInserts.insertPeriodicCustomersReport(con, values1);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultPricingModelUpdateRequest(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "pricing_model_update_request") == false)
 			return;
@@ -831,7 +972,11 @@ public class DefaultTableInserts {
 				"No Bueno" };
 		TableInserts.insertPricingModelUpdateRequest2(con, values2);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultActivity(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "activity") == false)
 			return;
@@ -1022,7 +1167,11 @@ public class DefaultTableInserts {
 		Object[] values29 = { "8", calendar1.getTime(), "applied supplyment of fuelstationorder 9" };
 		TableInserts.insertActivity(con, values29);
 	}
-
+	/**
+	 * 
+	 * @param con
+	 * @throws SQLException
+	 */
 	private static void insertDefaultFastFuel(Connection con) throws SQLException {
 		if (checkTableEmpty(con, "fast_fuel") == false)
 			return;

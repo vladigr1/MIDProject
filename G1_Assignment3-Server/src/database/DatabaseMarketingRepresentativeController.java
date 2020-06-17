@@ -246,6 +246,11 @@ public class DatabaseMarketingRepresentativeController {
 			return "update customer fail";
 		}
 	}
+	/**
+	 * 
+	 * @param customerID
+	 * @return Object[]
+	 */
 
 	public Object[] getCustomerDetails(String customerID) {
 		try {
@@ -716,6 +721,10 @@ public class DatabaseMarketingRepresentativeController {
 			return "set pricing model fail";
 		}
 	}
+	/**
+	 * 
+	 * @return Map<PricingModelName, Double>
+	 */
 
 	public Map<PricingModelName, Double> getAllPricingModelDiscounts() {
 		try {

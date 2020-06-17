@@ -39,6 +39,12 @@ public class DatabaseNetworkManagerController {
 		}
 		return instance;
 	}
+	
+	/**
+	 * 
+	 * @param netManager
+	 * @return MyNetManager
+	 */
 
 	public MyNetManager getAllFuelStationIDs(MyNetManager netManager) {
 		try {
@@ -69,6 +75,11 @@ public class DatabaseNetworkManagerController {
 			return null;
 		}
 	}
+	/**
+	 * 
+	 * @param netManager
+	 * @return MyNetManager
+	 */
 
 	public MyNetManager getAllUnAssessedRequests(MyNetManager netManager) {
 		try {
@@ -101,6 +112,11 @@ public class DatabaseNetworkManagerController {
 			return null;
 		}
 	}
+	/**
+	 * 
+	 * @param netManager
+	 * @return MyNetManager
+	 */
 
 	public MyNetManager setRequestDeclined(MyNetManager netManager) {
 		try {
@@ -125,6 +141,12 @@ public class DatabaseNetworkManagerController {
 			return null;
 		}
 	}
+	
+	/**
+	 * 
+	 * @param netManager
+	 * @return MyNetManager
+	 */
 
 	public MyNetManager setRequestApproved(MyNetManager netManager) {
 		try {
@@ -175,6 +197,11 @@ public class DatabaseNetworkManagerController {
 		}
 	}
 
+	/**
+	 * 
+	 * @param netManager
+	 * @return MyNetManager
+	 */
 	public MyNetManager getRequestDetails(MyNetManager netManager) {
 		try {
 			String[] splitMsg = netManager.getFunction().split(" ");
