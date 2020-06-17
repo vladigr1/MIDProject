@@ -57,6 +57,9 @@ public class LoginWindow extends AFXML {
 	@FXML
 	private Button btnEmu;
 
+	/**
+	 * runs every time this windows goes live 
+	 */
 	@FXML
 	void initialize() {
 		this.visibleNow = this.serverPane;

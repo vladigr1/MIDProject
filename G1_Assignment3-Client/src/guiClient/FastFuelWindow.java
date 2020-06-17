@@ -57,12 +57,18 @@ public class FastFuelWindow extends AFXML {
 	private static FastFuel currentEmulation;
 	private double pricePerLiter;
 
+	/**
+	 * runs every time this windows goes live 
+	 */
 	@FXML
 	void initialize() {
 		this.controller = FastFuelController.getInstance();
 		this.controller.setCurrentWindow(this);
 	}
 
+	/**
+	 * returns the window entity of this boundary
+	 */
 	private Window getWindow() {
 		return this.btnEmulate.getScene().getWindow();
 	}

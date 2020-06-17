@@ -7,12 +7,17 @@ import entities.MyFuelStationManager;
 import entities.MyNetManager;
 
 /**
+ * logic controller for network manager
+ * 
  * @version Final
  * @author Lior
  *
  */
 public class NetworkManagerController extends UserController {
 
+	/**
+	 * singleton instance
+	 */
 	private static NetworkManagerController instance;
 
 	/**
@@ -32,6 +37,17 @@ public class NetworkManagerController extends UserController {
 		return instance;
 	}
 
+	/**
+	 * receives string from the window
+	 * <p>
+	 * opens connection to the server
+	 * <p>
+	 * sends the server a request accordingly
+	 * <p>
+	 * calls <code>callAfterMessage()</code> of <code>currentWindow</code>
+	 * 
+	 * @param message
+	 */
 	@Override
 	public void handleMessageFromClientUI(String message) {
 		if (message.startsWith("signout") || message.startsWith("activity")) {

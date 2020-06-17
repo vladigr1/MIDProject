@@ -16,6 +16,9 @@ import javafx.stage.StageStyle;
  */
 public class MainClient extends Application {
 
+	/**
+	 * opens login window and creates a new instance of login boundary
+	 */
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -33,6 +36,11 @@ public class MainClient extends Application {
 		}
 	}
 
+	/**
+	 * 
+	 * @param args
+	 * @throws Exception
+	 */
 	public static void main(String args[]) throws Exception {
 		launch(args);
 	}

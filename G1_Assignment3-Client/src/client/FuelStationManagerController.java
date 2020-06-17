@@ -6,13 +6,18 @@ import java.net.ConnectException;
 import entities.MyFuelStationManager;
 
 /**
+ * logic controller for fuel station manager
+ * 
  * @version Final
  * @author Liad
- *
  */
 public class FuelStationManagerController extends UserController {
 
+	/**
+	 * singleton instance
+	 */
 	private static FuelStationManagerController instance;
+
 	private boolean logged = false;
 
 	/**
@@ -32,6 +37,17 @@ public class FuelStationManagerController extends UserController {
 		return instance;
 	}
 
+	/**
+	 * receives string from the window
+	 * <p>
+	 * opens connection to the server
+	 * <p>
+	 * sends the server a request accordingly
+	 * <p>
+	 * calls <code>callAfterMessage()</code> of <code>currentWindow</code>
+	 * 
+	 * @param message
+	 */
 	@Override
 	public void handleMessageFromClientUI(String message) {
 		if (logged == false || message.startsWith("signout") || message.startsWith("activity")) {

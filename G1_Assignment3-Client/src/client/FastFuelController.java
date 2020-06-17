@@ -7,11 +7,16 @@ import entities.FastFuel;
 import guiClient.FastFuelWindow;
 
 /**
+ * logic controller for fast fuel simulator
+ * 
  * @version Final
  * @author Lior
  */
 public class FastFuelController extends ClientController {
 
+	/**
+	 * singleton instance
+	 */
 	private static FastFuelController instance;
 
 	/**
@@ -31,6 +36,17 @@ public class FastFuelController extends ClientController {
 		return instance;
 	}
 
+	/**
+	 * receives string from the window
+	 * <p>
+	 * opens connection to the server
+	 * <p>
+	 * sends the server a request accordingly
+	 * <p>
+	 * calls <code>callAfterMessage()</code> of <code>currentWindow</code>
+	 * 
+	 * @param message
+	 */
 	@Override
 	public void handleMessageFromClientUI(String message) {
 		String[] splitMsg = message.split(" ");

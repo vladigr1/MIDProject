@@ -277,6 +277,9 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	private boolean deletedACarFlag = false;
 	private String deletedACarCustomerID;
 
+	/**
+	 * runs every time this windows goes live 
+	 */
 	@FXML
 	void initialize() {
 		this.homePane.setVisible(true);
@@ -299,6 +302,9 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		initializeRankingSheetTable();
 	}
 
+	/**
+	 * returns the window entity of this boundary
+	 */
 	@Override
 	public Window getWindow() {
 		return this.addEditCustomerPane.getScene().getWindow();
@@ -307,8 +313,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	/*********************** button listeners ***********************/
 
 	/**
-	 * click on side button Home
-	 * 
+	 * button listener for home sidebar button
 	 * @param event
 	 */
 	@Override

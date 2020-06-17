@@ -52,7 +52,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Window;
 
 /**
- * @version NEED FIX!
+ * @version Final
  * @author Elroy, Lior
  *
  */
@@ -202,6 +202,9 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	private int choosesPatternID = 0;
 	private int choosesPatternDuration = 0;
 
+	/**
+	 * runs every time this windows goes live 
+	 */
 	@FXML
 	void initialize() {
 		this.visibleNow = homePane;
@@ -239,6 +242,9 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		tfPCRTo.setFocusTraversable(false);
 	}
 
+	/**
+	 * returns the window entity of this boundary
+	 */
 	@Override
 	public Window getWindow() {
 		return this.requestRateUpdatePane.getScene().getWindow();
@@ -461,6 +467,10 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 
 ///////// Home Page Start: //////////////
 
+	/**
+	 * button listener for home sidebar button
+	 * @param event
+	 */
 	@FXML
 	void openHome(ActionEvent event) {
 		this.topbar_window_label.setText("Home");
@@ -732,8 +742,10 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 			lblMonthlySingleERR.setVisible(false);
 			tfMonthSingleSet.setStyle("-fx-border-style: none;");
 			tfMonthSingleSet.setDisable(true);
+			btnRPMU.setDisable(true);
 		} else {
 			tfMonthSingleSet.setDisable(false);
+			btnRPMU.setDisable(false);
 		}
 
 		tfPayInPlaceSet.setDisable(true);
@@ -764,8 +776,10 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 			lblMonthMultipleERR.setVisible(false);
 			tfMultipleSet.setStyle("-fx-border-style: none;");
 			tfMultipleSet.setDisable(true);
+			btnRPMU.setDisable(true);
 		} else {
 			tfMultipleSet.setDisable(false);
+			btnRPMU.setDisable(false);
 		}
 
 		tfPayInPlaceSet.setDisable(true);
@@ -797,8 +811,10 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 			lblFullSingleERR.setVisible(false);
 			tfFullSingleSet.setStyle("-fx-border-style: none;");
 			tfFullSingleSet.setDisable(true);
+			btnRPMU.setDisable(true);
 		} else {
 			tfFullSingleSet.setDisable(false);
+			btnRPMU.setDisable(false);
 		}
 
 		tfPayInPlaceSet.setDisable(true);
@@ -1575,6 +1591,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		tfMultipleSet.setStyle("-fx-border-style: none;");
 		tfFullSingleSet.clear();
 		tfFullSingleSet.setStyle("-fx-border-style: none;");
+		btnRPMU.setDisable(true);
 	}
 
 ///////// Request Product Rate Update Start: //////////////

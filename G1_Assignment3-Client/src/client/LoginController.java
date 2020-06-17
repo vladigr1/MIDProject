@@ -9,13 +9,16 @@ import entities.User;
 import guiClient.LoginWindow;
 
 /**
- * controller for login window
+ * logic controller for login window
  * 
  * @version Final
  * @author Elroy, Lior
  */
 public class LoginController extends ClientController {
 
+	/**
+	 * singleton instance
+	 */
 	private static LoginController instance;
 
 	/**
@@ -44,6 +47,8 @@ public class LoginController extends ClientController {
 	}
 
 	/**
+	 * doesn't create an instance if server is down
+	 * 
 	 * @return instance of this class for parameter host port
 	 */
 	public static LoginController getInstance(String host, int port, LoginWindow loginWindow) {
@@ -70,10 +75,25 @@ public class LoginController extends ClientController {
 		return instance;
 	}
 
+	/**
+	 * 
+	 * @return instance of login controller, assuming it isn't null
+	 */
 	public static LoginController getInstance() {
 		return instance;
 	}
 
+	/**
+	 * receives string from the window
+	 * <p>
+	 * opens connection to the server
+	 * <p>
+	 * sends the server a request accordingly
+	 * <p>
+	 * calls <code>callAfterMessage()</code> of <code>currentWindow</code>
+	 * 
+	 * @param message
+	 */
 	@Override
 	public void handleMessageFromClientUI(String message) {
 		try {

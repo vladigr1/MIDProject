@@ -181,6 +181,9 @@ public class FuelStationManagerWindow extends QuarterlyReportWindow {
 		}
 	}
 
+	/**
+	 * returns the window entity of this boundary
+	 */
 	@Override
 	public Window getWindow() {
 		return this.assessPane.getScene().getWindow();
@@ -191,8 +194,7 @@ public class FuelStationManagerWindow extends QuarterlyReportWindow {
 	 **********************************************************************/
 
 	/**
-	 * click on side button Home
-	 * 
+	 * button listener for home sidebar button
 	 * @param event
 	 */
 	void openHome(ActionEvent event) {
@@ -436,6 +438,10 @@ public class FuelStationManagerWindow extends QuarterlyReportWindow {
 	/**********************************************************************
 	 * initialize methods
 	 **********************************************************************/
+
+	/**
+	 * runs every time this windows goes live
+	 */
 	@FXML
 	void initialize() {
 		this.visibleNow = this.homePane;

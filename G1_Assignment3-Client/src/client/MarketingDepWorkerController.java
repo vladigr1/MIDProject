@@ -6,11 +6,24 @@ import java.net.ConnectException;
 import entities.MarketingManager;
 
 /**
+ * logic controller for marketing department workers
+ * 
  * @version Final
  * @author Lior, Elroy
  */
 public abstract class MarketingDepWorkerController extends UserController {
 
+	/**
+	 * receives string from the window
+	 * <p>
+	 * opens connection to the server
+	 * <p>
+	 * sends the server a request accordingly
+	 * <p>
+	 * calls <code>callAfterMessage()</code> of <code>currentWindow</code>
+	 * 
+	 * @param message
+	 */
 	public void handleDepWorkerRequest(String message) {
 		try {
 			System.out.println("message from clientUI : " + message);

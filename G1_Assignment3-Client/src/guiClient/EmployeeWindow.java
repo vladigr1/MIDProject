@@ -30,6 +30,12 @@ public abstract class EmployeeWindow extends UserWindow {
 
 	/*********************** button listeners ***********************/
 
+	/**
+	 * button listener for all employees' home sidebar button, initializes activity
+	 * tableview too
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void openHome(ActionEvent event) {
 		this.visibleNow.setVisible(false);

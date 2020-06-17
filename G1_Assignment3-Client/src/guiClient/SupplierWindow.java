@@ -74,6 +74,9 @@ public class SupplierWindow extends EmployeeWindow {
 	 */
 	private Integer[] fuelStationIDs;
 
+	/**
+	 * runs every time this windows goes live
+	 */
 	@FXML
 	void initialize() {
 		this.homePane.setVisible(true);
@@ -85,11 +88,19 @@ public class SupplierWindow extends EmployeeWindow {
 		this.controller.setCurrentWindow(this);
 	}
 
+	/**
+	 * returns the window entity of this boundary
+	 */
 	@Override
 	public Window getWindow() {
 		return this.approveSuppliedPane.getScene().getWindow();
 	}
 
+	/**
+	 * button listener for home sidebar button
+	 * 
+	 * @param event
+	 */
 	void openHome(ActionEvent event) {
 		super.openHome(event);
 		sidebar_btn0.setSelected(true);

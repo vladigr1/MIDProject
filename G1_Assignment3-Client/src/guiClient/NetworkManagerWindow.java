@@ -54,6 +54,9 @@ public class NetworkManagerWindow extends QuarterlyReportWindow {
 	@FXML
 	private ComboBox<Integer> cobAPMRequestID;
 
+	/**
+	 * runs every time this windows goes live 
+	 */
 	@FXML
 	void initialize() {
 		this.visibleNow = this.homePane;
@@ -68,6 +71,9 @@ public class NetworkManagerWindow extends QuarterlyReportWindow {
 		controller.handleMessageFromClientUI("getAllFuelStationIDs");
 	}
 
+	/**
+	 * returns the window entity of this boundary
+	 */
 	@Override
 	public Window getWindow() {
 		return this.assessPane.getScene().getWindow();
