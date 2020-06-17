@@ -89,7 +89,7 @@ public class TableGenerator { // creating the tables if they are not exists
 	private static void generateActivity(Connection con) throws SQLException {
 		String tableName = "activity";
 		String values = "( " + " activityID int NOT NULL AUTO_INCREMENT ," + " FK_employeeID INT NOT NULL ,"
-				+ " time TIMESTAMP NOT NULL ," + " action varchar(1000) NOT NULL ," + " PRIMARY KEY (activityID) ,"
+				+ " time TIMESTAMP NOT NULL ," + " action varchar(500) NOT NULL ," + " PRIMARY KEY (activityID) ,"
 				// fk1
 				+ " KEY activity_ibfk_1 (FK_employeeID) ," + " CONSTRAINT activity_ibfk_1 FOREIGN KEY (FK_employeeID) "
 				+ " REFERENCES employee (employeeID) ON DELETE CASCADE ON UPDATE CASCADE )";
@@ -103,8 +103,8 @@ public class TableGenerator { // creating the tables if they are not exists
 
 	private static void generateCar(Connection con) throws SQLException {
 		String tableName = "car";
-		String values = "( " + " registrationPlate varchar(1000) NOT NULL ," + " FK_customerID varchar(1000) NOT NULL ,"
-				+ " FK_productName varchar(1000) NOT NULL ," + " ownerName varchar(1000) NOT NULL ,"
+		String values = "( " + " registrationPlate varchar(50) NOT NULL ," + " FK_customerID varchar(50) NOT NULL ,"
+				+ " FK_productName varchar(50) NOT NULL ," + " ownerName varchar(500) NOT NULL ,"
 				+ " deleted varchar(1) NOT NULL ," + " PRIMARY KEY (registrationPlate) ,"
 				// fk1
 				+ " KEY car_ibfk_1 (FK_productName) ," + " CONSTRAINT car_ibfk_1 FOREIGN KEY (FK_productName) "
@@ -122,8 +122,8 @@ public class TableGenerator { // creating the tables if they are not exists
 
 	private static void generateCustomer(Connection con) throws SQLException {
 		String tableName = "customer";
-		String values = "( " + " customerID varchar(1000) NOT NULL ," + " FK_username varchar(1000) NOT NULL UNIQUE ,"
-				+ " creditCard varchar(1000) NOT NULL ," + " customerType varchar(1000) NOT NULL ,"
+		String values = "( " + " customerID varchar(50) NOT NULL ," + " FK_username varchar(50) NOT NULL UNIQUE ,"
+				+ " creditCard varchar(20) NOT NULL ," + " customerType varchar(50) NOT NULL ,"
 				+ " deleted varchar(1) NOT NULL ," + " PRIMARY KEY (customerID) )";
 		generateTable(con, tableName, values);
 	}
@@ -135,7 +135,7 @@ public class TableGenerator { // creating the tables if they are not exists
 
 	private static void generateCustomerBoughtFromCompany(Connection con) throws SQLException {
 		String tableName = "customer_bought_from_company";
-		String values = "( " + " FK_customerID varchar(1000) NOT NULL ," + " FK_fuelCompanyName varchar(1000) NOT NULL ,"
+		String values = "( " + " FK_customerID varchar(50) NOT NULL ," + " FK_fuelCompanyName varchar(50) NOT NULL ,"
 				+ " dateOfPurchase TIMESTAMP NOT NULL ," + " amountBoughtFromCompany DOUBLE(32,2) NOT NULL ,"
 				+ " amountPaidCompany DOUBLE(32,2) NOT NULL ,"
 				+ " PRIMARY KEY (FK_customerID,FK_fuelCompanyName,dateOfPurchase) ,"
@@ -157,7 +157,7 @@ public class TableGenerator { // creating the tables if they are not exists
 
 	private static void generateCustomerBoughtInSale(Connection con) throws SQLException {
 		String tableName = "customer_bought_in_sale";
-		String values = "( " + " FK_saleID INT NOT NULL ," + " FK_customerID varchar(1000) NOT NULL ,"
+		String values = "( " + " FK_saleID INT NOT NULL ," + " FK_customerID varchar(50) NOT NULL ,"
 				+ " amountPaid DOUBLE(32,2) NOT NULL ," + " PRIMARY KEY (FK_saleID, FK_customerID) ,"
 				// fk1
 				+ " KEY customer_bought_in_sale_ibfk_1 (FK_saleID) ,"
@@ -178,8 +178,8 @@ public class TableGenerator { // creating the tables if they are not exists
 	private static void generateEmployee(Connection con) throws SQLException {
 		String tableName = "employee";
 		String values = "( " + " employeeID int NOT NULL AUTO_INCREMENT ,"
-				+ " FK_userName varchar(1000) NOT NULL UNIQUE ," + " role varchar(1000) NOT NULL ,"
-				+ " affiliation varchar(1000) NOT NULL ," + " PRIMARY KEY (employeeID) ,"
+				+ " FK_userName varchar(50) NOT NULL UNIQUE ," + " role varchar(50) NOT NULL ,"
+				+ " affiliation varchar(50) NOT NULL ," + " PRIMARY KEY (employeeID) ,"
 				// fk1
 				+ " KEY employee_ibfk_1 (FK_userName) ," + " CONSTRAINT employee_ibfk_1 FOREIGN KEY (FK_userName) "
 				+ " REFERENCES user (username) ON DELETE CASCADE ON UPDATE CASCADE )";
@@ -194,7 +194,7 @@ public class TableGenerator { // creating the tables if they are not exists
 	private static void generateFastFuel(Connection con) throws SQLException {
 		String tableName = "fast_fuel";
 		String values = "( " + " fastFuelID INT NOT NULL AUTO_INCREMENT ,"
-				+ " FK_registrationPlate varchar(1000) NOT NULL ," + " FK_customerID varchar(1000) NOT NULL ,"
+				+ " FK_registrationPlate varchar(50) NOT NULL ," + " FK_customerID varchar(50) NOT NULL ,"
 				+ " FK_productInStationID INT NOT NULL ," + " fastFuelTime TIMESTAMP NOT NULL ,"
 				+ " amountBought DOUBLE(32,2) NOT NULL ," + " finalPrice DOUBLE(32,2) NOT NULL ,"
 				+ " PRIMARY KEY (fastFuelID) ,"
@@ -220,7 +220,7 @@ public class TableGenerator { // creating the tables if they are not exists
 
 	private static void generateFuelCompany(Connection con) throws SQLException {
 		String tableName = "fuel_company";
-		String values = "( " + " fuelCompanyName varchar(1000) NOT NULL ," + " FK_employeeID int NOT NULL ," // supplier
+		String values = "( " + " fuelCompanyName varchar(50) NOT NULL ," + " FK_employeeID int NOT NULL ," // supplier
 				+ " PRIMARY KEY (fuelCompanyName) ,"
 				// fk1
 				+ " KEY fuel_company_ibfk_1 (FK_employeeID) ,"
@@ -237,8 +237,8 @@ public class TableGenerator { // creating the tables if they are not exists
 	private static void generateFuelStation(Connection con) throws SQLException {
 		String tableName = "fuel_station";
 		String values = "( " + " fuelStationID INT NOT NULL AUTO_INCREMENT ,"
-				+ " FK_fuelCompanyName varchar(1000) NOT NULL ," + " FK_employeeID INT NOT NULL UNIQUE ,"
-				+ " stationName varchar(1000) NOT NULL UNIQUE ," + " address varchar(1000) NOT NULL ,"
+				+ " FK_fuelCompanyName varchar(50) NOT NULL ," + " FK_employeeID INT NOT NULL UNIQUE ,"
+				+ " stationName varchar(500) NOT NULL UNIQUE ," + " address varchar(500) NOT NULL ,"
 				+ " PRIMARY KEY (fuelStationID) ,"
 				// fk1
 				+ " KEY fuel_station_ibfk_1 (FK_fuelCompanyName) ,"
@@ -258,7 +258,7 @@ public class TableGenerator { // creating the tables if they are not exists
 
 	private static void generateFuelStationManager(Connection con) throws SQLException {
 		String tableName = "fuel_station_manager";
-		String values = "( " + " FK_employeeID int NOT NULL ," + " phoneNo varchar(1000) NOT NULL ,"
+		String values = "( " + " FK_employeeID int NOT NULL ," + " phoneNo varchar(50) NOT NULL ,"
 				+ " PRIMARY KEY (FK_employeeID) ,"
 				// fk1
 				+ " KEY fuel_station_manager_ibfk_1 (FK_employeeID) ,"
@@ -275,7 +275,7 @@ public class TableGenerator { // creating the tables if they are not exists
 	private static void generateFuelStationOrder(Connection con) throws SQLException {
 		String tableName = "fuel_station_order";
 		String values = "( " + "FK_ordersID INT NOT NULL ," + "FK_productInStationID INT NOT NULL ,"
-				+ "assessed varchar(1) NOT NULL ," + "approved varchar(1) ," + "reasonDismissal varchar(1000) ,"
+				+ "assessed varchar(1) NOT NULL ," + "approved varchar(1) ," + "reasonDismissal varchar(500) ,"
 				+ "supplied varchar(1) NOT NULL ," + "timeSupplied TIMESTAMP ," + " PRIMARY KEY (fk_ordersID) ,"
 				// fk1
 				+ " KEY fuel_station_order_ibfk_1 (FK_productInStationID) ,"
@@ -295,8 +295,8 @@ public class TableGenerator { // creating the tables if they are not exists
 
 	private static void generateHomeFuelOrder(Connection con) throws SQLException {
 		String tableName = "home_fuel_order";
-		String values = "( " + " FK_ordersID int NOT NULL ," + " FK_customerID varchar(1000) NOT NULL ,"
-				+ " FK_product_Name varchar(1000) NOT NULL ," + " FK_shipmentType varchar(1000) NOT NULL ,"
+		String values = "( " + " FK_ordersID int NOT NULL ," + " FK_customerID varchar(50) NOT NULL ,"
+				+ " FK_product_Name varchar(50) NOT NULL ," + " FK_shipmentType varchar(50) NOT NULL ,"
 				+ " duetime TIMESTAMP NOT NULL ," + " finalPrice DOUBLE(32,2) NOT NULL ,"
 				+ " PRIMARY KEY (FK_ordersID) ,"
 				// fk1
@@ -325,7 +325,7 @@ public class TableGenerator { // creating the tables if they are not exists
 
 	private static void generateIncomeReport(Connection con) throws SQLException {
 		String tableName = "income_report";
-		String values = "( " + " FK_repQuarter INT NOT NULL," + " FK_repYear varchar(1000) NOT NULL ,"
+		String values = "( " + " FK_repQuarter INT NOT NULL," + " FK_repYear varchar(50) NOT NULL ,"
 				+ " FK_fuelStationID INT NOT NULL , " + " totalIncome DOUBLE(32,2) NOT NULL , "
 				+ " PRIMARY KEY (FK_repQuarter,FK_repYear,FK_fuelStationID) ,"
 				// fk1
@@ -342,7 +342,7 @@ public class TableGenerator { // creating the tables if they are not exists
 
 	private static void generateInventoryReport(Connection con) throws SQLException {
 		String tableName = "inventory_report";
-		String values = "( " + " FK_repQuarter INT NOT NULL ," + " FK_repYear varchar(1000) NOT NULL ,"
+		String values = "( " + " FK_repQuarter INT NOT NULL ," + " FK_repYear varchar(50) NOT NULL ,"
 				+ " FK_fuelStationID INT NOT NULL , " + " totalAmountSold DOUBLE(32,2) NOT NULL , "
 				+ " PRIMARY KEY (FK_repQuarter,FK_repYear,FK_fuelStationID) ,"
 				// fk1
@@ -361,7 +361,7 @@ public class TableGenerator { // creating the tables if they are not exists
 		String tableName = "notification";
 		// employeeID = fuel station manager
 		String values = "( " + " notificationID int NOT NULL AUTO_INCREMENT ," + " FK_employeeID int NOT NULL ,"
-				+ " message varchar(100) NOT NULL ," + " dismissed varchar(1) NOT NULL ,"
+				+ " message varchar(500) NOT NULL ," + " dismissed varchar(1) NOT NULL ,"
 				+ " dateCreated TIMESTAMP NOT NULL ," + " PRIMARY KEY (notificationID) ,"
 				// fk1
 				+ " KEY notification_ibfk_1 (FK_employeeID) ,"
@@ -378,7 +378,7 @@ public class TableGenerator { // creating the tables if they are not exists
 	private static void generateOrders(Connection con) throws SQLException {
 		String tableName = "orders";
 		String values = "( " + " ordersID int NOT NULL AUTO_INCREMENT ," + " orderTime TIMESTAMP NOT NULL ,"
-				+ " amountBought DOUBLE(32,2) NOT NULL ," + " address varchar(1000) NOT NULL ,"
+				+ " amountBought DOUBLE(32,2) NOT NULL ," + " address varchar(500) NOT NULL ,"
 				+ " PRIMARY KEY (ordersID) )";
 		generateTable(con, tableName, values);
 	}
@@ -390,7 +390,7 @@ public class TableGenerator { // creating the tables if they are not exists
 
 	private static void generateOutcomeReport(Connection con) throws SQLException {
 		String tableName = "outcome_report";
-		String values = "( " + " FK_repQuarter INT NOT NULL ," + " FK_repYear varchar(1000) NOT NULL ,"
+		String values = "( " + " FK_repQuarter INT NOT NULL ," + " FK_repYear varchar(50) NOT NULL ,"
 				+ " FK_fuelStationID INT NOT NULL , " + " totalAmountBoughtFromSupplier DOUBLE(32,2) NOT NULL , "
 				+ " PRIMARY KEY (FK_repQuarter,FK_repYear,FK_fuelStationID) ,"
 				// fk1
@@ -419,7 +419,7 @@ public class TableGenerator { // creating the tables if they are not exists
 
 	private static void generatePricingModel(Connection con) throws SQLException {
 		String tableName = "pricing_model";
-		String values = "( " + " FK_customerID varchar(1000) NOT NULL ," + " FK_pricingModelName varchar(1000) NOT NULL ,"
+		String values = "( " + " FK_customerID varchar(50) NOT NULL ," + " FK_pricingModelName varchar(50) NOT NULL ,"
 				+ " currentDiscount DOUBLE(32,2) NOT NULL ," + " lastMonthUtillization DOUBLE(32,2) ,"
 				+ " PRIMARY KEY (FK_customerID) ,"
 				// fk1
@@ -440,7 +440,7 @@ public class TableGenerator { // creating the tables if they are not exists
 
 	private static void generatePricingModelType(Connection con) throws SQLException {
 		String tableName = "pricing_model_type";
-		String values = "( " + " pricingModelName varchar(1000) NOT NULL ," + " description varchar(1000) NOT NULL ,"
+		String values = "( " + " pricingModelName varchar(50) NOT NULL ," + " description varchar(500) NOT NULL ,"
 				+ " defaultDiscount DOUBLE(32,2) NOT NULL ," + " PRIMARY KEY (pricingModelName) )";
 		generateTable(con, tableName, values);
 	}
@@ -452,7 +452,7 @@ public class TableGenerator { // creating the tables if they are not exists
 
 	private static void generateProduct(Connection con) throws SQLException {
 		String tableName = "product";
-		String values = "( " + " productName varchar(1000) NOT NULL ," + " maxPrice DOUBLE(32,2) NOT NULL ,"
+		String values = "( " + " productName varchar(50) NOT NULL ," + " maxPrice DOUBLE(32,2) NOT NULL ,"
 				+ " currentPrice DOUBLE(32,2) NOT NULL ," + " PRIMARY KEY (productName) )";
 		generateTable(con, tableName, values);
 	}
@@ -465,7 +465,7 @@ public class TableGenerator { // creating the tables if they are not exists
 	private static void generateProductInIncomeReport(Connection con) throws SQLException {
 		String tableName = "product_in_income_report";
 		String values = "( " + " FK_productInStationID INT NOT NULL ," + " FK_repQuarter_IncomeReport INT NOT NULL ,"
-				+ " FK_repYear_IncomeReport varchar(1000) NOT NULL ," + " incomePerProduct DOUBLE(32,2) NOT NULL ,"
+				+ " FK_repYear_IncomeReport varchar(50) NOT NULL ," + " incomePerProduct DOUBLE(32,2) NOT NULL ,"
 				+ " avgPrice DOUBLE(32,2) NOT NULL ,"
 				+ " PRIMARY KEY (FK_productInStationID, FK_repQuarter_IncomeReport,FK_repYear_IncomeReport) ,"
 				// fk1
@@ -487,7 +487,7 @@ public class TableGenerator { // creating the tables if they are not exists
 	private static void generateProductInInventoryReport(Connection con) throws SQLException {
 		String tableName = "product_in_inventory_report";
 		String values = "( " + " FK_productInStationID INT NOT NULL ," + " FK_repQuarter_inventoryReport INT NOT NULL ,"
-				+ " FK_repYear_inventoryReport varchar(1000) NOT NULL ," + " amountSold DOUBLE(32,2) NOT NULL ,"
+				+ " FK_repYear_inventoryReport varchar(50) NOT NULL ," + " amountSold DOUBLE(32,2) NOT NULL ,"
 				+ " PRIMARY KEY (FK_productInStationID, FK_repQuarter_inventoryReport,FK_repYear_inventoryReport) ,"
 				// fk1
 				+ " KEY product_in_inventory_report_ibfk_1 (FK_productInStationID) ,"
@@ -508,7 +508,7 @@ public class TableGenerator { // creating the tables if they are not exists
 	private static void generateProductInOutcomeReport(Connection con) throws SQLException {
 		String tableName = "product_in_outcome_report";
 		String values = "( " + " FK_productInStationID INT NOT NULL ," + " FK_repQuarter_outcomeReport INT NOT NULL ,"
-				+ " FK_repYear_outcomeReport varchar(1000) NOT NULL ,"
+				+ " FK_repYear_outcomeReport varchar(50) NOT NULL ,"
 				+ " amountBoughtFromSupplier DOUBLE(32,2) NOT NULL ,"
 				+ " PRIMARY KEY (FK_productInStationID, FK_repQuarter_OutcomeReport,FK_repYear_OutcomeReport) ,"
 				// fk1
@@ -524,7 +524,7 @@ public class TableGenerator { // creating the tables if they are not exists
 //
 //	private static void generateProductInRequest(Connection con) throws SQLException {
 //		String tableName = "product_in_request";
-//		String values = "( " + " FK_updateRateRequestID INT NOT NULL ," + " FK_productName varchar(1000) NOT NULL ,"
+//		String values = "( " + " FK_updateRateRequestID INT NOT NULL ," + " FK_productName varchar(50) NOT NULL ,"
 //				+ " requestedRate DOUBLE(32,2) NOT NULL ," + " PRIMARY KEY (FK_productName,FK_updateRateRequestID) ,"
 //				// fk1
 //				+ " KEY product_in_request_ibfk_1 (FK_updateRateRequestID) ,"
@@ -544,7 +544,7 @@ public class TableGenerator { // creating the tables if they are not exists
 
 	private static void generateProductInSalesPattern(Connection con) throws SQLException {
 		String tableName = "product_in_sales_pattern";
-		String values = "( " + " FK_salesPatternID INT NOT NULL ," + " FK_productName varchar(1000) NOT NULL ,"
+		String values = "( " + " FK_salesPatternID INT NOT NULL ," + " FK_productName varchar(50) NOT NULL ,"
 				+ " salesDiscount DOUBLE(32,2) NOT NULL ," + " PRIMARY KEY (FK_productName,FK_salesPatternID) ,"
 				// fk1
 				+ " KEY product_in_sales_pattern_ibfk_1 (FK_salesPatternID) ,"
@@ -565,7 +565,7 @@ public class TableGenerator { // creating the tables if they are not exists
 	private static void generateProductInStation(Connection con) throws SQLException {
 		String tableName = "product_in_station";
 		String values = "( " + " productInStationID INT NOT NULL AUTO_INCREMENT ,"
-				+ " FK_productName varchar(1000) NOT NULL ," + " FK_fuelStationID INT NOT NULL ,"
+				+ " FK_productName varchar(50) NOT NULL ," + " FK_fuelStationID INT NOT NULL ,"
 				+ " capacity DOUBLE(32,2) NOT NULL ," + " threshold DOUBLE(32,2) NOT NULL ,"
 				+ " PRIMARY KEY (productInStationID) ,"
 				// fk1
@@ -594,9 +594,9 @@ public class TableGenerator { // creating the tables if they are not exists
 
 	private static void generatePurchasingProgram(Connection con) throws SQLException {
 		String tableName = "purchasing_program";
-		String values = "( " + " FK_customerID varchar(1000) NOT NULL ,"
-				+ " FK_purchasingProgramName varchar(1000) NOT NULL ," + " FK_fuelCompanyName1 varchar(1000) NOT NULL ,"
-				+ " FK_fuelCompanyName2 varchar(1000) ," + " FK_fuelCompanyName3 varchar(1000) ,"
+		String values = "( " + " FK_customerID varchar(50) NOT NULL ,"
+				+ " FK_purchasingProgramName varchar(50) NOT NULL ," + " FK_fuelCompanyName1 varchar(50) NOT NULL ,"
+				+ " FK_fuelCompanyName2 varchar(50) ," + " FK_fuelCompanyName3 varchar(50) ,"
 				+ " PRIMARY KEY (FK_customerID) ,"
 				// fk1
 				+ " KEY purchasing_program_ibfk_1 (FK_customerID) ,"
@@ -628,7 +628,7 @@ public class TableGenerator { // creating the tables if they are not exists
 
 	private static void generatePurchasingProgramType(Connection con) throws SQLException {
 		String tableName = "purchasing_program_type";
-		String values = "( " + " purchasingProgramName varchar(1000) NOT NULL ," + " description varchar(1000) NOT NULL ,"
+		String values = "( " + " purchasingProgramName varchar(50) NOT NULL ," + " description varchar(500) NOT NULL ,"
 				+ " monthlyPrice DOUBLE(32,2) NOT NULL ," + " PRIMARY KEY (purchasingProgramName) )";
 		generateTable(con, tableName, values);
 	}
@@ -640,7 +640,7 @@ public class TableGenerator { // creating the tables if they are not exists
 
 	private static void generateQuarterlyReport(Connection con) throws SQLException {
 		String tableName = "quarterly_report";
-		String values = "( " + " repQuarter INT NOT NULL ," + " repYear varchar(1000) NOT NULL ,"
+		String values = "( " + " repQuarter INT NOT NULL ," + " repYear varchar(50) NOT NULL ,"
 				+ " FK_fuelStationID INT NOT NULL ," + " dateCreated TIMESTAMP NOT NULL ,"
 				+ " PRIMARY KEY (repQuarter,repYear,FK_fuelStationID) ,"
 				// fk1
@@ -657,7 +657,7 @@ public class TableGenerator { // creating the tables if they are not exists
 
 	private static void generateRankingSheet(Connection con) throws SQLException {
 		String tableName = "ranking_sheet";
-		String values = "( " + " FK_customerID varchar(1000) NOT NULL ," + " customerTypeRank DOUBLE(32,2) NOT NULL ,"
+		String values = "( " + " FK_customerID varchar(50) NOT NULL ," + " customerTypeRank DOUBLE(32,2) NOT NULL ,"
 				+ " fuelingHoursRank DOUBLE(32,2) NOT NULL ," + " fuelTypesRank DOUBLE(32,2) NOT NULL ,"
 				+ " updatedForDate TIMESTAMP NOT NULL ," + " PRIMARY KEY (FK_customerID) ,"
 				// fk1
@@ -717,8 +717,8 @@ public class TableGenerator { // creating the tables if they are not exists
 	 */	
 	private static void generateShipmentMethod(Connection con) throws SQLException {
 		String tableName = "shipment_method";
-		String values = "( " + " shipmentType varchar(1000) NOT NULL ," + " shipmentPrice DOUBLE(32,2) NOT NULL ,"
-				+ " shipmentMultiplier DOUBLE(32,2) NOT NULL ," + " deliveryTime varchar(1000) NOT NULL ,"
+		String values = "( " + " shipmentType varchar(50) NOT NULL ," + " shipmentPrice DOUBLE(32,2) NOT NULL ,"
+				+ " shipmentMultiplier DOUBLE(32,2) NOT NULL ," + " deliveryTime varchar(500) NOT NULL ,"
 				+ " PRIMARY KEY (shipmentType) )";
 		generateTable(con, tableName, values);
 	}
@@ -730,9 +730,9 @@ public class TableGenerator { // creating the tables if they are not exists
 
 	private static void generateUser(Connection con) throws SQLException {
 		String tableName = "user";
-		String values = "( " + " username varchar(1000) NOT NULL ," + " password varchar(1000) NOT NULL ,"
+		String values = "( " + " username varchar(50) NOT NULL ," + " password varchar(50) NOT NULL ,"
 				+ " connected varchar(1) NOT NULL ," + " email varchar(64) NOT NULL ,"
-				+ " firstName varchar(1000) NOT NULL ," + " surname varchar(1000) NOT NULL ," + " PRIMARY KEY (username) )";
+				+ " firstName varchar(50) NOT NULL ," + " surname varchar(50) NOT NULL ," + " PRIMARY KEY (username) )";
 		generateTable(con, tableName, values);
 	}
 	/**
@@ -743,9 +743,9 @@ public class TableGenerator { // creating the tables if they are not exists
 
 	private static void generatePricingModelUpdateRequest(Connection con) throws SQLException {
 		String tableName = "pricing_model_update_request";
-		String values = "( " + " requestID INT NOT NULL AUTO_INCREMENT ," + " FK_pricingModelName varchar(1000) ,"
+		String values = "( " + " requestID INT NOT NULL AUTO_INCREMENT ," + " FK_pricingModelName varchar(50) ,"
 				+ " requestDate TIMESTAMP NOT NULL ," + " requestedDiscount DOUBLE(32,2) NOT NULL ,"
-				+ " assessed varchar(1) NOT NULL ," + " approved varchar(1) ," + " reasonDismissal varchar(1000) ,"
+				+ " assessed varchar(1) NOT NULL ," + " approved varchar(1) ," + " reasonDismissal varchar(500) ,"
 				+ "PRIMARY KEY (requestID) ,"
 				// fk1
 				+ " KEY pricing_model_ibfk_5 (FK_pricingModelName) ,"

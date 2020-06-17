@@ -437,10 +437,10 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	/**
 	 * editcustomerpane delete customer
 	 * 
-	 * @param event
+	 * @param event1
 	 */
 	@FXML
-	void btnECUDeletePressed(ActionEvent event) {
+	void btnECUDeletePressed(ActionEvent event1) {
 		String customerID = this.tfACUCustID.getText();
 		if (customerID.isEmpty()) {
 			openErrorAlert("Error", "Missing Required Customer ID");
@@ -450,7 +450,22 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			openErrorAlert("Error", "Customer ID Not Valid");
 			return;
 		}
-		this.controller.handleMessageFromClientUI("deletecustomer " + customerID);
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Delete Customer");
+		alert.setHeaderText("Are You Sure You Want To Delete This Customer\nDo You Have His Consent?");
+		ButtonType buttonTypeOne = new ButtonType("Yes");
+		ButtonType buttonTypeTwo = new ButtonType("No");
+		alert.getButtonTypes().setAll(buttonTypeTwo, buttonTypeOne);
+		alert.show();
+		final Button btn = (Button) alert.getDialogPane().lookupButton(buttonTypeOne);
+		btn.setOnAction(event -> {
+			this.controller.handleMessageFromClientUI("deletecustomer " + customerID);
+			alert.hide();
+		});
+		final Button btn2 = (Button) alert.getDialogPane().lookupButton(buttonTypeTwo);
+		btn2.setOnAction(event -> {
+			alert.hide();
+		});
 	}
 
 	/**
@@ -585,90 +600,132 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	/**
 	 * addeditcarpane cancel registration
 	 * 
-	 * @param event
+	 * @param event1
 	 */
 	@FXML
-	void btnAECACancelRegPressed(ActionEvent event) {
+	void btnAECACancelRegPressed(ActionEvent event1) {
 		String customerID = this.tfAECACustID.getText();
 
-		clearFields();
-		this.step2.setVisible(false);
-		this.btnAECACancelReg.setVisible(false);
-		this.gpAECACarDetails.setDisable(false);
-		this.btnAECAEdit.setDisable(false);
-		this.btnAECAClear.setDisable(false);
-		this.apAECACarDetails.setDisable(true);
-		this.step3.setVisible(false);
-		this.btnSPPCancelReg.setVisible(false);
-		this.gpSPP.setDisable(false);
-		this.apSPP.setDisable(true);
-		this.btnSPPClear.setDisable(false);
-		this.vbox1.setDisable(false);
-		this.vbox2.setDisable(false);
-		this.customerIsRegisteringFlag = false;
-
-		this.controller.handleMessageFromClientUI("deletecustomer " + customerID);
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Cancel Registration");
+		alert.setHeaderText("Are You Sure You Want To Cancel The Registration?");
+		ButtonType buttonTypeOne = new ButtonType("Yes");
+		ButtonType buttonTypeTwo = new ButtonType("No");
+		alert.getButtonTypes().setAll(buttonTypeTwo, buttonTypeOne);
+		alert.show();
+		final Button btn = (Button) alert.getDialogPane().lookupButton(buttonTypeOne);
+		btn.setOnAction(event -> {
+			this.controller.handleMessageFromClientUI("deletecustomer " + customerID);
+			clearFields();
+			this.step2.setVisible(false);
+			this.btnAECACancelReg.setVisible(false);
+			this.gpAECACarDetails.setDisable(false);
+			this.btnAECAEdit.setDisable(false);
+			this.btnAECAClear.setDisable(false);
+			this.apAECACarDetails.setDisable(true);
+			this.step3.setVisible(false);
+			this.btnSPPCancelReg.setVisible(false);
+			this.gpSPP.setDisable(false);
+			this.apSPP.setDisable(true);
+			this.btnSPPClear.setDisable(false);
+			this.vbox1.setDisable(false);
+			this.vbox2.setDisable(false);
+			this.customerIsRegisteringFlag = false;
+			alert.hide();
+		});
+		final Button btn2 = (Button) alert.getDialogPane().lookupButton(buttonTypeTwo);
+		btn2.setOnAction(event -> {
+			alert.hide();
+		});
 	}
 
 	/**
 	 * setpurchasingprogrampane cancel registration
 	 * 
-	 * @param event
+	 * @param event1
 	 */
 	@FXML
-	void btnSPPCancelRegPressed(ActionEvent event) {
+	void btnSPPCancelRegPressed(ActionEvent event1) {
 		String customerID = this.tfSPPCustID.getText();
 
-		clearFields();
-		this.step2.setVisible(false);
-		this.btnAECACancelReg.setVisible(false);
-		this.gpAECACarDetails.setDisable(false);
-		this.btnAECAEdit.setDisable(false);
-		this.btnAECAClear.setDisable(false);
-		this.apAECACarDetails.setDisable(true);
-		this.step3.setVisible(false);
-		this.step4.setVisible(false);
-		this.btnSPPCancelReg.setVisible(false);
-		this.btnSPMCancelReg.setVisible(false);
-		this.gpSPP.setDisable(false);
-		this.apSPP.setDisable(true);
-		this.btnSPPClear.setDisable(false);
-		this.vbox1.setDisable(false);
-		this.vbox2.setDisable(false);
-		this.customerIsRegisteringFlag = false;
-
-		this.controller.handleMessageFromClientUI("deletecustomer " + customerID);
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Cancel Registration");
+		alert.setHeaderText("Are You Sure You Want To Cancel The Registration?");
+		ButtonType buttonTypeOne = new ButtonType("Yes");
+		ButtonType buttonTypeTwo = new ButtonType("No");
+		alert.getButtonTypes().setAll(buttonTypeTwo, buttonTypeOne);
+		alert.show();
+		final Button btn = (Button) alert.getDialogPane().lookupButton(buttonTypeOne);
+		btn.setOnAction(event -> {
+			this.controller.handleMessageFromClientUI("deletecustomer " + customerID);
+			clearFields();
+			this.step2.setVisible(false);
+			this.btnAECACancelReg.setVisible(false);
+			this.gpAECACarDetails.setDisable(false);
+			this.btnAECAEdit.setDisable(false);
+			this.btnAECAClear.setDisable(false);
+			this.apAECACarDetails.setDisable(true);
+			this.step3.setVisible(false);
+			this.step4.setVisible(false);
+			this.btnSPPCancelReg.setVisible(false);
+			this.btnSPMCancelReg.setVisible(false);
+			this.gpSPP.setDisable(false);
+			this.apSPP.setDisable(true);
+			this.btnSPPClear.setDisable(false);
+			this.vbox1.setDisable(false);
+			this.vbox2.setDisable(false);
+			this.customerIsRegisteringFlag = false;
+			alert.hide();
+		});
+		final Button btn2 = (Button) alert.getDialogPane().lookupButton(buttonTypeTwo);
+		btn2.setOnAction(event -> {
+			alert.hide();
+		});
 	}
 
 	/**
 	 * setpricingmodelpane cancel registration
 	 * 
-	 * @param event
+	 * @param event1
 	 */
 	@FXML
-	void btnSPMCancelRegPressed(ActionEvent event) {
+	void btnSPMCancelRegPressed(ActionEvent event1) {
 		String customerID = this.tfSPMCustID.getText();
 
-		clearFields();
-		this.step3.setVisible(false);
-		this.step4.setVisible(false);
-		this.btnSPPCancelReg.setVisible(false);
-		this.btnSPMCancelReg.setVisible(false);
-		this.gpSPP.setDisable(false);
-		this.apSPP.setDisable(true);
-		this.btnSPPClear.setDisable(false);
-		this.step3.setVisible(false);
-		this.btnSPPCancelReg.setVisible(false);
-		this.step4.setVisible(false);
-		this.btnSPMCancelReg.setVisible(false);
-		this.gpSPM.setDisable(false);
-		this.apSPM.setDisable(true);
-		this.btnSPMClear.setDisable(false);
-		this.vbox1.setDisable(false);
-		this.vbox2.setDisable(false);
-		this.customerIsRegisteringFlag = false;
-
-		this.controller.handleMessageFromClientUI("deletecustomer " + customerID);
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Cancel Registration");
+		alert.setHeaderText("Are You Sure You Want To Cancel The Registration?");
+		ButtonType buttonTypeOne = new ButtonType("Yes");
+		ButtonType buttonTypeTwo = new ButtonType("No");
+		alert.getButtonTypes().setAll(buttonTypeTwo, buttonTypeOne);
+		alert.show();
+		final Button btn = (Button) alert.getDialogPane().lookupButton(buttonTypeOne);
+		btn.setOnAction(event -> {
+			this.controller.handleMessageFromClientUI("deletecustomer " + customerID);
+			clearFields();
+			this.step3.setVisible(false);
+			this.step4.setVisible(false);
+			this.btnSPPCancelReg.setVisible(false);
+			this.btnSPMCancelReg.setVisible(false);
+			this.gpSPP.setDisable(false);
+			this.apSPP.setDisable(true);
+			this.btnSPPClear.setDisable(false);
+			this.step3.setVisible(false);
+			this.btnSPPCancelReg.setVisible(false);
+			this.step4.setVisible(false);
+			this.btnSPMCancelReg.setVisible(false);
+			this.gpSPM.setDisable(false);
+			this.apSPM.setDisable(true);
+			this.btnSPMClear.setDisable(false);
+			this.vbox1.setDisable(false);
+			this.vbox2.setDisable(false);
+			this.customerIsRegisteringFlag = false;
+			alert.hide();
+		});
+		final Button btn2 = (Button) alert.getDialogPane().lookupButton(buttonTypeTwo);
+		btn2.setOnAction(event -> {
+			alert.hide();
+		});
 	}
 
 	/**
@@ -715,10 +772,10 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	/**
 	 * editcarpane delete car
 	 * 
-	 * @param event
+	 * @param event1
 	 */
 	@FXML
-	void btnECADeletePressed(ActionEvent event) {
+	void btnECADeletePressed(ActionEvent event1) {
 		String regPlate = this.tfECARegistration.getText();
 		if (regPlate.isEmpty()) {
 			openErrorAlert("Error", "Missing Required Registration Plate");
@@ -729,7 +786,23 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			openErrorAlert("Error", "Registration Plate Not Valid");
 			return;
 		}
-		this.controller.handleMessageFromClientUI("deletecar " + regPlate);
+
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Delete Car");
+		alert.setHeaderText("Are You Sure You Want To Delete This Car?");
+		ButtonType buttonTypeOne = new ButtonType("Yes");
+		ButtonType buttonTypeTwo = new ButtonType("No");
+		alert.getButtonTypes().setAll(buttonTypeTwo, buttonTypeOne);
+		alert.show();
+		final Button btn = (Button) alert.getDialogPane().lookupButton(buttonTypeOne);
+		btn.setOnAction(event -> {
+			this.controller.handleMessageFromClientUI("deletecar " + regPlate);
+			alert.hide();
+		});
+		final Button btn2 = (Button) alert.getDialogPane().lookupButton(buttonTypeTwo);
+		btn2.setOnAction(event -> {
+			alert.hide();
+		});
 	}
 
 	/**
@@ -1024,7 +1097,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			if (list.getList().isEmpty()) {
 				Alert a = new Alert(AlertType.CONFIRMATION);
 				a.setTitle("Product Rate:");
-				a.setContentText("there are no products");
+				a.setContentText("There Are No Products");
 				a.show();
 			} else {
 				productRateList = list;
@@ -1047,7 +1120,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 					alert.setHeaderText("Would you like to add another car?");
 					ButtonType buttonTypeOne = new ButtonType("Yes");
 					ButtonType buttonTypeTwo = new ButtonType("No");
-					alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
+					alert.getButtonTypes().setAll(buttonTypeTwo, buttonTypeOne);
 					alert.show();
 
 					final Button btn = (Button) alert.getDialogPane().lookupButton(buttonTypeOne);

@@ -142,7 +142,7 @@ public abstract class UserWindow extends AFXML {
 		alert.setHeaderText("Would you like to sign out?");
 		ButtonType buttonTypeOne = new ButtonType("Yes");
 		ButtonType buttonTypeTwo = new ButtonType("No");
-		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
+		alert.getButtonTypes().setAll(buttonTypeTwo, buttonTypeOne);
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == buttonTypeOne) {
 			this.controller.setCurrentWindow(this);
