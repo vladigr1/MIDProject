@@ -11,8 +11,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import com.sun.xml.internal.stream.Entity;
-
 import entities.SupplierItemInTable;
 
 /**
@@ -56,7 +54,7 @@ public class DatabaseSupplierController {
 	 * <ol/>
 	 * 
 	 * @param fuelStationIDs the fuel station that the client pick
-	 * @see Entity.SupplierItemInTable
+	 * @see SupplierItemInTable
 	 */
 	public SupplierItemInTable[] getSupplierItemInTable(int fuelStationIDs) {
 		List<SupplierItemInTable> siitList = new ArrayList<>();
