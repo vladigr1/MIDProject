@@ -165,22 +165,24 @@ public class ServerMarketingManagerController {
 					}
 					result = this.databaseController.getAllProductRanks();
 
-				} else if (function.startsWith("create new PRUR")) {
-					synchronized (this.lock) {
-						this.serverWindow
-								.updateArea(formatter.format(date) + " : " + client + " : request create new PRUR ");
-						this.lock.notifyAll();
-					}
-
-					String[] msgarr = function.split(" ");
-					double dieselRank = Double.parseDouble(msgarr[3]);
-					double gasolineRank = Double.parseDouble(msgarr[4]);
-					double motorRank = Double.parseDouble(msgarr[5]);
-					double homeRank = Double.parseDouble(msgarr[6]);
-
-					result = this.databaseController.createNewPRUR(dieselRank, gasolineRank, motorRank, homeRank);
-
-				} else if (function.startsWith("pull common data for common tableView")) {
+				}
+//					else if (function.startsWith("create new PRUR")) {
+//					synchronized (this.lock) {
+//						this.serverWindow
+//								.updateArea(formatter.format(date) + " : " + client + " : request create new PRUR ");
+//						this.lock.notifyAll();
+//					}
+//
+//					String[] msgarr = function.split(" ");
+//					double dieselRank = Double.parseDouble(msgarr[3]);
+//					double gasolineRank = Double.parseDouble(msgarr[4]);
+//					double motorRank = Double.parseDouble(msgarr[5]);
+//					double homeRank = Double.parseDouble(msgarr[6]);
+//
+//					result = this.databaseController.createNewPRUR(dieselRank, gasolineRank, motorRank, homeRank);
+//
+//				} 
+				else if (function.startsWith("pull common data for common tableView")) {
 					synchronized (this.lock) {
 						this.serverWindow.updateArea(formatter.format(date) + " : " + client
 								+ " : request pull common data for common tableView ");
@@ -243,6 +245,25 @@ public class ServerMarketingManagerController {
 					System.out.println(endDate.toString());
 
 					result = this.databaseController.checkSaleRange(startDate, endDate);
+				} else if (function.startsWith("get pricing model type discounts")) {
+					synchronized (this.lock) {
+						this.serverWindow.updateArea(formatter.format(date) + " : " + client
+								+ " : request get pricing model type discounts");
+						this.lock.notifyAll();
+					}
+
+					result = this.databaseController.getPricingModelTypeDiscounts();
+
+				} else if (function.startsWith("create pricing model request")) {
+					synchronized (this.lock) {
+						this.serverWindow.updateArea(formatter.format(date) + " : " + client
+								+ " : request get pricing model type discounts");
+						this.lock.notifyAll();
+					}
+					String[] strArr = function.split(" ");
+					double discount = Double.parseDouble(strArr[5]);
+					result = this.databaseController.createNewPricingModelRequest(strArr[4], discount);
+
 				}
 
 				//////////////////////////////////////////////////////////////////////////////////////////////////////////
