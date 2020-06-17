@@ -51,7 +51,7 @@ public class ServerMarketingManagerController {
 	 * handles client request and sends it to the database controller sends result
 	 * got from database controller back to the client
 	 * 
-	 * @param user
+	 * @param object
 	 * @param client
 	 */
 	public void handleMessageFromClient(Object object, ConnectionToClient client) {

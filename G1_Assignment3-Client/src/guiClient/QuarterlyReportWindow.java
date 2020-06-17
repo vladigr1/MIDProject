@@ -139,7 +139,7 @@ public abstract class QuarterlyReportWindow extends EmployeeWindow {
 	/**
 	 * continue of openQuarterlyReport after handleMessageFromClientUI
 	 * 
-	 * @param event
+	 * @param reports
 	 */
 	protected void openQuarterlyReport2(Object[] reports) {
 		// reports[0] have string
@@ -165,7 +165,9 @@ public abstract class QuarterlyReportWindow extends EmployeeWindow {
 	/**
 	 * fill QuarterReport tableviews with reports data
 	 * 
-	 * @param list
+	 * @param incomeReport
+	 * @param outcomeReport
+	 * @param inventoryReport
 	 */
 	protected void fillQuarterReport(MyIncomeReport incomeReport, MyOutcomeReport outcomeReport,
 			MyInventoryReport inventoryReport) {

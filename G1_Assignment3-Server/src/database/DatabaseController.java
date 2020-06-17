@@ -37,8 +37,7 @@ import guiServer.ServerWindow;
 /**
  * controller for database
  * 
- * @version N Methods To Final
- * @see methods of other database controllers
+ * @version Final
  * @author Elroy, Lior, Vlad, Liad
  */
 public class DatabaseController {
@@ -186,7 +185,7 @@ public class DatabaseController {
 
 	/**
 	 * 
-	 * @param string
+	 * @param username
 	 * @return home fuel orders of customer with that username
 	 */
 	public HomeFuelOrderList getHomeFuelOrdersSequence(String username) {
@@ -308,9 +307,10 @@ public class DatabaseController {
 	public String setPricingModel(PricingModel pricingModel) {
 		return DatabaseMarketingRepresentativeController.getInstance(connection).setPricingModel(pricingModel);
 	}
+
 	/**
 	 * 
-	 * @return Map<PricingModelName, Double>
+	 * @return Map(PricingModelName, Double)
 	 */
 
 	public Map<PricingModelName, Double> getAllPricingModelDiscounts() {
@@ -331,7 +331,7 @@ public class DatabaseController {
 	/**
 	 * 
 	 * @param fastFuel
-	 * @return message of success or fail in fastFuel->function
+	 * @return message of success or fail in fastFuel function
 	 */
 	public FastFuel saveFastFuel(FastFuel fastFuel) {
 		return DatabaseFastFuelController.getInstance(connection).saveFastFuel(fastFuel);
@@ -379,7 +379,7 @@ public class DatabaseController {
 	/**
 	 * create a new activity in sql
 	 * 
-	 * @param employeeID
+	 * @param username
 	 * @param date
 	 * @param action
 	 * @return String
@@ -481,13 +481,15 @@ public class DatabaseController {
 	public String generateAnalysis() {
 		return DatabaseMarketingManagerController.getInstance(connection).generateAnalysis();
 	}
-/**
- * 
- * @return List<PricingModelType>
- */
+
+	/**
+	 * 
+	 * @return List(PricingModelType)
+	 */
 	public List<PricingModelType> getPricingModelTypeDiscounts() {
 		return DatabaseMarketingManagerController.getInstance(connection).getPricingModelTypeDiscounts();
 	}
+
 	/**
 	 * 
 	 * @param modelType
@@ -505,30 +507,33 @@ public class DatabaseController {
 	/**
 	 * 
 	 * @param username
-	 * @return  Object[] 
+	 * @return Object[]
 	 */
 	public Object[] getUnassesdOrderIDbyUsername(String username) {
 		return DatabaseFuelStationManagerController.getInstance(connection).getUnassesdOrderID(username);
 	}
+
 	/**
 	 * 
 	 * @param orderID
-	 * @return Object[] 
+	 * @return Object[]
 	 */
 
 	public Object[] getStationProductInOrderbyOrderID(int orderID) {
 		return DatabaseFuelStationManagerController.getInstance(connection).getStationProductInOrderbyOrderID(orderID);
 	}
+
 	/**
 	 * 
 	 * @param username
-	 * @return Object[] 
+	 * @return Object[]
 	 */
 
 	public Object[] getStationProductThresholdOrderbyUsername(String username) {
 		return DatabaseFuelStationManagerController.getInstance(connection)
 				.getStationProductThresholdOrderbyUsername(username);
 	}
+
 	/**
 	 * 
 	 * @param username
@@ -540,6 +545,7 @@ public class DatabaseController {
 		return DatabaseFuelStationManagerController.getInstance(connection)
 				.updateProductInStationThresholdbyUsername(username, newThresholds);
 	}
+
 	/**
 	 * 
 	 * @param username
@@ -551,21 +557,23 @@ public class DatabaseController {
 		return DatabaseFuelStationManagerController.getInstance(connection).updateOrderDoneAssesmentbyOrderID(username,
 				params);
 	}
+
 	/**
 	 * 
 	 * @param username
-	 * @return Object[] 
+	 * @return Object[]
 	 */
 
 	public Object[] getUndismissNotificationsByUsername(String username) {
 		return DatabaseFuelStationManagerController.getInstance(connection)
 				.getUndismissNotificationsByUsername(username);
 	}
+
 	/**
 	 * 
 	 * @param username
 	 * @param params
-	 * @return Object[] 
+	 * @return Object[]
 	 */
 
 	public Object[] getQuarterlyReportDataByUsernameYearQuarter(String username, String params) {
@@ -573,6 +581,7 @@ public class DatabaseController {
 				.getQuarterlyReportDataByUsernameYearQuarter(username, params);
 
 	}
+
 	/**
 	 * 
 	 * @param params
@@ -594,6 +603,7 @@ public class DatabaseController {
 	public SupplierItemInTable[] getFuelStationOrder(int fuelStationIDs) {
 		return DatabaseSupplierController.getInstance(connection).getSupplierItemInTable(fuelStationIDs);
 	}
+
 	/**
 	 * 
 	 * @param ordersID
@@ -604,6 +614,7 @@ public class DatabaseController {
 	public String approveFuelStationOrder(int ordersID, double amount) {
 		return DatabaseSupplierController.getInstance(connection).approveFuelStationOrder(ordersID, amount);
 	}
+
 	/**
 	 * 
 	 * @param username
@@ -624,6 +635,7 @@ public class DatabaseController {
 	public MyNetManager getAllFuelStationIDs(MyNetManager netManager) {
 		return DatabaseNetworkManagerController.getInstance(connection).getAllFuelStationIDs(netManager);
 	}
+
 	/**
 	 * 
 	 * @param netManager
@@ -633,6 +645,7 @@ public class DatabaseController {
 	public MyNetManager setRequestDeclined(MyNetManager netManager) {
 		return DatabaseNetworkManagerController.getInstance(connection).setRequestDeclined(netManager);
 	}
+
 	/**
 	 * 
 	 * @param netManager
@@ -642,7 +655,7 @@ public class DatabaseController {
 	public MyNetManager getAllUnAssessedRequests(MyNetManager netManager) {
 		return DatabaseNetworkManagerController.getInstance(connection).getAllUnAssessedRequests(netManager);
 	}
-	
+
 	/**
 	 * 
 	 * @param netManager
@@ -652,7 +665,7 @@ public class DatabaseController {
 	public MyNetManager setRequestApproved(MyNetManager netManager) {
 		return DatabaseNetworkManagerController.getInstance(connection).setRequestApproved(netManager);
 	}
-	
+
 	/**
 	 * 
 	 * @param netManager

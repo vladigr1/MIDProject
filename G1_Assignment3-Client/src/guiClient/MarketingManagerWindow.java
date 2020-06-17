@@ -993,7 +993,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	/**
 	 * method that check if picked date happend before current date
 	 * 
-	 * @param dpISDate2
+	 * @param dp
 	 * @return true if fields are valid
 	 */
 	private boolean checkDateIsCorrect(DatePicker dp) {
@@ -1024,7 +1024,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	/**
 	 * method that check if the time is correct like in a clock view
 	 * 
-	 * @param tfISTime2
+	 * @param dp
 	 * @return true if fields are valid
 	 */
 	private boolean checkTimeByClock(TextField tf, DatePicker dp) {

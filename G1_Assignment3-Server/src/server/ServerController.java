@@ -22,8 +22,7 @@ import ocsf.server.ConnectionToClient;
 /**
  * controller for server
  * 
- * @version 1 Method To Final
- * @see handleMessageFromClient()
+ * @version Final
  * @author Elroy, Lior, Vlad, Liad
  */
 public class ServerController extends AbstractServer {

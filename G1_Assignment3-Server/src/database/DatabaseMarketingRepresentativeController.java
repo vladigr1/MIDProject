@@ -723,7 +723,7 @@ public class DatabaseMarketingRepresentativeController {
 	}
 	/**
 	 * 
-	 * @return Map<PricingModelName, Double>
+	 * @return Map(PricingModelName, Double)
 	 */
 
 	public Map<PricingModelName, Double> getAllPricingModelDiscounts() {

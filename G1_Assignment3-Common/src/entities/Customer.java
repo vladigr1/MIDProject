@@ -26,7 +26,6 @@ public class Customer implements Serializable {
 	 * @param customerID
 	 * @param creditCard
 	 * @param customerType
-	 * @param deleted
 	 */
 	public Customer(String customerID, String creditCard, CustomerType customerType) {
 		super();
@@ -42,7 +41,6 @@ public class Customer implements Serializable {
 	 * @param username
 	 * @param creditCard
 	 * @param customerType
-	 * @param deleted
 	 */
 	public Customer(String customerID, String username, String creditCard, CustomerType customerType) {
 		super();

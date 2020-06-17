@@ -392,7 +392,8 @@ public class FuelStationManagerWindow extends QuarterlyReportWindow {
 	 * when click on View Order button fill Assess Station Orders textfields with
 	 * orderID data
 	 * 
-	 * @param list
+	 * @param productInStation
+	 * @param fuelStationOrder
 	 */
 	private void fillUnassessedOrderData(ProductInStation productInStation, FuelStationOrder fuelStationOrder) {
 		tfASOName.setText(productInStation.getProductName().toString());
@@ -406,7 +407,7 @@ public class FuelStationManagerWindow extends QuarterlyReportWindow {
 	/**
 	 * fill UpdateThreshold textfields with threshold data
 	 * 
-	 * @param list
+	 * @param productList
 	 */
 	private void fillUpdateThreshold(ArrayList<ProductInStation> productList) {
 		for (ProductInStation product : productList) {

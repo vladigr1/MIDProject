@@ -57,8 +57,7 @@ public class DatabaseFuelStationManagerController {
 	 * function gets username returns list with unassesd orders id
 	 * 
 	 * @param username
-	 * @return Object[string,TreeSet<Integer>]
-	 * @throws MyFuelException
+	 * @return Object[string,TreeSet(Integer)]
 	 */
 	public Object[] getUnassesdOrderID(String username) {
 		Object[] result;
@@ -88,7 +87,6 @@ public class DatabaseFuelStationManagerController {
 	 * 
 	 * @param orderID
 	 * @return Object[string,productInStation,order]
-	 * @throws ParseException
 	 */
 	public Object[] getStationProductInOrderbyOrderID(int orderID) {
 		ProductInStation productInStation = getProductInStationByOrderID(orderID);
@@ -534,7 +532,7 @@ public class DatabaseFuelStationManagerController {
 	/**
 	 * 
 	 * @param fuelStationID
-	 * @return ArrayList<QuarterlyReport>
+	 * @return ArrayList(QuarterlyReport)
 	 */
 	private ArrayList<QuarterlyReport> getQuarterlyReportbyFuelStationID(int fuelStationID) {
 		int repQuarter = -1;
@@ -620,7 +618,7 @@ public class DatabaseFuelStationManagerController {
 	/**
 	 * 
 	 * @param fuelStationID
-	 * @return ArrayList<ProductInStation>
+	 * @return ArrayList(ProductInStation)
 	 */
 	private ArrayList<ProductInStation> getProductInStationByfuelStationID(int fuelStationID) {
 		ArrayList<ProductInStation> result = new ArrayList<>();
@@ -670,7 +668,6 @@ public class DatabaseFuelStationManagerController {
 	 * 
 	 * @param orderID
 	 * @return FuelStationOrder
-	 * @throws ParseException
 	 */
 	private FuelStationOrder getFuelStationOrderByID(int orderID) {
 		int productInStationID = -1;
@@ -828,7 +825,7 @@ public class DatabaseFuelStationManagerController {
 	/**
 	 * 
 	 * @param fuelStationID
-	 * @return List<Integer>
+	 * @return List(Integer)
 	 */
 	private List<Integer> getProductInStationIDs(int fuelStationID) {
 		List<Integer> result = new ArrayList<Integer>();
@@ -850,7 +847,7 @@ public class DatabaseFuelStationManagerController {
 	/**
 	 * 
 	 * @param productInStationID
-	 * @return List<Integer>
+	 * @return List(Integer)
 	 */
 	private List<Integer> getUnassessedFuelStationOrdersID(int productInStationID) {
 		List<Integer> result = new ArrayList<Integer>();

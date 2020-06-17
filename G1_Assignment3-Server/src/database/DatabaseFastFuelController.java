@@ -214,7 +214,7 @@ public class DatabaseFastFuelController {
 	/**
 	 * 
 	 * @param fastFuel
-	 * @return message of success or fail in fastFuel->function
+	 * @return message of success or fail in fastFuel function
 	 */
 	public FastFuel saveFastFuel(FastFuel fastFuel) {
 		try {
