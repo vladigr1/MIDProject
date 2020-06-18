@@ -25,7 +25,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guiClient.MarketingManagerWindow">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guiClient.MarketingManagerWindow">
    <children>
       <BorderPane fx:id="mainBorderPane" minHeight="696.0" prefHeight="696.0" prefWidth="1102.0" styleClass="main-pane" stylesheets="@../pics/style.css">
          <left>
@@ -33,9 +33,9 @@
                <children>
                   <Pane prefHeight="50.0" prefWidth="122.0">
                      <children>
-                        <Label fx:id="lblHelloUser" layoutX="15.0" prefHeight="50.0" prefWidth="232.0" text="Hello, Julia" textFill="WHITE">
+                        <Label fx:id="lblHelloUser" layoutX="15.0" prefHeight="50.0" prefWidth="244.0" text="Hello, Julia" textFill="WHITE" wrapText="true">
                            <font>
-                              <Font name="Leelawadee UI" size="16.0" />
+                              <Font name="Leelawadee UI" size="14.0" />
                            </font>
                         </Label>
                      </children>
@@ -226,7 +226,7 @@
                               </Label>
                            </children>
                         </Pane>
-                        <Label fx:id="topbar_window_label" alignment="TOP_LEFT" minHeight="-Infinity" prefHeight="34.0" prefWidth="804.0" text="Home">
+                        <Label fx:id="topbar_window_label" alignment="TOP_LEFT" minHeight="-Infinity" prefHeight="30.0" prefWidth="800.0" text="Home">
                            <font>
                               <Font name="Arial" size="26.0" />
                            </font>
@@ -493,7 +493,7 @@
                                     </HBox>
                                  </children>
                               </GridPane>
-                              <Button fx:id="btnCSPCreate" disable="true" layoutX="132.0" layoutY="216.0" mnemonicParsing="false" onMouseClicked="#btnCSPCreateClicked" onMouseEntered="#btnCSPCreateHover" onMouseExited="#btnCSPCreateExit" prefHeight="30.0" prefWidth="200.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Create Pattern" textFill="WHITE">
+                              <Button fx:id="btnCSPCreate" disable="true" layoutX="194.0" layoutY="218.0" mnemonicParsing="false" onMouseClicked="#btnCSPCreateClicked" onMouseEntered="#btnCSPCreateHover" onMouseExited="#btnCSPCreateExit" prefHeight="30.0" prefWidth="200.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Create Pattern" textFill="WHITE">
                                  <font>
                                     <Font name="Calibri" size="20.0" />
                                  </font>
@@ -518,7 +518,7 @@
                               <Label fx:id="lblDieselDiscERR" layoutX="384.0" layoutY="91.0" text="must" textFill="#f50b0b" visible="false" />
                               <Label fx:id="lblGasolineDiscERR" layoutX="385.0" layoutY="136.0" text="must" textFill="#f50b0b" visible="false" />
                               <Label fx:id="lblMotorDiscERR" layoutX="384.0" layoutY="178.0" text="must" textFill="#f50b0b" visible="false" />
-                              <HBox layoutX="451.0" layoutY="275.0" spacing="2.0">
+                              <HBox layoutX="440.0" layoutY="275.0" spacing="2.0">
                                  <children>
                                     <Label text="Updated to:">
                                        <font>
@@ -959,22 +959,22 @@
                         <Insets top="10.0" />
                      </padding>
                   </Label>
-                  <TextField fx:id="tfSCRSaleID" editable="false" prefHeight="30.0" GridPane.columnIndex="1">
+                  <TextField fx:id="tfSCRSaleID" editable="false" prefHeight="30.0" styleClass="info-textFields" stylesheets="@../pics/style.css" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets right="20.0" />
                      </GridPane.margin>
                   </TextField>
-                  <TextField fx:id="tfSCRNumberOf" editable="false" prefHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <TextField fx:id="tfSCRNumberOf" editable="false" prefHeight="30.0" styleClass="info-textFields" stylesheets="@../pics/style.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets right="20.0" />
                      </GridPane.margin>
                   </TextField>
-                  <TextField fx:id="tfSCREndTime" editable="false" prefHeight="30.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                  <TextField fx:id="tfSCREndTime" editable="false" prefHeight="30.0" styleClass="info-textFields" stylesheets="@../pics/style.css" GridPane.columnIndex="3" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin>
                   </TextField>
-                  <TextField fx:id="tfSCRStartTime" editable="false" prefHeight="30.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <TextField fx:id="tfSCRStartTime" editable="false" prefHeight="30.0" styleClass="info-textFields" stylesheets="@../pics/style.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets right="20.0" />
                      </GridPane.margin>
@@ -984,7 +984,7 @@
                         <Font name="Arial" size="18.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="tfSCRSumPurchase" editable="false" prefHeight="30.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                  <TextField fx:id="tfSCRSumPurchase" editable="false" prefHeight="30.0" styleClass="info-textFields" stylesheets="@../pics/style.css" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                </children>
             </GridPane>
             <Label layoutX="285.0" layoutY="15.0" text="Date Created:">
@@ -1046,8 +1046,8 @@
                         <Font name="Arial" size="18.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="tfPCRTo" editable="false" prefHeight="30.0" prefWidth="211.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField fx:id="tfPCRFrom" editable="false" prefHeight="30.0" GridPane.columnIndex="1" />
+                  <TextField fx:id="tfPCRTo" editable="false" prefHeight="30.0" prefWidth="211.0" styleClass="info-textFields" stylesheets="@../pics/style.css" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="tfPCRFrom" editable="false" prefHeight="30.0" styleClass="info-textFields" stylesheets="@../pics/style.css" GridPane.columnIndex="1" />
                </children>
             </GridPane>
             <Label layoutX="307.0" layoutY="15.0" text="Date Created:">

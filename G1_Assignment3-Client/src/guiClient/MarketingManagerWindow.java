@@ -1087,7 +1087,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		alert.setHeaderText("Create Sale With Pattern ID = " + item.getSalePatternID() + "?");
 		ButtonType buttonTypeOne = new ButtonType("Yes");
 		ButtonType buttonTypeTwo = new ButtonType("No");
-		alert.getButtonTypes().setAll(buttonTypeTwo, buttonTypeOne);
+		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == buttonTypeOne) {
 			sendToClientController("check active sales " + item.getSalePatternID());

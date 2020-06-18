@@ -25,7 +25,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guiClient.MarketingManagerWindow">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guiClient.MarketingManagerWindow">
    <children>
       <BorderPane fx:id="mainBorderPane" minHeight="696.0" prefHeight="696.0" prefWidth="1102.0" styleClass="main-pane" stylesheets="@../pics/style.css">
          <left>
@@ -33,9 +33,9 @@
                <children>
                   <Pane prefHeight="50.0" prefWidth="122.0">
                      <children>
-                        <Label fx:id="lblHelloUser" layoutX="15.0" prefHeight="50.0" prefWidth="232.0" text="Hello, Julia" textFill="WHITE">
+                        <Label fx:id="lblHelloUser" layoutX="15.0" prefHeight="50.0" prefWidth="244.0" text="Hello, Julia" textFill="WHITE" wrapText="true">
                            <font>
-                              <Font name="Leelawadee UI" size="16.0" />
+                              <Font name="Leelawadee UI" size="14.0" />
                            </font>
                         </Label>
                      </children>
@@ -226,7 +226,7 @@
                               </Label>
                            </children>
                         </Pane>
-                        <Label fx:id="topbar_window_label" alignment="TOP_LEFT" minHeight="-Infinity" prefHeight="34.0" prefWidth="804.0" text="Home">
+                        <Label fx:id="topbar_window_label" alignment="TOP_LEFT" minHeight="-Infinity" prefHeight="30.0" prefWidth="800.0" text="Home">
                            <font>
                               <Font name="Arial" size="26.0" />
                            </font>
@@ -493,7 +493,7 @@
                                     </HBox>
                                  </children>
                               </GridPane>
-                              <Button fx:id="btnCSPCreate" disable="true" layoutX="132.0" layoutY="216.0" mnemonicParsing="false" onMouseClicked="#btnCSPCreateClicked" onMouseEntered="#btnCSPCreateHover" onMouseExited="#btnCSPCreateExit" prefHeight="30.0" prefWidth="200.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Create Pattern" textFill="WHITE">
+                              <Button fx:id="btnCSPCreate" disable="true" layoutX="194.0" layoutY="218.0" mnemonicParsing="false" onMouseClicked="#btnCSPCreateClicked" onMouseEntered="#btnCSPCreateHover" onMouseExited="#btnCSPCreateExit" prefHeight="30.0" prefWidth="200.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Create Pattern" textFill="WHITE">
                                  <font>
                                     <Font name="Calibri" size="20.0" />
                                  </font>

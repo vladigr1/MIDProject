@@ -331,10 +331,12 @@ public class CustomerWindow extends UserWindow {
 		final TableColumn<FastFuel, String> fuelStationColumn = (TableColumn<FastFuel, String>) new TableColumn(
 				"Fuel Station");
 		fuelStationColumn.setCellValueFactory((Callback) new PropertyValueFactory("fuelStationName"));
+		fuelStationColumn.setMinWidth(fuelStationColumn.getPrefWidth() * 1.5);
 		this.tvHomeFastFuel.getColumns().add(fuelStationColumn);
 		final TableColumn<FastFuel, ProductName> fuelTypeColumn = (TableColumn<FastFuel, ProductName>) new TableColumn(
 				"Fuel Type");
 		fuelTypeColumn.setCellValueFactory((Callback) new PropertyValueFactory("fuelType"));
+		fuelTypeColumn.setMinWidth(fuelTypeColumn.getPrefWidth() * 1.15);
 		this.tvHomeFastFuel.getColumns().add(fuelTypeColumn);
 		final TableColumn<FastFuel, String> amountColumn = (TableColumn<FastFuel, String>) new TableColumn("Amount");
 		amountColumn.setCellValueFactory((Callback) new PropertyValueFactory("amountBought"));
@@ -349,8 +351,8 @@ public class CustomerWindow extends UserWindow {
 		this.tvVODetails.getColumns().add(orderIDColumn);
 		final TableColumn<HomeFuelOrder, Date> orderTimeColumn = (TableColumn<HomeFuelOrder, Date>) new TableColumn(
 				"Time Bought");
-		orderIDColumn.setMinWidth(170);
 		orderTimeColumn.setCellValueFactory((Callback) new PropertyValueFactory("orderTime"));
+		orderTimeColumn.setMinWidth(170);
 		this.tvVODetails.getColumns().add(orderTimeColumn);
 		final TableColumn<HomeFuelOrder, String> orderAddress = (TableColumn<HomeFuelOrder, String>) new TableColumn(
 				"Address");
@@ -363,11 +365,12 @@ public class CustomerWindow extends UserWindow {
 		final TableColumn<HomeFuelOrder, ShipmentType> orderShipment = (TableColumn<HomeFuelOrder, ShipmentType>) new TableColumn(
 				"Shipment Method");
 		orderShipment.setCellValueFactory((Callback) new PropertyValueFactory("shipmentMethod"));
+		orderShipment.setMinWidth(orderShipment.getPrefWidth() * 2);
 		this.tvVODetails.getColumns().add(orderShipment);
 		final TableColumn<HomeFuelOrder, Date> orderDueTimeColumn = (TableColumn<HomeFuelOrder, Date>) new TableColumn(
 				"Due Time");
-		orderDueTimeColumn.setMinWidth(170);
 		orderDueTimeColumn.setCellValueFactory((Callback) new PropertyValueFactory("dueTime"));
+		orderDueTimeColumn.setMinWidth(170);
 		this.tvVODetails.getColumns().add(orderDueTimeColumn);
 		final TableColumn<HomeFuelOrder, Double> orderPrice = (TableColumn<HomeFuelOrder, Double>) new TableColumn(
 				"Total Price");

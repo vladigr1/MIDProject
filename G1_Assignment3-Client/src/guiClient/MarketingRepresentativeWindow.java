@@ -468,7 +468,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		alert.setHeaderText("Are You Sure You Want To Delete This Customer\nDo You Have His Consent?");
 		ButtonType buttonTypeOne = new ButtonType("Yes");
 		ButtonType buttonTypeTwo = new ButtonType("No");
-		alert.getButtonTypes().setAll(buttonTypeTwo, buttonTypeOne);
+		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
 		alert.show();
 		final Button btn = (Button) alert.getDialogPane().lookupButton(buttonTypeOne);
 		btn.setOnAction(event -> {
@@ -624,7 +624,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		alert.setHeaderText("Are You Sure You Want To Cancel The Registration?");
 		ButtonType buttonTypeOne = new ButtonType("Yes");
 		ButtonType buttonTypeTwo = new ButtonType("No");
-		alert.getButtonTypes().setAll(buttonTypeTwo, buttonTypeOne);
+		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
 		alert.show();
 		final Button btn = (Button) alert.getDialogPane().lookupButton(buttonTypeOne);
 		btn.setOnAction(event -> {
@@ -633,13 +633,17 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			this.step2.setVisible(false);
 			this.btnAECACancelReg.setVisible(false);
 			this.gpAECACarDetails.setDisable(false);
+			this.apAECACarDetails.setDisable(true);
+			this.apAECbuttons.setVisible(false);
+			this.btnAECASave1.setVisible(true);
 			this.btnAECAEdit.setDisable(false);
 			this.btnAECAClear.setDisable(false);
-			this.apAECACarDetails.setDisable(true);
 			this.step3.setVisible(false);
 			this.btnSPPCancelReg.setVisible(false);
 			this.gpSPP.setDisable(false);
 			this.apSPP.setDisable(true);
+			this.apSPPbuttons.setVisible(false);
+			this.btnSPPSave1.setVisible(true);
 			this.btnSPPClear.setDisable(false);
 			this.vbox1.setDisable(false);
 			this.vbox2.setDisable(false);
@@ -666,7 +670,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		alert.setHeaderText("Are You Sure You Want To Cancel The Registration?");
 		ButtonType buttonTypeOne = new ButtonType("Yes");
 		ButtonType buttonTypeTwo = new ButtonType("No");
-		alert.getButtonTypes().setAll(buttonTypeTwo, buttonTypeOne);
+		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
 		alert.show();
 		final Button btn = (Button) alert.getDialogPane().lookupButton(buttonTypeOne);
 		btn.setOnAction(event -> {
@@ -675,15 +679,19 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			this.step2.setVisible(false);
 			this.btnAECACancelReg.setVisible(false);
 			this.gpAECACarDetails.setDisable(false);
+			this.apAECACarDetails.setDisable(true);
+			this.apAECbuttons.setVisible(false);
+			this.btnAECASave1.setVisible(true);
 			this.btnAECAEdit.setDisable(false);
 			this.btnAECAClear.setDisable(false);
-			this.apAECACarDetails.setDisable(true);
 			this.step3.setVisible(false);
 			this.step4.setVisible(false);
 			this.btnSPPCancelReg.setVisible(false);
 			this.btnSPMCancelReg.setVisible(false);
 			this.gpSPP.setDisable(false);
 			this.apSPP.setDisable(true);
+			this.apSPPbuttons.setVisible(false);
+			this.btnSPPSave1.setVisible(true);
 			this.btnSPPClear.setDisable(false);
 			this.vbox1.setDisable(false);
 			this.vbox2.setDisable(false);
@@ -710,7 +718,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		alert.setHeaderText("Are You Sure You Want To Cancel The Registration?");
 		ButtonType buttonTypeOne = new ButtonType("Yes");
 		ButtonType buttonTypeTwo = new ButtonType("No");
-		alert.getButtonTypes().setAll(buttonTypeTwo, buttonTypeOne);
+		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
 		alert.show();
 		final Button btn = (Button) alert.getDialogPane().lookupButton(buttonTypeOne);
 		btn.setOnAction(event -> {
@@ -722,6 +730,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			this.btnSPMCancelReg.setVisible(false);
 			this.gpSPP.setDisable(false);
 			this.apSPP.setDisable(true);
+			this.apSPPbuttons.setVisible(false);
+			this.btnSPPSave1.setVisible(true);
 			this.btnSPPClear.setDisable(false);
 			this.step3.setVisible(false);
 			this.btnSPPCancelReg.setVisible(false);
@@ -805,7 +815,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		alert.setHeaderText("Are You Sure You Want To Delete This Car?");
 		ButtonType buttonTypeOne = new ButtonType("Yes");
 		ButtonType buttonTypeTwo = new ButtonType("No");
-		alert.getButtonTypes().setAll(buttonTypeTwo, buttonTypeOne);
+		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
 		alert.show();
 		final Button btn = (Button) alert.getDialogPane().lookupButton(buttonTypeOne);
 		btn.setOnAction(event -> {
@@ -1126,7 +1136,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	@Override
 	@SuppressWarnings("unchecked")
 	public void callAfterMessage(Object lastMsgFromServer) {
-		super.callAfterMessage(lastMsgFromServer);
+		if (lastMsgFromServer != null)
+			super.callAfterMessage(lastMsgFromServer);
 
 		if (lastMsgFromServer instanceof Map<?, ?>) {
 			HashMap<PricingModelName, Double> hm = (HashMap<PricingModelName, Double>) lastMsgFromServer;
@@ -1182,7 +1193,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 					alert.setHeaderText("Would you like to add another car?");
 					ButtonType buttonTypeOne = new ButtonType("Yes");
 					ButtonType buttonTypeTwo = new ButtonType("No");
-					alert.getButtonTypes().setAll(buttonTypeTwo, buttonTypeOne);
+					alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
 					alert.show();
 
 					final Button btn = (Button) alert.getDialogPane().lookupButton(buttonTypeOne);
@@ -1202,10 +1213,12 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 						this.step3.setVisible(true);
 						this.btnSPPCancelReg.setVisible(true);
 						this.gpSPP.setDisable(true);
+						this.apSPP.setDisable(false);
+						this.apSPPbuttons.setVisible(true);
+						this.btnSPPSave1.setVisible(false);
 						this.btnSPPClear.setDisable(true);
 						this.vbox1.setDisable(true);
 						this.vbox2.setDisable(true);
-						this.apSPP.setDisable(false);
 						this.cobSPPFuelCompany2.setDisable(true);
 						this.cobSPPFuelCompany3.setDisable(true);
 						this.sidebar_btn3.setSelected(true);
@@ -1241,15 +1254,19 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 					this.step2.setVisible(false);
 					this.btnAECACancelReg.setVisible(false);
 					this.gpAECACarDetails.setDisable(false);
+					this.apAECACarDetails.setDisable(true);
+					this.apAECbuttons.setVisible(true);
+					this.btnAECASave1.setVisible(false);
 					this.btnAECAEdit.setDisable(false);
 					this.btnAECAClear.setDisable(false);
 					this.vbox1.setDisable(false);
 					this.vbox2.setDisable(false);
-					this.apAECACarDetails.setDisable(true);
 					this.step3.setVisible(false);
 					this.btnSPPCancelReg.setVisible(false);
 					this.gpSPP.setDisable(false);
 					this.apSPP.setDisable(true);
+					this.apSPPbuttons.setVisible(true);
+					this.btnSPPSave1.setVisible(false);
 					this.btnSPPClear.setDisable(false);
 
 					// set pricingModelPane
@@ -1340,11 +1357,13 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 					this.step2.setVisible(true);
 					this.btnAECACancelReg.setVisible(true);
 					this.gpAECACarDetails.setDisable(true);
+					this.apAECACarDetails.setDisable(false);
+					this.apAECbuttons.setVisible(true);
+					this.btnAECASave1.setVisible(false);
 					this.btnAECAEdit.setDisable(true);
 					this.btnAECAClear.setDisable(true);
 					this.vbox1.setDisable(true);
 					this.vbox2.setDisable(true);
-					this.apAECACarDetails.setDisable(false);
 					this.sidebar_btn2.setSelected(true);
 				}
 
@@ -1418,6 +1437,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 						this.apAECACarDetails.setDisable(false);
 						this.apAECbuttons.setVisible(false);
 						this.btnAECASave1.setVisible(true);
+						this.apAECbuttons.setVisible(false);
+						this.btnAECASave1.setVisible(true);
 
 					} else if (this.visibleNow == this.addEditCarPane && editCarPane.isVisible() == true) {
 						this.controller.handleMessageFromClientUI("getcustomercars " + this.tfECACustID.getText());
@@ -1425,6 +1446,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 					} else if (this.visibleNow == this.setPurchasingPane) {
 						this.gpSPP.setDisable(true);
 						this.apSPP.setDisable(false);
+						this.apSPPbuttons.setVisible(false);
+						this.btnSPPSave1.setVisible(true);
 						this.purchProg_ExpenProgBox_SP1.setStyle(
 								"-fx-border-color: #75d65dd7 ; -fx-border-width: 4px ;-fx-border-radius: 2px ;");
 						this.purchProg_ExpenProgBox_SP.setStyle("-fx-border-style: none;");
@@ -1564,8 +1587,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 				if (this.customerIsRegisteringFlag == false) {
 					this.apSPMbuttons.setVisible(false);
 					this.btnSPMSet1.setVisible(true);
-				}
-				else {
+				} else {
 					this.apSPMbuttons.setVisible(true);
 					this.btnSPMSet1.setVisible(false);
 				}
@@ -1708,6 +1730,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.btnAECACancelReg.setVisible(false);
 		this.gpAECACarDetails.setDisable(false);
 		this.apAECACarDetails.setDisable(true);
+		this.apAECbuttons.setVisible(false);
+		this.btnAECASave1.setVisible(true);
 	}
 
 	/**
@@ -1740,6 +1764,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.btnSPPCancelReg.setVisible(false);
 		this.gpSPP.setDisable(false);
 		this.apSPP.setDisable(true);
+		this.apSPPbuttons.setVisible(false);
+		this.btnSPPSave1.setVisible(true);
 	}
 
 	/**
