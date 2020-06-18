@@ -711,7 +711,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			openErrorAlert("Error", "Registration Plate Must Be a Number");
 			return;
 		}
-		if (owner.matches("[a-zA-Z]+")) {
+		if (!owner.matches("[a-zA-Z]+")) {
 			openErrorAlert("Error", "Owner Name Must Be Only Characters\nWithout Spaces");
 			return;
 		}
@@ -1013,7 +1013,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			openErrorAlert("Error", "Registration Plate Must Be a Number");
 			return;
 		}
-		if (owner.matches("[a-zA-Z]+")) {
+		if (!owner.matches("[a-zA-Z]+")) {
 			openErrorAlert("Error", "Owner Name Must Be Only Characters\nWithout Spaces");
 			return;
 		}

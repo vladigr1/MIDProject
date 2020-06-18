@@ -28,6 +28,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Window;
 import javafx.util.Callback;
@@ -381,6 +382,7 @@ public class CustomerWindow extends UserWindow {
 		final TableColumn<HomeFuelOrder, Integer> orderIDColumn = (TableColumn<HomeFuelOrder, Integer>) new TableColumn(
 				"Order ID");
 		orderIDColumn.setCellValueFactory((Callback) new PropertyValueFactory("ordersID"));
+//		orderIDColumn.setSortType(SortType.DESCENDING);
 		this.tvVODetails.getColumns().add(orderIDColumn);
 		final TableColumn<HomeFuelOrder, Date> orderTimeColumn = (TableColumn<HomeFuelOrder, Date>) new TableColumn(
 				"Time Bought");
@@ -474,6 +476,30 @@ public class CustomerWindow extends UserWindow {
 		this.tfHomeNewPass.clear();
 		this.apOHFPurchaseInfo.setDisable(false);
 		this.apOHFOrderDetails.setDisable(true);
+	}
+
+	/*********************** key listeners ***********************/
+
+	@FXML
+	void tabRbOHFShipment1(KeyEvent event) {
+		switch (event.getCode()) {
+		case TAB:
+			this.rbOHFShipment2.setSelected(true);
+			break;
+		default:
+			break;
+		}
+	}
+
+	@FXML
+	void tabRbOHFShipment2(KeyEvent event) {
+		switch (event.getCode()) {
+		case TAB:
+			this.rbOHFShipment1.setSelected(true);
+			break;
+		default:
+			break;
+		}
 	}
 
 }
