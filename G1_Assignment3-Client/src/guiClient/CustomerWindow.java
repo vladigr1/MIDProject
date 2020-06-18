@@ -199,8 +199,8 @@ public class CustomerWindow extends UserWindow {
 
 		if (amount.isEmpty() || address.isEmpty()) {
 			openErrorAlert("Error", "Missing Required Fields");
-			this.tfOHFAmount1.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
-			this.tfOHFAddress.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+//			this.tfOHFAmount1.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+//			this.tfOHFAddress.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			return;
 		}
 		if (amount.matches(".*[ -/].*") || amount.matches(".*[:-~].*") || amount.length() >= 5) {

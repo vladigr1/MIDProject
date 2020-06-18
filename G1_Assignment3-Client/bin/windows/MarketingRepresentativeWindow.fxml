@@ -27,7 +27,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guiClient.MarketingRepresentativeWindow">
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guiClient.MarketingRepresentativeWindow">
    <children>
       <BorderPane fx:id="mainBorderPane" minHeight="700.0" prefHeight="764.0" prefWidth="1102.0" styleClass="main-pane" stylesheets="@../pics/style.css">
          <left>
@@ -519,9 +519,9 @@
                                           <Font name="Arial" size="16.0" />
                                        </font>
                                     </Label>
-                                    <AnchorPane fx:id="apAECbuttons" layoutX="144.0" layoutY="251.0" visible="false">
+                                    <AnchorPane fx:id="apAECbuttons" layoutX="118.0" layoutY="251.0" prefHeight="40.0" prefWidth="495.0" visible="false">
                                        <children>
-                                          <Button fx:id="btnAECASave" layoutX="244.0" mnemonicParsing="false" onAction="#btnAECASavePressed" prefHeight="30.0" prefWidth="230.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Save Car" textFill="WHITE" wrapText="true">
+                                          <Button fx:id="btnAECASave" layoutX="-1.0" mnemonicParsing="false" onAction="#btnAECASavePressed" prefHeight="30.0" prefWidth="230.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Save Car" textFill="WHITE" wrapText="true">
                                              <font>
                                                 <Font name="Calibri" size="20.0" />
                                              </font>
@@ -533,7 +533,7 @@
                                                 </ImageView>
                                              </graphic>
                                           </Button>
-                                          <Button fx:id="btnAECACancelReg" mnemonicParsing="false" onAction="#btnAECACancelRegPressed" prefHeight="30.0" prefWidth="230.0" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Cancel Registration" textFill="WHITE">
+                                          <Button fx:id="btnAECACancelReg" layoutX="281.0" mnemonicParsing="false" onAction="#btnAECACancelRegPressed" prefHeight="30.0" prefWidth="230.0" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Cancel Registration" textFill="WHITE">
                                              <font>
                                                 <Font name="Calibri" size="20.0" />
                                              </font>
@@ -642,7 +642,7 @@
                         </AnchorPane>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="setPurchasingPane" layoutX="6.0" layoutY="4.0" prefHeight="673.0" prefWidth="827.0" visible="false">
+                  <AnchorPane fx:id="setPurchasingPane" layoutX="6.0" layoutY="2.0" prefHeight="673.0" prefWidth="827.0" visible="false">
                      <children>
                         <AnchorPane layoutY="23.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="646.0" prefWidth="827.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css">
                            <children>
@@ -745,7 +745,7 @@
                                           <ComboBox fx:id="cobSPPFuelCompany3" prefWidth="150.0" promptText="#3" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                                        </children>
                                     </GridPane>
-                                    <AnchorPane fx:id="apSPPbuttons" layoutX="109.0" layoutY="510.0" visible="false">
+                                    <AnchorPane fx:id="apSPPbuttons" layoutX="109.0" layoutY="505.0" visible="false">
                                        <children>
                                           <Button fx:id="btnSPPSave" layoutX="302.0" mnemonicParsing="false" onAction="#btnSPPSavePressed" prefHeight="30.0" prefWidth="280.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Save Purchasing Program" textFill="WHITE">
                                              <font>
@@ -826,6 +826,11 @@
                               <Font name="Calibri Italic" size="16.0" />
                            </font>
                         </Label>
+                        <Label layoutX="1.0" layoutY="4.0" prefHeight="21.0" prefWidth="295.0" text="Purchasing Program Information:">
+                           <font>
+                              <Font name="Arial Bold" size="18.0" />
+                           </font>
+                        </Label>
                      </children>
                   </AnchorPane>
                   <AnchorPane fx:id="pricingModelPane" layoutX="6.0" layoutY="5.0" visible="false">
@@ -836,7 +841,7 @@
                                  <children>
                                     <AnchorPane fx:id="apSPMbuttons" layoutX="151.0" layoutY="377.0" visible="false">
                                        <children>
-                                          <Button fx:id="btnSPMSet" layoutX="254.0" mnemonicParsing="false" onAction="#btnSPMSetPressed" prefHeight="30.0" prefWidth="230.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Set Model" textFill="WHITE">
+                                          <Button fx:id="btnSPMSet" mnemonicParsing="false" onAction="#btnSPMSetPressed" prefHeight="30.0" prefWidth="230.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Set Model" textFill="WHITE">
                                              <font>
                                                 <Font name="Calibri" size="20.0" />
                                              </font>
@@ -848,7 +853,7 @@
                                                 </ImageView>
                                              </graphic>
                                           </Button>
-                                          <Button fx:id="btnSPMCancelReg" mnemonicParsing="false" onAction="#btnSPMCancelRegPressed" prefHeight="30.0" prefWidth="230.0" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Cancel Registration" textFill="WHITE">
+                                          <Button fx:id="btnSPMCancelReg" layoutX="254.0" mnemonicParsing="false" onAction="#btnSPMCancelRegPressed" prefHeight="30.0" prefWidth="230.0" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Cancel Registration" textFill="WHITE">
                                              <font>
                                                 <Font name="Calibri" size="20.0" />
                                              </font>
@@ -1024,7 +1029,7 @@
                               </Label>
                            </children>
                         </AnchorPane>
-                        <Label fx:id="step4" layoutX="620.0" text="Customer Registration Step 4/4" textFill="#0000ff">
+                        <Label fx:id="step4" layoutX="620.0" layoutY="4.0" text="Customer Registration Step 4/4" textFill="#0000ff">
                            <font>
                               <Font name="Calibri Italic" size="16.0" />
                            </font>
@@ -1146,7 +1151,7 @@
                                     </HBox>
                                  </children>
                               </GridPane>
-                              <Button fx:id="btnCSPCreate" disable="true" layoutX="196.0" layoutY="261.0" mnemonicParsing="false" onMouseClicked="#btnCSPCreateClicked" onMouseEntered="#btnCSPCreateHover" onMouseExited="#btnCSPCreateExit" prefHeight="30.0" prefWidth="200.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Create Pattern" textFill="WHITE">
+                              <Button fx:id="btnCSPCreate" disable="true" layoutX="196.0" layoutY="258.0" mnemonicParsing="false" onMouseClicked="#btnCSPCreateClicked" onMouseEntered="#btnCSPCreateHover" onMouseExited="#btnCSPCreateExit" prefHeight="30.0" prefWidth="200.0" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Create Pattern" textFill="WHITE">
                                  <font>
                                     <Font name="Calibri" size="20.0" />
                                  </font>
@@ -1232,7 +1237,7 @@
                   </Button>
                </children>
             </GridPane>
-            <Button fx:id="btnECUClose" layoutX="501.0" layoutY="4.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnECUClosePressed" prefHeight="13.0" prefWidth="25.0" style="-fx-background-radius: 50; -fx-background-color: #cc0000;">
+            <Button fx:id="btnECUClose" layoutX="501.0" layoutY="5.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnECUClosePressed" prefHeight="13.0" prefWidth="25.0" style="-fx-background-radius: 50; -fx-background-color: #cc0000;">
                <graphic>
                   <ImageView fitHeight="15.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -1281,7 +1286,7 @@
                         <ComboBox fx:id="cobECUCustType" prefHeight="30.0" prefWidth="173.0" promptText="Type#1" visibleRowCount="5" />
                      </children>
                   </VBox>
-                  <Button fx:id="btnECUDelete" layoutX="54.0" layoutY="299.0" mnemonicParsing="false" onAction="#btnECUDeletePressed" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Delete Customer">
+                  <Button fx:id="btnECUDelete" layoutX="258.0" layoutY="299.0" mnemonicParsing="false" onAction="#btnECUDeletePressed" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Delete Customer">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -1290,7 +1295,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="btnECUUpdate" layoutX="258.0" layoutY="299.0" mnemonicParsing="false" onAction="#btnECUUpdatePressed" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Update Customer">
+                  <Button fx:id="btnECUUpdate" layoutX="54.0" layoutY="299.0" mnemonicParsing="false" onAction="#btnECUUpdatePressed" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Update Customer">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -1299,7 +1304,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Label layoutX="53.0" layoutY="338.0" text="Never Delete Without Customer Consent !!!">
+                  <Label layoutX="258.0" layoutY="338.0" text="Never Delete Without Customer Consent !!!">
                      <font>
                         <Font name="Arial" size="10.0" />
                      </font>
@@ -1322,8 +1327,8 @@
                   <TextField fx:id="tfECARegistration" editable="false" layoutY="214.0" prefHeight="30.0" promptText="Registration Plate" />
                   <TextField fx:id="tfECAOwner" layoutX="180.0" layoutY="214.0" prefHeight="30.0" promptText="Owner Name (no spaces)" />
                   <ComboBox fx:id="cobECAFuelType" layoutX="356.0" layoutY="214.0" prefHeight="30.0" prefWidth="150.0" promptText="Fuel Type" />
-                  <Button fx:id="btnECAUpdate" layoutX="285.0" layoutY="267.0" mnemonicParsing="false" onAction="#btnECAUpdatePressed" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Update Car" />
-                  <Button fx:id="btnECADelete" layoutX="111.0" layoutY="267.0" mnemonicParsing="false" onAction="#btnECADeletePressed" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Delete Car" />
+                  <Button fx:id="btnECAUpdate" layoutX="111.0" layoutY="267.0" mnemonicParsing="false" onAction="#btnECAUpdatePressed" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Update Car" />
+                  <Button fx:id="btnECADelete" layoutX="285.0" layoutY="267.0" mnemonicParsing="false" onAction="#btnECADeletePressed" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Delete Car" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="apECACustomer" layoutX="19.0" layoutY="47.0">
@@ -1345,7 +1350,7 @@
                   </Button>
                </children>
             </AnchorPane>
-            <Button fx:id="btnECAClose" layoutX="526.0" layoutY="4.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnECAClosePressed" prefHeight="13.0" prefWidth="25.0" style="-fx-background-radius: 50; -fx-background-color: #cc0000;">
+            <Button fx:id="btnECAClose" layoutX="526.0" layoutY="5.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#btnECAClosePressed" prefHeight="13.0" prefWidth="25.0" style="-fx-background-radius: 50; -fx-background-color: #cc0000;">
                <graphic>
                   <ImageView fitHeight="15.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true">
                      <image>
