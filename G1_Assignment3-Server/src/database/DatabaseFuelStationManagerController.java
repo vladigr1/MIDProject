@@ -795,7 +795,6 @@ public class DatabaseFuelStationManagerController {
 			}
 			rs.close();
 		} catch (SQLException e) {
-
 		}
 		return result;
 	}
@@ -817,7 +816,6 @@ public class DatabaseFuelStationManagerController {
 			}
 			rs.close();
 		} catch (SQLException e) {
-
 		}
 		return result;
 	}
@@ -839,7 +837,6 @@ public class DatabaseFuelStationManagerController {
 			}
 			rs.close();
 		} catch (SQLException e) {
-
 		}
 		return result;
 	}
@@ -861,9 +858,54 @@ public class DatabaseFuelStationManagerController {
 			}
 			rs.close();
 		} catch (SQLException e) {
-
 		}
 		return result;
+	}
+
+	public Boolean checkForQuarterReportNotYetCreated(String userName) {
+		try {
+			int employeeID = getEmployeeID(userName);
+			int fuelStationID = getFuelStationID(employeeID);
+			Calendar cal = Calendar.getInstance();
+			int repYear = cal.get(Calendar.YEAR);
+			int month = cal.get(Calendar.MONTH) + 1;
+			int repQuarter;
+
+			if (month >= 1 && month <= 3) {
+				repYear--;
+				repQuarter = 4;
+			} else if (month >= 4 && month <= 6) {
+				repQuarter = 1;
+			} else if (month >= 7 && month <= 9) {
+				repQuarter = 2;
+			} else {
+				repQuarter = 3;
+			}
+
+			PreparedStatement pStmt = this.connection.prepareStatement(
+					"SELECT dateCreated FROM quarterly_report WHERE repQuarter = ? AND repYear = ? AND FK_fuelStationID = ?");
+			pStmt.setInt(1, repQuarter);
+			pStmt.setInt(2, repYear);
+			pStmt.setInt(3, fuelStationID);
+
+			ResultSet rs = pStmt.executeQuery();
+			if (!rs.next()) {
+				// "FK_employeeID", "message", "dismissed", "dateCreated"
+				Date now = new Date();
+				cal.setTime(now);
+				cal.add(Calendar.HOUR, -2);
+				cal.add(Calendar.MINUTE, -30);
+				Object[] values = { employeeID, "a quarterly report for the year " + repYear + " and the quarter "
+						+ repQuarter + " has yet to be created", false, now };
+				TableInserts.insertNotification(connection, values);
+			}
+
+			rs.close();
+			return true;
+
+		} catch (SQLException e) {
+			return false;
+		}
 	}
 
 }

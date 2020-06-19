@@ -2,7 +2,9 @@ package guiServer;
 
 import java.io.IOException;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,6 +13,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import server.ServerController;
 
 /**
@@ -20,6 +25,13 @@ import server.ServerController;
  * @author Elroy, Lior
  */
 public class ServerWindow {
+
+	@FXML
+	private AnchorPane titleBar;
+	@FXML
+	private Button btnMini;
+	@FXML
+	private Button btnExit;
 
 	@FXML
 	private Label lblStatus;
@@ -226,6 +238,57 @@ public class ServerWindow {
 
 	public void disConnectedBtnExit() {
 		this.btnDisconnect.setStyle("-fx-background-color: #F08080");
+	}
+
+	/* methods for functionality of the top bar close, minimize, drag window */
+	private double x = 0;
+	private double y = 0;
+
+	/**
+	 * button listener for minimize button
+	 * 
+	 * @param event
+	 */
+	@FXML
+	public void minimizeTopBar(ActionEvent event) {
+		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		stage.setIconified(true);
+	}
+
+	/**
+	 * listener for topbar
+	 * 
+	 * @param event
+	 */
+	@FXML
+	public void clickOnTopBar(MouseEvent event) {
+		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		x = stage.getX() - event.getScreenX();
+		y = stage.getY() - event.getScreenY();
+	}
+
+	/**
+	 * listener for topbar
+	 * 
+	 * @param event
+	 */
+	@FXML
+	public void dragTopBar(MouseEvent event) {
+		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		stage.setX(event.getScreenX() + x);
+		stage.setY(event.getScreenY() + y);
+	}
+
+	/**
+	 * button listener for close button on topbar
+	 * 
+	 * @param event
+	 */
+	@FXML
+	public void closeTopBar(ActionEvent event) {
+		if (getConnected())
+			disconnectServer();
+		System.exit(0);
 	}
 
 }

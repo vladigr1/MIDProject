@@ -644,4 +644,10 @@ public class FuelStationManagerWindow extends QuarterlyReportWindow {
 		super.clearFields();
 	}
 
+	@Override
+	public void setUserComponents(String username) {
+		super.setUserComponents(username);
+		this.controller.handleMessageFromClientUI("checkForQuarterReportNotYetCreated_" + username);
+	}
+
 }
