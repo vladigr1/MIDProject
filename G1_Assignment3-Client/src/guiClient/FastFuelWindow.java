@@ -95,6 +95,7 @@ public class FastFuelWindow extends AFXML {
 	void btnEmulatePressed(ActionEvent event) {
 		this.tfAmount.clear();
 		this.tfAmount1.clear();
+		simulationData.clear();
 		String regPlate = this.tfRegPlate.getText();
 		String fuelStationID = this.tfFuelStation.getText();
 
@@ -205,7 +206,7 @@ public class FastFuelWindow extends AFXML {
 		} else if (result.contains("doesn't") || result.contains("fail")) {
 			openErrorAlert("Error", result);
 			this.step1f.setDisable(false);
-			this.step2f.setDisable(false);
+			this.step2f.setDisable(true);
 
 		} else if (result.equals("getFuelTypeAndPricePerLiter success")) {
 			this.simulationData.clear();
