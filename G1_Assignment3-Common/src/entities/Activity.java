@@ -22,7 +22,6 @@ public class Activity implements Serializable {
 	/**
 	 * without activityID auto-inc, employeeID
 	 * 
-	 * @param employeeID
 	 * @param time
 	 * @param action
 	 */

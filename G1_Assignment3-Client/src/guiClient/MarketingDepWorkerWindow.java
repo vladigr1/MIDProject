@@ -54,12 +54,6 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 	@FXML
 	protected CheckBox cbCSPMotorbike;
 	@FXML
-	protected Label lblDieselDiscERR;
-	@FXML
-	protected Label lblGasolineDiscERR;
-	@FXML
-	protected Label lblMotorDiscERR;
-	@FXML
 	protected TextField tfCSPGasolineDisc;
 	@FXML
 	protected TextField tfCSPMotorbikeDisc;
@@ -71,11 +65,21 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 
 	/*********************** button listeners ***********************/
 
+	/**
+	 * button listener for generate analytics of customers
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnHomeGenerateAnalysisPressed(ActionEvent event) {
 		this.sendToClientController("genAnalysis");
 	}
 
+	/**
+	 * button listener for create sales pattern
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnCSPCreateClicked(MouseEvent event) {
 		if (checkOfCreateSalePatternFields() == true && checkDuration(tfCSPDuration) && checkPrecentageInCSP()) {
@@ -101,51 +105,76 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 		}
 	}
 
+	/**
+	 * fxml button css
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnCSPCreateHover(MouseEvent event) {
 		btnCSPCreate.setOpacity(0.85);
 	}
 
+	/**
+	 * fxml button css
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnCSPCreateExit(MouseEvent event) {
 		btnCSPCreate.setOpacity(1);
 	}
 
+	/**
+	 * buttong listener for diesel combobox in create sales pattern pane
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void cbCSPDieselClicked(MouseEvent event) {
 		checkBoxesOfCreateSalePattern();
 		tfCSPDieselDisc.setDisable(!tfCSPDieselDisc.isDisable());
 		if (tfCSPDieselDisc.isDisable()) {
-			this.lblDieselDiscERR.setVisible(false);
-			tfCSPDieselDisc.setStyle("-fx-border-style: none;");
+//			tfCSPDieselDisc.setStyle("-fx-border-style: none;");
 			tfCSPDieselDisc.clear();
 		}
 	}
 
+	/**
+	 * buttong listener for gasoline checkbox in create sales pattern pane
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void cbCSPGasolineClicked(MouseEvent event) {
 		checkBoxesOfCreateSalePattern();
 		tfCSPGasolineDisc.setDisable(!tfCSPGasolineDisc.isDisable());
 		if (tfCSPGasolineDisc.isDisable()) {
-			this.lblGasolineDiscERR.setVisible(false);
-			tfCSPGasolineDisc.setStyle("-fx-border-style: none;");
+//			tfCSPGasolineDisc.setStyle("-fx-border-style: none;");
 			tfCSPGasolineDisc.clear();
 		}
 	}
 
+	/**
+	 * buttong listener for motorbike fuel checkbox in create sales pattern pane
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void cbCSPMotorbikeClicked(MouseEvent event) {
 		checkBoxesOfCreateSalePattern();
 		tfCSPMotorbikeDisc.setDisable(!tfCSPMotorbikeDisc.isDisable());
 		if (tfCSPMotorbikeDisc.isDisable()) {
-			this.lblMotorDiscERR.setVisible(false);
-			tfCSPMotorbikeDisc.setStyle("-fx-border-style: none;");
+//			tfCSPMotorbikeDisc.setStyle("-fx-border-style: none;");
 			tfCSPMotorbikeDisc.clear();
 		}
 	}
 
 	/*************** boundary "logic" - window changes ***************/
 
+	/**
+	 * called after server returned a message/object to the client
+	 */
 	@Override
 	public void callAfterMessage(Object lastMsgFromServer) {
 		super.callAfterMessage(lastMsgFromServer);
@@ -226,7 +255,8 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 		boolean result = false;
 		if (tfCSPDuration.getText().trim().isEmpty()
 				|| this.checkValidTextField(tfCSPDuration.getText(), "digits", "Duration is only digits") == false) {
-			tfCSPDuration.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+			this.openErrorAlert("ERROR", "Please enter a positive number");
+//			tfCSPDuration.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			return false;
 		}
 		if (Integer.parseInt(tfCSPDuration.getText()) > 60 * 24) {
@@ -236,9 +266,9 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 
 		if (!cbCSPDiesel.isSelected() && !cbCSPGasoline.isSelected() && !cbCSPGasoline.isSelected()
 				&& !cbCSPMotorbike.isSelected()) {
-			tfCSPDieselDisc.setStyle("-fx-border-style: none;");
-			tfCSPGasolineDisc.setStyle("-fx-border-style: none;");
-			tfCSPMotorbikeDisc.setStyle("-fx-border-style: none;");
+//			tfCSPDieselDisc.setStyle("-fx-border-style: none;");
+//			tfCSPGasolineDisc.setStyle("-fx-border-style: none;");
+//			tfCSPMotorbikeDisc.setStyle("-fx-border-style: none;");
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setTitle("Discounts Are Empty");
 			alert.setContentText("You must fill at least one discount");
@@ -247,30 +277,33 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 		}
 		if (cbCSPDiesel.isSelected() && tfCSPDieselDisc.getText().trim().isEmpty()
 				|| this.checkValidTextField(tfCSPDieselDisc.getText(), "digits", "Discount is only digits") == false) {
-			tfCSPDieselDisc.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+			this.openErrorAlert("ERROR", "Please enter a Diesel Discount Value");
+//			tfCSPDieselDisc.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			return false;
 		}
 		if (cbCSPGasoline.isSelected() && tfCSPGasolineDisc.getText().trim().isEmpty() || this
 				.checkValidTextField(tfCSPGasolineDisc.getText(), "digits", "Discount is only digits") == false) {
-			tfCSPGasolineDisc.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+			this.openErrorAlert("ERROR", "Please enter a Gasoline Discount Value");
+//			tfCSPGasolineDisc.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			return false;
 		}
 		if (cbCSPMotorbike.isSelected() && tfCSPMotorbikeDisc.getText().trim().isEmpty() || this
 				.checkValidTextField(tfCSPMotorbikeDisc.getText(), "digits", "Discount is only digits") == false) {
-			tfCSPMotorbikeDisc.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+			this.openErrorAlert("ERROR", "Please enter a Motor Bike Discount Value");
+//			tfCSPMotorbikeDisc.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			return false;
 		}
 		if (!tfCSPDuration.getText().trim().isEmpty()
 				&& ((cbCSPDiesel.isSelected() && !tfCSPDieselDisc.getText().trim().isEmpty())
 						|| (cbCSPGasoline.isSelected() && !tfCSPGasolineDisc.getText().trim().isEmpty())
 						|| (cbCSPMotorbike.isSelected() && !tfCSPMotorbikeDisc.getText().trim().isEmpty()))) {
-			tfCSPDuration.setStyle("-fx-border-style: none;");
-			cbCSPDiesel.setStyle("-fx-border-style: none;");
-			tfCSPDieselDisc.setStyle("-fx-border-style: none;");
-			cbCSPGasoline.setStyle("-fx-border-style: none;");
-			tfCSPGasolineDisc.setStyle("-fx-border-style: none;");
-			cbCSPMotorbike.setStyle("-fx-border-style: none;");
-			tfCSPMotorbikeDisc.setStyle("-fx-border-style: none;");
+//			tfCSPDuration.setStyle("-fx-border-style: none;");
+//			cbCSPDiesel.setStyle("-fx-border-style: none;");
+//			tfCSPDieselDisc.setStyle("-fx-border-style: none;");
+//			cbCSPGasoline.setStyle("-fx-border-style: none;");
+//			tfCSPGasolineDisc.setStyle("-fx-border-style: none;");
+//			cbCSPMotorbike.setStyle("-fx-border-style: none;");
+//			tfCSPMotorbikeDisc.setStyle("-fx-border-style: none;");
 			result = true;
 		}
 		return result;
@@ -279,7 +312,7 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 	/**
 	 * method that check the values of precentages fields is correct
 	 * 
-	 * @return
+	 * @return true if create sales pattern fields are valid
 	 */
 	protected boolean checkPrecentageInCSP() {
 		boolean flagDiesel = true;
@@ -289,31 +322,29 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 			if (product.getProductName().equals(ProductName.Diesel)) {
 				if (!tfCSPDieselDisc.getText().trim().isEmpty() && Double.parseDouble(tfCSPDieselDisc.getText()) > 0
 						&& Double.parseDouble(tfCSPDieselDisc.getText()) < product.getCurrentPrice()) {
-					tfCSPDieselDisc.setStyle("-fx-border-style: none;");
-					lblDieselDiscERR.setVisible(false);
+//					tfCSPDieselDisc.setStyle("-fx-border-style: none;");
 					flagDiesel = true;
 				}
 				if (!tfCSPDieselDisc.getText().trim().isEmpty() && (Double.parseDouble(tfCSPDieselDisc.getText()) <= 0
 						|| Double.parseDouble(tfCSPDieselDisc.getText()) >= product.getCurrentPrice())) {
-					lblDieselDiscERR.setVisible(true);
-					lblDieselDiscERR.setText("must be lower than: " + product.getCurrentPrice() + " and not 0");
-					tfCSPDieselDisc.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+					this.openErrorAlert("ERROR", "Please enter a number of Diesel Discount \n lower than "
+							+ product.getCurrentPrice() + " and not 0");
+//					tfCSPDieselDisc.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 					flagDiesel = false;
 				}
 			}
 			if (product.getProductName().equals(ProductName.Gasoline)) {
 				if (!tfCSPGasolineDisc.getText().trim().isEmpty() && Double.parseDouble(tfCSPGasolineDisc.getText()) > 0
 						&& Double.parseDouble(tfCSPGasolineDisc.getText()) < product.getCurrentPrice()) {
-					tfCSPGasolineDisc.setStyle("-fx-border-style: none;");
-					lblGasolineDiscERR.setVisible(false);
+//					tfCSPGasolineDisc.setStyle("-fx-border-style: none;");
 					flagGasoline = true;
 				}
 				if (!tfCSPGasolineDisc.getText().trim().isEmpty()
 						&& (Double.parseDouble(tfCSPGasolineDisc.getText()) <= 0
 								|| Double.parseDouble(tfCSPGasolineDisc.getText()) >= product.getCurrentPrice())) {
-					lblGasolineDiscERR.setVisible(true);
-					lblGasolineDiscERR.setText("must be lower than: " + product.getCurrentPrice() + " and not 0");
-					tfCSPGasolineDisc.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+					this.openErrorAlert("ERROR", "Please enter a number of Gasoline Discount \n lower than "
+							+ product.getCurrentPrice() + " and not 0");
+//					tfCSPGasolineDisc.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 					flagGasoline = false;
 				}
 			}
@@ -321,16 +352,15 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 				if (!tfCSPMotorbikeDisc.getText().trim().isEmpty()
 						&& Double.parseDouble(tfCSPMotorbikeDisc.getText()) > 0
 						&& Double.parseDouble(tfCSPMotorbikeDisc.getText()) < product.getCurrentPrice()) {
-					tfCSPMotorbikeDisc.setStyle("-fx-border-style: none;");
-					lblMotorDiscERR.setVisible(false);
+//					tfCSPMotorbikeDisc.setStyle("-fx-border-style: none;");
 					flagMotorbikeFuel = true;
 				}
 				if (!tfCSPMotorbikeDisc.getText().trim().isEmpty()
 						&& (Double.parseDouble(tfCSPMotorbikeDisc.getText()) <= 0
 								|| Double.parseDouble(tfCSPMotorbikeDisc.getText()) >= product.getCurrentPrice())) {
-					lblMotorDiscERR.setVisible(true);
-					lblMotorDiscERR.setText("must be lower than: " + product.getCurrentPrice() + " and not 0");
-					tfCSPMotorbikeDisc.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+					this.openErrorAlert("ERROR", "Please enter a number of Motor Bike Discount \n lower than "
+							+ product.getCurrentPrice() + " and not 0");
+//					tfCSPMotorbikeDisc.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 					flagMotorbikeFuel = false;
 				}
 			}
@@ -346,7 +376,6 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 			btnCSPCreate.setDisable(true);
 		else
 			btnCSPCreate.setDisable(false);
-
 	}
 
 	/**
@@ -359,9 +388,9 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 			result = true;
 		}
 		if (result == false)
-			tf.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
-		else
-			tf.setStyle("-fx-border-style: none;");
+			this.openErrorAlert("ERROR", "Please enter a value bigger than 0");
+//			tf.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+
 		return result;
 	}
 
@@ -381,30 +410,30 @@ public abstract class MarketingDepWorkerWindow extends EmployeeWindow {
 		this.sendToClientController("pull product rates");
 	}
 
+	/**
+	 * clear sale pattern pane
+	 */
 	protected void clearSalePatternPane() {
-		this.lblDieselDiscERR.setVisible(false);
-		this.lblGasolineDiscERR.setVisible(false);
-		this.lblMotorDiscERR.setVisible(false);
 		tfCSPDuration.clear();
-		tfCSPDuration.setStyle("-fx-border-style: none;");
+//		tfCSPDuration.setStyle("-fx-border-style: none;");
 		cbCSPDiesel.setSelected(false);
-		cbCSPDiesel.setStyle("-fx-border-style: none;");
+//		cbCSPDiesel.setStyle("-fx-border-style: none;");
 		cbCSPGasoline.setSelected(false);
-		cbCSPGasoline.setStyle("-fx-border-style: none;");
+//		cbCSPGasoline.setStyle("-fx-border-style: none;");
 		cbCSPMotorbike.setSelected(false);
-		cbCSPMotorbike.setStyle("-fx-border-style: none;");
+//		cbCSPMotorbike.setStyle("-fx-border-style: none;");
 		tfCSPDieselDisc.clear();
-		tfCSPDieselDisc.setStyle("-fx-border-style: none;");
+//		tfCSPDieselDisc.setStyle("-fx-border-style: none;");
 		tfCSPGasolineDisc.clear();
-		tfCSPGasolineDisc.setStyle("-fx-border-style: none;");
+//		tfCSPGasolineDisc.setStyle("-fx-border-style: none;");
 		tfCSPMotorbikeDisc.clear();
-		tfCSPMotorbikeDisc.setStyle("-fx-border-style: none;");
+//		tfCSPMotorbikeDisc.setStyle("-fx-border-style: none;");
 		tfCSPDieselDisc.setDisable(true);
-		tfCSPDieselDisc.setStyle("-fx-border-style: none;");
+//		tfCSPDieselDisc.setStyle("-fx-border-style: none;");
 		tfCSPGasolineDisc.setDisable(true);
-		tfCSPGasolineDisc.setStyle("-fx-border-style: none;");
+//		tfCSPGasolineDisc.setStyle("-fx-border-style: none;");
 		tfCSPMotorbikeDisc.setDisable(true);
-		tfCSPMotorbikeDisc.setStyle("-fx-border-style: none;");
+//		tfCSPMotorbikeDisc.setStyle("-fx-border-style: none;");
 		btnCSPCreate.setDisable(true);
 	}
 

@@ -57,8 +57,7 @@ public class DatabaseFuelStationManagerController {
 	 * function gets username returns list with unassesd orders id
 	 * 
 	 * @param username
-	 * @return Object[string,TreeSet<Integer>]
-	 * @throws MyFuelException
+	 * @return Object[string,TreeSet(Integer)]
 	 */
 	public Object[] getUnassesdOrderID(String username) {
 		Object[] result;
@@ -88,7 +87,6 @@ public class DatabaseFuelStationManagerController {
 	 * 
 	 * @param orderID
 	 * @return Object[string,productInStation,order]
-	 * @throws ParseException
 	 */
 	public Object[] getStationProductInOrderbyOrderID(int orderID) {
 		ProductInStation productInStation = getProductInStationByOrderID(orderID);
@@ -281,7 +279,7 @@ public class DatabaseFuelStationManagerController {
 	 * function update notification and dismiss by notificationID
 	 * 
 	 * @param notificationID
-	 * @return
+	 * @return Boolean
 	 */
 	public Boolean dismissNotificationsByNotificationID(String notificationID) {
 		PreparedStatement pStmt;
@@ -301,7 +299,7 @@ public class DatabaseFuelStationManagerController {
 	 * @param repYear
 	 * @param repQuarter
 	 * @param productInStationList
-	 * @return
+	 * @return Boolean
 	 */
 	private Boolean createQuarterReport(int fuelStationID, String repYear, int repQuarter,
 			ArrayList<ProductInStation> productInStationList) {
@@ -427,7 +425,7 @@ public class DatabaseFuelStationManagerController {
 	 * @param repYear
 	 * @param repQuarter
 	 * @param productInStationList
-	 * @return
+	 * @return MyInventoryReport
 	 */
 	private MyInventoryReport getExistInventoryReport(int fuelStationID, Date dateCreated, String repYear,
 			int repQuarter, ArrayList<ProductInStation> productInStationList) {
@@ -464,7 +462,7 @@ public class DatabaseFuelStationManagerController {
 	 * @param repYear
 	 * @param repQuarter
 	 * @param productInStationList
-	 * @return
+	 * @return MyOutcomeReport
 	 */
 	private MyOutcomeReport getExistOutcomeReport(int fuelStationID, Date dateCreated, String repYear, int repQuarter,
 			ArrayList<ProductInStation> productInStationList) {
@@ -501,7 +499,7 @@ public class DatabaseFuelStationManagerController {
 	 * @param repYear
 	 * @param repQuarter
 	 * @param productInStationList
-	 * @return
+	 * @return MyIncomeReport
 	 */
 	private MyIncomeReport getExistIncomeReport(int fuelStationID, Date dateCreated, String repYear, int repQuarter,
 			ArrayList<ProductInStation> productInStationList) {
@@ -534,7 +532,7 @@ public class DatabaseFuelStationManagerController {
 	/**
 	 * 
 	 * @param fuelStationID
-	 * @return
+	 * @return ArrayList(QuarterlyReport)
 	 */
 	private ArrayList<QuarterlyReport> getQuarterlyReportbyFuelStationID(int fuelStationID) {
 		int repQuarter = -1;
@@ -569,7 +567,7 @@ public class DatabaseFuelStationManagerController {
 	 * 
 	 * @param fuelStationID
 	 * @param newThresholds
-	 * @return
+	 * @return Boolean
 	 */
 	private Boolean updateProductInStationThresholdbyfuelStationID(int fuelStationID, String[] newThresholds) {
 		int amountOfProduct = newThresholds.length / 2;
@@ -620,7 +618,7 @@ public class DatabaseFuelStationManagerController {
 	/**
 	 * 
 	 * @param fuelStationID
-	 * @return
+	 * @return ArrayList(ProductInStation)
 	 */
 	private ArrayList<ProductInStation> getProductInStationByfuelStationID(int fuelStationID) {
 		ArrayList<ProductInStation> result = new ArrayList<>();
@@ -669,8 +667,7 @@ public class DatabaseFuelStationManagerController {
 	/**
 	 * 
 	 * @param orderID
-	 * @return
-	 * @throws ParseException
+	 * @return FuelStationOrder
 	 */
 	private FuelStationOrder getFuelStationOrderByID(int orderID) {
 		int productInStationID = -1;
@@ -727,7 +724,7 @@ public class DatabaseFuelStationManagerController {
 	/**
 	 * 
 	 * @param orderID
-	 * @return
+	 * @return ProductInStation
 	 */
 	private ProductInStation getProductInStationByOrderID(int orderID) {
 		int productInStationID = -1;
@@ -784,7 +781,7 @@ public class DatabaseFuelStationManagerController {
 	/**
 	 * 
 	 * @param username
-	 * @return
+	 * @return int
 	 */
 	private int getEmployeeID(String username) {
 		int result = -1;
@@ -806,7 +803,7 @@ public class DatabaseFuelStationManagerController {
 	/**
 	 * 
 	 * @param employeeID
-	 * @return
+	 * @return int
 	 */
 	private int getFuelStationID(int employeeID) {
 		int result = -1;
@@ -828,7 +825,7 @@ public class DatabaseFuelStationManagerController {
 	/**
 	 * 
 	 * @param fuelStationID
-	 * @return
+	 * @return List(Integer)
 	 */
 	private List<Integer> getProductInStationIDs(int fuelStationID) {
 		List<Integer> result = new ArrayList<Integer>();
@@ -850,7 +847,7 @@ public class DatabaseFuelStationManagerController {
 	/**
 	 * 
 	 * @param productInStationID
-	 * @return
+	 * @return List(Integer)
 	 */
 	private List<Integer> getUnassessedFuelStationOrdersID(int productInStationID) {
 		List<Integer> result = new ArrayList<Integer>();

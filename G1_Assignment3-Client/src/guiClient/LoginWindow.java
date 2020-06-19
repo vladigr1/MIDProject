@@ -58,7 +58,7 @@ public class LoginWindow extends AFXML {
 	private Button btnEmu;
 
 	/**
-	 * runs every time this windows goes live 
+	 * runs every time this windows goes live
 	 */
 	@FXML
 	void initialize() {
@@ -82,16 +82,31 @@ public class LoginWindow extends AFXML {
 
 	/*********************** button listeners ***********************/
 
+	/**
+	 * continue pressed, checks host and port validation
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnContinuePressed(ActionEvent event) {
 		myContinue();
 	}
 
+	/**
+	 * signin pressed, check credentials of user
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnSignInPressed(ActionEvent event) {
 		mySignIn();
 	}
 
+	/**
+	 * goes to simulation window of fastfuel
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnEmuPressed(ActionEvent event) {
 		try {
@@ -112,6 +127,16 @@ public class LoginWindow extends AFXML {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * button listener for close button on topbar
+	 * 
+	 * @param event
+	 */
+	@FXML
+	public void closeTopBar(ActionEvent event) {
+		System.exit(0);
 	}
 
 	/*********************** button functions ***********************/
@@ -322,11 +347,6 @@ public class LoginWindow extends AFXML {
 		default:
 			break;
 		}
-	}
-
-	@FXML
-	public void closeTopBar(ActionEvent event) {
-		System.exit(0);
 	}
 
 }

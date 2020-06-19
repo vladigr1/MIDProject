@@ -24,7 +24,7 @@ public class MyOutcomeReport extends QuarterlyReport {
 	 * @param fuelStationID
 	 * @param dateCreated
 	 * @param totalAmountBoughtFromSupplier
-	 * @param amountProductBought
+	 * @param amountBoughtPerProduct
 	 */
 	public MyOutcomeReport(int repQuarter, String repYear, int fuelStationID, Date dateCreated,
 			double totalAmountBoughtFromSupplier, Map<ProductInStation, Double> amountBoughtPerProduct) {

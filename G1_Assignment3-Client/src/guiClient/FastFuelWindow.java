@@ -22,6 +22,8 @@ import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 
 /**
+ * boundary for fast fuel simulator window
+ * 
  * @version Final
  * @author Lior
  */
@@ -58,7 +60,7 @@ public class FastFuelWindow extends AFXML {
 	private double pricePerLiter;
 
 	/**
-	 * runs every time this windows goes live 
+	 * runs every time this windows goes live
 	 */
 	@FXML
 	void initialize() {
@@ -73,12 +75,22 @@ public class FastFuelWindow extends AFXML {
 		return this.btnEmulate.getScene().getWindow();
 	}
 
+	/**
+	 * FastFuelController uses this
+	 * 
+	 * @return current fastfuel entity simulated
+	 */
 	public static FastFuel getCurrentEmulation() {
 		return currentEmulation;
 	}
 
 	/*********************** button listeners ***********************/
 
+	/**
+	 * button listener for emulate step 1
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnEmulatePressed(ActionEvent event) {
 		this.tfAmount.clear();
@@ -103,6 +115,11 @@ public class FastFuelWindow extends AFXML {
 		this.controller.handleMessageFromClientUI("getdiscount " + regPlate + " " + fuelStationID);
 	}
 
+	/**
+	 * button listener for emulate step 2
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnEmulatePressed2(ActionEvent event) {
 		String amount = this.tfAmount.getText();
@@ -127,6 +144,11 @@ public class FastFuelWindow extends AFXML {
 		this.step2f.setDisable(true);
 	}
 
+	/**
+	 * button listener for close button on topbar
+	 * 
+	 * @param event
+	 */
 	@FXML
 	public void closeTopBar(ActionEvent event) {
 		try {
@@ -154,6 +176,9 @@ public class FastFuelWindow extends AFXML {
 
 	/*************** boundary "logic" - window changes ***************/
 
+	/**
+	 * called after server returned a message/object to the client
+	 */
 	@Override
 	public void callAfterMessage(Object lastMsgFromServer) {
 		if (!(lastMsgFromServer instanceof FastFuel)) {

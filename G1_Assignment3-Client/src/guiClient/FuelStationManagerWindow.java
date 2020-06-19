@@ -27,6 +27,8 @@ import javafx.stage.Window;
 import javafx.util.Callback;
 
 /**
+ * boundary for fuel station manager window
+ * 
  * @version Final
  * @author Liad
  */
@@ -96,6 +98,9 @@ public class FuelStationManagerWindow extends QuarterlyReportWindow {
 	@FXML
 	private Button btnNotifyDissmiss;
 
+	/**
+	 * called after server returned a message/object to the client
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public void callAfterMessage(Object lastMsgFromServer) {
@@ -195,6 +200,7 @@ public class FuelStationManagerWindow extends QuarterlyReportWindow {
 
 	/**
 	 * button listener for home sidebar button
+	 * 
 	 * @param event
 	 */
 	void openHome(ActionEvent event) {
@@ -386,7 +392,8 @@ public class FuelStationManagerWindow extends QuarterlyReportWindow {
 	 * when click on View Order button fill Assess Station Orders textfields with
 	 * orderID data
 	 * 
-	 * @param list
+	 * @param productInStation
+	 * @param fuelStationOrder
 	 */
 	private void fillUnassessedOrderData(ProductInStation productInStation, FuelStationOrder fuelStationOrder) {
 		tfASOName.setText(productInStation.getProductName().toString());
@@ -400,7 +407,7 @@ public class FuelStationManagerWindow extends QuarterlyReportWindow {
 	/**
 	 * fill UpdateThreshold textfields with threshold data
 	 * 
-	 * @param list
+	 * @param productList
 	 */
 	private void fillUpdateThreshold(ArrayList<ProductInStation> productList) {
 		for (ProductInStation product : productList) {
@@ -461,6 +468,9 @@ public class FuelStationManagerWindow extends QuarterlyReportWindow {
 		tfUTMotorbike11.setFocusTraversable(false);
 	}
 
+	/**
+	 * clears threshold pane
+	 */
 	private void initializeThresholdPane() {
 		sidebar_btn1.setSelected(true);
 		tfUTGasoline1.clear();
@@ -485,6 +495,9 @@ public class FuelStationManagerWindow extends QuarterlyReportWindow {
 		controller.handleMessageFromClientUI(message);
 	}
 
+	/**
+	 * clears assess pane
+	 */
 	private void initializeAssessPane() {
 		sidebar_btn2.setSelected(true);
 		btnASOConfirm.setDisable(true);
@@ -602,6 +615,9 @@ public class FuelStationManagerWindow extends QuarterlyReportWindow {
 		controller.handleMessageFromClientUI(message);
 	}
 
+	/**
+	 * clear fxml entities as if the window was just entered into
+	 */
 	@Override
 	public void clearFields() {
 		cbUTGasoline.setSelected(false);

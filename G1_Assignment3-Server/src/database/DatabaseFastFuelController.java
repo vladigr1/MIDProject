@@ -214,7 +214,7 @@ public class DatabaseFastFuelController {
 	/**
 	 * 
 	 * @param fastFuel
-	 * @return message of success or fail in fastFuel->function
+	 * @return message of success or fail in fastFuel function
 	 */
 	public FastFuel saveFastFuel(FastFuel fastFuel) {
 		try {
@@ -322,6 +322,13 @@ public class DatabaseFastFuelController {
 	/**********************************
 	 * private methods
 	 ******************************************/
+	/**
+	 * 
+	 * @param saleID
+	 * @param customerID
+	 * @param amountPaid
+	 * @return boolean
+	 */
 
 	private boolean updateCustomerBoughtInSale(int saleID, String customerID, double amountPaid) {
 		try {
@@ -359,6 +366,15 @@ public class DatabaseFastFuelController {
 		}
 
 	}
+	/**
+	 * 
+	 * @param customerID
+	 * @param fastFuelTime
+	 * @param fuelCompanyName
+	 * @param amountBought
+	 * @param amountPaid
+	 * @return boolean
+	 */
 
 	private boolean updateCustomerBoughtFromCompany(String customerID, Date fastFuelTime, String fuelCompanyName,
 			double amountBought, double amountPaid) {
@@ -401,6 +417,14 @@ public class DatabaseFastFuelController {
 			return false;
 		}
 	}
+	/**
+	 * 
+	 * @param fastFuelTime
+	 * @param productInStationID
+	 * @param capacity
+	 * @param threshold
+	 * @return boolean
+	 */
 
 	private boolean makeNewFuelStationOrder(Date fastFuelTime, int productInStationID, double capacity,
 			double threshold) {

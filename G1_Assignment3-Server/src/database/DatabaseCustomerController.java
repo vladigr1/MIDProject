@@ -257,7 +257,7 @@ public class DatabaseCustomerController {
 
 	/**
 	 * 
-	 * @param string
+	 * @param username
 	 * @return home fuel orders of customer with that username
 	 */
 	public HomeFuelOrderList getHomeFuelOrdersSequence(String username) {

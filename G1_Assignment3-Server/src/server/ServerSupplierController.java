@@ -62,14 +62,34 @@ public class ServerSupplierController {
 			e.printStackTrace();
 		}
 	}
-
+	
+/**
+ * method that request from DB to pull all order id's
+ * of all fuel station orders of the required fuel station manager
+ * @param username
+ * @return
+ */
 	private Integer[] getFuelStationWithOrder(String username) {
 		return this.databaseController.getFuelStationWithOrder(username);
 	}
-
+	
+/**
+ * method that request from DB to pull all order id's
+ * of all fuel station order of the required fuel station id
+ * @param fuelStationIDs
+ * @return
+ */
 	private SupplierItemInTable[] getFuelStationOrder(int fuelStationIDs) {
 		return this.databaseController.getFuelStationOrder(fuelStationIDs);
 	}
+	
+	/**
+	 * method that request from DB to update a fuel station order
+	 * by changing it to status 'approved' and stock
+	 * @param OrdersID
+	 * @param amount
+	 * @return
+	 */
 
 	private String approveFuelStationOrder(int OrdersID, double amount) {
 		return this.databaseController.approveFuelStationOrder(OrdersID, amount);

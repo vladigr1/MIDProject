@@ -45,7 +45,6 @@ public class User implements Serializable {
 	 * w/o password, connected
 	 * 
 	 * @param username
-	 * @param connected
 	 * @param email
 	 * @param firstName
 	 * @param surname

@@ -207,7 +207,7 @@ public class DatabaseMarketingManagerController {
 	/**
 	 * create a new activity in sql
 	 * 
-	 * @param employeeID
+	 * @param username
 	 * @param date
 	 * @param action
 	 * @return String

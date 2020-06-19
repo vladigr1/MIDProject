@@ -52,21 +52,22 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Window;
 
 /**
+ * boundary for marketing manager window
+ * 
  * @version Final
  * @author Elroy, Lior
  *
  */
 public class MarketingManagerWindow extends MarketingDepWorkerWindow {
+
 	@FXML
 	private AnchorPane paneChooseReportType;
 	@FXML
-	private Label lblPayInPlaceERR;
+	private Label lblMonthSingleInfo;
 	@FXML
-	private Label lblMonthlySingleERR;
+	private Label lblMonthMultipleInfo;
 	@FXML
-	private Label lblFullSingleERR;
-	@FXML
-	private Label lblMonthMultipleERR;
+	private Label lblFullSingleInfo;
 
 	@FXML
 	private ToggleGroup one;
@@ -203,7 +204,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	private int choosesPatternDuration = 0;
 
 	/**
-	 * runs every time this windows goes live 
+	 * runs every time this windows goes live
 	 */
 	@FXML
 	void initialize() {
@@ -250,7 +251,11 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		return this.requestRateUpdatePane.getScene().getWindow();
 	}
 
+	/**
+	 * called after server returned a message/object to the client
+	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public void callAfterMessage(Object lastMsgFromServer) {
 		/**
 		 * get sales patterns and product in sale pattern and than sert it to the table
@@ -274,7 +279,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 				lblPCRDateCreated.setText(dateCreated.toString());
 				updateCustomersTableInPeriodicReportTable(report.getList());
 				if (report.isGenerated()) {
-					addActivity("Generated New Periodic Report With From Date = " + dateFrom.toString()
+					this.requestToLogActivity("Generated New Periodic Report With From Date = " + dateFrom.toString()
 							+ " , To Date = " + dateTo.toString());
 				}
 			}
@@ -283,21 +288,38 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 				this.openErrorAlert("List Empty", "ERROR of getting information from server");
 			}
 			if (((List<?>) lastMsgFromServer).get(0) instanceof PricingModelType) {
-				@SuppressWarnings("unchecked")
+				double MonthSingleValue = 0;
+				double MonthMultipleValue = 0;
+				double FullSingleValue = 0;
 				List<PricingModelType> list = (List<PricingModelType>) lastMsgFromServer;
 				for (PricingModelType model : list) {
-
-					double no = model.getDefaultDiscount() * 100;
-					DecimalFormat dec = new DecimalFormat("#0.00");
-
-					if (model.getPricingModelName().toString().equals("Pay In Place"))
-						tfPayInPlaceGet.setText(dec.format(no) + "");
 					if (model.getPricingModelName().toString().equals("Monthly Program Single Car"))
-						tfMonthSingleGet.setText(dec.format(no) + "");
+						MonthSingleValue = model.getDefaultDiscount() * 100;
 					if (model.getPricingModelName().toString().equals("Monthly Program Multiple Cars"))
-						tfMonthMultipleGet.setText(dec.format(no) + "");
+						MonthMultipleValue = model.getDefaultDiscount() * 100;
 					if (model.getPricingModelName().toString().equals("Full Program Single Car"))
-						tfFullSingleGet.setText(dec.format(no) + "");
+						FullSingleValue = model.getDefaultDiscount() * 100;
+
+				}
+				for (PricingModelType model : list) {
+
+					DecimalFormat dec = new DecimalFormat("#0.00");
+//					if (model.getPricingModelName().toString().equals("Pay In Place"))
+//						tfPayInPlaceGet.setText(dec.format(no) + "");
+					if (model.getPricingModelName().toString().equals("Monthly Program Single Car")) {
+						tfMonthSingleGet.setText(dec.format(MonthSingleValue) + "");
+						lblMonthSingleInfo.setText("* Value must be between \n 0 to " + dec.format(MonthMultipleValue));
+					}
+					if (model.getPricingModelName().toString().equals("Monthly Program Multiple Cars")) {
+						tfMonthMultipleGet.setText(dec.format(MonthMultipleValue) + "");
+						lblMonthMultipleInfo.setText("* Value must be between \n " + dec.format(MonthSingleValue)
+								+ " to " + dec.format(FullSingleValue));
+					}
+					if (model.getPricingModelName().toString().equals("Full Program Single Car")) {
+						tfFullSingleGet.setText(dec.format(FullSingleValue) + "");
+						lblFullSingleInfo
+								.setText("* Value must be between \n " + dec.format(MonthMultipleValue) + " to 50");
+					}
 				}
 			}
 		} else if (lastMsgFromServer instanceof SaleCommentsReportList) {
@@ -317,7 +339,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 				tfSCRSaleID.setText(saleReport.getSaleID() + "");
 				updateCustomersTableInCommonReportTable(report.getList());
 				if (report.isGenerated())
-					addActivity("Generated New Common Report For Sale = " + saleReport.getSaleID());
+					this.requestToLogActivity("Generated New Common Report For Sale = " + saleReport.getSaleID());
 			}
 		}
 
@@ -404,13 +426,13 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 				alert.show();
 
 			} else if (message.equals("sale is in range")) {
-				dpISDate.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+//				dpISDate.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 				Alert alert = new Alert(Alert.AlertType.ERROR);
 				alert.setHeaderText("There is a sale already in such range of days");
 				alert.show();
 
 			} else if (message.equals("sale not in range")) { // elro
-				dpISDate.setStyle("-fx-border-style: none;");
+//				dpISDate.setStyle("-fx-border-style: none;");
 				checkForActiveSales();
 			}
 
@@ -425,7 +447,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 
 			} else if (message.startsWith("new sale")) {
 				openConfirmationAlert("Sale", "Initiate Sale Success");
-				addActivity("Initialzing Sale");
+				this.requestToLogActivity("Initialzing Sale");
 
 			} else if (message.startsWith("failed to create sale pattern")) {
 				Alert alert = new Alert(AlertType.ERROR);
@@ -440,7 +462,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 				alert.setHeaderText("Creation Successful!");
 				alert.setContentText("the id is: " + str[3]);
 				alert.show();
-				addActivity("Created A Sale Pattern With ID= " + str[3]);
+				this.requestToLogActivity("Created A Sale Pattern With ID = " + str[3]);
 
 			} else if (message.startsWith("failed PRUR")) {
 				Alert alert = new Alert(AlertType.ERROR);
@@ -452,13 +474,13 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 			} else if (message.startsWith("success PRUR")) {
 				openConfirmationAlert("Product Rates Update Request", "Request Sent To Network Manager");
 				String[] str = message.split(" ");
-				addActivity("Update Prodcut Rate Request ID= " + str[2]);
+				this.requestToLogActivity("Update Prodcut Rate Request ID= " + str[2]);
 			} else if (message.startsWith("failed to create new pricing model request")) {
 				this.openErrorAlert("Creation Of Pricing Model Request",
 						"Server failed to add a new pricing model request");
 			} else if (message.startsWith("success creation of new pricing model request")) {
 				this.openConfirmationAlert("Creation Of Pricing Model Request", "Creation Succseeful!");
-				this.addActivity("Create A New Pricing Model Request");
+				this.requestToLogActivity("Create A New Pricing Model Request");
 			}
 
 		}
@@ -469,6 +491,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 
 	/**
 	 * button listener for home sidebar button
+	 * 
 	 * @param event
 	 */
 	@FXML
@@ -487,6 +510,9 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 
 ///////// Initiate sale Start: //////////////
 
+	/**
+	 * button listener for initiate sale sidebar button
+	 */
 	public void tbInitiateSaleClicked() {
 		this.tbInitiateSale.setSelected(true);
 		this.topbar_window_label.setText("Initiate Sale");
@@ -534,6 +560,9 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 
 ///////// Create Sale Pattern Start: //////////////
 
+	/**
+	 * button listener for create sale pattern sidebar button
+	 */
 	@FXML
 	void openCreateSalesPattern(ActionEvent event) {
 		this.tbCreateSalePattern.setSelected(true);
@@ -549,6 +578,9 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 
 ///////// Generate Marketing Report Start: //////////////
 
+	/**
+	 * button listener for generate marketing report sidebar button
+	 */
 	public void tbGenerateReportClicked() {
 		this.tbGenerateReport.setSelected(true);
 		this.topbar_window_label.setText("Generate Marketing Report");
@@ -557,9 +589,11 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		clearFields();
 		paneChooseReportType.setVisible(true);
 		rbGMRCommentReport.setSelected(true);
-
 	}
 
+	/**
+	 * button listener for generate marketing report next button
+	 */
 	public void btnGMRNextClicked() {
 		if (rbGMRCommentReport.isSelected()) {
 			paneGMRCommentNext.setVisible(true);
@@ -570,20 +604,29 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		if (rbGMRPeriodicReport.isSelected()) {
 			paneGMRCommentNext.setVisible(false);
 			paneGMRPeriodicNext.setVisible(true);
-			dpGMRStartDate.setStyle("-fx-border-style: none;");
-			dpGMREndDate.setStyle("-fx-border-style: none;");
+//			dpGMRStartDate.setStyle("-fx-border-style: none;");
+//			dpGMREndDate.setStyle("-fx-border-style: none;");
 		}
-
 	}
 
+	/**
+	 * fxml css
+	 */
 	public void btnGMRNextHover() {
 		btnGMRNext.setOpacity(0.85);
 	}
 
+	/**
+	 * fxml css
+	 */
 	public void btnGMRNextExit() {
 		btnGMRNext.setOpacity(1);
 	}
 
+	/**
+	 * button listener for generate marketing report view button for sale comments
+	 * report
+	 */
 	public void btnGMRViewReportClicked() {
 		if (checkIfRowSelectedFromTable(tvGMRPickSale) == true) {
 			RowInSaleCommentsReportTable row = tvGMRPickSale.getSelectionModel().getSelectedItem();
@@ -596,17 +639,26 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 			saleCommentReportPane.setVisible(true);
 			this.mainBorderPane.setDisable(true);
 		}
-
 	}
 
+	/**
+	 * fxml css
+	 */
 	public void btnGMRViewReportHover() {
 		btnGMRViewReport.setOpacity(0.85);
 	}
 
+	/**
+	 * fxml css
+	 */
 	public void btnGMRViewReportExit() {
 		btnGMRViewReport.setOpacity(1);
 	}
 
+	/**
+	 * button listener for generate marketing report view button for periodic
+	 * customers report
+	 */
 	public void btnGMRViewReport2Clicked() {
 		if (checkDatePickerHasValue(dpGMRStartDate) == true && checkDatePickerHasValue(dpGMREndDate) == true) {
 			LocalDate ld1 = dpGMRStartDate.getValue();
@@ -617,17 +669,17 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 
 			if (startDate.compareTo(endDate) > 0) {
 				openErrorAlert("Error", "'Start Date' is bigger than 'End Date'");
-				dpGMRStartDate.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+//				dpGMRStartDate.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 				return;
 			}
 			if (endDate.compareTo(new Date()) > 0) {
 				openErrorAlert("Error", "'End Date' is maximum today");
-				dpGMREndDate.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+//				dpGMREndDate.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 				return;
 			}
 
-			dpGMRStartDate.setStyle("-fx-border-style: none;");
-			dpGMREndDate.setStyle("-fx-border-style: none;");
+//			dpGMRStartDate.setStyle("-fx-border-style: none;");
+//			dpGMREndDate.setStyle("-fx-border-style: none;");
 			Calendar calendar1 = Calendar.getInstance();
 			calendar1.setTime(startDate);
 			Calendar calendar2 = Calendar.getInstance();
@@ -645,17 +697,26 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 			this.mainBorderPane.setDisable(true);
 //			generateReportPane.setVisible(false);
 		}
-
 	}
 
+	/**
+	 * fxml css
+	 */
 	public void btnGMRViewReport2Hover() {
 		btnGMRViewReport2.setOpacity(0.85);
 	}
 
+	/**
+	 * fxml css
+	 */
 	public void btnGMRViewReport2Exit() {
 		btnGMRViewReport2.setOpacity(1);
 	}
 
+	/**
+	 * button listener for generate marketing report close button for sale comments
+	 * report
+	 */
 	public void btnSCRCloseClicked() {
 //		generateReportPane.setVisible(true);
 		saleCommentReportPane.setVisible(false);
@@ -664,14 +725,24 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 
 	}
 
+	/**
+	 * fxml css
+	 */
 	public void btnSCRCloseHover() {
 		btnSCRClose.setOpacity(0.85);
 	}
 
+	/**
+	 * fxml css
+	 */
 	public void btnSCRCloseExit() {
 		btnSCRClose.setOpacity(1);
 	}
 
+	/**
+	 * button listener for generate marketing report close button for periodic
+	 * customers report
+	 */
 	public void btnPCRCloseClicked() {
 		// do stuff
 		periodicReportPane.setVisible(false);
@@ -679,10 +750,16 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 //		generateReportPane.setVisible(true);
 	}
 
+	/**
+	 * fxml css
+	 */
 	public void btnPCRCloseHover() {
 		btnPCRClose.setOpacity(0.85);
 	}
 
+	/**
+	 * fxml css
+	 */
 	public void btnPCRCloseExit() {
 		btnPCRClose.setOpacity(1);
 	}
@@ -691,6 +768,9 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 
 ///////// Request Pricing Model Start //////////////
 
+	/**
+	 * button listener for request pricing model update sidebar button
+	 */
 	public void tbRequestPricingModelUpdateClicked() {
 		this.clearFields();
 		homePane.setVisible(false);
@@ -700,13 +780,17 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		this.sendToClientController("get pricing model type discounts");
 		requestRateUpdatePane.setVisible(true);
 		this.tbRequestPricingModelUpdate.setSelected(true);
+		this.topbar_window_label.setText("Request Pricing Model Update");
 	}
 
+	/**
+	 * button listener for checkbox payinplace in request pricing model update pane
+	 */
 	public void cbPayInPlaceSetClicked() {
 		if (!cbPayInPlaceSet.isSelected()) {
 			tfPayInPlaceSet.clear();
-			lblPayInPlaceERR.setVisible(false);
-			tfPayInPlaceSet.setStyle("-fx-border-style: none;");
+//			lblMonthSingleInfo.setVisible(false);
+//			tfPayInPlaceSet.setStyle("-fx-border-style: none;");
 			tfPayInPlaceSet.setDisable(true);
 
 		} else {
@@ -717,14 +801,13 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		tfMultipleSet.setDisable(true);
 		tfFullSingleSet.setDisable(true);
 
-		tfMonthSingleSet.setStyle("-fx-border-style: none;");
-		tfMultipleSet.setStyle("-fx-border-style: none;");
-		tfFullSingleSet.setStyle("-fx-border-style: none;");
+//		tfMonthSingleSet.setStyle("-fx-border-style: none;");
+//		tfMultipleSet.setStyle("-fx-border-style: none;");
+//		tfFullSingleSet.setStyle("-fx-border-style: none;");
 
-		lblMonthlySingleERR.setVisible(false);
-		lblMonthMultipleERR.setVisible(false);
-		lblFullSingleERR.setVisible(false);
-		lblPayInPlaceERR.setVisible(false);
+		lblMonthMultipleInfo.setVisible(false);
+		lblFullSingleInfo.setVisible(false);
+		lblMonthSingleInfo.setVisible(false);
 
 		tfMonthSingleSet.clear();
 		tfMultipleSet.clear();
@@ -733,14 +816,17 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		cbMonthSingleSet.setSelected(false);
 		cbMonthMultipleSet.setSelected(false);
 		cbFullSingleSet.setSelected(false);
-
 	}
 
+	/**
+	 * button listener for checkbox monthly single car in request pricing model
+	 * update pane
+	 */
 	public void cbMonthSingleSetClicked() {
 		if (!cbMonthSingleSet.isSelected()) {
 			tfMonthSingleSet.clear();
-			lblMonthlySingleERR.setVisible(false);
-			tfMonthSingleSet.setStyle("-fx-border-style: none;");
+//			lblMonthMultipleInfo.setVisible(false);
+//			tfMonthSingleSet.setStyle("-fx-border-style: none;");
 			tfMonthSingleSet.setDisable(true);
 			btnRPMU.setDisable(true);
 		} else {
@@ -752,29 +838,32 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		tfMultipleSet.setDisable(true);
 		tfFullSingleSet.setDisable(true);
 
-		tfPayInPlaceSet.setStyle("-fx-border-style: none;");
-		tfMultipleSet.setStyle("-fx-border-style: none;");
-		tfFullSingleSet.setStyle("-fx-border-style: none;");
+//		tfPayInPlaceSet.setStyle("-fx-border-style: none;");
+//		tfMultipleSet.setStyle("-fx-border-style: none;");
+//		tfFullSingleSet.setStyle("-fx-border-style: none;");
 		tfPayInPlaceSet.clear();
 		tfMultipleSet.clear();
 		tfFullSingleSet.clear();
 
-		lblMonthlySingleERR.setVisible(false);
-		lblMonthMultipleERR.setVisible(false);
-		lblFullSingleERR.setVisible(false);
-		lblPayInPlaceERR.setVisible(false);
+//		lblMonthMultipleInfo.setVisible(false);
+//		lblMonthMultipleERR.setVisible(false);
+//		lblFullSingleInfo.setVisible(false);
+//		lblMonthSingleInfo.setVisible(false);
 
 		cbPayInPlaceSet.setSelected(false);
 		cbMonthMultipleSet.setSelected(false);
 		cbFullSingleSet.setSelected(false);
-
 	}
 
+	/**
+	 * button listener for checkbox monthly multiple car in request pricing model
+	 * update pane
+	 */
 	public void cbMonthMultipleSetClicked() {
 		if (!cbMonthMultipleSet.isSelected()) {
 			tfMultipleSet.clear();
-			lblMonthMultipleERR.setVisible(false);
-			tfMultipleSet.setStyle("-fx-border-style: none;");
+//			lblMonthMultipleERR.setVisible(false);
+//			tfMultipleSet.setStyle("-fx-border-style: none;");
 			tfMultipleSet.setDisable(true);
 			btnRPMU.setDisable(true);
 		} else {
@@ -786,30 +875,33 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		tfMonthSingleSet.setDisable(true);
 		tfFullSingleSet.setDisable(true);
 
-		tfMonthSingleSet.setStyle("-fx-border-style: none;");
-		tfPayInPlaceSet.setStyle("-fx-border-style: none;");
-		tfFullSingleSet.setStyle("-fx-border-style: none;");
+//		tfMonthSingleSet.setStyle("-fx-border-style: none;");
+//		tfPayInPlaceSet.setStyle("-fx-border-style: none;");
+//		tfFullSingleSet.setStyle("-fx-border-style: none;");
 
 		tfMonthSingleSet.clear();
 		tfPayInPlaceSet.clear();
 		tfFullSingleSet.clear();
 
-		lblMonthlySingleERR.setVisible(false);
-		lblMonthMultipleERR.setVisible(false);
-		lblFullSingleERR.setVisible(false);
-		lblPayInPlaceERR.setVisible(false);
+//		lblMonthMultipleInfo.setVisible(false);
+//		lblMonthMultipleERR.setVisible(false);
+//		lblFullSingleInfo.setVisible(false);
+//		lblMonthSingleInfo.setVisible(false);
 
 		cbMonthSingleSet.setSelected(false);
 		cbPayInPlaceSet.setSelected(false);
 		cbFullSingleSet.setSelected(false);
-
 	}
 
+	/**
+	 * button listener for checkbox full single car in request pricing model update
+	 * pane
+	 */
 	public void cbFullSingleSetClicked() {
 		if (!cbFullSingleSet.isSelected()) {
 			tfFullSingleSet.clear();
-			lblFullSingleERR.setVisible(false);
-			tfFullSingleSet.setStyle("-fx-border-style: none;");
+//			lblFullSingleInfo.setVisible(false);
+//			tfFullSingleSet.setStyle("-fx-border-style: none;");
 			tfFullSingleSet.setDisable(true);
 			btnRPMU.setDisable(true);
 		} else {
@@ -821,25 +913,27 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		tfMonthSingleSet.setDisable(true);
 		tfMultipleSet.setDisable(true);
 
-		tfMonthSingleSet.setStyle("-fx-border-style: none;");
-		tfMultipleSet.setStyle("-fx-border-style: none;");
-		tfPayInPlaceSet.setStyle("-fx-border-style: none;");
+//		tfMonthSingleSet.setStyle("-fx-border-style: none;");
+//		tfMultipleSet.setStyle("-fx-border-style: none;");
+//		tfPayInPlaceSet.setStyle("-fx-border-style: none;");
 
 		tfMonthSingleSet.clear();
 		tfMultipleSet.clear();
 		tfPayInPlaceSet.clear();
 
-		lblMonthlySingleERR.setVisible(false);
-		lblMonthMultipleERR.setVisible(false);
-		lblFullSingleERR.setVisible(false);
-		lblPayInPlaceERR.setVisible(false);
+//		lblMonthMultipleInfo.setVisible(false);
+//		lblMonthMultipleERR.setVisible(false);
+//		lblFullSingleInfo.setVisible(false);
+//		lblMonthSingleInfo.setVisible(false);
 
 		cbMonthSingleSet.setSelected(false);
 		cbMonthMultipleSet.setSelected(false);
 		cbPayInPlaceSet.setSelected(false);
-
 	}
 
+	/**
+	 * button listener for create button in request pricing model update pane
+	 */
 	public void btnRPMUClicked() {
 		if (checkRPRUCheckBoxes() && checkRPRUCheckFields()) {
 
@@ -865,7 +959,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	/**
 	 * method that check if there is a sale with start date
 	 * 
-	 * @return
+	 * @return true if fields are valid
 	 */
 	private boolean checkSaleInDates() { // elro2
 		String message = "check sale range";
@@ -899,8 +993,8 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	/**
 	 * method that check if picked date happend before current date
 	 * 
-	 * @param dpISDate2
-	 * @return
+	 * @param dp
+	 * @return true if fields are valid
 	 */
 	private boolean checkDateIsCorrect(DatePicker dp) {
 		Calendar calendar1 = Calendar.getInstance();
@@ -916,27 +1010,27 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 				|| (calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR)
 						&& calendar1.get(Calendar.MONTH) == calendar2.get(Calendar.MONTH)
 						&& calendar1.get(Calendar.DAY_OF_MONTH) == calendar2.get(Calendar.DAY_OF_MONTH))) {
-			dp.setStyle("-fx-border-style: none;");
+//			dp.setStyle("-fx-border-style: none;");
 			return true;
 		}
 
 		Alert alert = new Alert(Alert.AlertType.ERROR);
 		alert.setHeaderText("Please enter a date which is today or future date");
-		dp.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+//		dp.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 		alert.show();
 		return false;
-
 	}
 
 	/**
 	 * method that check if the time is correct like in a clock view
 	 * 
-	 * @param tfISTime2
-	 * @return
+	 * @param dp
+	 * @return true if fields are valid
 	 */
 	private boolean checkTimeByClock(TextField tf, DatePicker dp) {
 		if (!tf.getText().contains(":")) {
-			tf.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+			this.openErrorAlert("Time Value Incorrect", "Please change the value of Time");
+//			tf.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			return false;
 		}
 		String[] str = tf.getText().split(":");
@@ -964,17 +1058,18 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 					|| (Integer.parseInt(str[0]) == calendar1.get(Calendar.HOUR)
 							&& Integer.parseInt(str[1]) < calendar1.get(Calendar.MINUTE))) {
 				openErrorAlert("Error", "Time must be now or after now");
-				tf.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+//				tf.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 				return false;
 			}
 		}
 
 		if (Integer.parseInt(str[0]) >= 24 || Integer.parseInt(str[0]) < 0 || Integer.parseInt(str[1]) >= 60
 				|| Integer.parseInt(str[1]) < 0) {
-			tf.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+			this.openErrorAlert("Error", "Value of hours or Value of Minutes Incorrect");
+//			tf.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			return false;
 		}
-		tf.setStyle("-fx-border-style: none;");
+//		tf.setStyle("-fx-border-style: none;");
 		return true;
 	}
 
@@ -999,20 +1094,6 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		}
 		if (result.get() == buttonTypeTwo) {
 		}
-	}
-
-	/**
-	 * method that add activity to SQL to recored
-	 * 
-	 * @param action
-	 */
-	private void addActivity(String action) {
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(new Date());
-		String message = "add activity " + username + " " + calendar.get(Calendar.YEAR) + " "
-				+ calendar.get(Calendar.MONTH) + " " + calendar.get(Calendar.DAY_OF_MONTH) + " "
-				+ (calendar.get(Calendar.HOUR) - 2) + " " + (calendar.get(Calendar.MINUTE) - 30) + " " + action;
-		this.sendToClientController(message);
 	}
 
 	/**
@@ -1050,10 +1131,11 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	 */
 	private boolean checkDatePickerHasValue(DatePicker picker) {
 		if (picker.getValue() == null) {
-			picker.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+			this.openErrorAlert("ERROR", "Please pick a date");
+//			picker.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			return false;
 		}
-		picker.setStyle("-fx-border-style: none;");
+//		picker.setStyle("-fx-border-style: none;");
 		return true;
 	}
 
@@ -1090,7 +1172,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	/**
 	 * method that check that if at least one check box is selected
 	 * 
-	 * @return
+	 * @return true if fields are valid
 	 */
 	private boolean checkRPRUCheckBoxes() {
 		if (!cbPayInPlaceSet.isSelected() && !cbMonthSingleSet.isSelected() && !cbMonthMultipleSet.isSelected()
@@ -1108,6 +1190,11 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		return true;
 	}
 
+	/**
+	 * 
+	 * @param tf
+	 * @return true if fields are valid
+	 */
 	private boolean checkDoubleInTextField(TextField tf) {
 		try {
 			Double number = Double.parseDouble(tf.getText());
@@ -1123,46 +1210,49 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	/**
 	 * method that check if fields has a correct value before program continues
 	 * 
-	 * @return
+	 * @return true if fields are valid
 	 */
-	private boolean checkRPRUCheckFields() {// *
-
-		cbPayInPlaceSet.setStyle("-fx-border-style: none;");
-		cbMonthSingleSet.setStyle("-fx-border-style: none;");
-		cbMonthMultipleSet.setStyle("-fx-border-style: none;");
-		cbFullSingleSet.setStyle("-fx-border-style: none;");
+	private boolean checkRPRUCheckFields() {
+//		cbPayInPlaceSet.setStyle("-fx-border-style: none;");
+//		cbMonthSingleSet.setStyle("-fx-border-style: none;");
+//		cbMonthMultipleSet.setStyle("-fx-border-style: none;");
+//		cbFullSingleSet.setStyle("-fx-border-style: none;");
 
 		if (cbPayInPlaceSet.isSelected() && (tfPayInPlaceSet.getText().trim().isEmpty()
 				|| this.checkDoubleInTextField(tfPayInPlaceSet) == false)) {
-			tfPayInPlaceSet.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+			this.openErrorAlert("ERROR", "Please enter value of Pay");
+//			tfPayInPlaceSet.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			return false;
 		}
 
 		if (cbPayInPlaceSet.isSelected() && (!tfPayInPlaceSet.getText().trim().isEmpty()
 				|| this.checkDoubleInTextField(tfPayInPlaceSet) == true)) {
-			tfPayInPlaceSet.setStyle("-fx-border-style: none;");
+//			tfPayInPlaceSet.setStyle("-fx-border-style: none;");
 		}
 		if (cbMonthSingleSet.isSelected() && (tfMonthSingleSet.getText().trim().isEmpty()
 				|| this.checkDoubleInTextField(tfMonthSingleSet) == false)) {
-			tfMonthSingleSet.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+			this.openErrorAlert("ERROR", "Please enter value of Monthly Single");
+//			tfMonthSingleSet.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			return false;
 		}
 		if (cbMonthSingleSet.isSelected() && (!tfMonthSingleSet.getText().trim().isEmpty()
 				|| this.checkDoubleInTextField(tfMonthSingleSet) == true)) {
-			tfMonthSingleSet.setStyle("-fx-border-style: none;");
+//			tfMonthSingleSet.setStyle("-fx-border-style: none;");
 		}
 		if (cbMonthMultipleSet.isSelected()
 				&& (tfMultipleSet.getText().trim().isEmpty() || this.checkDoubleInTextField(tfMultipleSet) == false)) {
-			tfMultipleSet.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+			this.openErrorAlert("ERROR", "Please enter value of Monthly Multiple");
+//			tfMultipleSet.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			return false;
 		}
 		if (cbMonthMultipleSet.isSelected()
 				&& (!tfMultipleSet.getText().trim().isEmpty() || this.checkDoubleInTextField(tfMultipleSet) == true)) {
-			tfMultipleSet.setStyle("-fx-border-style: none;");
+//			tfMultipleSet.setStyle("-fx-border-style: none;");
 		}
 		if (cbFullSingleSet.isSelected() && (tfFullSingleSet.getText().trim().isEmpty()
 				|| this.checkDoubleInTextField(tfFullSingleSet) == false)) {
-			tfFullSingleSet.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+			this.openErrorAlert("ERROR", "Please enter value of Full Single");
+//			tfFullSingleSet.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			return false;
 		}
 
@@ -1174,76 +1264,77 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		/// get rid of all product things
 		if (!tfPayInPlaceSet.getText().trim().isEmpty() && Double.parseDouble(tfPayInPlaceSet.getText()) > 0
 				&& Double.parseDouble(tfPayInPlaceSet.getText()) < 50) {
-			tfPayInPlaceSet.setStyle("-fx-border-style: none;");
-			this.lblPayInPlaceERR.setVisible(false);
+//			tfPayInPlaceSet.setStyle("-fx-border-style: none;");
+//			this.lblMonthSingleInfo.setVisible(false);
 			flagDiesel = true;
 		}
-		if (!tfPayInPlaceSet.getText().trim().isEmpty() && (Double.parseDouble(tfPayInPlaceSet.getText()) <= 0
-				|| Double.parseDouble(tfPayInPlaceSet.getText()) >= 50)) {
-			lblPayInPlaceERR.setVisible(true);
-			lblPayInPlaceERR.setText(">= 50 or 0");
-			tfPayInPlaceSet.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
-			flagDiesel = false;
-		}
+//		if (!tfPayInPlaceSet.getText().trim().isEmpty() && (Double.parseDouble(tfPayInPlaceSet.getText()) <= 0
+//				|| Double.parseDouble(tfPayInPlaceSet.getText()) >= 50)) {
+//			lblMonthSingleInfo.setVisible(true);
+//			lblMonthSingleInfo.setText(">= 50 or 0");
+//			tfPayInPlaceSet.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+//			flagDiesel = false;
+//		}
 
 		if (!tfMonthSingleSet.getText().trim().isEmpty() && Double.parseDouble(tfMonthSingleSet.getText()) > 0
 				&& Double.parseDouble(tfMonthSingleSet.getText()) < Double.parseDouble(tfMonthMultipleGet.getText())) {
-			tfMonthSingleSet.setStyle("-fx-border-style: none;");
-			lblMonthlySingleERR.setVisible(false);
+//			tfMonthSingleSet.setStyle("-fx-border-style: none;");
+//			lblMonthMultipleInfo.setVisible(false);
 			flagGasoline = true;
 		}
 		if (!tfMonthSingleSet.getText().trim().isEmpty()
 				&& (Double.parseDouble(tfMonthSingleSet.getText()) <= 0 || Double
 						.parseDouble(tfMonthSingleSet.getText()) >= Double.parseDouble(tfMonthMultipleGet.getText()))) {
-			this.lblMonthlySingleERR.setVisible(true);
+//			this.lblMonthMultipleInfo.setVisible(true);
 
 			double no = Double.parseDouble(tfMonthMultipleGet.getText());
 			DecimalFormat dec = new DecimalFormat("#0.00");
-			lblMonthlySingleERR.setText("not: 0 < x < " + dec.format(no));
-
-			tfMonthSingleSet.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+//			lblMonthlySingleERR.setText("not: 0 < x < " + dec.format(no));
+			this.openErrorAlert("ERROR", "Please enter number between 0 to " + dec.format(no));
+//			tfMonthSingleSet.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			flagGasoline = false;
 		}
 
 		if (!tfMultipleSet.getText().trim().isEmpty()
 				&& Double.parseDouble(tfMultipleSet.getText()) > Double.parseDouble(tfMonthSingleGet.getText())
 				&& Double.parseDouble(tfMultipleSet.getText()) < Double.parseDouble(tfFullSingleGet.getText())) {
-			tfMultipleSet.setStyle("-fx-border-style: none;");
-			lblFullSingleERR.setVisible(false);
+//			tfMultipleSet.setStyle("-fx-border-style: none;");
+//			lblFullSingleInfo.setVisible(false);
 			flagMotorbikeFuel = true;
 		}
 		if (!tfMultipleSet.getText().trim().isEmpty() && (Double.parseDouble(tfMultipleSet.getText()) <= Double
 				.parseDouble(tfMonthSingleGet.getText())
 				|| Double.parseDouble(tfMultipleSet.getText()) >= Double.parseDouble(tfFullSingleGet.getText()))) {
-			this.lblFullSingleERR.setVisible(true);
+//			this.lblFullSingleInfo.setVisible(true);
 
 			double no1 = Double.parseDouble(tfMonthSingleGet.getText());
 			double no2 = Double.parseDouble(tfFullSingleGet.getText());
 			DecimalFormat dec = new DecimalFormat("#0.00");
 
-			lblFullSingleERR.setText("not: " + dec.format(no1) + "< x < " + dec.format(no2));
-			tfMultipleSet.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+//			lblFullSingleERR.setText("not: " + dec.format(no1) + "< x < " + dec.format(no2));
+			this.openErrorAlert("ERROR", "Please enter number between " + dec.format(no1) + " to " + dec.format(no2));
+//			tfMultipleSet.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			flagMotorbikeFuel = false;
 		}
 
 		if (!tfFullSingleSet.getText().trim().isEmpty()
 				&& Double.parseDouble(tfFullSingleSet.getText()) > Double.parseDouble(tfMonthMultipleGet.getText())
 				&& Double.parseDouble(tfFullSingleSet.getText()) < 50) {
-			tfFullSingleSet.setStyle("-fx-border-style: none;");
-			lblMonthMultipleERR.setVisible(false);
+//			tfFullSingleSet.setStyle("-fx-border-style: none;");
+//			lblMonthMultipleERR.setVisible(false);
 			flagHomeFuel = true;
 		}
 		if (!tfFullSingleSet.getText().trim().isEmpty()
 				&& (Double.parseDouble(tfFullSingleSet.getText()) <= Double.parseDouble(tfMonthMultipleGet.getText())
 						|| Double.parseDouble(tfFullSingleSet.getText()) >= 50)) {
-			this.lblMonthMultipleERR.setVisible(true);
+//			this.lblMonthMultipleERR.setVisible(true);
 
 			double no = Double.parseDouble(tfMonthMultipleGet.getText());
 			DecimalFormat dec = new DecimalFormat("#0.00");
 
-			lblMonthMultipleERR.setText("not: " + dec.format(no) + "< x < 50");
-			tfFullSingleSet.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
-			flagHomeFuel = false;
+//			lblMonthMultipleERR.setText("not: " + dec.format(no) + "< x < 50");
+			this.openErrorAlert("ERROR", "Please enter number between " + dec.format(no) + " to 50");
+//			flagHomeFuel = false;
 		}
 
 		return flagDiesel && flagGasoline && flagMotorbikeFuel && flagHomeFuel;
@@ -1252,7 +1343,7 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	/**
 	 * method that put values is text fields to indicate data to the user
 	 */
-	private void updateRatesInFields() {// *
+	private void updateRatesInFields() {
 		double rate;
 		for (Product product : productRateList.getList()) {
 			System.out.println("product name: " + product.getProductName().toString());
@@ -1268,6 +1359,9 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		}
 	}
 
+	/**
+	 * sends request to client controller to fetch all products in sale patterns
+	 */
 	private void getAllProductInSalePatterns() {
 		this.sendToClientController("pull product in sales patterns " + userName);
 	}
@@ -1284,16 +1378,17 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	 * check if table view has a selected row
 	 * 
 	 * @param tb
-	 * @return
+	 * @return true if fields are valid
 	 */
 	private boolean checkIfRowSelectedFromTable(TableView<?> tb) {
 		if (tb.getSelectionModel().getSelectedItem() == null) {
-			tb.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
+			this.openErrorAlert("ERROR", "Please select a row from table");
+//			tb.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			return false;
 		}
 
 		if (tb.getSelectionModel().getSelectedItem() != null) {
-			tb.setStyle("-fx-border-style: none;");
+//			tb.setStyle("-fx-border-style: none;");
 		}
 		return true;
 	}
@@ -1401,6 +1496,9 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		motorBikeDiscountColumn.setResizable(false);
 	}
 
+	/**
+	 * initializes the table of peridoic customers report
+	 */
 	private void initiateCustomersTableInPeriodicReport() {
 		tvPCRDetails.getColumns().clear();
 		TableColumn<CustomerBoughtFromCompany, String> customerIDColumn = new TableColumn<CustomerBoughtFromCompany, String>(
@@ -1497,7 +1595,6 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	/**
 	 * method that initiate a table
 	 */
-
 	private void initiateSaleCommentsReportTable() {
 		tvGMRPickSale.getColumns().clear();
 		TableColumn<RowInSaleCommentsReportTable, Integer> saleIDColumn = new TableColumn<RowInSaleCommentsReportTable, Integer>(
@@ -1550,7 +1647,6 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 	 */
 	@Override
 	public void clearFields() {
-
 		this.mainBorderPane.setDisable(false);
 		saleCommentReportPane.setVisible(false);
 		periodicReportPane.setVisible(false);
@@ -1558,39 +1654,39 @@ public class MarketingManagerWindow extends MarketingDepWorkerWindow {
 		dpGMREndDate.setValue(null);
 		paneGMRCommentNext.setVisible(false);
 		paneGMRPeriodicNext.setVisible(false);
-		this.lblPayInPlaceERR.setVisible(false);
-		this.lblMonthlySingleERR.setVisible(false);
-		this.lblMonthMultipleERR.setVisible(false);
-		this.lblFullSingleERR.setVisible(false);
-		tvISSalesPattern.setStyle("-fx-border-style: none;");
+//		this.lblMonthSingleInfo.setVisible(false);
+//		this.lblMonthMultipleInfo.setVisible(false);
+//		this.lblMonthMultipleERR.setVisible(false);
+//		this.lblFullSingleInfo.setVisible(false);
+//		tvISSalesPattern.setStyle("-fx-border-style: none;");
 		tfISTime.clear();
-		tfISTime.setStyle("-fx-border-style: none;");
+//		tfISTime.setStyle("-fx-border-style: none;");
 		dpISDate.setValue(null);
-		dpISDate.setStyle("-fx-border-style: none;");
+//		dpISDate.setStyle("-fx-border-style: none;");
 		clearSalePatternPane();
 		cbPayInPlaceSet.setSelected(false);
-		cbPayInPlaceSet.setStyle("-fx-border-style: none;");
+//		cbPayInPlaceSet.setStyle("-fx-border-style: none;");
 		cbMonthSingleSet.setSelected(false);
-		cbMonthSingleSet.setStyle("-fx-border-style: none;");
+//		cbMonthSingleSet.setStyle("-fx-border-style: none;");
 		cbMonthMultipleSet.setSelected(false);
-		cbMonthMultipleSet.setStyle("-fx-border-style: none;");
+//		cbMonthMultipleSet.setStyle("-fx-border-style: none;");
 		cbFullSingleSet.setSelected(false);
-		cbFullSingleSet.setStyle("-fx-border-style: none;");
+//		cbFullSingleSet.setStyle("-fx-border-style: none;");
 		tfPayInPlaceSet.setDisable(true);
-		tfPayInPlaceSet.setStyle("-fx-border-style: none;");
+//		tfPayInPlaceSet.setStyle("-fx-border-style: none;");
 		tfMonthSingleSet.setDisable(true);
-		tfMonthSingleSet.setStyle("-fx-border-style: none;");
+//		tfMonthSingleSet.setStyle("-fx-border-style: none;");
 		tfMultipleSet.setDisable(true);
-		tfMultipleSet.setStyle("-fx-border-style: none;");
+//		tfMultipleSet.setStyle("-fx-border-style: none;");
 		tfFullSingleSet.setDisable(true);
-		tfFullSingleSet.setStyle("-fx-border-style: none;");
+//		tfFullSingleSet.setStyle("-fx-border-style: none;");
 		tfPayInPlaceSet.clear();
 		tfMonthSingleSet.clear();
-		tfMonthSingleSet.setStyle("-fx-border-style: none;");
+//		tfMonthSingleSet.setStyle("-fx-border-style: none;");
 		tfMultipleSet.clear();
-		tfMultipleSet.setStyle("-fx-border-style: none;");
+//		tfMultipleSet.setStyle("-fx-border-style: none;");
 		tfFullSingleSet.clear();
-		tfFullSingleSet.setStyle("-fx-border-style: none;");
+//		tfFullSingleSet.setStyle("-fx-border-style: none;");
 		btnRPMU.setDisable(true);
 	}
 

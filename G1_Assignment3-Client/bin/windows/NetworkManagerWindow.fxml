@@ -24,7 +24,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guiClient.NetworkManagerWindow">
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guiClient.NetworkManagerWindow">
    <children>
       <BorderPane fx:id="mainBorderPane" minHeight="700.0" prefHeight="650.0" styleClass="main-pane" stylesheets="@../pics/style.css">
          <left>
@@ -196,7 +196,7 @@
                               </Label>
                            </children>
                         </Pane>
-                        <Label fx:id="topbar_window_label" alignment="TOP_LEFT" minHeight="-Infinity" prefHeight="34.0" prefWidth="805.0" text="Home">
+                        <Label fx:id="topbar_window_label" alignment="TOP_LEFT" minHeight="-Infinity" prefHeight="30.0" prefWidth="800.0" text="Home">
                            <font>
                               <Font name="Arial" size="26.0" />
                            </font>
@@ -327,7 +327,7 @@
                                           <Font name="Arial" size="16.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="tfAPMPricingName" editable="false" layoutY="67.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" />
+                                    <TextField fx:id="tfAPMPricingName" editable="false" layoutY="67.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" styleClass="info-textFields" stylesheets="@../pics/style.css" />
                                     <Label layoutY="107.0" text="Description">
                                        <font>
                                           <Font name="Arial" size="16.0" />
@@ -338,19 +338,19 @@
                                           <Font name="Arial" size="16.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="tfAPMTime" editable="false" layoutX="322.0" layoutY="67.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" />
+                                    <TextField fx:id="tfAPMTime" editable="false" layoutX="322.0" layoutY="67.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" styleClass="info-textFields" stylesheets="@../pics/style.css" />
                                     <Label layoutX="1.0" layoutY="226.0" text="Current Discount">
                                        <font>
                                           <Font name="Arial" size="16.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="tfAPMcurDiscount" editable="false" layoutX="1.0" layoutY="246.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" />
+                                    <TextField fx:id="tfAPMcurDiscount" editable="false" layoutX="1.0" layoutY="246.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" styleClass="info-textFields" stylesheets="@../pics/style.css" />
                                     <Label layoutX="322.0" layoutY="226.0" text="New Discount">
                                        <font>
                                           <Font name="Arial" size="16.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="tfAPMnewDiscount" editable="false" layoutX="322.0" layoutY="246.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" />
+                                    <TextField fx:id="tfAPMnewDiscount" editable="false" layoutX="322.0" layoutY="246.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" styleClass="info-textFields" stylesheets="@../pics/style.css" />
                                     <TextArea fx:id="taAPMdescription" editable="false" layoutY="128.0" prefHeight="87.0" prefWidth="474.0" wrapText="true" />
                                  </children>
                               </AnchorPane>
@@ -460,8 +460,8 @@
                </font>
             </Label>
             <Label layoutX="13.0" layoutY="48.0" text="*" />
-            <Button fx:id="btnDOOk" layoutX="321.0" layoutY="182.0" mnemonicParsing="false" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Ok" />
-            <Button fx:id="btnDOCancel" layoutX="227.0" layoutY="182.0" mnemonicParsing="false" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Cancel" />
+            <Button fx:id="btnDOOk" layoutX="228.0" layoutY="181.0" mnemonicParsing="false" styleClass="confirmation-button" stylesheets="@../pics/style.css" text="Ok" />
+            <Button fx:id="btnDOCancel" layoutX="290.0" layoutY="181.0" mnemonicParsing="false" styleClass="cancel-button" stylesheets="@../pics/style.css" text="Cancel" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="quarterReportPane" layoutX="407.0" layoutY="109.0" prefHeight="541.0" prefWidth="605.0" styleClass="grid-pane" stylesheets="@../pics/gridPaneStyle.css" visible="false">
@@ -486,7 +486,7 @@
                   <Font name="Arial" size="18.0" />
                </font>
             </Label>
-            <Button fx:id="btnQRClose" layoutX="580.0" layoutY="7.0" minWidth="-Infinity" mnemonicParsing="false" prefHeight="13.0" prefWidth="25.0" style="-fx-background-radius: 50; -fx-background-color: #cc0000;">
+            <Button fx:id="btnQRClose" layoutX="583.0" layoutY="7.0" minWidth="-Infinity" mnemonicParsing="false" prefHeight="13.0" prefWidth="25.0" style="-fx-background-radius: 50; -fx-background-color: #cc0000;">
                <graphic>
                   <ImageView fitHeight="15.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -564,10 +564,10 @@
                   <Font name="Arial" size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="tflQRYear" editable="false" layoutX="86.0" layoutY="46.0" prefHeight="25.0" prefWidth="51.0" />
-            <TextField fx:id="tflQRQuarter" editable="false" layoutX="86.0" layoutY="79.0" prefHeight="25.0" prefWidth="51.0" />
-            <TextField fx:id="tflQRDateCreated" editable="false" layoutX="304.0" layoutY="45.0" prefHeight="25.0" prefWidth="82.0" />
-            <TextField fx:id="tflQRFuelStationID" editable="false" layoutX="571.0" layoutY="92.0" prefHeight="25.0" prefWidth="36.0">
+            <TextField fx:id="tflQRYear" editable="false" layoutX="86.0" layoutY="46.0" prefHeight="25.0" prefWidth="51.0" styleClass="info-textFields" stylesheets="@../pics/style.css" />
+            <TextField fx:id="tflQRQuarter" editable="false" layoutX="86.0" layoutY="79.0" prefHeight="25.0" prefWidth="51.0" styleClass="info-textFields" stylesheets="@../pics/style.css" />
+            <TextField fx:id="tflQRDateCreated" editable="false" layoutX="304.0" layoutY="45.0" prefHeight="25.0" prefWidth="82.0" styleClass="info-textFields" stylesheets="@../pics/style.css" />
+            <TextField fx:id="tflQRFuelStationID" editable="false" layoutX="571.0" layoutY="92.0" prefHeight="25.0" prefWidth="36.0" styleClass="info-textFields" stylesheets="@../pics/style.css">
                <padding>
                   <Insets left="15.0" />
                </padding>

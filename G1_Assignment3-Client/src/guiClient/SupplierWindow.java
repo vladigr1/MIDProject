@@ -134,8 +134,7 @@ public class SupplierWindow extends EmployeeWindow {
 	}
 
 	/**
-	 * This method sets the AnchorPane approveSuppliedPan. <br/>
-	 * The method sets:
+	 * This method sets the AnchorPane approveSuppliedPan. The method sets:
 	 * <ol>
 	 * <li>fuelStationIDs pull the info from server
 	 * <li>tvASFSODetails tableView set cloumn
@@ -207,6 +206,9 @@ public class SupplierWindow extends EmployeeWindow {
 		clearFields();
 	}
 
+	/**
+	 * clear fxml entities as if the window was just entered into
+	 */
 	@Override
 	public void clearFields() {
 		cobASFSOFuelStationID.getItems().clear();

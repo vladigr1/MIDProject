@@ -23,12 +23,12 @@
       <Label fx:id="lblStatus" layoutX="376.0" layoutY="182.0" text="Server Disconnected" />
       <Button fx:id="btnConnect" layoutX="350.0" layoutY="220.0" mnemonicParsing="false" onMouseClicked="#connectedBtnClicked" onMouseEntered="#connectedBtnHover" onMouseExited="#connectedBtnExit" prefHeight="54.0" prefWidth="161.0" style="-fx-background-color: LIGHTGREEN;" text="Connect" />
       <Button fx:id="btnDisconnect" layoutX="350.0" layoutY="287.0" mnemonicParsing="false" onMouseClicked="#disConnectedBtnClicked" onMouseEntered="#disConnectedBtnHover" onMouseExited="#disConnectedBtnExit" prefHeight="54.0" prefWidth="161.0" style="-fx-background-color: LIGHTCORAL;" text="Disconnect " />
-      <ImageView fx:id="imgStatus" fitHeight="115.0" fitWidth="88.0" layoutX="387.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgStatus" fitHeight="115.0" fitWidth="88.0" layoutX="387.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@disconnected.png" />
          </image>
       </ImageView>
-      <Label layoutX="391.0" layoutY="32.0" text="Server Status">
+      <Label layoutX="391.0" layoutY="50.0" text="Server Status">
          <font>
             <Font size="14.0" />
          </font>

@@ -5,10 +5,9 @@ import java.net.ConnectException;
 
 /**
  * This Class is connection between the supplier gui and the server request and
- * acknowledge <br />
- * Sending message to serve the message of supplier always starts with
- * fuel_station_order. <br />
- * this is the way designed to recognize the requested approach
+ * acknowledge Sending message to serve the message of supplier always starts
+ * with fuel_station_order. this is the way designed to recognize the requested
+ * approach
  * 
  * @version Final
  * @author Vlad

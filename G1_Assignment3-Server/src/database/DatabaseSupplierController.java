@@ -45,16 +45,12 @@ public class DatabaseSupplierController {
 	}
 
 	/**
-	 * This method gets the rows that are relevant for this fuel station. <br\>
-	 * Relevet rows are row which:
-	 * <ol>
-	 * <li>approved = 1
-	 * <li>supplied = 0
-	 * <li>fuelStationID = fuelStationIDs (parameter)
-	 * <ol/>
+	 * This method gets the rows that are relevant for this fuel station. Relevet
+	 * rows are row which: approved = 1 supplied = 0 fuelStationID = fuelStationIDs
+	 * (parameter)
 	 * 
 	 * @param fuelStationIDs the fuel station that the client pick
-	 * @see SupplierItemInTable
+	 * @see entities.SupplierItemInTable
 	 */
 	public SupplierItemInTable[] getSupplierItemInTable(int fuelStationIDs) {
 		List<SupplierItemInTable> siitList = new ArrayList<>();
@@ -93,13 +89,10 @@ public class DatabaseSupplierController {
 	}
 
 	/**
-	 * This method update the server as order is approved. <br/>
-	 * The Tables that we Update:
-	 * <ol>
-	 * <li>fuel_station_order - change the field supplied =1
-	 * <li>product_in_station - change the field capacity = 1
-	 * <li>Notification - generate new notification that the order is supplied
-	 * <ol/>
+	 * This method update the server as order is approved.
+	 * The Tables that we Update: fuel_station_order - change the field supplied = 1
+	 * product_in_station - change the field capacity = 1 Notification - generate
+	 * new notification that the order is supplied
 	 * 
 	 * @param ordersID
 	 * @param amount
@@ -156,15 +149,11 @@ public class DatabaseSupplierController {
 	}
 
 	/**
-	 * This method get all relevant fuelStationID that the supplier
-	 * <ol>
-	 * <li>approved = 1
-	 * <li>supplied = 0
-	 * <li>FK_userName = username (parameter)
-	 * <ol/>
+	 * This method get all relevant fuelStationID that the supplier approved = 1
+	 * supplied = 0 FK_userName = username of supplier (parameter)
 	 * 
-	 * @param username the supplier username
-	 * @return
+	 * @param username
+	 * @return Integer[]
 	 */
 	public Integer[] getFuelStationWithOrder(String username) {
 		List<Integer> fsL = new ArrayList<>();

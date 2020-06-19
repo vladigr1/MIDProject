@@ -28,6 +28,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Window;
 import javafx.util.Callback;
@@ -92,6 +93,8 @@ public class CustomerWindow extends UserWindow {
 	private TextField tfOHFShipmentReview;
 	@FXML
 	private Button btnOHFConfirm;
+	@FXML
+	private Button btnOHFCancel;
 
 	@FXML
 	private AnchorPane viewOrderPane;
@@ -160,8 +163,12 @@ public class CustomerWindow extends UserWindow {
 			openErrorAlert("Error", "Missing Password Field");
 			return;
 		}
-		if (pass.matches(".*[ -/].*") || pass.matches(".*[:-~].*")) {
-			openErrorAlert("Error", "Password Not Valid\n Only Digits");
+		if (pass.contains(" ")) {
+			openErrorAlert("Error", "Password Should Not Contain Spaces");
+			return;
+		}
+		if (pass.length() > 50) {
+			openErrorAlert("Error", "Password Too Long, Max 50 Characters");
 			return;
 		}
 
@@ -170,6 +177,7 @@ public class CustomerWindow extends UserWindow {
 
 	/**
 	 * button listener for order home fuel sidebar button
+	 * 
 	 * @param event
 	 */
 	@FXML
@@ -186,6 +194,7 @@ public class CustomerWindow extends UserWindow {
 	}
 
 	/**
+	 * button listener for show home fuel order final price button
 	 * 
 	 * @param event
 	 */
@@ -193,19 +202,30 @@ public class CustomerWindow extends UserWindow {
 	void btnOHFShowPricePressed(ActionEvent event) {
 		String amount = this.tfOHFAmount1.getText();
 		String address = this.tfOHFAddress.getText();
-		ShipmentType shipmentType;
 
 		if (amount.isEmpty() || address.isEmpty()) {
 			openErrorAlert("Error", "Missing Required Fields");
-			this.tfOHFAmount1.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
-			this.tfOHFAddress.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
 			return;
 		}
-		if (amount.matches(".*[ -/].*") || amount.matches(".*[:-~].*") || amount.length() >= 5) {
-			openErrorAlert("Error", "Amount Not Valid");
+		try {
+			if (Double.parseDouble(amount) <= 0) {
+				openErrorAlert("Error", "Amount Must Be a Positive Number");
+				return;
+			}
+			if (Double.parseDouble(amount) > 10000) {
+				openErrorAlert("Error", "Amount Too Big\nMax 10000");
+				return;
+			}
+		} catch (NumberFormatException e) {
+			openErrorAlert("Error", "Amount Must Be a Number");
+			return;
+		}
+		if (address.length() > 50) {
+			openErrorAlert("Error", "Address Too Long\nMax 50 Characters");
 			return;
 		}
 
+		ShipmentType shipmentType = null;
 		if (this.rbOHFShipment1.isSelected())
 			shipmentType = ShipmentType.Regular;
 		else
@@ -216,6 +236,7 @@ public class CustomerWindow extends UserWindow {
 	}
 
 	/**
+	 * button listener for confirm home fuel order button
 	 * 
 	 * @param event
 	 */
@@ -226,11 +247,30 @@ public class CustomerWindow extends UserWindow {
 			shipmentType = ShipmentType.Regular;
 		else
 			shipmentType = ShipmentType.Urgent;
+
+		String address = tfOHFAddress.getText().replaceAll("\\s", "@");
+
 		this.controller.handleMessageFromClientUI(("homefuel set " + this.username + " " + shipmentType.toString() + " "
-				+ tfOHFFinalPrice.getText() + " " + tfOHFAmount1.getText() + " " + tfOHFAddress.getText()));
+				+ tfOHFFinalPrice.getText() + " " + tfOHFAmount1.getText() + "_" + address));
 	}
 
 	/**
+	 * button listener for cance; home fuel order button
+	 * 
+	 * @param event
+	 */
+	@FXML
+	void btnOHFCancelPressed(ActionEvent event) {
+		tfOHFDate.clear();
+		tfOHFFinalPrice.clear();
+		tfOHFAmount2.clear();
+		tfOHFShipmentReview.clear();
+		apOHFOrderDetails.setDisable(true);
+		apOHFPurchaseInfo.setDisable(false);
+	}
+
+	/**
+	 * button listener for show home fuel orders of customer sidebar button
 	 * 
 	 * @param event
 	 */
@@ -248,11 +288,13 @@ public class CustomerWindow extends UserWindow {
 	/*************** boundary "logic" - window changes ***************/
 
 	/**
-	 * 
+	 * called after server returned a message/object to the client
 	 */
 	@Override
 	public void callAfterMessage(Object lastMsgFromServer) {
 		super.callAfterMessage(lastMsgFromServer);
+		DecimalFormat df = new DecimalFormat("#.##");
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
 		if (lastMsgFromServer instanceof HomeFuelOrderList) {
 			HomeFuelOrderList homeFuelOrderList = (HomeFuelOrderList) lastMsgFromServer;
@@ -270,15 +312,12 @@ public class CustomerWindow extends UserWindow {
 					+ purchasingProgramType.getMonthlyPrice())).toString() + " $");
 
 		} else if (lastMsgFromServer instanceof Double) {
-			DecimalFormat df = new DecimalFormat("#.##");
 			this.tfOHFPrice1.setText(df.format((Double) lastMsgFromServer));
 
 		} else if (lastMsgFromServer instanceof Float) {
-			DecimalFormat df = new DecimalFormat("#.##");
 			this.tfOHFFinalPrice.setText(df.format((Float) lastMsgFromServer));
 			this.apOHFPurchaseInfo.setDisable(true);
 			this.apOHFOrderDetails.setDisable(false);
-			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 			this.tfOHFDate.setText(formatter.format(new Date()));
 			this.tfOHFAmount2.setText(this.tfOHFAmount1.getText());
 			if (this.rbOHFShipment1.isSelected())
@@ -291,7 +330,7 @@ public class CustomerWindow extends UserWindow {
 
 			if (str.equals("set homefuelorder success")) {
 				openConfirmationAlert("Success", "Order Saved");
-				this.apOHFOrderDetails.setDisable(true);
+				clearFields();
 
 			} else if (str.equals("set homefuelorder fail")) {
 				openErrorAlert("Error", "Order Failed");
@@ -303,7 +342,6 @@ public class CustomerWindow extends UserWindow {
 			} else if (str.equals("update password fail")) {
 				openErrorAlert("Error", "Password Update Failed");
 			}
-
 		}
 	}
 
@@ -327,10 +365,12 @@ public class CustomerWindow extends UserWindow {
 		final TableColumn<FastFuel, String> fuelStationColumn = (TableColumn<FastFuel, String>) new TableColumn(
 				"Fuel Station");
 		fuelStationColumn.setCellValueFactory((Callback) new PropertyValueFactory("fuelStationName"));
+		fuelStationColumn.setMinWidth(fuelStationColumn.getPrefWidth() * 1.5);
 		this.tvHomeFastFuel.getColumns().add(fuelStationColumn);
 		final TableColumn<FastFuel, ProductName> fuelTypeColumn = (TableColumn<FastFuel, ProductName>) new TableColumn(
 				"Fuel Type");
 		fuelTypeColumn.setCellValueFactory((Callback) new PropertyValueFactory("fuelType"));
+		fuelTypeColumn.setMinWidth(fuelTypeColumn.getPrefWidth() * 1.15);
 		this.tvHomeFastFuel.getColumns().add(fuelTypeColumn);
 		final TableColumn<FastFuel, String> amountColumn = (TableColumn<FastFuel, String>) new TableColumn("Amount");
 		amountColumn.setCellValueFactory((Callback) new PropertyValueFactory("amountBought"));
@@ -342,11 +382,12 @@ public class CustomerWindow extends UserWindow {
 		final TableColumn<HomeFuelOrder, Integer> orderIDColumn = (TableColumn<HomeFuelOrder, Integer>) new TableColumn(
 				"Order ID");
 		orderIDColumn.setCellValueFactory((Callback) new PropertyValueFactory("ordersID"));
+//		orderIDColumn.setSortType(SortType.DESCENDING);
 		this.tvVODetails.getColumns().add(orderIDColumn);
 		final TableColumn<HomeFuelOrder, Date> orderTimeColumn = (TableColumn<HomeFuelOrder, Date>) new TableColumn(
 				"Time Bought");
-		orderIDColumn.setMinWidth(170);
 		orderTimeColumn.setCellValueFactory((Callback) new PropertyValueFactory("orderTime"));
+		orderTimeColumn.setMinWidth(170);
 		this.tvVODetails.getColumns().add(orderTimeColumn);
 		final TableColumn<HomeFuelOrder, String> orderAddress = (TableColumn<HomeFuelOrder, String>) new TableColumn(
 				"Address");
@@ -359,11 +400,12 @@ public class CustomerWindow extends UserWindow {
 		final TableColumn<HomeFuelOrder, ShipmentType> orderShipment = (TableColumn<HomeFuelOrder, ShipmentType>) new TableColumn(
 				"Shipment Method");
 		orderShipment.setCellValueFactory((Callback) new PropertyValueFactory("shipmentMethod"));
+		orderShipment.setMinWidth(orderShipment.getPrefWidth() * 2);
 		this.tvVODetails.getColumns().add(orderShipment);
 		final TableColumn<HomeFuelOrder, Date> orderDueTimeColumn = (TableColumn<HomeFuelOrder, Date>) new TableColumn(
 				"Due Time");
-		orderDueTimeColumn.setMinWidth(170);
 		orderDueTimeColumn.setCellValueFactory((Callback) new PropertyValueFactory("dueTime"));
+		orderDueTimeColumn.setMinWidth(170);
 		this.tvVODetails.getColumns().add(orderDueTimeColumn);
 		final TableColumn<HomeFuelOrder, Double> orderPrice = (TableColumn<HomeFuelOrder, Double>) new TableColumn(
 				"Total Price");
@@ -373,7 +415,6 @@ public class CustomerWindow extends UserWindow {
 		Calendar calendar = Calendar.getInstance();
 		Date now = new Date();
 		calendar.setTime(now);
-
 		this.controller.handleMessageFromClientUI(("fastfuel get " + username + " " + (calendar.get(Calendar.YEAR))
 				+ " " + (calendar.get(Calendar.MONTH) + 1)));
 
@@ -397,11 +438,16 @@ public class CustomerWindow extends UserWindow {
 			list.add(fastFuel);
 			total += fastFuel.getFinalPrice();
 		}
+
 		this.tvHomeFastFuel.setItems(list);
-		DecimalFormat df = new DecimalFormat("#.##");
-		this.tfHomeTotal.setText(df.format(total));
+		this.tfHomeTotal.setText(new DecimalFormat("#.##").format(total));
 	}
 
+	/**
+	 * fills the tableview in view home fuel orders pane
+	 * 
+	 * @param homeFuelOrderList
+	 */
 	private void handleGetHomeFuelOrderListFromServer(HomeFuelOrderList homeFuelOrderList) {
 		final ObservableList<HomeFuelOrder> list = FXCollections.observableArrayList();
 		for (int i = 0; i < this.tvVODetails.getItems().size(); ++i) {
@@ -415,6 +461,9 @@ public class CustomerWindow extends UserWindow {
 		this.tvVODetails.setItems(list);
 	}
 
+	/**
+	 * clear fxml entities as if the window was just entered into
+	 */
 	@Override
 	public void clearFields() {
 		this.tfOHFAmount1.clear();
@@ -425,6 +474,32 @@ public class CustomerWindow extends UserWindow {
 		this.tfOHFShipmentReview.clear();
 		this.rbOHFShipment1.setSelected(true);
 		this.tfHomeNewPass.clear();
+		this.apOHFPurchaseInfo.setDisable(false);
+		this.apOHFOrderDetails.setDisable(true);
+	}
+
+	/*********************** key listeners ***********************/
+
+	@FXML
+	void tabRbOHFShipment1(KeyEvent event) {
+		switch (event.getCode()) {
+		case TAB:
+			this.rbOHFShipment2.setSelected(true);
+			break;
+		default:
+			break;
+		}
+	}
+
+	@FXML
+	void tabRbOHFShipment2(KeyEvent event) {
+		switch (event.getCode()) {
+		case TAB:
+			this.rbOHFShipment1.setSelected(true);
+			break;
+		default:
+			break;
+		}
 	}
 
 }

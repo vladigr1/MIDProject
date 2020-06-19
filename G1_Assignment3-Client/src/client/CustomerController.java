@@ -103,7 +103,10 @@ public class CustomerController extends UserController {
 						calendar.add(Calendar.HOUR, 240);
 					dueTime = calendar.getTime();
 
-					HomeFuelOrder homeFuelOrder = new HomeFuelOrder(now, Double.parseDouble(splitMsg[5]), splitMsg[6],
+					String[] splitMsg2 = splitMsg[5].split("_");
+					String address = splitMsg2[1].replaceAll("@", " ");
+
+					HomeFuelOrder homeFuelOrder = new HomeFuelOrder(now, Double.parseDouble(splitMsg2[0]), address,
 							splitMsg[2], ProductName.HomeFuel, ShipmentType.valueOf(splitMsg[3]), dueTime,
 							Double.parseDouble(splitMsg[4]));
 					this.sendToServer(homeFuelOrder);

@@ -22,8 +22,7 @@ import ocsf.server.ConnectionToClient;
 /**
  * controller for server
  * 
- * @version 1 Method To Final
- * @see handleMessageFromClient()
+ * @version Final
  * @author Elroy, Lior, Vlad, Liad
  */
 public class ServerController extends AbstractServer {
@@ -190,13 +189,19 @@ public class ServerController extends AbstractServer {
 		}
 	}
 
+	/**
+	 * method that starts the server in order to listen for clients
+	 */
 	protected void serverStarted() {
 		synchronized (this.lock) {
 			this.serverWindow.updateArea("Server listening for connections on port " + getPort());
 			this.lock.notifyAll();
 		}
 	}
-
+	
+	/**
+	 * method that sets the server to listen mod
+	 */
 	public void startListening() {
 		try {
 			this.listen();
@@ -207,7 +212,10 @@ public class ServerController extends AbstractServer {
 			}
 		}
 	}
-
+	
+/**
+ * method that stops the server from listening to clients
+ */
 	protected void serverStopped() {
 		synchronized (this.lock) {
 			this.serverWindow.updateArea("Server has stopped listening for connections");

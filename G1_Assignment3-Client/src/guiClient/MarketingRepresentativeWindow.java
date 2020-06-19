@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import client.MarketingRepresentativeController;
 import entities.Car;
@@ -18,6 +20,7 @@ import enums.ProductName;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -271,6 +274,18 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	private Button btnSPMClear;
 	@FXML
 	private Button btnSPMCancelReg;
+	@FXML
+	private AnchorPane apSPPbuttons;
+	@FXML
+	private AnchorPane apAECbuttons;
+	@FXML
+	private AnchorPane apSPMbuttons;
+	@FXML
+	private Button btnSPPSave1;
+	@FXML
+	private Button btnAECASave1;
+	@FXML
+	private Button btnSPMSet1;
 
 	private boolean customerIsRegisteringFlag = false;
 	private boolean pricingModelOutdatedFlag = false;
@@ -278,7 +293,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 	private String deletedACarCustomerID;
 
 	/**
-	 * runs every time this windows goes live 
+	 * runs every time this windows goes live
 	 */
 	@FXML
 	void initialize() {
@@ -314,6 +329,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 
 	/**
 	 * button listener for home sidebar button
+	 * 
 	 * @param event
 	 */
 	@Override
@@ -322,6 +338,11 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		sidebar_btn0.setSelected(true);
 	}
 
+	/**
+	 * sidebar button to open addedit customer pane
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void openAddEditCustomer(ActionEvent event) {
 		this.sidebar_btn1.setSelected(true);
@@ -332,10 +353,13 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		clearFields();
 	}
 
+	/**
+	 * addeditcustomerpane save customer
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnAECUSavePressed(ActionEvent event) {
-		this.customerIsRegisteringFlag = true;
-
 		String customerID = this.tfAECUCustID.getText();
 		String firstName = this.tfAECUFirstName.getText();
 		String surname = this.tfAECUSurname.getText();
@@ -348,42 +372,99 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			openErrorAlert("Error", "Missing Required Fields");
 			return;
 		}
-		if (customerID.matches(".*[ -/].*") || customerID.matches(".*[:-~].*") || customerID.length() != 9) {
-			openErrorAlert("Error", "Customer ID Not Valid");
+		try {
+			if (Integer.parseInt(customerID) <= 0) {
+				openErrorAlert("Error", "Customer ID Can't Be 0's or a Negative Number");
+				return;
+			}
+			if (customerID.length() != 9) {
+				openErrorAlert("Error", "Customer ID Must Be 9 Digits");
+				return;
+			}
+		} catch (NumberFormatException e) {
+			openErrorAlert("Error", "Customer ID Must Be a Number");
 			return;
 		}
-		if (creditCard.matches(".*[ -/].*") || creditCard.matches(".*[:-~].*") || creditCard.length() != 16) {
-			openErrorAlert("Error", "Credit Card Not Valid");
+		if (!firstName.matches("[a-zA-Z]+")) {
+			openErrorAlert("Error", "First Name Must Be Only Characters\nWithout Spaces");
 			return;
 		}
-		if (firstName.matches(".*[ -@].*") || surname.matches(".*[ -@].*")) {
-			openErrorAlert("Error", "First Name or Surname Not Valid");
+		if (firstName.length() > 50) {
+			openErrorAlert("Error", "First Name Too Long, Max 50 Characters");
 			return;
 		}
-		if (!email.matches(".*[.-.].*") || !email.matches(".*[@-@].*") || email.matches(".*[ - ].*")) {
+		if (!surname.matches("[a-zA-Z]+")) {
+			openErrorAlert("Error", "Surname Must Be Only Characters\nWithout Spaces");
+			return;
+		}
+		if (surname.length() > 50) {
+			openErrorAlert("Error", "Surname Too Long, Max 50 Characters");
+			return;
+		}
+		String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+		Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+		Matcher matcher = pattern.matcher(email);
+		if (!matcher.matches()) {
 			openErrorAlert("Error", "Email Not Valid");
 			return;
 		}
+		if (email.length() > 50) {
+			openErrorAlert("Error", "Email Too Long, Max 50 Characters");
+			return;
+		}
+		try {
+			if (Long.parseLong(creditCard) <= 0) {
+				openErrorAlert("Error", "Credit Card Can't Be 0's or a Negative Number");
+				return;
+			}
+			if (creditCard.length() != 16) {
+				openErrorAlert("Error", "Credit Card Must Be 16 Digits");
+				return;
+			}
+		} catch (NumberFormatException e) {
+			openErrorAlert("Error", "Credit Card Must Be a Number");
+			return;
+		}
 
+		this.customerIsRegisteringFlag = true;
 		this.controller.handleMessageFromClientUI("savecustomer " + customerID + " " + firstName + " " + surname + " "
 				+ email + " " + creditCard + " " + customerType);
 	}
 
+	/**
+	 * addeditcustomerpane edit customer
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnAECUEditPressed(ActionEvent event) {
 		mainBorderPane.setDisable(true);
 		editCustomerPane.setVisible(true);
 	}
 
+	/**
+	 * editcustomerpane show customer details
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnECUShowPressed(ActionEvent event) {
 		String customerID = this.tfACUCustID.getText();
 		if (customerID.isEmpty()) {
-			openErrorAlert("Error", "Missing Required Customer ID");
+			openErrorAlert("Error", "Missing Required Field");
 			return;
 		}
-		if (customerID.matches(".*[ -/].*") || customerID.matches(".*[:-~].*") || customerID.length() != 9) {
-			openErrorAlert("Error", "Customer ID Not Valid");
+		try {
+			if (Integer.parseInt(customerID) <= 0) {
+				openErrorAlert("Error", "Customer ID Can't Be 0's or a Negative Number");
+				return;
+			}
+			if (customerID.length() != 9) {
+				openErrorAlert("Error", "Customer ID Must Be 9 Digits");
+				return;
+			}
+		} catch (NumberFormatException e) {
+			openErrorAlert("Error", "Customer ID Must Be a Number");
 			return;
 		}
 
@@ -391,11 +472,21 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.controller.handleMessageFromClientUI("getcustomerdetails " + customerID);
 	}
 
+	/**
+	 * editcustomerpane clear customer details
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnECUClearPressed(ActionEvent event) {
 		clearEditCustomerPane();
 	}
 
+	/**
+	 * editcustomerpane close pane
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnECUClosePressed(ActionEvent event) {
 		this.mainBorderPane.setDisable(false);
@@ -403,20 +494,55 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		clearEditCustomerPane();
 	}
 
+	/**
+	 * editcustomerpane delete customer
+	 * 
+	 * @param event1
+	 */
 	@FXML
-	void btnECUDeletePressed(ActionEvent event) {
+	void btnECUDeletePressed(ActionEvent event1) {
 		String customerID = this.tfACUCustID.getText();
 		if (customerID.isEmpty()) {
-			openErrorAlert("Error", "Missing Required Customer ID");
+			openErrorAlert("Error", "Missing Required Field");
 			return;
 		}
-		if (customerID.matches(".*[ -/].*") || customerID.matches(".*[:-~].*") || customerID.length() != 9) {
-			openErrorAlert("Error", "Customer ID Not Valid");
+		try {
+			if (Integer.parseInt(customerID) <= 0) {
+				openErrorAlert("Error", "Customer ID Can't Be 0's or a Negative Number");
+				return;
+			}
+			if (customerID.length() != 9) {
+				openErrorAlert("Error", "Customer ID Must Be 9 Digits");
+				return;
+			}
+		} catch (NumberFormatException e) {
+			openErrorAlert("Error", "Customer ID Must Be a Number");
 			return;
 		}
-		this.controller.handleMessageFromClientUI("deletecustomer " + customerID);
+
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Delete Customer");
+		alert.setHeaderText("Are You Sure You Want To Delete This Customer\nDo You Have His Consent?");
+		ButtonType buttonTypeOne = new ButtonType("Yes");
+		ButtonType buttonTypeTwo = new ButtonType("No");
+		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
+		alert.show();
+		final Button btn = (Button) alert.getDialogPane().lookupButton(buttonTypeOne);
+		btn.setOnAction(event -> {
+			this.controller.handleMessageFromClientUI("deletecustomer " + customerID);
+			alert.hide();
+		});
+		final Button btn2 = (Button) alert.getDialogPane().lookupButton(buttonTypeTwo);
+		btn2.setOnAction(event -> {
+			alert.hide();
+		});
 	}
 
+	/**
+	 * editcustomerpane update customer details
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnECUUpdatePressed(ActionEvent event) {
 		String customerID = this.tfACUCustID.getText();
@@ -431,20 +557,57 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			openErrorAlert("Error", "Missing Required Fields");
 			return;
 		}
-		if (customerID.matches(".*[ -/].*") || customerID.matches(".*[:-~].*") || customerID.length() != 9) {
-			openErrorAlert("Error", "Customer ID Not Valid");
+		try {
+			if (Integer.parseInt(customerID) <= 0) {
+				openErrorAlert("Error", "Customer ID Can't Be 0's or a Negative Number");
+				return;
+			}
+			if (customerID.length() != 9) {
+				openErrorAlert("Error", "Customer ID Must Be 9 Digits");
+				return;
+			}
+		} catch (NumberFormatException e) {
+			openErrorAlert("Error", "Customer ID Must Be a Number");
 			return;
 		}
-		if (creditCard.matches(".*[ -/].*") || creditCard.matches(".*[:-~].*") || creditCard.length() != 16) {
-			openErrorAlert("Error", "Credit Card Not Valid");
+		if (!firstName.matches("[a-zA-Z]+")) {
+			openErrorAlert("Error", "First Name Must Be Only Characters\nWithout Spaces");
 			return;
 		}
-		if (firstName.matches(".*[ -@].*") || surname.matches(".*[ -@].*")) {
-			openErrorAlert("Error", "First Name or Surname Not Valid");
+		if (firstName.length() > 50) {
+			openErrorAlert("Error", "First Name Too Long, Max 50 Characters");
 			return;
 		}
-		if (!email.matches(".*[.-.].*") || !email.matches(".*[@-@].*") || email.matches(".*[ - ].*")) {
+		if (!surname.matches("[a-zA-Z]+")) {
+			openErrorAlert("Error", "Surname Must Be Only Characters\nWithout Spaces");
+			return;
+		}
+		if (surname.length() > 50) {
+			openErrorAlert("Error", "Surname Too Long, Max 50 Characters");
+			return;
+		}
+		String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+		Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+		Matcher matcher = pattern.matcher(email);
+		if (!matcher.matches()) {
 			openErrorAlert("Error", "Email Not Valid");
+			return;
+		}
+		if (email.length() > 50) {
+			openErrorAlert("Error", "Email Too Long, Max 50 Characters");
+			return;
+		}
+		try {
+			if (Long.parseLong(creditCard) <= 0) {
+				openErrorAlert("Error", "Credit Card Can't Be 0's or a Negative Number");
+				return;
+			}
+			if (creditCard.length() != 16) {
+				openErrorAlert("Error", "Credit Card Must Be 16 Digits");
+				return;
+			}
+		} catch (NumberFormatException e) {
+			openErrorAlert("Error", "Credit Card Must Be a Number");
 			return;
 		}
 
@@ -452,6 +615,11 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 				+ email + " " + creditCard + " " + customerType);
 	}
 
+	/**
+	 * addeditcarpane open
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void openAddEditCar(ActionEvent event) {
 		this.sidebar_btn2.setSelected(true);
@@ -462,25 +630,50 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		clearFields();
 	}
 
+	/**
+	 * addeditcarpane open
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnAECACheckPressed(ActionEvent event) {
 		String customerID = this.tfAECACustID.getText();
 		if (customerID.isEmpty()) {
-			openErrorAlert("Error", "Missing Required Customer ID");
+			openErrorAlert("Error", "Missing Required Field");
 			return;
 		}
-		if (customerID.matches(".*[ -/].*") || customerID.matches(".*[:-~].*") || customerID.length() != 9) {
-			openErrorAlert("Error", "Customer ID Not Valid");
+		try {
+			if (Integer.parseInt(customerID) <= 0) {
+				openErrorAlert("Error", "Customer ID Can't Be 0's or a Negative Number");
+				return;
+			}
+			if (customerID.length() != 9) {
+				openErrorAlert("Error", "Customer ID Must Be 9 Digits");
+				return;
+			}
+		} catch (NumberFormatException e) {
+			openErrorAlert("Error", "Customer ID Must Be a Number");
 			return;
 		}
+
 		checkCustomerExists(customerID);
 	}
 
+	/**
+	 * addeditcarpane clear car details
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnAECAClearPressed(ActionEvent event) {
 		clearAddEditCarPane();
 	}
 
+	/**
+	 * addeditcarpane open
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnAECASavePressed(ActionEvent event) {
 		String customerID = this.tfAECACustID.getText();
@@ -492,17 +685,38 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			openErrorAlert("Error", "Missing Required Fields");
 			return;
 		}
-		if (customerID.matches(".*[ -/].*") || customerID.matches(".*[:-~].*") || customerID.length() != 9) {
-			openErrorAlert("Error", "Customer ID Not Valid");
+		try {
+			if (Integer.parseInt(customerID) <= 0) {
+				openErrorAlert("Error", "Customer ID Can't Be 0's or a Negative Number");
+				return;
+			}
+			if (customerID.length() != 9) {
+				openErrorAlert("Error", "Customer ID Must Be 9 Digits");
+				return;
+			}
+		} catch (NumberFormatException e) {
+			openErrorAlert("Error", "Customer ID Must Be a Number");
 			return;
 		}
-		if (regPlate.matches(".*[ -/].*") || regPlate.matches(".*[:-~].*")
-				|| (regPlate.length() != 7 && regPlate.length() != 8)) {
-			openErrorAlert("Error", "Registration Plate Not Valid");
+		try {
+			if (Integer.parseInt(regPlate) <= 0) {
+				openErrorAlert("Error", "Registration Plate Can't Be 0's or a Negative Number");
+				return;
+			}
+			if (regPlate.length() != 7 && regPlate.length() != 8) {
+				openErrorAlert("Error", "Registration Plate Must Be 7 or 8 Digits");
+				return;
+			}
+		} catch (NumberFormatException e) {
+			openErrorAlert("Error", "Registration Plate Must Be a Number");
 			return;
 		}
-		if (owner.matches(".*[ -@].*")) {
-			openErrorAlert("Error", "Owner Name Not Valid");
+		if (!owner.matches("[a-zA-Z]+")) {
+			openErrorAlert("Error", "Owner Name Must Be Only Characters\nWithout Spaces");
+			return;
+		}
+		if (owner.length() > 50) {
+			openErrorAlert("Error", "Owner Name Too Long, Max 50 Characters");
 			return;
 		}
 
@@ -510,91 +724,173 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 				.handleMessageFromClientUI("savecar " + customerID + " " + regPlate + " " + owner + " " + fuelType);
 	}
 
+	/**
+	 * addeditcarpane edit car
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnAECAEditPressed(ActionEvent event) {
 		this.mainBorderPane.setDisable(true);
 		this.editCarPane.setVisible(true);
 	}
 
+	/**
+	 * addeditcarpane cancel registration
+	 * 
+	 * @param event1
+	 */
 	@FXML
-	void btnAECACancelRegPressed(ActionEvent event) {
+	void btnAECACancelRegPressed(ActionEvent event1) {
 		String customerID = this.tfAECACustID.getText();
 
-		clearFields();
-		this.step2.setVisible(false);
-		this.btnAECACancelReg.setVisible(false);
-		this.gpAECACarDetails.setDisable(false);
-		this.btnAECAEdit.setDisable(false);
-		this.btnAECAClear.setDisable(false);
-		this.apAECACarDetails.setDisable(true);
-		this.step3.setVisible(false);
-		this.btnSPPCancelReg.setVisible(false);
-		this.gpSPP.setDisable(false);
-		this.apSPP.setDisable(true);
-		this.btnSPPClear.setDisable(false);
-		this.vbox1.setDisable(false);
-		this.vbox2.setDisable(false);
-		this.customerIsRegisteringFlag = false;
-
-		this.controller.handleMessageFromClientUI("deletecustomer " + customerID);
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Cancel Registration");
+		alert.setHeaderText("Are You Sure You Want To Cancel The Registration?");
+		ButtonType buttonTypeOne = new ButtonType("Yes");
+		ButtonType buttonTypeTwo = new ButtonType("No");
+		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
+		alert.show();
+		final Button btn = (Button) alert.getDialogPane().lookupButton(buttonTypeOne);
+		btn.setOnAction(event -> {
+			this.controller.handleMessageFromClientUI("deletecustomer " + customerID);
+			clearFields();
+			this.step2.setVisible(false);
+			this.btnAECACancelReg.setVisible(false);
+			this.gpAECACarDetails.setDisable(false);
+			this.apAECACarDetails.setDisable(true);
+			this.apAECbuttons.setVisible(false);
+			this.btnAECASave1.setVisible(true);
+			this.btnAECAEdit.setDisable(false);
+			this.btnAECAClear.setDisable(false);
+			this.step3.setVisible(false);
+			this.btnSPPCancelReg.setVisible(false);
+			this.gpSPP.setDisable(false);
+			this.apSPP.setDisable(true);
+			this.apSPPbuttons.setVisible(false);
+			this.btnSPPSave1.setVisible(true);
+			this.btnSPPClear.setDisable(false);
+			this.vbox1.setDisable(false);
+			this.vbox2.setDisable(false);
+			this.customerIsRegisteringFlag = false;
+			alert.hide();
+		});
+		final Button btn2 = (Button) alert.getDialogPane().lookupButton(buttonTypeTwo);
+		btn2.setOnAction(event -> {
+			alert.hide();
+		});
 	}
 
+	/**
+	 * setpurchasingprogrampane cancel registration
+	 * 
+	 * @param event1
+	 */
 	@FXML
-	void btnSPPCancelRegPressed(ActionEvent event) {
+	void btnSPPCancelRegPressed(ActionEvent event1) {
 		String customerID = this.tfSPPCustID.getText();
 
-		clearFields();
-		this.step2.setVisible(false);
-		this.btnAECACancelReg.setVisible(false);
-		this.gpAECACarDetails.setDisable(false);
-		this.btnAECAEdit.setDisable(false);
-		this.btnAECAClear.setDisable(false);
-		this.apAECACarDetails.setDisable(true);
-		this.step3.setVisible(false);
-		this.step4.setVisible(false);
-		this.btnSPPCancelReg.setVisible(false);
-		this.btnSPMCancelReg.setVisible(false);
-		this.gpSPP.setDisable(false);
-		this.apSPP.setDisable(true);
-		this.btnSPPClear.setDisable(false);
-		this.vbox1.setDisable(false);
-		this.vbox2.setDisable(false);
-		this.customerIsRegisteringFlag = false;
-
-		this.controller.handleMessageFromClientUI("deletecustomer " + customerID);
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Cancel Registration");
+		alert.setHeaderText("Are You Sure You Want To Cancel The Registration?");
+		ButtonType buttonTypeOne = new ButtonType("Yes");
+		ButtonType buttonTypeTwo = new ButtonType("No");
+		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
+		alert.show();
+		final Button btn = (Button) alert.getDialogPane().lookupButton(buttonTypeOne);
+		btn.setOnAction(event -> {
+			this.controller.handleMessageFromClientUI("deletecustomer " + customerID);
+			clearFields();
+			this.step2.setVisible(false);
+			this.btnAECACancelReg.setVisible(false);
+			this.gpAECACarDetails.setDisable(false);
+			this.apAECACarDetails.setDisable(true);
+			this.apAECbuttons.setVisible(false);
+			this.btnAECASave1.setVisible(true);
+			this.btnAECAEdit.setDisable(false);
+			this.btnAECAClear.setDisable(false);
+			this.step3.setVisible(false);
+			this.step4.setVisible(false);
+			this.btnSPPCancelReg.setVisible(false);
+			this.btnSPMCancelReg.setVisible(false);
+			this.gpSPP.setDisable(false);
+			this.apSPP.setDisable(true);
+			this.apSPPbuttons.setVisible(false);
+			this.btnSPPSave1.setVisible(true);
+			this.btnSPPClear.setDisable(false);
+			this.vbox1.setDisable(false);
+			this.vbox2.setDisable(false);
+			this.customerIsRegisteringFlag = false;
+			alert.hide();
+		});
+		final Button btn2 = (Button) alert.getDialogPane().lookupButton(buttonTypeTwo);
+		btn2.setOnAction(event -> {
+			alert.hide();
+		});
 	}
 
+	/**
+	 * setpricingmodelpane cancel registration
+	 * 
+	 * @param event1
+	 */
 	@FXML
-	void btnSPMCancelRegPressed(ActionEvent event) {
+	void btnSPMCancelRegPressed(ActionEvent event1) {
 		String customerID = this.tfSPMCustID.getText();
 
-		clearFields();
-		this.step3.setVisible(false);
-		this.step4.setVisible(false);
-		this.btnSPPCancelReg.setVisible(false);
-		this.btnSPMCancelReg.setVisible(false);
-		this.gpSPP.setDisable(false);
-		this.apSPP.setDisable(true);
-		this.btnSPPClear.setDisable(false);
-		this.step3.setVisible(false);
-		this.btnSPPCancelReg.setVisible(false);
-		this.step4.setVisible(false);
-		this.btnSPMCancelReg.setVisible(false);
-		this.gpSPM.setDisable(false);
-		this.apSPM.setDisable(true);
-		this.btnSPMClear.setDisable(false);
-		this.vbox1.setDisable(false);
-		this.vbox2.setDisable(false);
-		this.customerIsRegisteringFlag = false;
-
-		this.controller.handleMessageFromClientUI("deletecustomer " + customerID);
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Cancel Registration");
+		alert.setHeaderText("Are You Sure You Want To Cancel The Registration?");
+		ButtonType buttonTypeOne = new ButtonType("Yes");
+		ButtonType buttonTypeTwo = new ButtonType("No");
+		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
+		alert.show();
+		final Button btn = (Button) alert.getDialogPane().lookupButton(buttonTypeOne);
+		btn.setOnAction(event -> {
+			this.controller.handleMessageFromClientUI("deletecustomer " + customerID);
+			clearFields();
+			this.step3.setVisible(false);
+			this.step4.setVisible(false);
+			this.btnSPPCancelReg.setVisible(false);
+			this.btnSPMCancelReg.setVisible(false);
+			this.gpSPP.setDisable(false);
+			this.apSPP.setDisable(true);
+			this.apSPPbuttons.setVisible(false);
+			this.btnSPPSave1.setVisible(true);
+			this.btnSPPClear.setDisable(false);
+			this.step3.setVisible(false);
+			this.btnSPPCancelReg.setVisible(false);
+			this.step4.setVisible(false);
+			this.btnSPMCancelReg.setVisible(false);
+			this.gpSPM.setDisable(false);
+			this.apSPM.setDisable(true);
+			this.btnSPMClear.setDisable(false);
+			this.vbox1.setDisable(false);
+			this.vbox2.setDisable(false);
+			this.customerIsRegisteringFlag = false;
+			alert.hide();
+		});
+		final Button btn2 = (Button) alert.getDialogPane().lookupButton(buttonTypeTwo);
+		btn2.setOnAction(event -> {
+			alert.hide();
+		});
 	}
 
+	/**
+	 * editcarpane clear car details
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnECAClearPressed(ActionEvent event) {
 		clearEditCarPane();
 	}
 
+	/**
+	 * editcarpane close pane
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnECAClosePressed(ActionEvent event) {
 		this.mainBorderPane.setDisable(false);
@@ -602,35 +898,84 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		clearEditCarPane();
 	}
 
+	/**
+	 * editcarpane clear car details
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnECAShowPressed(ActionEvent event) {
 		String customerID = this.tfECACustID.getText();
 		if (customerID.isEmpty()) {
-			openErrorAlert("Error", "Missing Required Customer ID");
+			openErrorAlert("Error", "Missing Required Field");
 			return;
 		}
-		if (customerID.matches(".*[ -/].*") || customerID.matches(".*[:-~].*") || customerID.length() != 9) {
-			openErrorAlert("Error", "Customer ID Not Valid");
+		try {
+			if (Integer.parseInt(customerID) <= 0) {
+				openErrorAlert("Error", "Customer ID Can't Be 0's or a Negative Number");
+				return;
+			}
+			if (customerID.length() != 9) {
+				openErrorAlert("Error", "Customer ID Must Be 9 Digits");
+				return;
+			}
+		} catch (NumberFormatException e) {
+			openErrorAlert("Error", "Customer ID Must Be a Number");
 			return;
 		}
+
 		checkCustomerExists(customerID);
 	}
 
+	/**
+	 * editcarpane delete car
+	 * 
+	 * @param event1
+	 */
 	@FXML
-	void btnECADeletePressed(ActionEvent event) {
+	void btnECADeletePressed(ActionEvent event1) {
 		String regPlate = this.tfECARegistration.getText();
 		if (regPlate.isEmpty()) {
-			openErrorAlert("Error", "Missing Required Registration Plate");
+			openErrorAlert("Error", "Missing Required Field");
 			return;
 		}
-		if (regPlate.matches(".*[ -/].*") || regPlate.matches(".*[:-~].*")
-				|| (regPlate.length() != 7 && regPlate.length() != 8)) {
-			openErrorAlert("Error", "Registration Plate Not Valid");
+		try {
+			if (Integer.parseInt(regPlate) <= 0) {
+				openErrorAlert("Error", "Registration Plate Can't Be 0's or a Negative Number");
+				return;
+			}
+			if (regPlate.length() != 7 && regPlate.length() != 8) {
+				openErrorAlert("Error", "Registration Plate Must Be 7 or 8 Digits");
+				return;
+			}
+		} catch (NumberFormatException e) {
+			openErrorAlert("Error", "Registration Plate Must Be a Number");
 			return;
 		}
-		this.controller.handleMessageFromClientUI("deletecar " + regPlate);
+
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Delete Car");
+		alert.setHeaderText("Are You Sure You Want To Delete This Car?");
+		ButtonType buttonTypeOne = new ButtonType("Yes");
+		ButtonType buttonTypeTwo = new ButtonType("No");
+		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
+		alert.show();
+		final Button btn = (Button) alert.getDialogPane().lookupButton(buttonTypeOne);
+		btn.setOnAction(event -> {
+			this.controller.handleMessageFromClientUI("deletecar " + regPlate);
+			alert.hide();
+		});
+		final Button btn2 = (Button) alert.getDialogPane().lookupButton(buttonTypeTwo);
+		btn2.setOnAction(event -> {
+			alert.hide();
+		});
 	}
 
+	/**
+	 * editcarpane update car details
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnECAUpdatePressed(ActionEvent event) {
 		String customerID = this.tfECACustID.getText();
@@ -642,17 +987,38 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			openErrorAlert("Error", "Missing Required Fields");
 			return;
 		}
-		if (customerID.matches(".*[ -/].*") || customerID.matches(".*[:-~].*") || customerID.length() != 9) {
-			openErrorAlert("Error", "Customer ID Not Valid");
+		try {
+			if (Integer.parseInt(customerID) <= 0) {
+				openErrorAlert("Error", "Customer ID Can't Be 0's or a Negative Number");
+				return;
+			}
+			if (customerID.length() != 9) {
+				openErrorAlert("Error", "Customer ID Must Be 9 Digits");
+				return;
+			}
+		} catch (NumberFormatException e) {
+			openErrorAlert("Error", "Customer ID Must Be a Number");
 			return;
 		}
-		if (regPlate.matches(".*[ -/].*") || regPlate.matches(".*[:-~].*")
-				|| (regPlate.length() != 7 && regPlate.length() != 8)) {
-			openErrorAlert("Error", "Registration Plate Not Valid");
+		try {
+			if (Integer.parseInt(regPlate) <= 0) {
+				openErrorAlert("Error", "Registration Plate Can't Be 0's or a Negative Number");
+				return;
+			}
+			if (regPlate.length() != 7 && regPlate.length() != 8) {
+				openErrorAlert("Error", "Registration Plate Must Be 7 or 8 Digits");
+				return;
+			}
+		} catch (NumberFormatException e) {
+			openErrorAlert("Error", "Registration Plate Must Be a Number");
 			return;
 		}
-		if (owner.matches(".*[ -@].*")) {
-			openErrorAlert("Error", "Owner Name Not Valid");
+		if (!owner.matches("[a-zA-Z]+")) {
+			openErrorAlert("Error", "Owner Name Must Be Only Characters\nWithout Spaces");
+			return;
+		}
+		if (owner.length() > 50) {
+			openErrorAlert("Error", "Owner Name Too Long, Max 50 Characters");
 			return;
 		}
 
@@ -660,6 +1026,11 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 				.handleMessageFromClientUI("updatecar " + customerID + " " + regPlate + " " + owner + " " + fuelType);
 	}
 
+	/**
+	 * setpurchasingprogrampane open
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void openSetPurchasingProgram(ActionEvent event) {
 		this.sidebar_btn3.setSelected(true);
@@ -670,14 +1041,25 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		clearFields();
 	}
 
+	/**
+	 * setpurchasingprogrampane clear
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnSPPClearPressed(ActionEvent event) {
 		clearSetPurchasingPane();
 	}
 
+	/**
+	 * setpurchasingprogrampane standard radiobutton chosen
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void rbSPPStandardPressed(ActionEvent event) {
-		this.purchProg_ExpenProgBox_SP1.setStyle("-fx-border-color: green ; -fx-border-width: 2px ;");
+		this.purchProg_ExpenProgBox_SP1
+				.setStyle("-fx-border-color: #75d65dd7 ; -fx-border-width: 4px ;-fx-border-radius: 2px ;");
 		this.purchProg_ExpenProgBox_SP.setStyle("-fx-border-style: none;");
 		this.cobSPPFuelCompany2.setDisable(true);
 		this.cobSPPFuelCompany3.setDisable(true);
@@ -685,29 +1067,55 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.cobSPPFuelCompany3.setValue("");
 	}
 
+	/**
+	 * setpurchasingprogrampane premium radiobutton chosen
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void rbSPPPremiumPressed(ActionEvent event) {
-		this.purchProg_ExpenProgBox_SP.setStyle("-fx-border-color: green ; -fx-border-width: 2px ;");
+		this.purchProg_ExpenProgBox_SP
+				.setStyle("-fx-border-color: #75d65dd7 ; -fx-border-width: 4px ;-fx-border-radius: 2px ;");
 		this.purchProg_ExpenProgBox_SP1.setStyle("-fx-border-style: none;");
 		this.cobSPPFuelCompany2.setDisable(false);
 		this.cobSPPFuelCompany3.setDisable(false);
 		this.cobSPPFuelCompany2.setValue("Paz");
 	}
 
+	/**
+	 * setpurchasingprogrampane check customer
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnSPPCheckPressed(ActionEvent event) {
 		String customerID = this.tfSPPCustID.getText();
 		if (customerID.isEmpty()) {
-			openErrorAlert("Error", "Missing Required Customer ID");
+			openErrorAlert("Error", "Missing Required Field");
 			return;
 		}
-		if (customerID.matches(".*[ -/].*") || customerID.matches(".*[:-~].*") || customerID.length() != 9) {
-			openErrorAlert("Error", "Customer ID Not Valid");
+		try {
+			if (Integer.parseInt(customerID) <= 0) {
+				openErrorAlert("Error", "Customer ID Can't Be 0's or a Negative Number");
+				return;
+			}
+			if (customerID.length() != 9) {
+				openErrorAlert("Error", "Customer ID Must Be 9 Digits");
+				return;
+			}
+		} catch (NumberFormatException e) {
+			openErrorAlert("Error", "Customer ID Must Be a Number");
 			return;
 		}
+
 		checkCustomerExists(customerID);
 	}
 
+	/**
+	 * setpurchasingprogrampane save purchasing program for customer
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnSPPSavePressed(ActionEvent event) {
 		String customerID = this.tfSPPCustID.getText();
@@ -729,8 +1137,17 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			openErrorAlert("Error", "Missing Required Fields");
 			return;
 		}
-		if (customerID.matches(".*[ -/].*") || customerID.matches(".*[:-~].*") || customerID.length() != 9) {
-			openErrorAlert("Error", "Customer ID Not Valid");
+		try {
+			if (Integer.parseInt(customerID) <= 0) {
+				openErrorAlert("Error", "Customer ID Can't Be 0's or a Negative Number");
+				return;
+			}
+			if (customerID.length() != 9) {
+				openErrorAlert("Error", "Customer ID Must Be 9 Digits");
+				return;
+			}
+		} catch (NumberFormatException e) {
+			openErrorAlert("Error", "Customer ID Must Be a Number");
 			return;
 		}
 		if (company1.equals(company2) || company1.equals(company3)
@@ -743,6 +1160,11 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 				"setprogram " + customerID + " " + program + " " + company1 + " " + company2 + " " + company3);
 	}
 
+	/**
+	 * setpricingmodelpane open
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void openSetPricingModel(ActionEvent event) {
 		this.sidebar_btn4.setSelected(true);
@@ -752,28 +1174,100 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.topbar_window_label.setText("Set Pricing Model");
 		clearFields();
 		this.controller.handleMessageFromClientUI("getAllPricingModelDiscounts");
+		btnSPMChoose1.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				pricingModelsPicked(1);
+			}
+		});
+		btnSPMChoose2.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				pricingModelsPicked(2);
+			}
+		});
+		btnSPMChoose3.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				pricingModelsPicked(3);
+			}
+		});
+		btnSPMChoose4.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				pricingModelsPicked(4);
+			}
+		});
 	}
 
+	private void pricingModelsPicked(int buttonSelected) {
+		lblSPMPriceModel1.setStyle("-fx-background-color: #337ab7;");
+		lblSPMPriceModel2.setStyle("-fx-background-color: #337ab7;");
+		lblSPMPriceModel3.setStyle("-fx-background-color: #337ab7;");
+		lblSPMPriceModel4.setStyle("-fx-background-color: #337ab7;");
+		switch (buttonSelected) {
+		case 1:
+			lblSPMPriceModel1.setStyle("-fx-background-color: #46a046;");
+			break;
+		case 2:
+			lblSPMPriceModel2.setStyle("-fx-background-color: #46a046;");
+			break;
+		case 3:
+			lblSPMPriceModel3.setStyle("-fx-background-color: #46a046;");
+			break;
+		case 4:
+			lblSPMPriceModel4.setStyle("-fx-background-color: #46a046;");
+			break;
+		default:
+			break;
+		}
+	}
+
+	/**
+	 * setpricingmodelpane clear
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnSPMClearPressed(ActionEvent event) {
 		clearPricingModelPane();
 		this.controller.handleMessageFromClientUI("getAllPricingModelDiscounts");
 	}
 
+	/**
+	 * setpricingmodelpane check customer
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnSPMCheckPressed(ActionEvent event) {
 		String customerID = this.tfSPMCustID.getText();
 		if (customerID.isEmpty()) {
-			openErrorAlert("Error", "Missing Required Customer ID");
+			openErrorAlert("Error", "Missing Required Field");
 			return;
 		}
-		if (customerID.matches(".*[ -/].*") || customerID.matches(".*[:-~].*") || customerID.length() != 9) {
-			openErrorAlert("Error", "Customer ID Not Valid");
+		try {
+			if (Integer.parseInt(customerID) <= 0) {
+				openErrorAlert("Error", "Customer ID Can't Be 0's or a Negative Number");
+				return;
+			}
+			if (customerID.length() != 9) {
+				openErrorAlert("Error", "Customer ID Must Be 9 Digits");
+				return;
+			}
+		} catch (NumberFormatException e) {
+			openErrorAlert("Error", "Customer ID Must Be a Number");
 			return;
 		}
+
 		checkCustomerExists(customerID);
 	}
 
+	/**
+	 * setpricingmodelpane save pricing model for customer
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void btnSPMSetPressed(ActionEvent event) {
 		String customerID = this.tfSPMCustID.getText();
@@ -784,11 +1278,19 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			openErrorAlert("Error", "Missing Required Customer ID");
 			return;
 		}
-		if (customerID.matches(".*[ -/].*") || customerID.matches(".*[:-~].*") || customerID.length() != 9) {
-			openErrorAlert("Error", "Customer ID Not Valid");
+		try {
+			if (Integer.parseInt(customerID) <= 0) {
+				openErrorAlert("Error", "Customer ID Can't Be 0's or a Negative Number");
+				return;
+			}
+			if (customerID.length() != 9) {
+				openErrorAlert("Error", "Customer ID Must Be 9 Digits");
+				return;
+			}
+		} catch (NumberFormatException e) {
+			openErrorAlert("Error", "Customer ID Must Be a Number");
 			return;
 		}
-
 		if (this.btnSPMChoose1.isSelected()) {
 			model = "PayInPlace";
 			defaultDiscount = "0";
@@ -810,6 +1312,11 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 				.handleMessageFromClientUI("setpricingmodel " + customerID + " " + model + " " + defaultDiscount);
 	}
 
+	/**
+	 * createsalespattern open
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void openCreateSalesPattern(ActionEvent event) {
 		this.sidebar_btn5.setSelected(true);
@@ -824,10 +1331,14 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 
 	/*************** boundary "logic" - window changes ***************/
 
+	/**
+	 * called after server returned a message/object to the client
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public void callAfterMessage(Object lastMsgFromServer) {
-		super.callAfterMessage(lastMsgFromServer);
+		if (lastMsgFromServer != null)
+			super.callAfterMessage(lastMsgFromServer);
 
 		if (lastMsgFromServer instanceof Map<?, ?>) {
 			HashMap<PricingModelName, Double> hm = (HashMap<PricingModelName, Double>) lastMsgFromServer;
@@ -860,7 +1371,7 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			if (list.getList().isEmpty()) {
 				Alert a = new Alert(AlertType.CONFIRMATION);
 				a.setTitle("Product Rate:");
-				a.setContentText("there are no products");
+				a.setContentText("There Are No Products");
 				a.show();
 			} else {
 				productRateList = list;
@@ -903,10 +1414,12 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 						this.step3.setVisible(true);
 						this.btnSPPCancelReg.setVisible(true);
 						this.gpSPP.setDisable(true);
+						this.apSPP.setDisable(false);
+						this.apSPPbuttons.setVisible(true);
+						this.btnSPPSave1.setVisible(false);
 						this.btnSPPClear.setDisable(true);
 						this.vbox1.setDisable(true);
 						this.vbox2.setDisable(true);
-						this.apSPP.setDisable(false);
 						this.cobSPPFuelCompany2.setDisable(true);
 						this.cobSPPFuelCompany3.setDisable(true);
 						this.sidebar_btn3.setSelected(true);
@@ -942,15 +1455,19 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 					this.step2.setVisible(false);
 					this.btnAECACancelReg.setVisible(false);
 					this.gpAECACarDetails.setDisable(false);
+					this.apAECACarDetails.setDisable(true);
+					this.apAECbuttons.setVisible(true);
+					this.btnAECASave1.setVisible(false);
 					this.btnAECAEdit.setDisable(false);
 					this.btnAECAClear.setDisable(false);
 					this.vbox1.setDisable(false);
 					this.vbox2.setDisable(false);
-					this.apAECACarDetails.setDisable(true);
 					this.step3.setVisible(false);
 					this.btnSPPCancelReg.setVisible(false);
 					this.gpSPP.setDisable(false);
 					this.apSPP.setDisable(true);
+					this.apSPPbuttons.setVisible(true);
+					this.btnSPPSave1.setVisible(false);
 					this.btnSPPClear.setDisable(false);
 
 					// set pricingModelPane
@@ -965,6 +1482,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 					this.btnSPMCancelReg.setVisible(true);
 					this.gpSPM.setDisable(true);
 					this.apSPM.setDisable(false);
+					this.apSPMbuttons.setVisible(false);
+					this.btnSPMSet1.setVisible(true);
 					this.btnSPMClear.setDisable(true);
 					this.vbox1.setDisable(true);
 					this.vbox2.setDisable(true);
@@ -1039,19 +1558,23 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 					this.step2.setVisible(true);
 					this.btnAECACancelReg.setVisible(true);
 					this.gpAECACarDetails.setDisable(true);
+					this.apAECACarDetails.setDisable(false);
+					this.apAECbuttons.setVisible(true);
+					this.btnAECASave1.setVisible(false);
 					this.btnAECAEdit.setDisable(true);
 					this.btnAECAClear.setDisable(true);
 					this.vbox1.setDisable(true);
 					this.vbox2.setDisable(true);
-					this.apAECACarDetails.setDisable(false);
 					this.sidebar_btn2.setSelected(true);
 				}
 
 			} else if (str.equals("save customer fail")) {
 				openErrorAlert("Error", "Add Customer Failed");
+				this.customerIsRegisteringFlag = false;
 
 			} else if (str.equals("save customer exist")) {
 				openErrorAlert("Error", "Customer Already Exists");
+				this.customerIsRegisteringFlag = false;
 
 			} else if (str.equals("update customer success")) {
 				if (this.customerIsRegisteringFlag == false && this.editCustomerPane.isVisible() == true) {
@@ -1115,6 +1638,10 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 					if (this.visibleNow == this.addEditCarPane && editCarPane.isVisible() == false) {
 						this.gpAECACarDetails.setDisable(true);
 						this.apAECACarDetails.setDisable(false);
+						this.apAECbuttons.setVisible(false);
+						this.btnAECASave1.setVisible(true);
+						this.apAECbuttons.setVisible(false);
+						this.btnAECASave1.setVisible(true);
 
 					} else if (this.visibleNow == this.addEditCarPane && editCarPane.isVisible() == true) {
 						this.controller.handleMessageFromClientUI("getcustomercars " + this.tfECACustID.getText());
@@ -1122,10 +1649,15 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 					} else if (this.visibleNow == this.setPurchasingPane) {
 						this.gpSPP.setDisable(true);
 						this.apSPP.setDisable(false);
-						this.purchProg_ExpenProgBox_SP1.setStyle("-fx-border-color: green ; -fx-border-width: 2px ;");
+						this.apSPPbuttons.setVisible(false);
+						this.btnSPPSave1.setVisible(true);
+						this.purchProg_ExpenProgBox_SP1.setStyle(
+								"-fx-border-color: #75d65dd7 ; -fx-border-width: 4px ;-fx-border-radius: 2px ;");
 						this.purchProg_ExpenProgBox_SP.setStyle("-fx-border-style: none;");
 						this.cobSPPFuelCompany2.setDisable(true);
 						this.cobSPPFuelCompany3.setDisable(true);
+						this.apSPPbuttons.setVisible(false);
+						this.btnSPPSave1.setVisible(true);
 
 					} else if (this.visibleNow == this.pricingModelPane) {
 						this.controller.handleMessageFromClientUI("getcustomercars " + this.tfSPMCustID.getText());
@@ -1204,6 +1736,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 						this.btnSPMClear.setDisable(true);
 						this.gpSPM.setDisable(true);
 						this.apSPM.setDisable(false);
+						this.apSPMbuttons.setVisible(false);
+						this.btnSPMSet1.setVisible(true);
 						this.btnSPMChoose2.setDisable(false);
 						this.btnSPMChoose3.setDisable(true);
 						this.btnSPMChoose4.setDisable(false);
@@ -1241,6 +1775,8 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 						this.btnSPMClear.setDisable(true);
 						this.gpSPM.setDisable(true);
 						this.apSPM.setDisable(false);
+						this.apSPMbuttons.setVisible(false);
+						this.btnSPMSet1.setVisible(true);
 						this.btnSPMChoose2.setDisable(true);
 						this.btnSPMChoose3.setDisable(false);
 						this.btnSPMChoose4.setDisable(true);
@@ -1251,6 +1787,13 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 			} else if (this.visibleNow == this.pricingModelPane) {
 				this.gpSPM.setDisable(true);
 				this.apSPM.setDisable(false);
+				if (this.customerIsRegisteringFlag == false) {
+					this.apSPMbuttons.setVisible(false);
+					this.btnSPMSet1.setVisible(true);
+				} else {
+					this.apSPMbuttons.setVisible(true);
+					this.btnSPMSet1.setVisible(false);
+				}
 				int numOfCars = ((CarList) lastMsgFromServer).getCars().size();
 				if (numOfCars == 0) {
 					this.btnSPMChoose2.setDisable(true);
@@ -1345,6 +1888,9 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		clearFields();
 	}
 
+	/**
+	 * clear fxml entities as if the window was just entered into
+	 */
 	@Override
 	public void clearFields() {
 		this.tfAECUCredit.clear();
@@ -1361,6 +1907,9 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		clearSalePatternPane();
 	}
 
+	/**
+	 * editcustomerpane clear
+	 */
 	private void clearEditCustomerPane() {
 		this.tfACUCustID.clear();
 		this.tfECUFirstName.clear();
@@ -1372,6 +1921,9 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.apECUCustomer.setDisable(true);
 	}
 
+	/**
+	 * addeditcarpane clear
+	 */
 	private void clearAddEditCarPane() {
 		this.tfAECACustID.clear();
 		this.tfAECARegistration.clear();
@@ -1381,8 +1933,13 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.btnAECACancelReg.setVisible(false);
 		this.gpAECACarDetails.setDisable(false);
 		this.apAECACarDetails.setDisable(true);
+		this.apAECbuttons.setVisible(false);
+		this.btnAECASave1.setVisible(true);
 	}
 
+	/**
+	 * editcarpane clear
+	 */
 	private void clearEditCarPane() {
 		this.tfECACustID.clear();
 		this.tfECARegistration.clear();
@@ -1394,10 +1951,14 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.apECACar.setDisable(true);
 	}
 
+	/**
+	 * setpurchasingprogrampane clear
+	 */
 	private void clearSetPurchasingPane() {
 		this.tfSPPCustID.clear();
 		this.rbSPPStandard.setSelected(true);
-		this.purchProg_ExpenProgBox_SP1.setStyle("-fx-border-color: green ; -fx-border-width: 2px ;");
+		this.purchProg_ExpenProgBox_SP1
+				.setStyle("-fx-border-color: #75d65dd7 ; -fx-border-width: 4px ;-fx-border-radius: 2px ; ;");
 		this.purchProg_ExpenProgBox_SP.setStyle("-fx-border-style: none;");
 		this.cobSPPFuelCompany1.setValue("Sonol");
 		this.cobSPPFuelCompany2.setValue("");
@@ -1406,8 +1967,13 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.btnSPPCancelReg.setVisible(false);
 		this.gpSPP.setDisable(false);
 		this.apSPP.setDisable(true);
+		this.apSPPbuttons.setVisible(false);
+		this.btnSPPSave1.setVisible(true);
 	}
 
+	/**
+	 * clearpricingmodelpane clear
+	 */
 	private void clearPricingModelPane() {
 		this.lblSPMNumOfCars.setText("");
 		this.tfSPMCustID.clear();
@@ -1416,12 +1982,26 @@ public class MarketingRepresentativeWindow extends MarketingDepWorkerWindow {
 		this.apSPM.setDisable(true);
 		this.step4.setVisible(false);
 		this.btnSPMCancelReg.setVisible(false);
+		lblSPMPriceModel1.setStyle("-fx-background-color: #46a046;");
+		lblSPMPriceModel2.setStyle("-fx-background-color: #337ab7;");
+		lblSPMPriceModel3.setStyle("-fx-background-color: #337ab7;");
+		lblSPMPriceModel4.setStyle("-fx-background-color: #337ab7;");
+		this.apSPMbuttons.setVisible(false);
+		this.btnSPMSet1.setVisible(true);
 	}
 
+	/**
+	 * request customer controller to check if customer exists
+	 * 
+	 * @param customerID
+	 */
 	private void checkCustomerExists(String customerID) {
 		this.controller.handleMessageFromClientUI("checkcustomer " + customerID);
 	}
 
+	/**
+	 * get selected row detials of editcarpane cars tableview
+	 */
 	private void tvECACarPressed() {
 		Car car = this.tvECACar.getSelectionModel().getSelectedItem();
 		this.tfECARegistration.setText(car.getRegistrationPlate());
