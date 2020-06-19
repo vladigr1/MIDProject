@@ -414,11 +414,11 @@ public class DefaultTableInserts {
 		calendar1.set(Calendar.YEAR, 2020);
 		calendar1.set(Calendar.MONTH, 3 - 1);
 		calendar1.set(Calendar.DAY_OF_MONTH, 1 - 1);
-		Object[] values1 = { 2, "2020", "1", calendar1.getTime() };
+		Object[] values1 = { 1, "2020", "1", calendar1.getTime() };
 		TableInserts.insertQuarterlyReport(con, values1);
-		Object[] values2 = { 2, "2020", "2", calendar1.getTime() };
+		Object[] values2 = { 1, "2020", "2", calendar1.getTime() };
 		TableInserts.insertQuarterlyReport(con, values2);
-		Object[] values3 = { 2, "2020", "3", calendar1.getTime() };
+		Object[] values3 = { 1, "2020", "3", calendar1.getTime() };
 		TableInserts.insertQuarterlyReport(con, values3);
 	}
 
@@ -431,11 +431,11 @@ public class DefaultTableInserts {
 		if (checkTableEmpty(con, "income_report") == false)
 			return;
 		// "FK_repQuarter", "FK_repYear", "FK_fuelStationID", "totalIncome"
-		Object[] values1 = { 2, "2020", "1", 875 };
+		Object[] values1 = { 1, "2020", "1", 875 };
 		TableInserts.insertIncomeReport(con, values1);
-		Object[] values2 = { 2, "2020", "2", 455 };
+		Object[] values2 = { 1, "2020", "2", 455 };
 		TableInserts.insertIncomeReport(con, values2);
-		Object[] values3 = { 2, "2020", "3", 1113 };
+		Object[] values3 = { 1, "2020", "3", 1113 };
 		TableInserts.insertIncomeReport(con, values3);
 	}
 
@@ -449,23 +449,23 @@ public class DefaultTableInserts {
 			return;
 		// "FK_productInStationID", "FK_repQuarter_IncomeReport",
 		// "FK_repYear_IncomeReport", "incomePerProduct", "avgPrice"
-		Object[] values1 = { "1", 2, "2020", 455 / 3, 3.5 };
+		Object[] values1 = { "1", 1, "2020", 455 / 3, 3.5 };
 		TableInserts.insertProductInIncomeReport(con, values1);
-		Object[] values2 = { "2", 2, "2020", 455 / 3, 3 };
+		Object[] values2 = { "2", 1, "2020", 455 / 3, 3 };
 		TableInserts.insertProductInIncomeReport(con, values2);
-		Object[] values3 = { "3", 2, "2020", 455 / 3, 6.5 };
+		Object[] values3 = { "3", 1, "2020", 455 / 3, 6.5 };
 		TableInserts.insertProductInIncomeReport(con, values3);
-		Object[] values4 = { "4", 2, "2020", 875 / 3, 3.5 };
+		Object[] values4 = { "4", 1, "2020", 875 / 3, 3.5 };
 		TableInserts.insertProductInIncomeReport(con, values4);
-		Object[] values5 = { "5", 2, "2020", 875 / 3, 3 };
+		Object[] values5 = { "5", 1, "2020", 875 / 3, 3 };
 		TableInserts.insertProductInIncomeReport(con, values5);
-		Object[] values6 = { "6", 2, "2020", 875 / 3, 6.5 };
+		Object[] values6 = { "6", 1, "2020", 875 / 3, 6.5 };
 		TableInserts.insertProductInIncomeReport(con, values6);
-		Object[] values7 = { "7", 2, "2020", 1113 / 3, 3.5 };
+		Object[] values7 = { "7", 1, "2020", 1113 / 3, 3.5 };
 		TableInserts.insertProductInIncomeReport(con, values7);
-		Object[] values8 = { "8", 2, "2020", 1113 / 3, 3 };
+		Object[] values8 = { "8", 1, "2020", 1113 / 3, 3 };
 		TableInserts.insertProductInIncomeReport(con, values8);
-		Object[] values9 = { "9", 2, "2020", 1113 / 3, 6.5 };
+		Object[] values9 = { "9", 1, "2020", 1113 / 3, 6.5 };
 		TableInserts.insertProductInIncomeReport(con, values9);
 	}
 
@@ -479,11 +479,11 @@ public class DefaultTableInserts {
 			return;
 		// "FK_repQuarter", "FK_repYear", "FK_fuelStationID",
 		// "totalAmountBoughtFromSupplier"
-		Object[] values1 = { 2, "2020", "1", 117.22 };
+		Object[] values1 = { 1, "2020", "1", 117.22 };
 		TableInserts.insertOutcomeReport(con, values1);
-		Object[] values2 = { 2, "2020", "2", 225.43 };
+		Object[] values2 = { 1, "2020", "2", 225.43 };
 		TableInserts.insertOutcomeReport(con, values2);
-		Object[] values3 = { 2, "2020", "3", 286.74 };
+		Object[] values3 = { 1, "2020", "3", 286.74 };
 		TableInserts.insertOutcomeReport(con, values3);
 	}
 
@@ -497,23 +497,23 @@ public class DefaultTableInserts {
 			return;
 		// "FK_productInStationID", "FK_repQuarter_outcomeReport",
 		// "FK_repYear_outcomeReport", "amountBoughtFromSupplier"
-		Object[] values1 = { "1", 2, "2020", 455 / 3 / 3.5 };
+		Object[] values1 = { "1", 1, "2020", 455 / 3 / 3.5 };
 		TableInserts.insertProductInOutcomeReport(con, values1);
-		Object[] values2 = { "2", 2, "2020", 455 / 3 / 3 };
+		Object[] values2 = { "2", 1, "2020", 455 / 3 / 3 };
 		TableInserts.insertProductInOutcomeReport(con, values2);
-		Object[] values3 = { "3", 2, "2020", 455 / 3 / 6.5 };
+		Object[] values3 = { "3", 1, "2020", 455 / 3 / 6.5 };
 		TableInserts.insertProductInOutcomeReport(con, values3);
-		Object[] values4 = { "4", 2, "2020", 875 / 3 / 3.5 };
+		Object[] values4 = { "4", 1, "2020", 875 / 3 / 3.5 };
 		TableInserts.insertProductInOutcomeReport(con, values4);
-		Object[] values5 = { "5", 2, "2020", 875 / 3 / 3 };
+		Object[] values5 = { "5", 1, "2020", 875 / 3 / 3 };
 		TableInserts.insertProductInOutcomeReport(con, values5);
-		Object[] values6 = { "6", 2, "2020", 875 / 3 / 6.5 };
+		Object[] values6 = { "6", 1, "2020", 875 / 3 / 6.5 };
 		TableInserts.insertProductInOutcomeReport(con, values6);
-		Object[] values7 = { "7", 2, "2020", 1113 / 3 / 3.5 };
+		Object[] values7 = { "7", 1, "2020", 1113 / 3 / 3.5 };
 		TableInserts.insertProductInOutcomeReport(con, values7);
-		Object[] values8 = { "8", 2, "2020", 1113 / 3 / 3 };
+		Object[] values8 = { "8", 1, "2020", 1113 / 3 / 3 };
 		TableInserts.insertProductInOutcomeReport(con, values8);
-		Object[] values9 = { "9", 2, "2020", 1113 / 3 / 6.5 };
+		Object[] values9 = { "9", 1, "2020", 1113 / 3 / 6.5 };
 		TableInserts.insertProductInOutcomeReport(con, values9);
 	}
 
@@ -526,11 +526,11 @@ public class DefaultTableInserts {
 		if (checkTableEmpty(con, "inventory_report") == false)
 			return;
 		// "FK_repQuarter", "FK_repYear", "FK_fuelStationID", "totalAmountSold"
-		Object[] values1 = { 2, "2020", "1", 117.22 };
+		Object[] values1 = { 1, "2020", "1", 117.22 };
 		TableInserts.insertInventoryReport(con, values1);
-		Object[] values2 = { 2, "2020", "2", 225.43 };
+		Object[] values2 = { 1, "2020", "2", 225.43 };
 		TableInserts.insertInventoryReport(con, values2);
-		Object[] values3 = { 2, "2020", "3", 286.74 };
+		Object[] values3 = { 1, "2020", "3", 286.74 };
 		TableInserts.insertInventoryReport(con, values3);
 	}
 
@@ -544,23 +544,23 @@ public class DefaultTableInserts {
 			return;
 		// "FK_productInStationID", "FK_repQuarter_inventoryReport",
 		// "FK_repYear_inventoryReport", "amountSold"
-		Object[] values1 = { "1", 2, "2020", 455 / 3 / 3.5 };
+		Object[] values1 = { "1", 1, "2020", 455 / 3 / 3.5 };
 		TableInserts.insertProductInInventoryReport(con, values1);
-		Object[] values2 = { "2", 2, "2020", 455 / 3 / 3 };
+		Object[] values2 = { "2", 1, "2020", 455 / 3 / 3 };
 		TableInserts.insertProductInInventoryReport(con, values2);
-		Object[] values3 = { "3", 2, "2020", 455 / 3 / 6.5 };
+		Object[] values3 = { "3", 1, "2020", 455 / 3 / 6.5 };
 		TableInserts.insertProductInInventoryReport(con, values3);
-		Object[] values4 = { "4", 2, "2020", 875 / 3 / 3.5 };
+		Object[] values4 = { "4", 1, "2020", 875 / 3 / 3.5 };
 		TableInserts.insertProductInInventoryReport(con, values4);
-		Object[] values5 = { "5", 2, "2020", 875 / 3 / 3 };
+		Object[] values5 = { "5", 1, "2020", 875 / 3 / 3 };
 		TableInserts.insertProductInInventoryReport(con, values5);
-		Object[] values6 = { "6", 2, "2020", 875 / 3 / 6.5 };
+		Object[] values6 = { "6", 1, "2020", 875 / 3 / 6.5 };
 		TableInserts.insertProductInInventoryReport(con, values6);
-		Object[] values7 = { "7", 2, "2020", 1113 / 3 / 3.5 };
+		Object[] values7 = { "7", 1, "2020", 1113 / 3 / 3.5 };
 		TableInserts.insertProductInInventoryReport(con, values7);
-		Object[] values8 = { "8", 2, "2020", 1113 / 3 / 3 };
+		Object[] values8 = { "8", 1, "2020", 1113 / 3 / 3 };
 		TableInserts.insertProductInInventoryReport(con, values8);
-		Object[] values9 = { "9", 2, "2020", 1113 / 3 / 6.5 };
+		Object[] values9 = { "9", 1, "2020", 1113 / 3 / 6.5 };
 		TableInserts.insertProductInInventoryReport(con, values9);
 	}
 
@@ -640,7 +640,7 @@ public class DefaultTableInserts {
 		// "updatedForDate"
 		Calendar calendar1 = Calendar.getInstance();
 		calendar1.set(Calendar.YEAR, 2020);
-		calendar1.set(Calendar.MONTH, 6 - 1);
+		calendar1.set(Calendar.MONTH, 5 - 1);
 		calendar1.set(Calendar.DAY_OF_MONTH, 15 - 1);
 		Object[] values1 = { "111111111", "8", "6", "5", calendar1.getTime() };
 		TableInserts.insertRankingSheet(con, values1);

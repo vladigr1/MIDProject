@@ -145,6 +145,15 @@ public class ServerFuelStationManagerController {
 					}
 					result = this.databaseController
 							.dismissNotificationsByNotificationID(fuelStationManager.getParams());
+
+				} else if (func.equals("checkForQuarterReportNotYetCreated")) {
+					synchronized (this.lock) {
+						this.serverWindow.updateArea(formatter.format(date) + " : " + client + " : request "
+								+ fuelStationManager.getFunction() + " of user: " + fuelStationManager.getUserName());
+						this.lock.notifyAll();
+					}
+					result = this.databaseController
+							.checkForQuarterReportNotYetCreated(fuelStationManager.getUserName());
 				}
 
 				synchronized (this.lock) {

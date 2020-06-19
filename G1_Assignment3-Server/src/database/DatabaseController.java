@@ -593,6 +593,17 @@ public class DatabaseController {
 				.dismissNotificationsByNotificationID(params);
 	}
 
+	/**
+	 * 
+	 * @param userName
+	 * @return Boolean
+	 */
+
+	public Boolean checkForQuarterReportNotYetCreated(String userName) {
+		return DatabaseFuelStationManagerController.getInstance(connection)
+				.checkForQuarterReportNotYetCreated(userName);
+	}
+
 	/****************** supplier controller methods *****************/
 
 	/**
